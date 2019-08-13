@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import {Container, Row, Col, ListGroup, ListGroupItem} from 'react-bootstrap';
 import Card from '../card.js';
-import Nav from '../navbar.js';
 
 function Profile() {
   return (
-    <div>
-      <Nav />
-      <Card cardClass = {
+    <Container>
+      <Row>
+        <Card cardClass={
         "text-dark text-left col-12 card"
     }>
       <img class="card-img-top" src="http://place-hold.it/200" alt="Card image cap" />
@@ -34,8 +33,10 @@ function Profile() {
         </div>
       </div>
     </Card>
-    </div>
+      </Row>
+    </Container>
   )
-}
-
+      
+    }
+    
 export default Profile;
