@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import './App.css';
+import Nav from './components/navbar.js';
+import Profile from './components/pages/profile';
+import Nav from './components/navbar';
+import Container from './components/container'
+import { LoginForm } from './components/form';
+import { LoginButton, Register } from './components/buttons';
+import { Footer } from './components/footer';
 import Login from './pages/login';
 import RegisterPage from './pages/register';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
 
 class TPN extends Component {
   render() {
@@ -17,6 +25,6 @@ class TPN extends Component {
       </Router>
     );
   };
-}
+
 
 export default TPN;
