@@ -4,7 +4,6 @@ import { Button } from 'react-bootstrap';
 export function LoginButton() {
     return (
         <Button variant="primary">Submit</Button>
-    
     )
 }
 

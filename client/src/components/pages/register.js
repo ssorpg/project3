@@ -1,19 +1,16 @@
 import React from 'react';
-import Nav from '../navbar';
 import Container from '../container'
-import { LoginForm } from '../form';
+import { RegisterForm } from '../form';
 import { Register } from '../buttons';
-import { Footer } from '../footer';
+import { Link } from 'react-router-dom';
 
 function RegisterPage() {
     return (
         <div className="Register">
-            <Nav />
             <Container>
-                <LoginForm />
-                <Register />
+                <RegisterForm />
+                <Link to="/profile"><Register /></Link>
             </Container>
-            <Footer fixed="bottom" />
         </div>
     );
 }
