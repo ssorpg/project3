@@ -9,6 +9,7 @@ import { LoginButton, Register } from './components/buttons';
 import { Footer } from './components/footer';
 import Login from './pages/login';
 import RegisterPage from './pages/register';
+import Feed from './pages/feed';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 
@@ -20,6 +21,7 @@ class TPN extends Component {
           <Switch>
             <Route exact path="/" component={Login} />
             <Route exact path="/register" component={RegisterPage} />
+            <Route path="/feed" component={Feed} />
           </Switch>
         </div>
       </Router>

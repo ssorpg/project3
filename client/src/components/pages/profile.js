@@ -4,7 +4,9 @@ import Card from '../card.js';
 
 function Profile() {
   return (
-    <Card cardClass = {
+    <Container>
+      <Row>
+        <Card cardClass={
         "text-dark text-left col-12 card"
     }>
       <img class="card-img-top" src="http://place-hold.it/200" alt="Card image cap" />
@@ -31,7 +33,10 @@ function Profile() {
         </div>
       </div>
     </Card>
+      </Row>
+    </Container>
   )
-}
-
+      
+    }
+    
 export default Profile;
