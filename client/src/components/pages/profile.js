@@ -6,7 +6,6 @@ import Nav from '../navbar.js';
 function Profile() {
   return (
     <div>
-      <Nav />
       <Card cardClass = {
         "text-dark text-left col-12 card"
     }>
