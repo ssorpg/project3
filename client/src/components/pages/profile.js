@@ -31,9 +31,8 @@ function Profile() {
           </ListGroup>
         </div>
       </div>
-    </Card>
-      </Row>
-    </Container>
+      </Card>
+    </div>
   )
       
     }
