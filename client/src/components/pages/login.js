@@ -1,9 +1,9 @@
 import React from 'react';
-import Nav from '../components/navbar';
-import Container from '../components/container'
-import { LoginForm } from '../components/form';
-import { LoginButton, Register } from '../components/buttons';
-import { Footer } from '../components/footer';
+import Nav from '../navbar';
+import Container from '../container'
+import { LoginForm } from '../form';
+import { LoginButton, Register } from '../buttons';
+import { Footer } from '../footer';
 
 function Login() {
   return (
