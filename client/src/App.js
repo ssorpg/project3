@@ -1,5 +1,4 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
 import Nav from './components/navbar.js';
 import Profile from './components/pages/profile';
@@ -9,18 +8,23 @@ import { LoginForm } from './components/form';
 import { LoginButton, Register } from './components/buttons';
 import { Footer } from './components/footer';
 import Login from './pages/login';
+import RegisterPage from './pages/register';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 
-function App() {
-  return (
+class TPN extends Component {
+  render() {
+    return (
+      <Router>
+        <div className="App">
+          <Switch>
+            <Route exact path="/" component={Login} />
+            <Route exact path="/register" component={RegisterPage} />
+          </Switch>
+        </div>
+      </Router>
+    );
+  };
 
-    <div className="App">
-      <Nav />
-      <h1>MATT KEV AND JON ARE COOL</h1>
-      <Profile />
-      <Login />
-    </div>
-  );
-}
 
-export default App;
+export default TPN;
