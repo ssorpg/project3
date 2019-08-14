@@ -1,5 +1,8 @@
 const db = require("../models");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+require('dotenv');
 
 module.exports = function (app) {
   const route = '/api/users';
@@ -15,10 +18,11 @@ module.exports = function (app) {
     const doesMatch = await bcrypt.compare(req.body.password, user.password)
 
     if (doesMatch) {
-      res.status(200).send('Logged in!');
+      const token = jwt.sign({ email: req.body.email }, process.env.JWT_KEY, { expiresIn: 43200 });
+      res.status(200).send(token);
     }
     else {
-      res.status(400).send('Password incorrect.');
+      res.status(401).send('Password incorrect.');
     }
   }));
 
@@ -28,15 +32,22 @@ module.exports = function (app) {
     await db.User.create({
       name: req.body.name,
       email: req.body.email,
-      password: bcryptedPassword,
-      token: 'not implemented'
+      password: bcryptedPassword
     });
 
     res.status(200).send('Created account successfully!');
   }));
 
   app.get(route + '/:userID', wrap(async function (req, res, next) { // logout
+    const token = req.query.token;
+    const verified = await jwt.verify(token, process.env.JWT_KEY);
 
+    if(verified) {
+      res.status(200).send('delToken'); // remove token from client
+    }
+    else {
+      res.status(401);
+    }
   }));
 
   app.put(route + '/:userID', wrap(async function (req, res, next) { // edit user
