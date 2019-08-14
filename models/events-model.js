@@ -10,6 +10,10 @@ module.exports = function (sequelize, DataTypes) {
                 }
             }
         },
+        founderID: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
         date: {
             type: DataTypes.DATE,
             allowNull: true,
