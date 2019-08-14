@@ -1,0 +1,72 @@
+** USERS **
+
+/api/users
+    post - login
+    post - register
+
+/api/users/:userID
+    get/delete? - logout
+    put - edit
+    delete - delete account
+    get - dashboard
+
+
+
+** COMMUNITIES **
+
+/api/communities
+    post - create a community
+    get - get all (public) communities (model where public: true/false)
+
+
+/api/communities/:commID
+    get
+    delete
+    
+/api/communities/:commID/users/:userID
+    post - join
+    delete - leave
+
+/api/communities/:commID/events
+    get - get all events for this community
+    post - create
+
+/api/communities/:commID/events/:eventID
+    get 
+    delete 
+    put - edit
+
+
+
+** POSTS **
+
+-- ALL ONE ROUTE
+
+/api/posts?commID=
+    get
+    post - create feed post
+
+/api/posts?commID=&userID=
+    get
+    post - create wall post
+
+/api/posts?commID=&eventID=
+    get
+    post - create event post
+
+-- END ROUTE
+
+/api/posts/:postID
+    delete
+    put - edit
+
+/api/posts/:postID/:vote
+    put - vote on post
+
+/api/posts/:postID/comments
+    get
+    post - comment on post
+
+/api/posts/:postID/comments/:commeID
+    delete
+    put - edit
