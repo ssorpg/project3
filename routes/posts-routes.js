@@ -1,7 +1,7 @@
-var db = require("../models");
+const db = require("../models");
 
 module.exports = function(app) {
-  const route = '/api/posts/';
+  const route = '/api/posts';
 
   app.get(route, function(req, res) {   // get all posts of type implied by provided queryID(s)
     const commID = req.query.commID;    // all posts have commID, but if only has commID it's a feed post,

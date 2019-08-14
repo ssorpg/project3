@@ -1,10 +1,10 @@
-var db = require("../models");
+const db = require("../models");
 
 module.exports = function(app) {
     const route = '/api/communities';
 
   app.post(route, function(req, res) { // register community
-
+    
   });
 
   app.post(route, function(req, res) { // get all communities?
