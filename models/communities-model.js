@@ -3,7 +3,12 @@ module.exports = function (sequelize, DataTypes) {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
+            trim: true,
             validate: {
+                notNull: {
+                    args: true,
+                    msg: 'Please enter a name.'
+                },
                 len: {
                     args: [1, 64],
                     msg: 'The name must be between 1 and 64 characters long.'

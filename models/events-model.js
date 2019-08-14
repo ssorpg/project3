@@ -2,11 +2,16 @@ module.exports = function (sequelize, DataTypes) {
     const Event = sequelize.define("Event", {
         name: {
             type: DataTypes.STRING,
-            allowNull: { msg: 'Please enter a name.' },
+            allowNull: false,
+            trim: true,
             validate: {
+                notNull: {
+                    args: true,
+                    msg: 'Please enter a name.'
+                },
                 len: {
                     args: [1, 255],
-                    msg: 'The name can only be 255 characters long.'
+                    msg: 'The name must be between 1 and 255 characters long.'
                 }
             }
         },
@@ -17,6 +22,7 @@ module.exports = function (sequelize, DataTypes) {
         date: {
             type: DataTypes.DATE,
             allowNull: true,
+            trim: true,
             validate: {
                 isDate: { msg: 'Please enter a valid date.' }
             }
