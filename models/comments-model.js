@@ -1,18 +1,18 @@
 module.exports = function (sequelize, DataTypes) {
     const Comment = sequelize.define("Comment", {
-        title: {
-            type: DataTypes.STRING,
-            allowNull: true,
-            validate: {
-                len: [2, 64]
-            }
-        },
         message: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                len: [1, 255]
+                len: {
+                    args: [1, 2000],
+                    msg: 'The message must be between 1 and 2000 characters long.'
+                }
             }
+        },
+        authorId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         },
         score: {
             type: DataTypes.INTEGER,

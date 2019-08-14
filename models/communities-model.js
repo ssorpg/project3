@@ -4,15 +4,15 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                len: [2, 64]
+                len: {
+                    args: [1, 64],
+                    msg: 'The name must be between 1 and 64 characters long.'
+                }
             }
         },
-        founder: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                len: [2, 64]
-            }
+        founderId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
     });
 
@@ -20,19 +20,15 @@ module.exports = function (sequelize, DataTypes) {
         Community.belongsToMany(models.User, {
             through: 'CommunityUser',
             as: 'users',
-            foreignKey: 'commID'
+            foreignKey: 'commId'
         });
-    };
 
-    Community.associate = function (models) {
         Community.hasMany(models.Event, {
             foreignKey: {
                 allowNull: true
             }
         });
-    };
 
-    Community.associate = function (models) {
         Community.hasMany(models.Post, {
             foreignKey: {
                 allowNull: true
