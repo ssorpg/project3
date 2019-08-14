@@ -36,19 +36,15 @@ module.exports = function (sequelize, DataTypes) {
         User.belongsToMany(models.Community, {
             through: 'CommunityUser',
             as: 'communities',
-            foreignKey: 'userID'
+            foreignKey: 'userId'
         });
-    };
 
-    User.associate = function (models) {
         User.belongsToMany(models.Event, {
             through: 'EventUser',
             as: 'events',
-            foreignKey: 'userID'
+            foreignKey: 'userId'
         });
-    };
 
-    User.associate = function (models) {
         User.hasMany(models.Post, {
             foreignKey: {
                 allowNull: true

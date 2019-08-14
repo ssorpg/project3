@@ -1,6 +1,6 @@
 module.exports = function (sequelize, DataTypes) {
-    const CommunityUser = sequelize.define('CommunityUser', {
-        userID: {
+    const EventUser = sequelize.define('EventUser', {
+        userId: {
           type: DataTypes.INTEGER,
           allowNull: false,
           references: {
@@ -8,15 +8,15 @@ module.exports = function (sequelize, DataTypes) {
             key: 'id'
           }
         },
-        commID: {
+        eventId: {
           type: DataTypes.INTEGER,
           allowNull: false,
           references: {
-            model: 'Communities',
+            model: 'Events',
             key: 'id'
           }
         }
     });
 
-    return CommunityUser;
+    return EventUser;
 }

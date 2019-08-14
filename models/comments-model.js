@@ -10,6 +10,10 @@ module.exports = function (sequelize, DataTypes) {
                 }
             }
         },
+        authorId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
         score: {
             type: DataTypes.INTEGER,
             allowNull: false,

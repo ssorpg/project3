@@ -10,6 +10,10 @@ module.exports = function (sequelize, DataTypes) {
                 }
             }
         },
+        authorId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
         message: {
             type: DataTypes.TEXT,
             allowNull: false,
@@ -33,25 +37,19 @@ module.exports = function (sequelize, DataTypes) {
                 allowNull: false
             }
         });
-    };
 
-    Post.associate = function (models) {
         Post.belongsTo(models.Event, {
             foreignKey: {
                 allowNull: true
             }
         });
-    };
 
-    Post.associate = function (models) {
         Post.belongsTo(models.User, {
             foreignKey: {
                 allowNull: false
             }
         });
-    };
 
-    Post.associate = function (models) {
         Post.hasMany(models.Comment, {
             foreignKey: {
                 allowNull: true

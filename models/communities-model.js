@@ -10,7 +10,7 @@ module.exports = function (sequelize, DataTypes) {
                 }
             }
         },
-        founderID: {
+        founderId: {
             type: DataTypes.INTEGER,
             allowNull: false
         }
@@ -20,19 +20,15 @@ module.exports = function (sequelize, DataTypes) {
         Community.belongsToMany(models.User, {
             through: 'CommunityUser',
             as: 'users',
-            foreignKey: 'commID'
+            foreignKey: 'commId'
         });
-    };
 
-    Community.associate = function (models) {
         Community.hasMany(models.Event, {
             foreignKey: {
                 allowNull: true
             }
         });
-    };
 
-    Community.associate = function (models) {
         Community.hasMany(models.Post, {
             foreignKey: {
                 allowNull: true

@@ -10,7 +10,7 @@ module.exports = function (sequelize, DataTypes) {
                 }
             }
         },
-        founderID: {
+        founderId: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
@@ -24,14 +24,18 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     Event.associate = function (models) {
+        Event.belongsToMany(models.User, {
+            through: 'EventUser',
+            as: 'users',
+            foreignKey: 'eventId'
+        });
+
         Event.belongsTo(models.Community, {
             foreignKey: {
                 allowNull: false
             }
         });
-    };
 
-    Event.associate = function (models) {
         Event.hasMany(models.Post, {
             foreignKey: {
                 allowNull: true
