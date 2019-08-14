@@ -2,7 +2,7 @@ const db = require("../models");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-require('dotenv');
+require('dotenv').config();
 
 module.exports = function (app) {
   const route = '/api/users';

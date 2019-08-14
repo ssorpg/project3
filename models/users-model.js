@@ -3,7 +3,12 @@ module.exports = function (sequelize, DataTypes) {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
+            trim: true,
             validate: {
+                notNull: {
+                    args: true,
+                    msg: 'Please enter your name.'
+                },
                 len: {
                     args: [1, 64],
                     msg: 'Your name must be between 1 and 64 characters long.'
@@ -12,19 +17,30 @@ module.exports = function (sequelize, DataTypes) {
         },
         email: {
             type: DataTypes.STRING,
-            allowNull: false,
             unique: { msg: 'That email is already in use.' },
+            trim: true,
             validate: {
                 isEmail: { msg: 'Please enter a valid email.' },
-                max: {
-                    args: 64,
-                    msg: 'Your email can be at most 64 characters long.'
+                len: {
+                    args: [1, 64],
+                    msg: 'Your email must be between 1 and 64 characters long.'
                 }
             }
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
+            trim: true,
+            validate: {
+                notNull: {
+                    args: true,
+                    msg: 'Please enter a password.'
+                },
+                len: {
+                    args: [8, 64],
+                    msg: 'Your password must be between 8 and 128 characters long.'
+                }
+            }
         }
     });
 
