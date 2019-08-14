@@ -40,7 +40,7 @@ module.exports = function (sequelize, DataTypes) {
     Post.associate = function (models) {
         Post.belongsTo(models.Community, {
             foreignKey: {
-                allowNull: false
+                allowNull: true
             }
         });
 
@@ -52,7 +52,7 @@ module.exports = function (sequelize, DataTypes) {
 
         Post.belongsTo(models.User, {
             foreignKey: {
-                allowNull: false
+                allowNull: true
             }
         });
 
