@@ -1,49 +1,50 @@
-var db = require("../models");
+const db = require("../models");
 
 module.exports = function(app) {
     const route = '/api/communities';
+    const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handling
 
-  app.post(route, function(req, res) { // register community
+  app.post(route, wrap(async function (req, res, next) { // register community
+    
+  }));
 
-  });
+  app.post(route, wrap(async function (req, res, next) { // get all communities?
 
-  app.post(route, function(req, res) { // get all communities?
+  }));
 
-  });
+  app.get(route + '/:commID', wrap(async function (req, res, next) { // get community info
 
-  app.get(route + '/:commID', function(req, res) { // get community info
+  }));
 
-  });
+  app.delete(route + '/:commID', wrap(async function (req, res, next) { // delete community
 
-  app.delete(route + '/:commID', function(req, res) { // delete community
+  }));
 
-  });
+  app.post(route + ':commID/users/:userID', wrap(async function (req, res, next) { // join community
 
-  app.post(route + ':commID/users/:userID', function(req, res) { // join community
+  }));
 
-  });
+  app.delete(route + '/:commID/users/:userID', wrap(async function (req, res, next) { // leave community
 
-  app.delete(route + '/:commID/users/:userID', function(req, res) { // leave community
+  }));
 
-  });
+  app.get(route + '/:commID/events', wrap(async function (req, res, next) { // community events
 
-  app.get(route + '/:commID/events', function(req, res) { // community events
+  }));
 
-  });
+  app.post(route + '/:commID/events', wrap(async function (req, res, next) { // create event
 
-  app.post(route + '/:commID/events', function(req, res) { // create event
+  }));
 
-  });
+  app.get(route + '/:commID/events/:eventID', wrap(async function (req, res, next) { // create event
 
-  app.get(route + '/:commID/events/:eventID', function(req, res) { // create event
+  }));
 
-  });
+  app.delete(route + '/:commID/events/:eventID', wrap(async function (req, res, next) { // delete event
 
-  app.delete(route + '/:commID/events/:eventID', function(req, res) { // delete event
+  }));
 
-  });
+  app.put(route + '/:commID/events/:eventID', wrap(async function (req, res, next) { // edit event
 
-  app.put(route + '/:commID/events/:eventID', function(req, res) { // edit event
-
-  });
+  }));
 };
