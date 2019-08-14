@@ -1,7 +1,7 @@
 const db = require("../models");
 
 module.exports = function(app) {
-    const route = '/api/communities';
+    const route = '/auth/api/communities';
     const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handling
 
   app.post(route, wrap(async function (req, res, next) { // register community
