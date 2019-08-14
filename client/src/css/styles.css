@@ -1,0 +1,33 @@
+#friends .card {
+  position: relative;
+  padding: 0;
+  margin-bottom: 15px;
+}
+#friends .card .card-nav {
+  position: absolute;
+}
+#friends .card .card-nav {
+  min-width: 100%;
+}
+#friends .card .card-nav button:before {
+  max-width: 15px;
+  max-height: 15px;
+}
+#friends .card .card-nav button.favorite {
+  float: left;
+}
+#friends .card .card-nav button.select {
+  float: right;
+}
+#friends .card .card-nav button.favorite:before {
+  content: url('../images/icons/svg/star-empty.svg');
+}
+#friends .card .card-nav button.select:before {
+  content: url('../images/icons/svg/check-full.svg');
+}
+#friends .card .card-nav button.favorited:before {
+  content: url('../images/icons/svg/star-empty.svg');
+}
+#friends .card .card-nav button.selected:before {
+  content: url('../images/icons/svg/check-empty.svg');
+}
