@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
 import Card from '../card.js';
+import './images/icons/svg/star-empty.svg';
+import './images/icons/svg/star-full.svg';
+import './images/icons/svg/check-empty.svg';
+import './images/icons/svg/check-full.svg';
 
 export default function Feed(props) {
   let comments = [1,2,3,4,5,6,7,8,9,10,11,12];
