@@ -6,7 +6,7 @@ const db = require("./models");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-require("./routes/api-routes.js")(app);
+require("./routes")(app);
 
 db.sequelize.sync().then(function() {
   app.listen(PORT, function() {
