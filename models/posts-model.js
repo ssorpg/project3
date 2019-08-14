@@ -4,14 +4,20 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: true,
             validate: {
-                len: [2, 64]
+                max: {
+                    args: 64,
+                    msg: 'The title can be at most 64 characters long.'
+                }
             }
         },
         message: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
             validate: {
-                len: [1, 255]
+                len: {
+                    args: [1, 2000],
+                    msg: 'The message must be between 1 and 2000 characters long.'
+                }
             }
         },
         score: {

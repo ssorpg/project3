@@ -4,15 +4,15 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                len: [2, 64]
+                len: {
+                    args: [1, 64],
+                    msg: 'The name must be between 1 and 64 characters long.'
+                }
             }
         },
-        founder: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                len: [2, 64]
-            }
+        founderID: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
     });
 

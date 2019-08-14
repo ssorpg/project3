@@ -4,23 +4,27 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                len: [2, 64]
+                len: {
+                    args: [1, 64],
+                    msg: 'Your name must be between 1 and 64 characters long.'
+                }
             }
         },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
+            unique: { msg: 'That email is already in use.' },
             validate: {
-                isEmail: true
+                isEmail: { msg: 'Please enter a valid email.' },
+                max: {
+                    args: 64,
+                    msg: 'Your email can be at most 64 characters long.'
+                }
             }
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: {
-                len: [8, 64]
-            }
         },
         token: {
             type: DataTypes.STRING,
@@ -43,7 +47,7 @@ module.exports = function (sequelize, DataTypes) {
             foreignKey: 'userID'
         });
     };
-    
+
     User.associate = function (models) {
         User.hasMany(models.Post, {
             foreignKey: {
