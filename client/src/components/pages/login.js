@@ -10,8 +10,9 @@ function Login() {
       <Container>
         <h5>Login or Register to begin</h5>
         <LoginForm />
-        <Link to="/profile"><LoginButton /> </Link>
-        <Link to="/register"><Register /></Link>
+        {/* <Link to="/profile"> */}
+          {/* <LoginButton /> */}
+        {/* </Link> */}
       </Container>
     </div>
   );

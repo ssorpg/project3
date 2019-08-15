@@ -22,7 +22,7 @@ class TPN extends Component {
             <Route exact path="/" component={HomePage} />
             <Route exact path="/register" component={RegisterPage} />
             <Route path="/feed" component={Feed} />
-            <Route exact path="/profile" component={Profile} />
+            <Route exact path="/profile/:userId?" component={Profile} />
             <Route exact path="/friends" component={Friends} />
           </Switch>
         </div>
