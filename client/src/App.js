@@ -4,6 +4,7 @@ import Nav from './components/navbar.js';
 import Profile from './components/pages/profile';
 import  Footer  from './components/footer';
 import Login from './components/pages/login';
+import HomePage from './components/pages/home';
 import RegisterPage from './components/pages/register';
 import Feed from './components/pages/feed';
 import Friends from './components/pages/friends';
@@ -20,10 +21,10 @@ class TPN extends Component {
       <Router>
         <div className="App">
           <Switch>
-            <Route exact path="/" component={Login} />
+            <Route exact path="/" component={HomePage} />
             <Route exact path="/register" component={RegisterPage} />
             <Route path="/feed" component={Feed} />
-            <Route exact path="/profile" component={Profile} />
+            <Route exact path="/profile/:userId?" component={Profile} />
             <Route exact path="/friends" component={Friends} />
             <Route exact path="/chat" component={Chat} />
           </Switch>

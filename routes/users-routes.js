@@ -12,7 +12,7 @@ const jwtCheck = jwtMiddleware({
 });
 
 const cookieOptions = {
-  expires: new Date(Date.now() + 43200),
+  expires: new Date(Date.now() + 43200000),
   httpOnly: true,
   // secure: true, on deployment for https
   signed: true
@@ -33,7 +33,10 @@ module.exports = function (app) {
 
     if (token) {
       console.log(token);
-      res.status(200).cookie('token', token, cookieOptions).send('Login successful.');
+      res.status(200).cookie('token', token, cookieOptions).send({
+        message: 'Login successful.',
+        userId: user.id
+      });
     }
     else {
       res.status(401).send('Incorrect username or password.');
@@ -43,13 +46,17 @@ module.exports = function (app) {
   app.post(route + '/register', wrap(async function (req, res, next) { // register user
     const password = await auth.hashPass(req);
 
-    await db.User.create({
+    let results = await db.User.create({
       name: req.body.name,
       email: req.body.email,
       password: password
     });
-
-    res.status(200).send('Account creation successful!');
+    
+    console.log(results);
+    res.status(200).send({
+      messate: 'Account creation successful!',
+      response: results
+    });
   }));
 
   app.get(route + '/:userID', jwtCheck, wrap(async function (req, res, next) { // logout
