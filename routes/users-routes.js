@@ -57,8 +57,7 @@ module.exports = function (app) {
 
   app.put(route + '/:userID', jwtCheck, wrap(async function (req, res, next) { // edit user
     if (req.tokenData.userID === parseInt(req.params.userID)) {
-      await db.User.update(
-        {
+      await db.User.update({
           // some stuff
         },
         {
@@ -67,7 +66,7 @@ module.exports = function (app) {
           }
         });
 
-        res.status(200).send('Update successful.')
+      res.status(200).send('Update successful.')
     }
     else {
       res.status(401).send('Forbidden');
