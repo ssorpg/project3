@@ -3,23 +3,15 @@ const auth = require('./auth/auth');
 
 require('dotenv').config();
 
-const jwtMiddleware = require('express-jwt');
-const jwtCheck = jwtMiddleware({
-  secret: process.env.JWT_SECRET,
-  getToken: function (req) {
-    return req.signedCookies.token;
-  }
-});
-
 const cookieOptions = {
-  expires: new Date(Date.now() + 43200),
+  expires: new Date(Date.now() + 43200000),
   httpOnly: true,
-  // secure: true, on deployment for https
+  secure: false, // true on deployment for https
   signed: true
 };
 
 const route = '/api/users';
-const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handling
+const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 module.exports = function (app) {
   app.post(route, wrap(async function (req, res, next) { // login
@@ -32,7 +24,7 @@ module.exports = function (app) {
     const token = await auth.makeToken(req, user);
 
     if (token) {
-      console.log(token);
+      console.log('Token: ', token);
       res.status(200).cookie('token', token, cookieOptions).send('Login successful.');
     }
     else {
@@ -52,19 +44,12 @@ module.exports = function (app) {
     res.status(200).send('Account creation successful!');
   }));
 
-  app.get(route + '/:userID', jwtCheck, wrap(async function (req, res, next) { // logout
-    console.log(req.user);
-
-    if (req.user.userID === parseInt(req.params.userID)) {
+  app.get(route, wrap(async function (req, res, next) { // logout
       res.status(200).clearCookie('token').send('Logout successful.');
-    }
-    else {
-      res.status(401).send('Forbidden');
-    }
   }));
 
-  app.put(route + '/:userID', jwtCheck, wrap(async function (req, res, next) { // edit user
-    if (req.tokenData.userID === parseInt(req.params.userID)) {
+  app.put(route + '/:userID', wrap(async function (req, res, next) { // edit user
+    if (req.userID === parseInt(req.params.userID)) {
       await db.User.update({
         // some stuff
       },
@@ -81,25 +66,30 @@ module.exports = function (app) {
     }
   }));
 
-  app.delete(route + '/:userID', jwtCheck, wrap(async function (req, res, next) { // delete user
-    if (req.tokenData.userID === parseInt(req.params.userID)) {
+  app.delete(route + '/:userID', wrap(async function (req, res, next) { // delete user
+    if (req.userID === parseInt(req.params.userID)) {
       await db.User.destroy({ where: { id: req.params.userID } });
+
+      res.status(200).send('Account successfully deleted.')
     }
     else {
       res.status(401).send('Forbidden');
     }
   }));
 
-  app.get(route + '/:userID', jwtCheck, wrap(async function (req, res, next) { // user dashboard
-    if (req.tokenData.userID === parseInt(req.params.userID)) {
-      // await db.CommunityUsers.findAll({
-      //   where: {
-      //     userId: req.params.userID
-      //   }
-      // },
-      // include: [{
+  app.get(route + '/:userID', wrap(async function (req, res, next) { // user dashboard
+    if (req.userID === parseInt(req.params.userID)) {
+      const [user] = await db.User.findAll({
+        where: { // get info of the communities the user belongs to
+          id: req.params.userID
+        },
+        include: [{
+          model: db.Community,
+          as: 'communities'
+        }]
+      });
 
-      // }]);
+      res.status(200).json(user.communities);
     }
     else {
       res.status(401).send('Forbidden');

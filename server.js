@@ -1,8 +1,9 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 3001;
-const db = require("./models");
+const db = require('./models');
+const jwt = require('jsonwebtoken');
 
 require('dotenv').config();
 
@@ -10,7 +11,28 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
-require("./routes")(app);
+const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handling
+
+app.use(wrap(async (req, res, next) => {
+  const { token } = req.signedCookies;
+
+  if (token) {
+    const isValid = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!isValid) {
+      return res.status(401).send();
+    }
+
+    req.userID = isValid.userID;
+  }
+  else if (req.path !== '/api/users' && req.path !== '/api/users/register') {
+    return res.status(401).send();
+  }
+
+  next();
+}));
+
+require('./routes')(app);
 
 app.use(function (err, req, res, next) { // error handler middleware, called with 'next'
   console.error(err.message);
@@ -20,6 +42,6 @@ app.use(function (err, req, res, next) { // error handler middleware, called wit
 
 db.sequelize.sync().then(function () {
   app.listen(PORT, function () {
-    console.log("App listening on PORT " + PORT);
+    console.log('App listening on PORT ' + PORT);
   });
 });
