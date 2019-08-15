@@ -9,7 +9,6 @@ function RegisterPage() {
         <div className="Register">
             <Container>
                 <RegisterForm />
-                <Link to="/profile"><Register /></Link>
             </Container>
         </div>
     );
