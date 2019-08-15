@@ -1,9 +1,14 @@
 const db = require("../models");
 
-const jwtMiddleware = require('express-jwt-middleware');
-const jwtCheck = jwtMiddleware(process.env.JWT_SECRET);
+const jwtMiddleware = require('express-jwt');
+const jwtCheck = jwtMiddleware({
+  secret: process.env.JWT_SECRET,
+  getToken: function (req) {
+    return req.signedCookies.token;
+  }
+});
 
-const route = '/auth/api/posts';
+const route = '/api/posts';
 const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handling
 
 module.exports = function (app) {
