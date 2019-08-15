@@ -1,50 +1,58 @@
 const db = require("../models");
 
-module.exports = function(app) {
-    const route = '/api/communities';
-    const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handling
+const jwtMiddleware = require('express-jwt');
+const jwtCheck = jwtMiddleware({
+  secret: process.env.JWT_SECRET,
+  getToken: function (req) {
+    return req.signedCookies.token;
+  }
+});
 
-  app.post(route, wrap(async function (req, res, next) { // register community
+const route = '/api/communities';
+const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handling
+
+module.exports = function(app) {
+  app.post(route, jwtCheck, wrap(async function (req, res, next) { // register community
     
   }));
 
-  app.post(route, wrap(async function (req, res, next) { // get all communities?
+  app.post(route, jwtCheck, wrap(async function (req, res, next) { // get all communities?
 
   }));
 
-  app.get(route + '/:commID', wrap(async function (req, res, next) { // get community info
+  app.get(route + '/:commID', jwtCheck, wrap(async function (req, res, next) { // get community info
 
   }));
 
-  app.delete(route + '/:commID', wrap(async function (req, res, next) { // delete community
+  app.delete(route + '/:commID', jwtCheck, wrap(async function (req, res, next) { // delete community
 
   }));
 
-  app.post(route + ':commID/users/:userID', wrap(async function (req, res, next) { // join community
+  app.post(route + ':commID/users/:userID', jwtCheck, wrap(async function (req, res, next) { // join community
 
   }));
 
-  app.delete(route + '/:commID/users/:userID', wrap(async function (req, res, next) { // leave community
+  app.delete(route + '/:commID/users/:userID', jwtCheck, wrap(async function (req, res, next) { // leave community
 
   }));
 
-  app.get(route + '/:commID/events', wrap(async function (req, res, next) { // community events
+  app.get(route + '/:commID/events', jwtCheck, wrap(async function (req, res, next) { // community events
 
   }));
 
-  app.post(route + '/:commID/events', wrap(async function (req, res, next) { // create event
+  app.post(route + '/:commID/events', jwtCheck, wrap(async function (req, res, next) { // create event
 
   }));
 
-  app.get(route + '/:commID/events/:eventID', wrap(async function (req, res, next) { // create event
+  app.get(route + '/:commID/events/:eventID', jwtCheck, wrap(async function (req, res, next) { // create event
 
   }));
 
-  app.delete(route + '/:commID/events/:eventID', wrap(async function (req, res, next) { // delete event
+  app.delete(route + '/:commID/events/:eventID', jwtCheck, wrap(async function (req, res, next) { // delete event
 
   }));
 
-  app.put(route + '/:commID/events/:eventID', wrap(async function (req, res, next) { // edit event
+  app.put(route + '/:commID/events/:eventID', jwtCheck, wrap(async function (req, res, next) { // edit event
 
   }));
 };

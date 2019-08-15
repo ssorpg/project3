@@ -1,13 +1,27 @@
 const db = require("../models");
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const auth = require('./auth/auth');
 
 require('dotenv').config();
 
-module.exports = function (app) {
-  const route = '/api/users';
-  const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handling
+const jwtMiddleware = require('express-jwt');
+const jwtCheck = jwtMiddleware({
+  secret: process.env.JWT_SECRET,
+  getToken: function (req) {
+    return req.signedCookies.token;
+  }
+});
 
+const cookieOptions = {
+  expires: new Date(Date.now() + 43200),
+  httpOnly: true,
+  // secure: true, on deployment for https
+  signed: true
+};
+
+const route = '/api/users';
+const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handling
+
+module.exports = function (app) {
   app.post(route, wrap(async function (req, res, next) { // login
     const user = await db.User.findOne({
       where: {
@@ -15,50 +29,80 @@ module.exports = function (app) {
       }
     });
 
-    const doesMatch = await bcrypt.compare(req.body.password, user.password)
+    const token = await auth.makeToken(req, user);
 
-    if (doesMatch) {
-      const token = jwt.sign({ email: req.body.email }, process.env.JWT_KEY, { expiresIn: 43200 });
-      res.status(200).send(token);
+    if (token) {
+      console.log(token);
+      res.status(200).cookie('token', token, cookieOptions).send('Login successful.');
     }
     else {
-      res.status(401).send('Password incorrect.');
+      res.status(401).send('Incorrect username or password.');
     }
   }));
 
   app.post(route + '/register', wrap(async function (req, res, next) { // register user
-    const bcryptedPassword = await bcrypt.hash(req.body.password, 10)
+    const password = await auth.hashPass(req);
 
     await db.User.create({
       name: req.body.name,
       email: req.body.email,
-      password: bcryptedPassword
+      password: password
     });
 
-    res.status(200).send('Created account successfully!');
+    res.status(200).send('Account creation successful!');
   }));
 
-  app.get(route + '/:userID', wrap(async function (req, res, next) { // logout
-    const token = req.query.token;
-    const verified = await jwt.verify(token, process.env.JWT_KEY);
+  app.get(route + '/:userID', jwtCheck, wrap(async function (req, res, next) { // logout
+    console.log(req.user);
 
-    if(verified) {
-      res.status(200).send('delToken'); // remove token from client
+    if (req.user.userID === parseInt(req.params.userID)) {
+      res.status(200).clearCookie('token').send('Logout successful.');
     }
     else {
-      res.status(401);
+      res.status(401).send('Forbidden');
     }
   }));
 
-  app.put(route + '/:userID', wrap(async function (req, res, next) { // edit user
+  app.put(route + '/:userID', jwtCheck, wrap(async function (req, res, next) { // edit user
+    if (req.tokenData.userID === parseInt(req.params.userID)) {
+      await db.User.update({
+        // some stuff
+      },
+        {
+          where: {
+            id: req.params.userID
+          }
+        });
 
+      res.status(200).send('Update successful.')
+    }
+    else {
+      res.status(401).send('Forbidden');
+    }
   }));
 
-  app.delete(route + '/:userID', wrap(async function (req, res, next) { // delete user
-
+  app.delete(route + '/:userID', jwtCheck, wrap(async function (req, res, next) { // delete user
+    if (req.tokenData.userID === parseInt(req.params.userID)) {
+      await db.User.destroy({ where: { id: req.params.userID } });
+    }
+    else {
+      res.status(401).send('Forbidden');
+    }
   }));
 
-  app.get(route + '/:userID', wrap(async function (req, res, next) { // user dashboard
+  app.get(route + '/:userID', jwtCheck, wrap(async function (req, res, next) { // user dashboard
+    if (req.tokenData.userID === parseInt(req.params.userID)) {
+      // await db.CommunityUsers.findAll({
+      //   where: {
+      //     userId: req.params.userID
+      //   }
+      // },
+      // include: [{
 
+      // }]);
+    }
+    else {
+      res.status(401).send('Forbidden');
+    }
   }));
 };
