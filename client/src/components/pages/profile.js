@@ -8,7 +8,7 @@ function Profile() {
       <Card cardClass = {
         "text-dark text-left col-12 card"
     }>
-      <img class="card-img-top" src="http://place-hold.it/200" alt="Card image cap" />
+      <img className="card-img-top" src="http://place-hold.it/200" alt="Card image cap" />
       <div class="card-body">
         <header>
           <h5 class="card-title">Username</h5>

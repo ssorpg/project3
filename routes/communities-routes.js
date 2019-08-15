@@ -10,6 +10,10 @@ module.exports = function (app) {
       founderId: req.userID
     });
 
+  app.post(route, jwtCheck, wrap(async function (req, res, next) { // register community
+    
+  }));
+
     await db.CommunityUser.create({
       userId: req.userID,
       commId: newCommunity.id
