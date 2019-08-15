@@ -1,8 +1,15 @@
 const db = require("../models");
 const auth = require('./auth/auth');
 
-const jwtMiddleware = require('express-jwt-middleware');
-const jwtCheck = jwtMiddleware(process.env.JWT_SECRET);
+require('dotenv').config();
+
+const jwtMiddleware = require('express-jwt');
+const jwtCheck = jwtMiddleware({
+  secret: process.env.JWT_SECRET,
+  getToken: function (req) {
+    return req.signedCookies.token;
+  }
+});
 
 const cookieOptions = {
   expires: new Date(Date.now() + 43200),
@@ -25,6 +32,7 @@ module.exports = function (app) {
     const token = await auth.makeToken(req, user);
 
     if (token) {
+      console.log(token);
       res.status(200).cookie('token', token, cookieOptions).send('Login successful.');
     }
     else {
@@ -45,9 +53,9 @@ module.exports = function (app) {
   }));
 
   app.get(route + '/:userID', jwtCheck, wrap(async function (req, res, next) { // logout
-    console.log(req.tokenData);
+    console.log(req.user);
 
-    if (req.tokenData.userID === parseInt(req.params.userID)) {
+    if (req.user.userID === parseInt(req.params.userID)) {
       res.status(200).clearCookie('token').send('Logout successful.');
     }
     else {
@@ -58,8 +66,8 @@ module.exports = function (app) {
   app.put(route + '/:userID', jwtCheck, wrap(async function (req, res, next) { // edit user
     if (req.tokenData.userID === parseInt(req.params.userID)) {
       await db.User.update({
-          // some stuff
-        },
+        // some stuff
+      },
         {
           where: {
             id: req.params.userID
