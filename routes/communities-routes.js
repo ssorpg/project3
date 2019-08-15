@@ -12,6 +12,12 @@ const route = '/api/communities';
 const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handling
 
 module.exports = function(app) {
+  //hi jon don't be mad i'm just putting this somewhere to test it
+  app.get('/chat', (req, res) => {
+    res.render('index.ejs');
+    //res.send('Hello world!');
+  });
+
   app.post(route, jwtCheck, wrap(async function (req, res, next) { // register community
     
   }));
