@@ -26,7 +26,7 @@ app.use(wrap(async (req, res, next) => {
       return res.status(401).send();
     }
 
-    req.userID = isValid.userID;
+    req.UserId = isValid.UserId;
   }
   else if (req.path !== '/api/users' && req.path !== '/api/users/register') {
     return res.status(401).send('Unauthorized.');

@@ -27,7 +27,7 @@ export default function Feed(props) {
       <Row>
         {comments.map( () => {
           return (
-            <Col className="col-xs-12 col-md-6">
+            <Col xs={12} md={6} style={{padding:'10px'}}>
               <div className="comment">
                 <Card cardClass={ "text-dark text-left card"}>
               <h4 class="username">Father Jackson</h4>

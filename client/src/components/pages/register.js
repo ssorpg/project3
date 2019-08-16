@@ -1,15 +1,21 @@
 import React from 'react';
-import Container from '../container'
 import { RegisterForm } from '../form';
-import { Register } from '../buttons';
-import { Link } from 'react-router-dom';
+import { Jumbotron, Col, Row } from 'react-bootstrap';
+import '../../App.css'
 
 function RegisterPage() {
     return (
-        <div className="Register">
-            <Container>
-                <RegisterForm />
-            </Container>
+        <div className="Register" style={{margin: '20px'}}>
+            <Row>
+                <Col>
+                    <Jumbotron>
+                        <RegisterForm />
+                    </Jumbotron>
+                </Col>
+                <Col className='mobile-hide'>
+                    <p>teststeest</p>
+                </Col>
+            </Row>
         </div>
     );
 }

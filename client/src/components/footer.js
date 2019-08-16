@@ -20,12 +20,12 @@ export default class Footer extends Component {
     
         const ChatButton = () => (
             <OverlayTrigger trigger="click" placement="top" overlay={popover}>
-                <Button variant="success" style={{float:'right'}}>Chat</Button>
+                <Button variant="success" style={{margin: '10px'}}>Chat</Button>
             </OverlayTrigger>
         );
 
         return (
-            <Nav fixed="bottom">
+            <Nav style={{position: 'fixed', bottom: '0'}}>
                 <ChatButton />
             </Nav>
         );

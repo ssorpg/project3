@@ -31,3 +31,9 @@
     transform: rotate(360deg);
   }
 }
+
+
+
+@media screen and (max-width: 400px) {
+  .mobile-hide { display: none; } 
+}

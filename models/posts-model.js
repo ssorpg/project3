@@ -11,7 +11,7 @@ module.exports = function (sequelize, DataTypes) {
                 }
             }
         },
-        authorId: {
+        AuthorId: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
@@ -40,7 +40,7 @@ module.exports = function (sequelize, DataTypes) {
     Post.associate = function (models) {
         Post.belongsTo(models.Community, {
             foreignKey: {
-                allowNull: true
+                allowNull: false
             }
         });
 

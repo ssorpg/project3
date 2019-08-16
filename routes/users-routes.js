@@ -53,7 +53,7 @@ module.exports = function (app) {
     res.status(200).send('Account creation successful!');
   }));
 
-  app.get(route, wrap(async function (req, res, next) { // logout
+  app.get(route + '/logout', wrap(async function (req, res, next) { // logout
     res.status(200)
       .clearCookie('token')
       .clearCookie('loggedIn')
@@ -67,13 +67,14 @@ module.exports = function (app) {
     },
       {
         where: {
-          id: req.userID
+          id: req.UserId
         }
       });
 
     res.status(200).send('Update successful.')
   }));
 
+<<<<<<< HEAD
   app.get(route + '/profile/:userId?',
     wrap(async function ({params: {userId}}, res, next) { // user profile
       console.log('profile!')
@@ -94,12 +95,26 @@ module.exports = function (app) {
         console.log('front end error', error);
         res.sendStatus(401);
       }
+=======
+  app.get(route + '/profile', wrap(async function (req, res, next) { // user profile
+    const user = await db.User.findOne({
+      where: { // get info of the communities the user belongs to
+        id: req.UserId
+      },
+      include: [{
+        model: db.Community,
+        as: 'communities'
+      }]
+    });
+
+    res.status(200).json(user.communities);
+>>>>>>> master
   }));
 
-  // app.get(route + '/profile/:userID', wrap(async function (req, res, next) { // another user's profile
+  // app.get(route + '/profile/:UserId', wrap(async function (req, res, next) { // another user's profile
   //   const [user] = await db.User.findAll({
   //     where: { // get info of the communities the user belongs to
-  //       id: req.params.userID
+  //       id: req.params.UserId
   //     },
   //     include: [{
   //       model: db.Community,
@@ -113,7 +128,7 @@ module.exports = function (app) {
   app.delete(route, wrap(async function (req, res, next) { // delete user
     await db.User.destroy({
       where: {
-        id: req.userID
+        id: req.UserId
       }
     });
 

@@ -15,7 +15,7 @@ module.exports = function (sequelize, DataTypes) {
                 }
             }
         },
-        founderId: {
+        FounderId: {
             type: DataTypes.INTEGER,
             allowNull: false
         }
@@ -24,8 +24,7 @@ module.exports = function (sequelize, DataTypes) {
     Community.associate = function (models) {
         Community.belongsToMany(models.User, {
             through: 'CommunityUser',
-            as: 'users',
-            foreignKey: 'commId'
+            as: 'users'
         });
 
         Community.hasMany(models.Event, {
