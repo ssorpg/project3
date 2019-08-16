@@ -10,59 +10,84 @@ module.exports = function (app) {
       founderId: req.userID
     });
 
-  app.post(route, jwtCheck, wrap(async function (req, res, next) { // register community
-    
-  }));
-
     await db.CommunityUser.create({
       userId: req.userID,
       commId: newCommunity.id
     });
 
-    res.status(200).send();
+    res.status(200).send('Community successfully created!');
   }));
 
-  app.post(route, wrap(async function (req, res, next) { // get all communities?
+  app.get(route, wrap(async function (req, res, next) { // get all communities?
+    const communities = await db.Community.findAll();
 
+    res.status(200).json(communities);
   }));
 
   app.get(route + '/:commID', wrap(async function (req, res, next) { // get community info
+    const community = await db.Community.findAll({
+      where: {
+        id: req.params.commID
+      }
+    });
 
+    res.status(200).json(community);
   }));
 
   app.delete(route + '/:commID', wrap(async function (req, res, next) { // delete community
+    const community = await db.Community.destroy({
+      where: {
+        id: req.params.commID,
+        founderId: req.userID
+      }
+    });
 
+    if (community) {
+      return res.status(200).send('Community deleted.');
+    }
+
+    res.status(400).send('That community doesn\'t exist.');
   }));
 
-  app.post(route + '/:commID/users/:userID', wrap(async function (req, res, next) { // join community
-    if (req.userID === parseInt(req.params.userID)) {
-      const communities = await db.CommunityUser.findAll({
-        where: { // get info of the communities the user belongs to
-          userId: req.params.userID
-        }
-      });
-
-      const inCommunity = communities.filter(community => { return community.dataValues.commId === parseInt(req.params.commID) })
-
-      if (inCommunity.length) {
-        res.status(400).send('You\'re already in that community.');
+  app.post(route + '/:commID/users', wrap(async function (req, res, next) { // join community
+    const isCommunity = await db.Community.findOne({
+      where: {
+        id: req.params.commID
       }
-      else {
-        await db.CommunityUser.create({
-          userId: req.params.userID,
-          commId: req.params.commID
-        });
+    });
 
-        res.status(200).send('You joined the community!');
+    if (!isCommunity) {
+      return res.status(400).send('That community doesn\'t exist.');
+    }
+
+    const inCommunity = await db.CommunityUser.findOne({
+      where: {
+        userId: req.userID,
+        commId: req.params.commID
       }
+    });
+
+    if (inCommunity) {
+      return res.status(400).send('You\'re already in that community.');
     }
-    else {
-      res.status(401).send('Forbidden');
-    }
+
+    await db.CommunityUser.create({
+      userId: req.userID,
+      commId: req.params.commID
+    });
+
+    res.status(200).send('You joined the community!');
   }));
 
-  app.delete(route + '/:commID/users/:userID', wrap(async function (req, res, next) { // leave community
+  app.delete(route + '/:commID/users', wrap(async function (req, res, next) { // leave community
+    await db.CommunityUser.destroy({
+      where: {
+        userId: req.userID,
+        commId: req.params.commID
+      }
+    });
 
+    res.status(200).send('You left the community.');
   }));
 
   app.get(route + '/:commID/events', wrap(async function (req, res, next) { // community events

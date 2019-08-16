@@ -1,18 +1,16 @@
 const express = require('express');
 const app = express();
-const cookieParser = require('cookie-parser');
-const db = require("./models");
-const jwt = require('jsonwebtoken');
-
-const WebSocket = require('ws');
-const morgan = require('morgan');
-const PORT = process.env.PORT || 3001;
-
-require('dotenv').config();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+const morgan = require('morgan');
 app.use(morgan('combined'));
+
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
+
+require('dotenv').config();
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handling
@@ -30,7 +28,7 @@ app.use(wrap(async (req, res, next) => {
     req.userID = isValid.userID;
   }
   else if (req.path !== '/api/users' && req.path !== '/api/users/register') {
-    return res.status(401).send();
+    return res.status(401).send('Unauthorized.');
   }
 
   next();
@@ -44,10 +42,13 @@ app.use(function (err, req, res, next) { // error handler middleware, called wit
   res.status(err.statusCode).send(err.message);
 });
 
+const db = require("./models");
+const PORT = process.env.PORT || 3001;
+const WebSocket = require('ws');
 
 //creating the constant connection between server and client
 db.sequelize.sync().then(function () {
-  let server = app.listen(PORT, function () {
+  const server = app.listen(PORT, function () {
     console.log("App listening on PORT " + PORT);
 
     const wss = new WebSocket.Server({ server });
