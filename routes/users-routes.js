@@ -32,6 +32,12 @@ module.exports = function (app) {
           secure: false, // true on deployment for https
           signed: false
         })
+        .cookie('userId', user.id, {
+          expires: new Date(Date.now() + 43200000),
+          httpOnly: false,
+          secure: false, // true on deployment for https
+          signed: false
+        })
         .send({
           message: 'Login successful.',
           loggedIn: true
@@ -74,8 +80,8 @@ module.exports = function (app) {
     res.status(200).send('Update successful.')
   }));
 
-  app.get(route + '/profile', wrap(async function (req, res, next) { // user profile
-    console.log(req.UserId);
+  app.get(route + '/profile/:UserId?', wrap(async function (req, res, next) { // user profile
+    console.log('req', req);
     const user = await db.User.findOne({
       where: { // get info of the communities the user belongs to
         id: req.UserId
