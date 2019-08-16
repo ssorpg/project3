@@ -28,9 +28,14 @@ module.exports = function (app) {
         .cookie('token', token, cookieOptions)
         .cookie('loggedIn', true, {
           expires: new Date(Date.now() + 43200000),
-          httpOnly: true,
-          secure: false, 
-        }).send('Login successful.');
+          httpOnly: false,
+          secure: false, // true on deployment for https
+          signed: false
+        })
+        .send({
+          message: 'Login successful.',
+          loggedIn: true
+        });
     }
 
     res.status(401).send('Incorrect username or password.');
@@ -49,7 +54,11 @@ module.exports = function (app) {
   }));
 
   app.get(route, wrap(async function (req, res, next) { // logout
-    res.status(200).clearCookie('token').send('Logout successful.');
+    res.status(200)
+      .clearCookie('token')
+      .clearCookie('loggedIn')
+      .clearCookie('userId')
+      .send('Logout successful.');
   }));
 
   app.put(route, wrap(async function (req, res, next) { // edit user

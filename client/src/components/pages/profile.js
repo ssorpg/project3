@@ -9,6 +9,8 @@ function Profile(req, res) {
   var id = parseInt(req.match.params.userId);
   console.log(req);
   async function getData() {
+    let loggedIn = document.cookie.split('=')[1]
+
     try {
       if (id !== undefined) {
         var results = await ax.get(`/api/users/profile/${id}`);
