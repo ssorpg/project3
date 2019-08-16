@@ -24,7 +24,24 @@ module.exports = function (app) {
     const token = await auth.makeToken(req, user);
 
     if (token) {
-      return res.status(200).cookie('token', token, cookieOptions).send('Login successful.');
+      return res.status(200)
+        .cookie('token', token, cookieOptions)
+        .cookie('loggedIn', true, {
+          expires: new Date(Date.now() + 43200000),
+          httpOnly: false,
+          secure: false, // true on deployment for https
+          signed: false
+        })
+        .cookie('userId', user.id, {
+          expires: new Date(Date.now() + 43200000),
+          httpOnly: false,
+          secure: false, // true on deployment for https
+          signed: false
+        })
+        .send({
+          message: 'Login successful.',
+          loggedIn: true
+        });
     }
 
     res.status(401).send('Incorrect username or password.');
@@ -43,7 +60,11 @@ module.exports = function (app) {
   }));
 
   app.get(route + '/logout', wrap(async function (req, res, next) { // logout
-    res.status(200).clearCookie('token').send('Logout successful.');
+    res.status(200)
+      .clearCookie('token')
+      .clearCookie('loggedIn')
+      .clearCookie('userId')
+      .send('Logout successful.');
   }));
 
   app.put(route, wrap(async function (req, res, next) { // edit user
@@ -59,7 +80,8 @@ module.exports = function (app) {
     res.status(200).send('Profile updated.')
   }));
 
-  app.get(route + '/profile', wrap(async function (req, res, next) { // user profile
+  app.get(route + '/profile/', wrap(async function (req, res, next) { // user profile
+    console.log('req', req);
     const user = await db.User.findOne({
       where: { // get info of the communities the user belongs to
         id: req.UserId
@@ -70,7 +92,7 @@ module.exports = function (app) {
       }]
     });
 
-    res.status(200).json(user.communities);
+    res.status(200).json(user);
   }));
 
   app.delete(route, wrap(async function (req, res, next) { // delete user

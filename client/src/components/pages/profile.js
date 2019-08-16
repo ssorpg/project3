@@ -1,40 +1,86 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { Container, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
 import Card from '../card.js';
+import ax from 'axios';
 
-function Profile() {
-  return (
-    <div>
-      <Card cardClass={
-        "text-dark text-left col-12 card"
-      }>
-        <img className="card-img-top" src="http://place-hold.it/200" alt="Card image cap" style={{height: '200px', width: '200px', padding: '20px'}}/>
-        <div class="card-body">
-          <header>
-            <h5 class="card-title">Username</h5>
-            <h6 class="card-subtitle">Full Name</h6>
-          </header>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userData: {},
+      userId: parseInt(props.match.params.UserId)
+    };
+  }
 
-          <div className="networks">
-            <h5 class="card-title">Your Networks</h5>
-            <ListGroup>
-              <ListGroupItem>
-                <a href="#">The Jackson Family Network</a>
-              </ListGroupItem>
-              <ListGroupItem>
-                <a href="#">Walmart 703</a>
-              </ListGroupItem>
-              <ListGroupItem>
-                <a href="#">Meme-a-holics 101</a>
-              </ListGroupItem>
-            </ListGroup>
-          </div>
-        </div>
-      </Card>
+  componentDidMount(props) {
+    this.GetData(props);
+  }
+
+  GetData = async (props) => {
+    console.log('dad')
+    try {
+      if (isNaN(this.state.userId) == true) {
+        console.log('checking logged in user')
+        var results = await ax.get(`/api/users/profile/`);
+      } else {
+        console.log('checking someone else')
+        // todo use new profile route for other users as api/users/profile is the logged in user view
+        // var results = await ax.get(`/api/users/profile/${userId}`);
+      }
+
+      this.setState({userData: results});
+    } catch (error) {
+      console.log('Error :', error, '\n', props);
+      // res.redirect('/');
+    }
+  }
+  render() {
+    return (
+      <div>
+        {this.state.userData.data !== undefined ?
+          <Card cardClass={
+            "text-dark text-left col-12 card"
+          }>
+
+            <img className="card-img-top" src="http://place-hold.it/200" alt="Card image cap" style={{ height: '200px', width: '200px', padding: '20px' }} />
+            <div class="card-body">
+              <header>
+                <h5 class="card-title">
+                  {this.state.userData.data.name}
+                </h5>
+                <h6 class="card-subtitle">
+                  {this.state.userData.data.name}
+                </h6>
+              </header>
+              <p class="card-text">
+              {this.state.userData.data.bio}
+              </p>
+
+              <div className="networks">
+                <h5 class="card-title">Your Networks</h5>
+                {this.state.userData.data.communities.length > 0 ?
+                  <ListGroup>
+
+                    {this.state.userData.
+                    data.communities.map(item => (
+                      <ListGroupItem>
+                        <a href="#">{item}</a>
+                      </ListGroupItem>
+                    ))
+                    }
+                </ListGroup>
+                  :
+                  ''
+                }
+              </div>
+            </div>
+          </Card>
+        :
+        <h1>Nothing Found.</h1>
+        }
     </div>
-  )
-
+    )
+  }
 }
 
 export default Profile;
