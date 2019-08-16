@@ -1,8 +1,6 @@
 import React from 'react';
-import { Jumbotron, Row, Container, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { LoginForm } from '../form';
-import { LoginButton, Register } from '../buttons';
-import { Link } from 'react-router-dom';
 import '../../App.css';
 
 function Login() {
