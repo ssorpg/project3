@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Container, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
+import React from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
 import Card from '../card.js';
 
 export default function Feed(props) {
