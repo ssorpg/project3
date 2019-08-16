@@ -11,12 +11,13 @@ class Header extends Component {
     render() {
         return (
             <Navbar bg="light" expand="lg" >
-                <Navbar.Brand href="#home">TPN</Navbar.Brand>
+                <Navbar.Brand href="/">TPN</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto nav navbar-nav navbar-left">
-                        <Nav.Link href="#home">Feed</Nav.Link>
-                        <Nav.Link href="#link">Profile</Nav.Link>
+                        <Nav.Link href="/feed">Feed</Nav.Link>
+                        <Nav.Link href="/profile">Profile</Nav.Link>
+                        <Nav.Link href="/chat">Chat</Nav.Link>
                         <NavDropdown title="Communities" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
@@ -26,8 +27,8 @@ class Header extends Component {
                         </NavDropdown>
                     </Nav>
                     <Nav className="nav navbar-nav navbar-right">
-                        <Button>Login</Button>
-                        <Button onClick={this.logout}>Logout</Button>
+                        <Button style={{margin: '10px'}}>Login</Button>
+                        <Button style={{margin: '10px'}} onClick={this.logout}>Logout</Button>
                         <Form inline>
                             {/* // TODO make search route to handle searches */}
                             <FormControl type="text" placeholder="Search" className="mr-sm-2" />
