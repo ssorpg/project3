@@ -80,7 +80,7 @@ module.exports = function (app) {
     res.status(200).send('Update successful.')
   }));
 
-  app.get(route + '/profile/:UserId?', wrap(async function (req, res, next) { // user profile
+  app.get(route + '/profile/', wrap(async function (req, res, next) { // user profile
     console.log('req', req);
     const user = await db.User.findOne({
       where: { // get info of the communities the user belongs to
