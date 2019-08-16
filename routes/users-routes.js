@@ -24,82 +24,76 @@ module.exports = function (app) {
     const token = await auth.makeToken(req, user);
 
     if (token) {
-      console.log(token);
-      res.status(200).cookie('token', token, cookieOptions).send({
-        message: 'Login successful.',
-        userId: user.id // dont need when user routes updated
-      });
+      return res.status(200).cookie('token', token, cookieOptions).send('Login successful.');
     }
-    else {
-      res.status(401).send('Incorrect username or password.');
-    }
+
+    res.status(401).send('Incorrect username or password.');
   }));
 
   app.post(route + '/register', wrap(async function (req, res, next) { // register user
     const password = await auth.hashPass(req);
 
-    let results = await db.User.create({
+    await db.User.create({
       name: req.body.name,
       email: req.body.email,
       password: password
     });
-    
-    console.log(results);
-    res.status(200).send({
-      messate: 'Account creation successful!',
-      response: results
-    });
+
+    res.status(200).send('Account creation successful!');
   }));
 
   app.get(route, wrap(async function (req, res, next) { // logout
-      res.status(200).clearCookie('token').send('Logout successful.');
+    res.status(200).clearCookie('token').send('Logout successful.');
   }));
 
-  app.put(route + '/:userID', wrap(async function (req, res, next) { // edit user
-    if (req.userID === parseInt(req.params.userID)) {
-      await db.User.update({
-        // some stuff
-      },
-        {
-          where: {
-            id: req.params.userID
-          }
-        });
-
-      res.status(200).send('Update successful.')
-    }
-    else {
-      res.status(401).send('Forbidden');
-    }
-  }));
-
-  app.delete(route + '/:userID', wrap(async function (req, res, next) { // delete user
-    if (req.userID === parseInt(req.params.userID)) {
-      await db.User.destroy({ where: { id: req.params.userID } });
-
-      res.status(200).send('Account successfully deleted.')
-    }
-    else {
-      res.status(401).send('Forbidden');
-    }
-  }));
-
-  app.get(route + '/:userID', wrap(async function (req, res, next) { // user dashboard
-    if (req.userID === parseInt(req.params.userID)) {
-      const [user] = await db.User.findAll({
-        where: { // get info of the communities the user belongs to
-          id: req.params.userID
-        },
-        include: [{
-          model: db.Community,
-          as: 'communities'
-        }]
+  app.put(route, wrap(async function (req, res, next) { // edit user
+    await db.User.update({
+      // some stuff
+    },
+      {
+        where: {
+          id: req.userID
+        }
       });
 
-      res.status(200).json(user.communities);
-    }
-    else {
-      res.status(401).send('Forbidden');
-    }
+    res.status(200).send('Update successful.')
+  }));
+
+  app.get(route + '/profile', wrap(async function (req, res, next) { // user profile
+    const [user] = await db.User.findAll({
+      where: { // get info of the communities the user belongs to
+        id: req.userID
+      },
+      include: [{
+        model: db.Community,
+        as: 'communities'
+      }]
+    });
+
+    res.status(200).json(user.communities);
+  }));
+
+  // app.get(route + '/profile/:userID', wrap(async function (req, res, next) { // another user's profile
+  //   const [user] = await db.User.findAll({
+  //     where: { // get info of the communities the user belongs to
+  //       id: req.params.userID
+  //     },
+  //     include: [{
+  //       model: db.Community,
+  //       as: 'communities'
+  //     }]
+  //   });
+
+  //   res.status(200).json(user.communities);
+  // }));
+
+  app.delete(route, wrap(async function (req, res, next) { // delete user
+    await db.User.destroy({
+      where: {
+        id: req.userID
+      }
+    });
+
+    res.status(200).send('Account successfully deleted.')
   }));
 };
