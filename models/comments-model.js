@@ -15,7 +15,7 @@ module.exports = function (sequelize, DataTypes) {
                 }
             }
         },
-        authorId: {
+        AuthorId: {
             type: DataTypes.INTEGER,
             allowNull: false
         },

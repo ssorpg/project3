@@ -12,7 +12,7 @@ module.exports = {
         const doesMatch = bcrypt.compare(req.body.password, user.password);
 
         if (doesMatch) {
-            return jwt.sign({ userID: user.id }, process.env.JWT_SECRET, { expiresIn: 43200 });
+            return jwt.sign({ UserId: user.id }, process.env.JWT_SECRET, { expiresIn: 43200 });
         }
     }
 }

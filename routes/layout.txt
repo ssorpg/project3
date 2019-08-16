@@ -4,7 +4,7 @@
     post - login
     post - register
 
-/api/users/:userID
+/api/users/:UserId
     get/delete? - logout
     put - edit
     delete - delete account
@@ -19,19 +19,19 @@
     get - get all (public) communities (model where public: true/false)
 
 
-/api/communities/:commID
+/api/communities/:CommunityId
     get
     delete
     
-/api/communities/:commID/users/:userID
+/api/communities/:CommunityId/users/:UserId
     post - join
     delete - leave
 
-/api/communities/:commID/events
+/api/communities/:CommunityId/events
     get - get all events for this community
     post - create
 
-/api/communities/:commID/events/:eventID
+/api/communities/:CommunityId/events/:EventId
     get 
     delete 
     put - edit
@@ -42,31 +42,31 @@
 
 -- ALL ONE ROUTE
 
-/api/posts?commID=
+/api/posts?CommunityId=
     get
     post - create feed post
 
-/api/posts?commID=&userID=
+/api/posts?CommunityId=&UserId=
     get
     post - create wall post
 
-/api/posts?commID=&eventID=
+/api/posts?CommunityId=&EventId=
     get
     post - create event post
 
 -- END ROUTE
 
-/api/posts/:postID
+/api/posts/:PostId
     delete
     put - edit
 
-/api/posts/:postID/:vote
+/api/posts/:PostId/:vote
     put - vote on post
 
-/api/posts/:postID/comments
+/api/posts/:PostId/comments
     get
     post - comment on post
 
-/api/posts/:postID/comments/:commeID
+/api/posts/:PostId/comments/:CommentId
     delete
     put - edit
