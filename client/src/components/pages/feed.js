@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Container, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
+import React from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
 import Card from '../card.js';
 import './images/icons/svg/star-empty.svg';
 import './images/icons/svg/star-full.svg';
@@ -38,7 +38,7 @@ export default function Feed(props) {
                       borderRadius: '150px',
                       overflow: 'hidden'
                     }}>
-                    <img src="http://place-hold.it/150" alt="Picture of a guy" style={{maxWidth: '100%'}} />
+                    <img src="http://place-hold.it/150" alt="of a guy" style={{maxWidth: '100%'}} />
                   </figure>
                 </Col>
                 <Col className="col-9">
