@@ -42,7 +42,7 @@ module.exports = function (app) {
     res.status(200).send('Account creation successful!');
   }));
 
-  app.get(route, wrap(async function (req, res, next) { // logout
+  app.get(route + '/logout', wrap(async function (req, res, next) { // logout
     res.status(200).clearCookie('token').send('Logout successful.');
   }));
 
@@ -52,7 +52,7 @@ module.exports = function (app) {
     },
       {
         where: {
-          id: req.userID
+          id: req.UserId
         }
       });
 
@@ -60,9 +60,9 @@ module.exports = function (app) {
   }));
 
   app.get(route + '/profile', wrap(async function (req, res, next) { // user profile
-    const [user] = await db.User.findAll({
+    const user = await db.User.findOne({
       where: { // get info of the communities the user belongs to
-        id: req.userID
+        id: req.UserId
       },
       include: [{
         model: db.Community,
@@ -73,10 +73,10 @@ module.exports = function (app) {
     res.status(200).json(user.communities);
   }));
 
-  // app.get(route + '/profile/:userID', wrap(async function (req, res, next) { // another user's profile
+  // app.get(route + '/profile/:UserId', wrap(async function (req, res, next) { // another user's profile
   //   const [user] = await db.User.findAll({
   //     where: { // get info of the communities the user belongs to
-  //       id: req.params.userID
+  //       id: req.params.UserId
   //     },
   //     include: [{
   //       model: db.Community,
@@ -90,7 +90,7 @@ module.exports = function (app) {
   app.delete(route, wrap(async function (req, res, next) { // delete user
     await db.User.destroy({
       where: {
-        id: req.userID
+        id: req.UserId
       }
     });
 

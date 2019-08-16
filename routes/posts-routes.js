@@ -3,16 +3,16 @@ const db = require("../models");
 const route = '/api/posts';
 const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handling
 
-module.exports = function (app) { // route looks like: /api/posts?commID=2&userID=4
+module.exports = function (app) { // route looks like: /api/posts?CommunityId=2&UserId=4
   app.get(route, wrap(async function (req, res, next) {   // get all posts of type implied by provided queryID(s)
-    const commID = req.query.commID;    // all posts have commID, but if only has commID it's a feed post,
-    const userID = req.query.userID;    // if has userID it's a wall post,
-    const eventID = req.query.eventID;  // else if has eventID it's an event post
+    const CommunityId = req.query.CommunityId;    // all posts have CommunityId, but if only has CommunityId it's a feed post,
+    const UserId = req.query.UserId;    // if has UserId it's a wall post,
+    const EventId = req.query.EventId;  // else if has EventId it's an event post
 
-    if (req.userID === parseInt(userID)) {
+    if (req.UserId === parseInt(UserId)) {
       const communities = await db.CommunityUsers.findAll({
         where: { // get info of the communities the user belongs to
-          userId: userID
+          UserId: UserId
         },
         include: [{
           model: Community
@@ -25,11 +25,11 @@ module.exports = function (app) { // route looks like: /api/posts?commID=2&userI
   }));
 
   app.post(route, wrap(async function (req, res, next) { // make post of type implied by provided queryID(s)
-    const commID = req.query.commID;
-    const userID = req.query.userID;
-    const eventID = req.query.eventID;
+    const CommunityId = req.query.CommunityId;
+    const UserId = req.query.UserId;
+    const EventId = req.query.EventId;
 
-    if (req.tokenData.userID === parseInt(req.params.userID)) {
+    if (req.tokenData.UserId === parseInt(req.params.UserId)) {
       // do stuff
     }
     else {
@@ -37,8 +37,8 @@ module.exports = function (app) { // route looks like: /api/posts?commID=2&userI
     }
   }));
 
-  app.delete(route + '/:postID', wrap(async function (req, res, next) {
-    if (req.tokenData.userID === parseInt(req.params.userID)) {
+  app.delete(route + '/:PostId', wrap(async function (req, res, next) {
+    if (req.tokenData.UserId === parseInt(req.params.UserId)) {
       // do stuff
     }
     else {
@@ -46,8 +46,8 @@ module.exports = function (app) { // route looks like: /api/posts?commID=2&userI
     }
   }));
 
-  app.put(route + '/:postID', wrap(async function (req, res, next) { // edit post
-    if (req.tokenData.userID === parseInt(req.params.userID)) {
+  app.put(route + '/:PostId', wrap(async function (req, res, next) { // edit post
+    if (req.tokenData.UserId === parseInt(req.params.UserId)) {
       // do stuff
     }
     else {
@@ -55,8 +55,8 @@ module.exports = function (app) { // route looks like: /api/posts?commID=2&userI
     }
   }));
 
-  app.get(route + '/:postID/comments', wrap(async function (req, res, next) { // get comments on post
-    if (req.tokenData.userID === parseInt(req.params.userID)) {
+  app.get(route + '/:PostId/comments', wrap(async function (req, res, next) { // get comments on post
+    if (req.tokenData.UserId === parseInt(req.params.UserId)) {
       // do stuff
     }
     else {
@@ -64,8 +64,8 @@ module.exports = function (app) { // route looks like: /api/posts?commID=2&userI
     }
   }));
 
-  app.post(route + '/:postID/comments', wrap(async function (req, res, next) { // make comment on post
-    if (req.tokenData.userID === parseInt(req.params.userID)) {
+  app.post(route + '/:PostId/comments', wrap(async function (req, res, next) { // make comment on post
+    if (req.tokenData.UserId === parseInt(req.params.UserId)) {
       // do stuff
     }
     else {
@@ -73,8 +73,8 @@ module.exports = function (app) { // route looks like: /api/posts?commID=2&userI
     }
   }));
 
-  app.delete(route + '/:postID/comments/:commeID', wrap(async function (req, res, next) {
-    if (req.tokenData.userID === parseInt(req.params.userID)) {
+  app.delete(route + '/:PostId/comments/:CommentId', wrap(async function (req, res, next) {
+    if (req.tokenData.UserId === parseInt(req.params.UserId)) {
       // do stuff
     }
     else {
@@ -82,8 +82,8 @@ module.exports = function (app) { // route looks like: /api/posts?commID=2&userI
     }
   }));
 
-  app.put(route + '/:postID/comments/:commeID', wrap(async function (req, res, next) { // edit comment
-    if (req.tokenData.userID === parseInt(req.params.userID)) {
+  app.put(route + '/:PostId/comments/:CommentId', wrap(async function (req, res, next) { // edit comment
+    if (req.tokenData.UserId === parseInt(req.params.UserId)) {
       // do stuff
     }
     else {
