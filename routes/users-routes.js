@@ -74,29 +74,8 @@ module.exports = function (app) {
     res.status(200).send('Update successful.')
   }));
 
-<<<<<<< HEAD
-  app.get(route + '/profile/:userId?',
-    wrap(async function ({params: {userId}}, res, next) { // user profile
-      console.log('profile!')
-      console.log('id', userId);
-      try {
-        const [user] = await db.User.findAll({
-          where: { // get info of the communities the user belongs to
-            id: userId
-          },
-          include: [{
-            model: db.Community,
-            as: 'communities'
-          }]
-        });
-
-        res.status(200).json(user);
-      } catch(error) {
-        console.log('front end error', error);
-        res.sendStatus(401);
-      }
-=======
   app.get(route + '/profile', wrap(async function (req, res, next) { // user profile
+    console.log(req.UserId);
     const user = await db.User.findOne({
       where: { // get info of the communities the user belongs to
         id: req.UserId
@@ -107,8 +86,7 @@ module.exports = function (app) {
       }]
     });
 
-    res.status(200).json(user.communities);
->>>>>>> master
+    res.status(200).json(user);
   }));
 
   // app.get(route + '/profile/:UserId', wrap(async function (req, res, next) { // another user's profile

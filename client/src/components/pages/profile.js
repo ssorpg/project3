@@ -25,13 +25,8 @@ function Profile(req, res) {
   }
 
   return (
-<<<<<<< HEAD
     <div onLoad={getData}>
       <Card cardClass = {
-=======
-    <div>
-      <Card cardClass={
->>>>>>> master
         "text-dark text-left col-12 card"
       }>
         <img className="card-img-top" src="http://place-hold.it/200" alt="Card image cap" style={{height: '200px', width: '200px', padding: '20px'}}/>

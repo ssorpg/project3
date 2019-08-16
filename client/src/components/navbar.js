@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Nav, Navbar, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
+import { Nav, Navbar, NavDropdown, Form, FormControl, Button, } from 'react-bootstrap';
 import ax from 'axios';
 
 class Header extends Component {
     async logout() {
-      let res = await ax.get('/api/users');
+      let res = await ax.get('/api/users/logout');
       // if(res.status === 200 &&)
     }
 
