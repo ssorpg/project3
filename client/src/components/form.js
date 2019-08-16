@@ -5,29 +5,38 @@ import ax from 'axios';
 import Login from './pages/login';
 
 export class LoginForm extends Component {
-  constructor(props) {
-    super(props);
-    this.form = React.createRef();
-    this.render.bind(this);
+  handleSubmit = (event) => {
+    event.preventDefault();
+    let formData = event.target;
+    let inputs = formData.getElementsByTagName('input');
+    let postData = {};
+
+    for (let i = 0; i < inputs.length; i++) {
+      postData[inputs[i].name] = inputs[i].value;
+    }
+    console.log(postData);
+    this.login(postData);
   }
-  componentDidMount() {
-    this.form.current.addEventListener('submit', event => {
-      event.preventDefault();
-      console.log('submitted');
-    });
+
+  login = async (postData) => {
+    let res = await ax.post('/api/users', postData);
+
+    if (res.status === 200) {
+      window.location = `/profile/`;
+    }
   }
 
   render() {
     return (
       <div>
-        <Form ref={this.form}>
+        <Form onSubmit={this.handleSubmit}>
           <Form.Group controlId="formGroupEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" {...this.props} />
+            <Form.Control type="email" name="email" placeholder="Enter email" {...this.props} />
           </Form.Group>
           <Form.Group controlId="formGroupPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" {...this.props} />
+            <Form.Control type="password" name="pasword" placeholder="Password" {...this.props} />
           </Form.Group>
           <LoginButton />
           <Register />
@@ -75,7 +84,7 @@ export class RegisterForm extends Component {
   render() {
     return (
       <div>
-        <Form ref={this.form} onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit}>
           <Form.Group controlId="formGroupEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control type="email" name="email" placeholder="Enter email" {...this.props} />
@@ -110,7 +119,7 @@ export class RegisterForm extends Component {
               </Dropdown.Menu>
             </Dropdown>
           </Form.Group>
-          <LoginButton onClick={this.handleSubmit} />
+          <LoginButton />
         </Form>
       </div>
     )
