@@ -17,9 +17,12 @@ function handleSubmit(formData) {
 }
 async function login(email, pass) {
     let res = await ax.post('/api/users', { email: email, password: pass });
+    // todo dont need user id anymore on profile page we'll check if logged in
+    // todo profile page decodes hash and gets then serves user data when go to /profile/
+    // todo if we add an id to /profile/45 we look for this user and if you share a community and then show data
     console.log(res.data.userId);
     if (res.status === 200) {
-        window.location = `/profile/${res.data.userId}`;
+        window.location = `/profile/`;
     }
 }
 
