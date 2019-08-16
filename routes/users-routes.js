@@ -24,7 +24,13 @@ module.exports = function (app) {
     const token = await auth.makeToken(req, user);
 
     if (token) {
-      return res.status(200).cookie('token', token, cookieOptions).send('Login successful.');
+      return res.status(200)
+        .cookie('token', token, cookieOptions)
+        .cookie('loggedIn', true, {
+          expires: new Date(Date.now() + 43200000),
+          httpOnly: true,
+          secure: false, 
+        }).send('Login successful.');
     }
 
     res.status(401).send('Incorrect username or password.');
@@ -59,18 +65,26 @@ module.exports = function (app) {
     res.status(200).send('Update successful.')
   }));
 
-  app.get(route + '/profile', wrap(async function (req, res, next) { // user profile
-    const [user] = await db.User.findAll({
-      where: { // get info of the communities the user belongs to
-        id: req.userID
-      },
-      include: [{
-        model: db.Community,
-        as: 'communities'
-      }]
-    });
+  app.get(route + '/profile/:userId?',
+    wrap(async function ({params: {userId}}, res, next) { // user profile
+      console.log('profile!')
+      console.log('id', userId);
+      try {
+        const [user] = await db.User.findAll({
+          where: { // get info of the communities the user belongs to
+            id: userId
+          },
+          include: [{
+            model: db.Community,
+            as: 'communities'
+          }]
+        });
 
-    res.status(200).json(user.communities);
+        res.status(200).json(user);
+      } catch(error) {
+        console.log('front end error', error);
+        res.sendStatus(401);
+      }
   }));
 
   // app.get(route + '/profile/:userID', wrap(async function (req, res, next) { // another user's profile

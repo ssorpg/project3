@@ -1,10 +1,29 @@
 import React, { Component } from 'react';
 import {Container, Row, Col, ListGroup, ListGroupItem} from 'react-bootstrap';
 import Card from '../card.js';
+import ax from 'axios';
 
-function Profile() {
+// function Profile({match: {params: {userId}}}) {
+function Profile(req, res) {
+  // console.log(parseInt(req.match.params.userId));
+  var id = parseInt(req.match.params.userId);
+  console.log(req);
+  async function getData() {
+    try {
+      if (id !== undefined) {
+        var results = await ax.get(`/api/users/profile/${id}`);
+      } else {
+        var results = await ax.get(`/api/users/profile/`);
+      }
+      console.log('res', results);
+    } catch (error) {
+      console.log('Error :', error, '\n', res);
+      // res.redirect('/');
+    }
+  }
+
   return (
-    <div>
+    <div onLoad={getData}>
       <Card cardClass = {
         "text-dark text-left col-12 card"
     }>
