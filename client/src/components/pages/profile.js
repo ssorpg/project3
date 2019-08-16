@@ -6,16 +6,33 @@ import ax from 'axios';
 // function Profile({match: {params: {userId}}}) {
 function Profile(req, res) {
   // console.log(parseInt(req.match.params.userId));
-  var id = parseInt(req.match.params.userId);
-  console.log(req);
-  async function getData() {
-    let loggedIn = document.cookie.split('=')[1]
+  let userId = parseInt(req.match.params.UserId);
 
+  if (document.cookie.indexOf('loggedIn') !== -1) {
+    var cookies = document.cookie.split(';');
+    var start = cookies.indexOf('UserId');
+    var loggedInUserId;
+
+    cookies.forEach(cookie => {
+      if (cookie.indexOf('userId') !== -1) {
+        loggedInUserId = parseInt(cookie.split('=')[1]);
+      }
+    })
+  }
+  
+  // console.log(loggedInUserId);
+  async function getData() {
+    let loggedIn = document.cookie.split('=')[1];
+    if (!loggedIn) window.location = '/';
+    console.log(isNaN(userId));
+    console.log(loggedInUserId);
     try {
-      if (id !== undefined) {
-        var results = await ax.get(`/api/users/profile/${id}`);
+      if (isNaN(userId) == true) {
+        console.log('checking logged in user')
+        var results = await ax.get(`/api/users/profile/${loggedInUserId}`);
       } else {
-        var results = await ax.get(`/api/users/profile/`);
+        console.log('checking someone else')
+        var results = await ax.get(`/api/users/profile/${userId}`);
       }
       console.log('res', results);
     } catch (error) {
