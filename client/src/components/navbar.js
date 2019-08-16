@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { Nav, Navbar, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
+import ax from 'axios';
 
 class Header extends Component {
+    async logout() {
+      let res = await ax.get('/api/users');
+      // if(res.status === 200 &&)
+    }
+
     render() {
         return (
             <Navbar bg="light" expand="lg" >
@@ -21,7 +27,7 @@ class Header extends Component {
                     </Nav>
                     <Nav className="nav navbar-nav navbar-right">
                         <Button>Login</Button>
-                        <Button>Logout</Button>
+                        <Button onClick={this.logout}>Logout</Button>
                         <Form inline>
                             {/* // TODO make search route to handle searches */}
                             <FormControl type="text" placeholder="Search" className="mr-sm-2" />
