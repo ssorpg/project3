@@ -1,6 +1,7 @@
 import React, { Component, useState } from 'react';
 import { Container, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
 import Card from '../card.js';
+import UserAuth from '../utils/userauth';
 import ax from 'axios';
 
 class Profile extends Component {
@@ -12,13 +13,16 @@ class Profile extends Component {
     };
   }
 
-  componentDidMount(props) {
-    this.GetData(props);
+  componentDidMount() {
+    this.GetData();
   }
 
-  GetData = async (props) => {
+  GetData = async () => {
+    UserAuth();
+    return;
     try {
-      if (isNaN(this.state.userId) === true) {
+      if (UserAuth() === true) {
+        console.log('checking logged in user')
         var results = await ax.get(`/api/users/profile/`);
       } else {
         console.log('checking someone else')
@@ -28,7 +32,7 @@ class Profile extends Component {
 
       this.setState({userData: results});
     } catch (error) {
-      console.log('Error :', error, '\n', props);
+      console.log('Error :', error, '\n');
       window.location = '/';
     }
   }

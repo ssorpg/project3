@@ -69,7 +69,7 @@ module.exports = function (app) {
 
   app.put(route, wrap(async function (req, res, next) { // edit user
     await db.User.update({
-      // some stuff
+      // req.body
     },
       {
         where: {
@@ -77,7 +77,7 @@ module.exports = function (app) {
         }
       });
 
-    res.status(200).send('Update successful.')
+    res.status(200).send('Profile updated.')
   }));
 
   app.get(route + '/profile/', wrap(async function (req, res, next) { // user profile
@@ -94,20 +94,6 @@ module.exports = function (app) {
 
     res.status(200).json(user);
   }));
-
-  // app.get(route + '/profile/:UserId', wrap(async function (req, res, next) { // another user's profile
-  //   const [user] = await db.User.findAll({
-  //     where: { // get info of the communities the user belongs to
-  //       id: req.params.UserId
-  //     },
-  //     include: [{
-  //       model: db.Community,
-  //       as: 'communities'
-  //     }]
-  //   });
-
-  //   res.status(200).json(user.communities);
-  // }));
 
   app.delete(route, wrap(async function (req, res, next) { // delete user
     await db.User.destroy({
