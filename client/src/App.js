@@ -10,7 +10,7 @@ import Friends from './components/pages/friends';
 import Chat from './components/pages/chat';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './css/styles.css';
-
+import ImageUpload from './components/imageupload';
 
 class TPN extends Component {
   render() {
@@ -29,6 +29,7 @@ class TPN extends Component {
             </Switch>
           </div>
         </Router>
+        <ImageUpload />
         <Footer />
       </div>
     );

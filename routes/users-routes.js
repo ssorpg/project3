@@ -101,7 +101,7 @@ module.exports = function (app) {
         id: req.UserId
       }
     });
-
     res.status(200).send('Account successfully deleted.')
   }));
+
 };
