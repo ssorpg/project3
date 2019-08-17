@@ -81,7 +81,6 @@ module.exports = function (app) {
   }));
 
   app.get(route + '/profile/', wrap(async function (req, res, next) { // user profile
-    console.log('req', req);
     const user = await db.User.findOne({
       where: { // get info of the communities the user belongs to
         id: req.UserId

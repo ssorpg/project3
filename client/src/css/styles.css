@@ -31,3 +31,12 @@
 #friends .card .card-nav button.selected:before {
   content: url('../images/icons/svg/check-empty.svg');
 }
+
+#popover {
+  display: none;
+  position: absolute;
+  top: 15vh;
+  left: 50%;
+  max-width: 55%;
+  transform: translateX(-50%);
+}

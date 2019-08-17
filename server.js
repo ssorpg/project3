@@ -16,7 +16,6 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handling
 
 app.use(wrap(async (req, res, next) => {
-  console.log('are ya logged in?!');
   const { token } = req.signedCookies;
 
   if (token) {
