@@ -10,15 +10,21 @@ import Friends from './components/pages/friends';
 import Chat from './components/pages/chat';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './css/styles.css';
-
+import PrivateRoutes from './components/utils/privateroutes';
 
 class TPN extends Component {
+  constructor() {
+    super();
+  }
+  componentDidMount() {
+    PrivateRoutes();
+  }
   render() {
     return (
       <div>
         <Nav />
         <Router>
-          <div className="App">
+          <div className="App" id="App">
             <Switch>
               <Route exact path="/" component={HomePage} />
               <Route exact path="/register" component={RegisterPage} />
@@ -30,6 +36,14 @@ class TPN extends Component {
           </div>
         </Router>
         <Footer />
+        <aside id="popover" className="card bg-danger text-center" style={{
+          display: 'none', 
+          position: 'absolute',
+          top: '15vh',
+          left: '25vw'
+          }}>
+          <h1 className="card-title"></h1>
+        </aside>
       </div>
     );
   };
