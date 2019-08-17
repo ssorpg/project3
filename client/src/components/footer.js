@@ -5,7 +5,7 @@ import Chat from './pages/chat';
 export default class Footer extends Component {
 
     componentDidMount() {
-        console.log('testing',this.state);
+        //console.log('testing',this.state);
     }
 
     render() {

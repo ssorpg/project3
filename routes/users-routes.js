@@ -104,4 +104,9 @@ module.exports = function (app) {
 
     res.status(200).send('Account successfully deleted.')
   }));
+
+  app.post('/api/images', (req, res) => {
+    console.log(req);
+  });
+
 };

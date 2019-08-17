@@ -1,16 +1,25 @@
 import React, { Component } from 'react'
-import ChatInput from './chatinput'
-import ChatMessage from './chatmessage'
+import ChatInput from '../chatinput'
+import ChatMessage from '../chatmessage'
 
 const URL = 'ws://localhost:3001'
 
 class Chat extends Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     userData: {},
+  //     userId: parseInt(props.match.params.UserId),
+  //   };
+  // }
+
+  ws = new WebSocket(URL)
+
   state = {
-    name: 'Bob',
+    name: this.props,
     messages: [],
   }
 
-  ws = new WebSocket(URL)
 
   componentDidMount() {
     this.ws.onopen = () => {
