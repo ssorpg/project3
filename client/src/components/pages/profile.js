@@ -28,7 +28,6 @@ class Profile extends Component {
         // todo use new profile route for other users as api/users/profile is the logged in user view
         // var results = await ax.get(`/api/users/profile/${userId}`);
       }
-
       this.setState({ userData: results });
     } catch (error) {
       console.log('Error :', error, '\n', props);
@@ -81,7 +80,6 @@ class Profile extends Component {
           :
           ""
         }
-        <ImageUpload />
       </div>
     )
   }

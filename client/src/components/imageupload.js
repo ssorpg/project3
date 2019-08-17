@@ -15,9 +15,16 @@ export default class ImageUpload extends Component {
             pictures: this.state.pictures.concat(picture),
         }, () => {
             let fd = new FormData();
-            fd.append('image', this.state.pictures[0], this.state.pictures[0].name);
+            console.log(this.state.pictures);
+            fd.append('image', this.state.pictures[0]);
+            //console.log(fd);
 
-            axios.post('/api/images', fd).then(res => {
+            axios.post(`/api/images`, {
+                type: 'post',
+                data: fd,
+                contentType: false,
+                processData: false,
+            }).then(res => {
                 console.log(res);
             });
         });
