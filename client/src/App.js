@@ -10,7 +10,7 @@ import Friends from './components/pages/friends';
 import Chat from './components/pages/chat';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './css/styles.css';
-import PrivateRoutes from './components/utils/privateroutes';
+import PrivateRoutes from './utils/privateroutes';
 
 class TPN extends Component {
   constructor() {
