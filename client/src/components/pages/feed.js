@@ -24,7 +24,6 @@ export default class Feed extends Component {
       let community = await ax.get('/api/communities/1');  
     } catch (error) {
       console.log(error);
-      window.location = '/';
     }
     
   }

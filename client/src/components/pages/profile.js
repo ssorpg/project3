@@ -1,7 +1,6 @@
 import React, { Component, useState } from 'react';
 import { Container, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
 import Card from '../card.js';
-import UserAuth from '../utils/userauth';
 import ax from 'axios';
 
 class Profile extends Component {
@@ -18,22 +17,11 @@ class Profile extends Component {
   }
 
   GetData = async () => {
-    UserAuth();
-    return;
     try {
-      if (UserAuth() === true) {
-        console.log('checking logged in user')
-        var results = await ax.get(`/api/users/profile/`);
-      } else {
-        console.log('checking someone else')
-        // todo use new profile route for other users as api/users/profile is the logged in user view
-        // var results = await ax.get(`/api/users/profile/${userId}`);
-      }
-
+      var results = await ax.get(`/api/users/profile/`);
       this.setState({userData: results});
     } catch (error) {
       console.log('Error :', error, '\n');
-      window.location = '/';
     }
   }
   render() {
