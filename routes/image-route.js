@@ -4,7 +4,7 @@ var multer = require('multer')({ dest: 'public/user/images' });
 
 module.exports = app => {
     app.post('/api/images', multer.any(), async (req, res) => {
-        console.log('testing',req);
+        console.log('testing', req);
         let fileinfo = req.files[0];
 
         //fileinfo.userid = req.params.userid;
@@ -12,5 +12,5 @@ module.exports = app => {
 
         res.json(image);
         //res.json('success');
-      });
+    });
 }
