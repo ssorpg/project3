@@ -35,6 +35,7 @@ class TPN extends Component {
             </Switch>
           </div>
         </Router>
+        <ImageUpload />
         <Footer />
         <aside id="popover" className="card bg-danger text-center">
           <h3 className="card-title"></h3>

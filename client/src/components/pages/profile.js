@@ -1,7 +1,8 @@
 import React, { Component, useState } from 'react';
-import { Container, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { ListGroup, ListGroupItem } from 'react-bootstrap';
 import Card from '../card.js';
 import ax from 'axios';
+import ImageUpload from '../imageupload';
 
 class Profile extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class Profile extends Component {
       console.log('Error :', error, '\n');
     }
   }
+
   render() {
     return (
       <div>
@@ -43,7 +45,7 @@ class Profile extends Component {
                 </h6>
               </header>
               <p class="card-text">
-              {this.state.userData.data.bio}
+                {this.state.userData.data.bio}
               </p>
 
               <div className="networks">
@@ -52,23 +54,23 @@ class Profile extends Component {
                   <ListGroup>
 
                     {this.state.userData.
-                    data.communities.map(item => (
-                      <ListGroupItem>
-                        <a href="#">{item}</a>
-                      </ListGroupItem>
-                    ))
+                      data.communities.map(item => (
+                        <ListGroupItem>
+                          <a href="#">{item}</a>
+                        </ListGroupItem>
+                      ))
                     }
-                </ListGroup>
+                  </ListGroup>
                   :
                   ''
                 }
               </div>
             </div>
           </Card>
-        :
-        <h1>Nothing Found.</h1>
+          :
+          ""
         }
-    </div>
+      </div>
     )
   }
 }
