@@ -36,13 +36,8 @@ class TPN extends Component {
           </div>
         </Router>
         <Footer />
-        <aside id="popover" className="card bg-danger text-center" style={{
-          display: 'none', 
-          position: 'absolute',
-          top: '15vh',
-          left: '25vw'
-          }}>
-          <h1 className="card-title"></h1>
+        <aside id="popover" className="card bg-danger text-center">
+          <h3 className="card-title"></h3>
         </aside>
       </div>
     );
