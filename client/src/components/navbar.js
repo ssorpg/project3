@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap';
 import ax from 'axios';
+import user from '../images/icons/svg/user.svg';
+import login from '../images/icons/svg/user-plus.svg';
+import logout from '../images/icons/svg/user-minus.svg';
 
 class Header extends Component {
     async logout() {
@@ -10,7 +13,7 @@ class Header extends Component {
 
     render() {
         return (
-            <Navbar bg="light" expand="lg" >
+            <Navbar bg="light" expand="lg" id='site-nav'>
                 <Navbar.Brand href="/">TPN</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -27,8 +30,17 @@ class Header extends Component {
                         </NavDropdown> */}
                     </Nav>
                     <Nav className="nav navbar-nav navbar-right">
-                        <Button style={{margin: '10px'}}>Login</Button>
-                        <Button style={{margin: '10px'}} onClick={this.logout}>Logout</Button>
+                        <Button variant="outline-info"
+                          className="user-state-button login"
+                          title="Log In">
+                            <img src={login} />
+                        </Button>
+                        <Button variant="outline-info"
+                          className="user-state-button logout"
+                          title="Log Out"
+                          onClick={this.logout}>
+                            <img src={logout} />
+                        </Button>
                         <Form inline>
                             {/* // TODO make search route to handle searches */}
                             <FormControl type="text" placeholder="Search" className="mr-sm-2" />

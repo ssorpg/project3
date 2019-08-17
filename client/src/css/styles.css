@@ -1,3 +1,9 @@
+#site-nav .user-state-button {
+  margin: 10px;
+}
+#site-nav .user-state-button img {
+  fill: orange;
+}
 #friends .card {
   position: relative;
   padding: 0;
