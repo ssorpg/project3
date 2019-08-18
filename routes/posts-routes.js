@@ -155,6 +155,43 @@ module.exports = function (app) {
         res.status(200).send('Post updated.');
     }));
 
+    app.put(route + ':PostId/:vote', wrap(async function (req, res, next) { // like/dislike post
+        const post = await db.Post.findOne({
+            where: {
+                id: req.params.PostId
+            }
+        });
+
+        if (!post) {
+            throw { status: 404, msg: 'That post doesn\'t exist.' };
+        }
+
+        const community = await db.Community.findOne({
+            where: {
+                id: post.CommunityId
+            }
+        });
+
+        const [user] = await community.getUsers({
+            where: {
+                id: req.token.UserId
+            }
+        });
+
+        if (!user) {
+            throw { status: 401, msg: 'You\'re not in that community.' };
+        }
+
+        await db.Post.update({
+            score: post.score + req.params.vote,
+            where: {
+                id: post.id
+            }
+        });
+
+        res.status(200).send('Thanks for voting.');
+    }));
+
     app.get(route + '/:PostId/comments', wrap(async function (req, res, next) { // get comments on post
         const post = await db.Post.findOne({
             where: {
@@ -293,5 +330,48 @@ module.exports = function (app) {
         });
 
         res.status(200).send('Comment updated.');
+    }));
+
+    app.put(route + ':PostId/comments/:CommentId/:vote', wrap(async function (req, res, next) { // like/dislike comment
+        const comment = await db.Comment.findOne({
+            where: {
+                id: req.params.CommentId
+            }
+        });
+
+        if (!comment) {
+            throw { status: 404, msg: 'That comment doesn\'t exist.' };
+        }
+
+        const post = await db.Post.findOne({
+            where: {
+                id: req.params.PostId
+            }
+        });
+
+        const community = await db.Community.findOne({
+            where: {
+                id: post.CommunityId
+            }
+        });
+
+        const [user] = await community.getUsers({
+            where: {
+                id: req.token.UserId
+            }
+        });
+
+        if (!user) {
+            throw { status: 401, msg: 'You\'re not in that community.' };
+        }
+
+        await db.Comment.update({
+            score: comment.score + req.params.vote,
+            where: {
+                id: comment.id
+            }
+        });
+
+        res.status(200).send('Thanks for voting.');
     }));
 };

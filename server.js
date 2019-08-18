@@ -22,15 +22,15 @@ app.use(wrap(async (req, res, next) => {
         const tokenDecoded = jwt.verify(token, process.env.JWT_SECRET);
 
         if (!tokenDecoded) {
-            throw 401;
+            throw { status: 401 };
         }
 
         req.token = {
             UserId: tokenDecoded.UserId
         };
     }
-    else if (req.path !== '/api/users' && req.path !== '/api/users/register') {
-        throw 401;
+    else if (req.path !== '/api/users' && req.path !== '/api/users/register' && req.path !== '/api/users/logout' ) {
+        throw { status: 401 };
     }
 
     next();
