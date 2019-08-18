@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 export function LoginButton() {
     return (
@@ -10,8 +9,8 @@ export function LoginButton() {
 
 export function Register() {
     return (
-        <Link to="/register" className="btn btn-danger">
+        <a href="/register" className="btn btn-danger">
           Register
-        </Link>
+        </a>
     )
 }

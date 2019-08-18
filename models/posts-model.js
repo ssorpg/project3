@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    const Post = sequelize.define("Post", {
+    const Post = sequelize.define('Post', {
         title: {
             type: DataTypes.STRING,
             allowNull: true,
@@ -33,7 +33,7 @@ module.exports = function (sequelize, DataTypes) {
         score: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            default: 0
+            defaultValue: 0
         }
     });
 

@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    const Community = sequelize.define("Community", {
+    const Community = sequelize.define('Community', {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
