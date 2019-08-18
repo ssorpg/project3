@@ -1,22 +1,28 @@
-import React, { Component } from 'react';
+import React, { Component, Link} from 'react';
 import { Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap';
 import ax from 'axios';
+import UserAuth from '../utils/userauth';
+import user from '../images/icons/svg/user.svg';
+import login from '../images/icons/svg/user-plus.svg';
+import logout from '../images/icons/svg/user-minus.svg';
 
 class Header extends Component {
     async logout() {
       let res = await ax.get('/api/users/logout');
-      // if(res.status === 200 &&)
+      if(res.status === 200) {
+        window.location = '/';
+      }
     }
 
     render() {
         return (
-            <Navbar bg="light" expand="lg" >
+            <Navbar bg="light" expand="lg" id='site-nav'>
                 <Navbar.Brand href="/">TPN</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto nav navbar-nav navbar-left">
                         <Nav.Link href="/feed">Feed</Nav.Link>
-                        <Nav.Link href="/profile">Profile</Nav.Link>
+                        {/* <Nav.Link href="/profile">Profile</Nav.Link> */}
                         <Nav.Link href="/chat">Chat</Nav.Link>
                         {/* <NavDropdown title="Communities" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -27,8 +33,30 @@ class Header extends Component {
                         </NavDropdown> */}
                     </Nav>
                     <Nav className="nav navbar-nav navbar-right">
-                        <Button style={{margin: '10px'}}>Login</Button>
-                        <Button style={{margin: '10px'}} onClick={this.logout}>Logout</Button>
+                      {UserAuth() === true ? 
+                        <div>
+                          <a
+                            className="btn btn-outline-info user-state-button dashboard"
+                            title="Dashboard"
+                            href="/profile"
+                            >
+                              <img src={user} />
+                          </a>
+                          <Button variant="outline-info"
+                            className="user-state-button logout"
+                            title="Log Out"
+                            onClick={this.logout}>
+                              <img src={logout} />
+                          </Button>
+                        </div>
+                      :
+                        <Button variant="outline-info"
+                          className="user-state-button login"
+                          title="Log In">
+                            <img src={login} />
+                        </Button>
+                      }
+
                         <Form inline>
                             {/* // TODO make search route to handle searches */}
                             <FormControl type="text" placeholder="Search" className="mr-sm-2" />
