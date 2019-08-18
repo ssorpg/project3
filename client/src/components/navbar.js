@@ -2,9 +2,11 @@ import React, { Component, Link} from 'react';
 import { Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap';
 import ax from 'axios';
 import UserAuth from '../utils/userauth';
+import Login from './login';
 import user from '../images/icons/svg/user.svg';
 import login from '../images/icons/svg/user-plus.svg';
 import logout from '../images/icons/svg/user-minus.svg';
+import close from '../images/icons/svg/cancel-circle.svg';
 
 class Header extends Component {
     async logout() {
@@ -13,7 +15,15 @@ class Header extends Component {
         window.location = '/';
       }
     }
+    toggleLogin() {
+      let loginForm = document.getElementById('login');
 
+      if( loginForm.className === 'expander open' ) {
+        loginForm.className = 'expander closed';  
+      } else {
+        loginForm.className = 'expander open';  
+      }
+    }
     render() {
         return (
             <Navbar bg="light" expand="lg" id='site-nav'>
@@ -52,11 +62,11 @@ class Header extends Component {
                       :
                         <Button variant="outline-info"
                           className="user-state-button login"
-                          title="Log In">
+                          title="Log In"
+                          onClick={this.toggleLogin}>
                             <img src={login} />
                         </Button>
                       }
-
                         <Form inline>
                             {/* // TODO make search route to handle searches */}
                             <FormControl type="text" placeholder="Search" className="mr-sm-2" />
@@ -64,6 +74,12 @@ class Header extends Component {
                         </Form>
                     </Nav>
                 </Navbar.Collapse>
+                <div className="expander closed" id="login">
+                  <button className="btn icon closed" onClick={this.toggleLogin}>
+                    <img src={close} />
+                  </button>
+                  <Login />
+                </div>
             </Navbar>
         )
     }
