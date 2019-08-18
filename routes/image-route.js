@@ -4,8 +4,8 @@ const db = require("../models");
 
 module.exports = app => {
   app.post('/api/images', multer.any(), async (req, res) => {
-    console.log('testing',req);
-    let fileinfo = req.file;
+    //console.log('testing',req.files[0]);
+    let fileinfo = req.files[0];
     //console.log(fileinfo);
     //fileinfo.userid = req.params.userid;
     let image = await db.Image.create(fileinfo);
