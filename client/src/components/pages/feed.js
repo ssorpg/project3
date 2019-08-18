@@ -10,21 +10,30 @@ import ax from 'axios';
 export default class Feed extends Component {
   constructor(props) {
     super(props)
+    //todo get real comments
     this.state = {
       comments: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     }
   }
   
   componentWillMount(props) {
-    this.GetData(props);
+    this.getData(props);
   }
 
-  GetData = async () => {
+  getData = async () => {
     try {
       let community = await ax.get('/api/communities/1');  
     } catch (error) {
       console.log(error);
     }
+    
+  }
+  postData = async (event) => {
+    event.preventDefault();
+    
+      var res = await ax.post('/api/posts?CommunityId=1&UserId=1');
+      console.log(res);
+      if(res.error) throw "error";
     
   }
 
@@ -38,7 +47,7 @@ export default class Feed extends Component {
         </Row>
         <Row>
           <Col className="col-12">
-            <form class="form-group">
+            <form class="form-group" onSubmit={this.postData}>
               <input type="text" name="feed-comment" placeholder="Tell the community what you're thinking…" />
               <button type="submit" value="submit" className="btn btn-primary">Submit</button>
             </form>
