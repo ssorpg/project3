@@ -21,30 +21,16 @@ module.exports = function (app) {
             }
         });
 
-        const token = await auth.makeToken(req, user);
+        const token = auth.makeToken(req, user);
 
-        if (token) {
-            return res.status(200)
-                .cookie('token', token, cookieOptions)
-                .cookie('loggedIn', true, {
-                    expires: new Date(Date.now() + 43200000),
-                    httpOnly: false,
-                    secure: false, // true on deployment for https
-                    signed: false
-                })
-                .cookie('userId', user.id, {
-                    expires: new Date(Date.now() + 43200000),
-                    httpOnly: false,
-                    secure: false, // true on deployment for https
-                    signed: false
-                })
-                .send({
-                    message: 'Login successful.',
-                    loggedIn: true
-                });
-        }
-
-        res.status(401).send('Incorrect username or password.');
+        return res.status(200)
+            .cookie('token', token, cookieOptions)
+            .cookie('loggedIn', true, cookieOptions.signed = false)    // not sure we need this, if you have a token you're already logged in
+            .cookie('userId', user.id, cookieOptions.signed = false)   // not sure we need this, the token has your id in it
+            .send({
+                message: 'Login successful.',
+                loggedIn: true
+            });
     }));
 
     app.post(route + '/register', wrap(async function (req, res, next) { // register user
@@ -56,7 +42,7 @@ module.exports = function (app) {
             password: password
         });
 
-        res.status(200).send('Account creation successful!');
+        res.status(200).send('Account created!');
     }));
 
     app.get(route + '/logout', wrap(async function (req, res, next) { // logout
@@ -69,27 +55,25 @@ module.exports = function (app) {
 
     app.put(route, wrap(async function (req, res, next) { // edit user
         await db.User.update({
-            // req.body
-        },
-        {
+
+            // update some stuff
+
             where: {
-                id: req.UserId
+                id: req.token.UserId
             }
         });
 
         res.status(200).send('Profile updated.');
     }));
 
-    app.get(route + '/profile/', wrap(async function (req, res, next) { // user profile
+    app.get(route + '/profile', wrap(async function (req, res, next) { // user profile
         const user = await db.User.findOne({
-            where: { // get info of the communities the user belongs to
-                id: req.UserId
-            },
-            include: [{
-                model: db.Community,
-                as: 'communities'
-            }]
+            where: {
+                id: req.token.UserId
+            }
         });
+
+        user.dataValues.communities = await user.getCommunities();
 
         res.status(200).json(user);
     }));
@@ -97,10 +81,10 @@ module.exports = function (app) {
     app.delete(route, wrap(async function (req, res, next) { // delete user
         await db.User.destroy({
             where: {
-                id: req.UserId
+                id: req.token.UserId
             }
         });
-        res.status(200).send('Account successfully deleted.');
-    }));
 
+        res.status(200).send('Account deleted.');
+    }));
 };

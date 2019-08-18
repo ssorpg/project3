@@ -19,16 +19,18 @@ app.use(wrap(async (req, res, next) => {
     const { token } = req.signedCookies;
 
     if (token) {
-        const isValid = jwt.verify(token, process.env.JWT_SECRET);
+        const tokenDecoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        if (!isValid) {
-            return res.status(401).send();
+        if (!tokenDecoded) {
+            throw 401;
         }
 
-        req.UserId = isValid.UserId;
+        req.token = {
+            UserId: tokenDecoded.UserId
+        };
     }
     else if (req.path !== '/api/users' && req.path !== '/api/users/register') {
-        return res.status(401).send('Unauthorized.');
+        throw 401;
     }
 
     next();
@@ -36,10 +38,19 @@ app.use(wrap(async (req, res, next) => {
 
 require('./routes')(app);
 
-app.use(function (err, req, res, next) { // error handler middleware, called with 'next'
-    console.error(err.message);
-    if (!err.statusCode) err.statusCode = 500;
-    res.status(err.statusCode).send(err.message);
+app.use(function (err, req, res, next) { // error handler middleware, called with 'next' from routes
+    console.log(err);
+
+    switch (err.status) {
+        case 400:
+            return res.status(err.status).send(err.msg ? err.msg : 'Request malformed.');
+        case 401:
+            return res.status(err.status).send(err.msg ? err.msg : 'Unauthorized.');
+        case 404:
+            return res.status(err.status).send(err.msg ? err.msg : 'Not found.');
+        default:
+            return res.status(500).send('Server error.');
+    }
 });
 
 const db = require('./models');

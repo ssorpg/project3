@@ -33,7 +33,7 @@ module.exports = function (sequelize, DataTypes) {
         score: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            default: 0
+            defaultValue: 0
         }
     });
 
