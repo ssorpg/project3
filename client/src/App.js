@@ -36,7 +36,8 @@ class TPN extends Component {
               <Route exact path="/register" component={RegisterPage} />
               <Route exact path="/community/:CommunityId" component={Feed} />
               <Route exact path="/profile" component={Profile} />
-              <Route exact path="/friends" component={Friends} /> {/* TODO make friends tables/routes? */}
+              {/* TODO make friends tables/routes? */}
+              <Route exact path="/friends" component={Friends} />
               <Route exact path="/chat" component={Chat} />
             </Switch>
           </div>

@@ -13,22 +13,22 @@ export default function Feed(props) {
         </Col>
       </Row>
       <Row>
-        {friends.map(() => {
-          return (
+        {
+          friends.map(() => (
             <Col className="col-xs-6 col-md-4">
-              <Card cardClass={ "text-dark text-left card"}>
+              <Card cardClass={"text-dark text-left card"}>
                 <nav className="card-nav">
                   <button class="btn btn-default" className="favorite"></button>
                   <button class="btn btn-default" className="select"></button>
                 </nav>
-              <img class="card-img-top" src="http://place-hold.it/150" alt="Card image cap" />
-              <div class="card-body">
-                <h5 className="card-title">Username</h5>
-              </div>
-            </Card>
+                <img class="card-img-top" src="http://place-hold.it/150" alt="" />
+                <div class="card-body">
+                  <h5 className="card-title">Username</h5>
+                </div>
+              </Card>
             </Col>
-          )
-        })}
+          ))
+        }
       </Row>
     </Container>
   )
