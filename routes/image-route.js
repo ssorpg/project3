@@ -3,7 +3,6 @@ const multer = require('multer')({ dest: './client/src/public/user/images' });
 const db = require("../models");
 
 module.exports = app => {
-
   app.post('/api/images', multer.any(), async (req, res) => {
     //console.log('testing',req.files[0]);
     let fileinfo = req.files[0];
@@ -14,5 +13,4 @@ module.exports = app => {
     res.json(image);
     //res.json('success');
   });
-
 }
