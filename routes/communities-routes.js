@@ -50,6 +50,7 @@ module.exports = function (app) {
         }
 
         community.dataValues.feedPosts = await community.getPosts({
+            limit: 20,
             where: {
                 UserId: null,
                 EventId: null
@@ -229,8 +230,6 @@ module.exports = function (app) {
             }
         });
 
-        console.log(users);
-
         if (users.length !== 2) {
             throw { status: 401, msg: 'You\'re not in a community with that user.' };
         }
@@ -240,6 +239,7 @@ module.exports = function (app) {
         const resUser = { // we don't want their hashed password and email in the response
             name: getUser.name,
             wallPosts: await getUser.getPosts({
+                limit: 20,
                 where: {
                     CommunityId: req.params.CommunityId
                 }
@@ -338,7 +338,9 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That event doesn\'t exist.' };
         }
 
-        event.dataValues.eventPosts = await event.getPosts();
+        event.dataValues.eventPosts = await event.getPosts({
+            limit: 20
+        });
 
         res.status(200).json(event);
     }));
