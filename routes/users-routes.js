@@ -3,11 +3,18 @@ const auth = require('./auth/auth');
 
 require('dotenv').config();
 
-const cookieOptions = {
+const cookieOptionsS = {
     expires: new Date(Date.now() + 43200000),
     httpOnly: true,
     secure: false, // true on deployment for https
     signed: true
+};
+
+const cookieOptionsU = {
+    expires: new Date(Date.now() + 43200000),
+    httpOnly: true,
+    secure: false,
+    signed: false
 };
 
 const route = '/api/users';
@@ -24,9 +31,9 @@ module.exports = function (app) {
         const token = auth.makeToken(req, user);
 
         return res.status(200)
-            .cookie('token', token, cookieOptions)
-            .cookie('loggedIn', true, cookieOptions.signed = false)    // not sure we need this, if you have a token you're already logged in
-            .cookie('userId', user.id, cookieOptions.signed = false)   // not sure we need this, the token has your id in it
+            .cookie('token', token, cookieOptionsS)
+            .cookie('loggedIn', true, cookieOptionsU)    // not sure we need this, if you have a token you're already logged in
+            .cookie('userId', user.id, cookieOptionsU)   // not sure we need this, the token has your id in it
             .send({
                 message: 'Login successful.',
                 loggedIn: true
