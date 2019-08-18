@@ -1,3 +1,25 @@
+#site-nav .user-state-button {
+  margin: 10px;
+}
+#site-nav .user-state-button img {
+  fill: orange;
+}
+
+#login {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  bottom: 50%;
+  transform: translate(-50%, 50%);
+  z-index: 1;
+}
+#login > div {
+  background-color: #f8f9fa;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px dotted #888;
+  box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.2);
+}
 #friends .card {
   position: relative;
   padding: 0;
@@ -30,4 +52,43 @@
 }
 #friends .card .card-nav button.selected:before {
   content: url('../images/icons/svg/check-empty.svg');
+}
+
+#popover {
+  display: none;
+  position: absolute;
+  top: 15vh;
+  left: 50%;
+  max-width: 55%;
+  transform: translateX(-50%);
+}
+
+.expander {
+  transition: all .5s ease;
+}
+.expander.closed {
+  pointer-events: none;
+  opacity: 0;
+}
+.expander.open {
+  pointer-events: all;
+  opacity: 1;
+}
+
+.icon {
+  background-color: transparent;
+  background-size: 100%;
+  position: block;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+}
+.icon img {
+  max-width: 100%;
+  height: auto;
+}
+.icon.closed {
+  position: absolute;
+  top: 5px;
+  right: -5px;
 }

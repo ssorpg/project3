@@ -36,7 +36,7 @@ export class LoginForm extends Component {
                     </Form.Group>
                     <Form.Group controlId="formGroupPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" name="pasword" placeholder="Password" {...this.props} />
+                        <Form.Control type="password" name="password" placeholder="Password" {...this.props} />
                     </Form.Group>
                     <LoginButton />
                     <Register />
@@ -91,7 +91,7 @@ export class RegisterForm extends Component {
                     </Form.Group>
                     <Form.Group controlId="formGroupText">
                         <Form.Label>Full Name</Form.Label>
-                        <Form.Control type="text" name="name" placeholder="Enter email" {...this.props} />
+                        <Form.Control type="text" name="name" placeholder="Enter Name" {...this.props} />
                     </Form.Group>
                     <Form.Group controlId="formGroupPassword">
                         <Form.Label>Password</Form.Label>

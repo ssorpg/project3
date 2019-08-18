@@ -14,5 +14,8 @@ module.exports = {
         if (doesMatch) {
             return jwt.sign({ UserId: user.id, Name: user.name }, process.env.JWT_SECRET, { expiresIn: 43200 });
         }
+        else {
+            throw { status: 401, msg: 'Incorrect email or password.' };
+        }
     }
-}
+};

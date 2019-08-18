@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    const Comment = sequelize.define("Comment", {
+    const Comment = sequelize.define('Comment', {
         message: {
             type: DataTypes.TEXT,
             allowNull: false,
@@ -22,7 +22,7 @@ module.exports = function (sequelize, DataTypes) {
         score: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            default: 0
+            defaultValue: 0
         }
     });
 

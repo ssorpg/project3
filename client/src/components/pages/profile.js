@@ -13,26 +13,16 @@ class Profile extends Component {
     };
   }
 
-  componentDidMount(props) {
-    this.GetData(props);
+  componentDidMount() {
+    this.GetData();
   }
 
-  GetData = async (props) => {
-    console.log('dad')
+  GetData = async () => {
     try {
-      if (isNaN(this.state.userId) == true) {
-        console.log('checking logged in user')
-        var results = await ax.get(`/api/users/profile/`);
-      } else {
-        console.log('checking someone else')
-        // todo use new profile route for other users as api/users/profile is the logged in user view
-        // var results = await ax.get(`/api/users/profile/${userId}`);
-      }
-      this.setState({ userData: results });
+      var results = await ax.get(`/api/users/profile/`);
+      this.setState({userData: results});
     } catch (error) {
-      console.log('Error :', error, '\n', props);
-      //res.redirect('/');
-      window.location.href = "/";
+      console.log('Error :', error, '\n');
     }
   }
 
