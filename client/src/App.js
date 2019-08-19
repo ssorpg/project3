@@ -12,26 +12,31 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './css/styles.css';
 import ImageUpload from './components/imageupload';
 import PrivateRoutes from './utils/privateroutes';
+import UserAuth from './utils/userauth';
 
 class TPN extends Component {
-  constructor() {
-    super();
+  state = {
+    isAuth: true
   }
+
   componentDidMount() {
-    PrivateRoutes();
+    const isAuth = UserAuth();
+    this.setState({ isAuth: isAuth });  // setState is async - can either call it with await or set a variable if need to use state value immediately
+    PrivateRoutes(isAuth);              // like we do here
   }
+
   render() {
     return (
       <div>
-        <Nav />
+        <Nav isAuth={this.state.isAuth} />
         <Router>
           <div className="App" id="App">
             <Switch>
               <Route exact path="/" component={HomePage} />
               <Route exact path="/register" component={RegisterPage} />
-              <Route path="/feed" component={Feed} />
-              <Route exact path="/profile/:UserId?" component={Profile} />
-              <Route exact path="/friends" component={Friends} />
+              <Route exact path="/community/:CommunityId" component={Feed} />
+              <Route exact path="/profile" component={Profile} />
+              <Route exact path="/friends" component={Friends} /> {/* TODO make friends tables/routes? */}
               <Route exact path="/chat" component={Chat} />
             </Switch>
           </div>
@@ -39,7 +44,7 @@ class TPN extends Component {
         <ImageUpload />
         <Footer />
         <aside id="popover" className="card bg-danger text-center">
-          <h3 className="card-title"></h3>
+          <h3 className="card-title"> </h3>
         </aside>
       </div>
     );
