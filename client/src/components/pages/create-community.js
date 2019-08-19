@@ -1,7 +1,8 @@
-import React, { Component, Input, InputGroup } from 'react';
+import React, { Component } from 'react';
 import {
   Container, Col, Row,
-  Jumbotron, Form, Button
+  Jumbotron, Form, Button,
+  Dropdown
 } from 'react-bootstrap';
 import ax from 'axios';
 
@@ -41,9 +42,8 @@ export default class CreateCommunity extends Component {
 
   handleChosenCommunity = (event) => {
     event.preventDefault();
-    console.log(event.target);
   }
-
+  
   handleCreateCommunity = (event) => {
 
   }
@@ -56,33 +56,34 @@ export default class CreateCommunity extends Component {
           <p>Select a community from the dropdown or fill in a name below to create your own!</p>
         </Jumbotron>
         <Row>
-          {this.state.selectFromExisting === false ?
-            <Col className="dropdown">
+          {this.state.selectFromExisting === false ? 
+          <Col className="dropdown">
               <Row>
                 <Col>
                   <h3>Choose A Community</h3>
-                  <h4>Community List</h4>
                   <Form onSubmit={this.handleChosenCommunity}>
-                    <InputGroup controlId="formGroupText">
+                    <Form.Group controlId="formGroupText">
+                      <h4>Community List</h4>
                       <ul className="list-unstyled text-left"
                         style={{ columns: 3 }}
                         id="community-list"
                       >
-                        {this.state.communities.map((com) => (
+                        {this.state.communities.map((com) =>
                           <li className="radio"
                             name="community"
                             key={com.id.toString()}
                           >
-                            <InputGroup.Prepend>
-                              <InputGroup.Radio
+                            <label>
+                              <input type="radio"
                                 name="community"
-                                data-id={com.id.toString()} />
+                                data-id={com.id.toString()}
+                              />
                               {com.name}
-                            </InputGroup.Prepend>
+                            </label>
                           </li>
-                        ))}
+                        )}
                       </ul>
-                    </InputGroup>
+                    </Form.Group>
                     <Button type="submit">Submit</Button>
                     <Button type="reset">Reset</Button>
                   </Form>
@@ -95,7 +96,7 @@ export default class CreateCommunity extends Component {
                   </Button>
                 </Col>
               </Row>
-            </Col>
+              </Col>
             :
             <Col className="dropdown">
               <Row>
@@ -115,7 +116,7 @@ export default class CreateCommunity extends Component {
                 </Col>
               </Row>
             </Col>
-          }
+            }
         </Row>
       </Container>
     )
