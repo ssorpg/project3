@@ -48,11 +48,11 @@ module.exports = function (app) {
         if (!user) {
             return res.status(200).json(community);
         }
-
+        
         community.dataValues.feedPosts = await community.getPosts({
             limit: 20,
             where: {
-                UserId: null,
+                UserId: user.id !== undefined ? user.id : null,
                 EventId: null
             }
         });
