@@ -30,7 +30,8 @@ module.exports = function (app) {
         const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
-            }
+            },
+            attributes: ['id', 'name']
         });
 
         if (!user) {
@@ -219,7 +220,13 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
-        const comments = await post.getComments();
+        const comments = await post.getComments({
+            include: [{
+                model: db.User,
+                as: 'author',
+                attributes: ['id', 'name']
+            }]
+        });
 
         res.status(200).json(comments);
     }));
@@ -244,7 +251,8 @@ module.exports = function (app) {
         const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
-            }
+            },
+            attributes: ['id', 'name']
         });
 
         if (!user) {

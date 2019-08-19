@@ -13,7 +13,7 @@ module.exports = function (app) {
 
         const newCommunity = await db.Community.create({
             name: req.body.name,
-            FounderId: req.token.UserId
+            founderId: req.token.UserId
         });
 
         await newCommunity.addMember(user);
@@ -49,18 +49,17 @@ module.exports = function (app) {
             return res.status(200).json(community);
         }
 
-        //this was causing a conflict, im assuming you will want this at some point so i didn't remove it
-        //community.dataValues.founder = await community.getFounder();
-
+        community.dataValues.founder = await community.getFounder();
         community.dataValues.feedPosts = await community.getPosts({
             limit: 20,
             where: {
-                UserId: user.id !== undefined ? user.id : null,
+                UserId: null,
                 EventId: null
             },
             include: [{
                 model: db.User,
-                as: 'author'
+                as: 'author',
+                attributes: ['id', 'name'] // we don't want their hashed password and email in the response
             }]
         });
 
@@ -78,7 +77,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That community doesn\'t exist.' };
         }
 
-        if (community.FounderId !== req.token.UserId) {
+        if (community.founderId !== req.token.UserId) {
             throw { status: 401, msg: 'You don\'t own that community.' };
         }
 
@@ -102,7 +101,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That community doesn\'t exist.' };
         }
 
-        if (community.FounderId !== req.token.UserId) {
+        if (community.founderId !== req.token.UserId) {
             throw { status: 401, msg: 'You don\'t own that community.' };
         }
 
@@ -139,7 +138,9 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
-        community.dataValues.members = await community.getMembers();
+        community.dataValues.members = await community.getMembers({
+            attributes: ['id', 'name']
+        });
 
         res.status(200).json(community);
     }));
@@ -232,7 +233,8 @@ module.exports = function (app) {
             },
             include: [{
                 model: db.User,
-                as: 'author'
+                as: 'author',
+                attributes: ['id', 'name']
             }]
         });
 
@@ -260,7 +262,8 @@ module.exports = function (app) {
                     req.params.UserId,
                     req.token.UserId
                 ]
-            }
+            },
+            attributes: ['id', 'name']
         });
 
         if (users.length !== 2) {
@@ -269,21 +272,19 @@ module.exports = function (app) {
 
         const getUser = users[0];
 
-        const resUser = { // we don't want their hashed password and email in the response
-            name: getUser.name,
-            wallPosts: await getUser.getPosts({
-                where: {
-                    CommunityId: community.id,
-                    UserId: getUser.id
-                },
-                include: [{
-                    model: db.User,
-                    as: 'author'
-                }]
-            })
-        };
+        getUser.wallPosts = await getUser.getPosts({
+            where: {
+                CommunityId: community.id,
+                UserId: getUser.id
+            },
+            include: [{
+                model: db.User,
+                as: 'author',
+                attributes: ['id', 'name']
+            }]
+        });
 
-        res.status(200).json(resUser);
+        res.status(200).json(getUser);
     }));
 
     app.get(route + '/:CommunityId/events', wrap(async function (req, res, next) { // get community events
@@ -335,7 +336,7 @@ module.exports = function (app) {
 
         const newEvent = await db.Event.create({
             name: req.body.name,
-            FounderId: user.id,
+            founderId: user.id,
             date: req.body.date
         });
 
@@ -382,7 +383,8 @@ module.exports = function (app) {
             limit: 20,
             include: [{
                 model: db.User,
-                as: 'author'
+                as: 'author',
+                attributes: ['id', 'name']
             }]
         });
 
@@ -400,7 +402,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That event doesn\'t exist.' };
         }
 
-        if (event.FounderId !== req.token.UserId) {
+        if (event.founderId !== req.token.UserId) {
             throw { status: 401, msg: 'You don\'t own that event.' };
         }
 
@@ -424,7 +426,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That event doesn\'t exist.' };
         }
 
-        if (event.FounderId !== req.token.UserId) {
+        if (event.founderId !== req.token.UserId) {
             throw { status: 401, msg: 'You don\'t own that event.' };
         }
 
