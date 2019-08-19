@@ -15,10 +15,6 @@ module.exports = function (sequelize, DataTypes) {
                 }
             }
         },
-        AuthorId: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
         score: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -27,10 +23,11 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     Comment.associate = function (models) {
-        Comment.belongsTo(models.Post, {
+        Comment.belongsTo(models.User, {
             foreignKey: {
                 allowNull: false
-            }
+            },
+            as: 'author'
         });
     };
 

@@ -32,13 +32,14 @@ module.exports = function (sequelize, DataTypes) {
     Event.associate = function (models) {
         Event.belongsToMany(models.User, {
             through: 'EventUser',
-            as: 'users'
+            as: 'members'
         });
 
-        Event.belongsTo(models.Community, {
+        Event.belongsTo(models.User, {
             foreignKey: {
                 allowNull: false
-            }
+            },
+            as: 'founder'
         });
 
         Event.hasMany(models.Post, {

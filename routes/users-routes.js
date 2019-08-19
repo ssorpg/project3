@@ -59,7 +59,7 @@ module.exports = function (app) {
     }));
 
     app.put(route, wrap(async function (req, res, next) { // edit user
-        await db.User.update({
+        const upUser = await db.User.update({
 
             // update some stuff
 
@@ -68,17 +68,19 @@ module.exports = function (app) {
             }
         });
 
-        res.status(200).send('Profile updated.');
+        res.status(200).json(upUser);
     }));
 
     app.get(route + '/profile', wrap(async function (req, res, next) { // user profile
         const user = await db.User.findOne({
             where: {
                 id: req.token.UserId
-            }
+            },
+            include: [{
+                model: db.Community,
+                as: 'communities'
+            }]
         });
-
-        user.dataValues.communities = await user.getCommunities();
 
         res.status(200).json(user);
     }));

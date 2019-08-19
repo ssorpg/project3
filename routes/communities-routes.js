@@ -5,18 +5,18 @@ const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handl
 
 module.exports = function (app) {
     app.post(route, wrap(async function (req, res, next) { // create community
-        const newCommunity = await db.Community.create({
-            name: req.body.name,
-            FounderId: req.token.UserId
-        });
-
         const user = await db.User.findOne({
             where: {
                 id: req.token.UserId
             }
         });
 
-        await newCommunity.addUser(user);
+        const newCommunity = await db.Community.create({
+            name: req.body.name,
+            FounderId: req.token.UserId
+        });
+
+        await newCommunity.addMember(user);
         await user.addCommunity(newCommunity);
 
         res.status(200).send('Community created!');
@@ -39,7 +39,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That community doesn\'t exist.' };
         }
 
-        const [user] = await community.getUsers({
+        const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
             }
@@ -49,12 +49,17 @@ module.exports = function (app) {
             return res.status(200).json(community);
         }
 
+        community.dataValues.founder = await community.getFounder();
         community.dataValues.feedPosts = await community.getPosts({
             limit: 20,
             where: {
                 UserId: null,
                 EventId: null
-            }
+            },
+            include: [{
+                model: db.User,
+                as: 'author'
+            }]
         });
 
         res.status(200).json(community);
@@ -84,6 +89,33 @@ module.exports = function (app) {
         res.status(200).send('Community deleted.');
     }));
 
+    app.put(route + '/:CommunityId', wrap(async function (req, res, next) { // edit community
+        const community = await db.Community.findOne({
+            where: {
+                id: req.params.CommunityId
+            }
+        });
+
+        if (!community) {
+            throw { status: 404, msg: 'That community doesn\'t exist.' };
+        }
+
+        if (community.FounderId !== req.token.UserId) {
+            throw { status: 401, msg: 'You don\'t own that community.' };
+        }
+
+        const upCommunity = await db.Community.update({
+
+            // update some stuff
+
+            where: {
+                id: req.params.CommunityId
+            }
+        });
+
+        res.status(200).json(upCommunity);
+    }));
+
     app.get(route + '/:CommunityId/users', wrap(async function (req, res, next) { // get community users
         const community = await db.Community.findOne({
             where: {
@@ -95,7 +127,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That community doesn\'t exist.' };
         }
 
-        const [user] = await community.getUsers({
+        const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
             }
@@ -105,9 +137,9 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
-        const users = await community.getUsers();
+        community.dataValues.members = await community.getMembers();
 
-        res.status(200).json(users);
+        res.status(200).json(community);
     }));
 
     app.post(route + '/:CommunityId/users', wrap(async function (req, res, next) { // join community
@@ -121,7 +153,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That community doesn\'t exist.' };
         }
 
-        let [user] = await community.getUsers({
+        let [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
             }
@@ -137,7 +169,7 @@ module.exports = function (app) {
             }
         });
 
-        await community.addUser(user);
+        await community.addMember(user);
         await user.addCommunity(community);
 
         res.status(200).send('You joined the community!');
@@ -154,7 +186,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That community doesn\'t exist.' };
         }
 
-        const [user] = await community.getUsers({
+        const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
             }
@@ -164,13 +196,13 @@ module.exports = function (app) {
             throw { status: 400, msg: 'You\'re not in that community.' };
         }
 
-        await community.removeUser(user);
+        await community.removeMember(user);
         await user.removeCommunity(community);
 
         res.status(200).send('You left the community.');
     }));
 
-    app.get(route + '/:CommunityId/users/profile', wrap(async function (req, res, next) { // your community profile
+    app.get(route + '/:CommunityId/users/profile', wrap(async function (req, res, next) { // your community wall
         const community = await db.Community.findOne({
             where: {
                 id: req.params.CommunityId
@@ -181,7 +213,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That community doesn\'t exist.' };
         }
 
-        const [user] = await community.getUsers({
+        const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
             }
@@ -193,14 +225,19 @@ module.exports = function (app) {
 
         user.dataValues.wallPosts = await user.getPosts({
             where: {
-                CommunityId: community.id
-            }
+                CommunityId: community.id,
+                UserId: req.token.UserId
+            },
+            include: [{
+                model: db.User,
+                as: 'author'
+            }]
         });
 
         res.status(200).json(user);
     }));
 
-    app.get(route + '/:CommunityId/users/:UserId', wrap(async function (req, res, next) { // another user's profile
+    app.get(route + '/:CommunityId/users/:UserId', wrap(async function (req, res, next) { // another user's wall
         if (req.token.UserId === parseInt(req.params.UserId)) {
             throw { status: 400, msg: 'That\'s you.' };
         }
@@ -215,7 +252,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That community doesn\'t exist.' };
         }
 
-        const users = await community.getUsers({
+        const users = await community.getMembers({
             id: {
                 $or: [
                     req.params.UserId,
@@ -233,10 +270,14 @@ module.exports = function (app) {
         const resUser = { // we don't want their hashed password and email in the response
             name: getUser.name,
             wallPosts: await getUser.getPosts({
-                limit: 20,
                 where: {
-                    CommunityId: req.params.CommunityId
-                }
+                    CommunityId: community.id,
+                    UserId: getUser.id
+                },
+                include: [{
+                    model: db.User,
+                    as: 'author'
+                }]
             })
         };
 
@@ -254,7 +295,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That community doesn\'t exist.' };
         }
 
-        const [user] = await community.getUsers({
+        const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
             }
@@ -264,9 +305,9 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
-        const events = await community.getEvents();
+        community.dataValues.events = await community.getEvents();
 
-        res.status(200).json(events);
+        res.status(200).json(community);
     }));
 
     app.post(route + '/:CommunityId/events', wrap(async function (req, res, next) { // create event
@@ -280,7 +321,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That community doesn\'t exist.' };
         }
 
-        const [user] = await community.getUsers({
+        const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
             }
@@ -296,9 +337,11 @@ module.exports = function (app) {
             date: req.body.date
         });
 
+        await newEvent.addMember(user);
+        await newEvent.setFounder(user);
         await community.addEvent(newEvent);
 
-        res.status(200).send('Event created!');
+        res.status(200).json(newEvent);
     }));
 
     app.get(route + '/:CommunityId/events/:EventId', wrap(async function (req, res, next) { // get specific event
@@ -312,7 +355,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That community doesn\'t exist.' };
         }
 
-        const [user] = await community.getUsers({
+        const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
             }
@@ -332,8 +375,13 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That event doesn\'t exist.' };
         }
 
+        event.dataValues.founder = await event.getFounder();
         event.dataValues.eventPosts = await event.getPosts({
-            limit: 20
+            limit: 20,
+            include: [{
+                model: db.User,
+                as: 'author'
+            }]
         });
 
         res.status(200).json(event);
@@ -384,7 +432,7 @@ module.exports = function (app) {
             }
         });
 
-        const [user] = await community.getUsers({
+        const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
             }
@@ -394,7 +442,7 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
-        await db.Event.update({
+        const upEvent = await db.Event.update({
 
             // update some stuff
 
@@ -403,6 +451,6 @@ module.exports = function (app) {
             }
         });
 
-        res.status(200).send('Event updated.');
+        res.status(200).json(upEvent);
     }));
 };
