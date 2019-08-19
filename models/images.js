@@ -6,7 +6,7 @@ module.exports = function (sequelize, DataTypes) {
         filename: DataTypes.STRING,
         path: DataTypes.STRING,
         size: DataTypes.INTEGER,
-        //userid: DataTypes.INTEGER
+        userid: DataTypes.INTEGER
     });
     return Image;
 };

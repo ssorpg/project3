@@ -5,18 +5,18 @@ import ChatMessage from '../chatmessage'
 const URL = 'ws://localhost:3001'
 
 class Chat extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     userData: {},
-  //     userId: parseInt(props.match.params.UserId),
-  //   };
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      userData: {},
+      userId: parseInt(props.match.params.UserId),
+    };
+  }
 
   ws = new WebSocket(URL)
 
   state = {
-    name: this.props,
+    //name: this.props,
     messages: [],
   }
 
@@ -41,6 +41,8 @@ class Chat extends Component {
       })
     }
   }
+    
+    
 
   addMessage = message =>
     this.setState(state => ({ messages: [message, ...state.messages] }))
@@ -61,8 +63,8 @@ class Chat extends Component {
             type="text"
             id={'name'}
             placeholder={'Enter your name...'}
-            value={this.state.name}
-            onChange={e => this.setState({ name: e.target.value })}
+            value={this.state.userData.data.name}
+            //onChange={e => this.setState({ name: e.target.value })}
           />
         </label>
         <ChatInput
