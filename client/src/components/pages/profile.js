@@ -63,6 +63,7 @@ export default class Profile extends Component {
             </Card>
             : ''
         }
+        <ImageUpload />
       </div>
     )
   }
