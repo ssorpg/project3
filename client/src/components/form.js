@@ -62,14 +62,38 @@ export class RegisterForm extends Component {
     }
 
     postToDB = async (postData) => {
-        try {
-            let res = await ax.post('/api/users/register', postData);
+      console.log(postData);
+      const {
+        name, email, password,
+        password_match, photo,
+        community_name} = postData;
 
-            if (res.status === 200) {
-                this.login(postData.email, postData.password);
+        try {
+            let register_results = await ax.post(
+              '/api/users/register',
+              {
+                name: name,
+                email: email,
+                password: password,
+                photo: photo
+              }  
+            );
+            
+            if (register_results.status === 200) {
+                const logged = await this.login(
+                  postData.email,
+                  postData.password
+                );
+                if(logged) {
+                  let community_results = await ax.post('/api/communities', {name: community_name});
+                  if(community_results.status === 200) {
+                    //todo add a cookie for community
+                    this.redirectToCommunityPage(community_results);
+                  }
+                }
             }
         } catch (error) {
-            console.log('E R R O R  - Line 21 :', error);
+            console.log('Error :', error.response);
         }
     }
 
@@ -77,8 +101,14 @@ export class RegisterForm extends Component {
         let res = await ax.post('/api/users', { email: email, password: pass });
 
         if (res.status === 200) {
-            window.location = `/profile/`;
+            // window.location = `/profile/`;
+            return true;
         }
+    }
+
+    redirectToCommunityPage = (commId) => {
+
+      window.location = `/feed`;
     }
 
     render() {
@@ -104,6 +134,10 @@ export class RegisterForm extends Component {
                     <Form.Group>
                         <Form.Label>Upload Profile Photo</Form.Label>
                         <Form.Control type="file" name="photo" placeholder="Image" {...this.props} />
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>Create A Community for You and Your People</Form.Label>
+                      <Form.Control type="text" name="community_name" />
                     </Form.Group>
                     <Form.Group controlId="formGroupText">
                         <Form.Label>Choose Community</Form.Label>
