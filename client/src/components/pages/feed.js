@@ -10,7 +10,6 @@ import ax from 'axios';
 export default class Feed extends Component {
   constructor(props) {
     super(props)
-    //todo get real comments
     const cookies = document.cookie.split(';');
     const userId = cookies[1].split('=')[1];
 
@@ -30,7 +29,7 @@ export default class Feed extends Component {
   getData = async () => {
     try {
       let res = await ax.get('/api/communities/2'); 
-      console.log(res.data);
+
       this.setState({
         pageTitle: res.data.name,
         communityData: res.data,
@@ -45,7 +44,7 @@ export default class Feed extends Component {
     event.preventDefault();
     let formData = event.target;
     let inputs = formData.getElementsByTagName('input');
-    
+
     let post = {
       title: 'A New Comment!',
       AuthorId: this.state.userId,
@@ -53,10 +52,10 @@ export default class Feed extends Component {
      score: 0
     };
 
-    this.postData(post);
+    this.postToDB(post);
 }
   
-  postData = async (data) => {
+postToDB = async (data) => {
     try {
       var res = await ax.post(`/api/posts?CommunityId=2&UserId=${this.state.userId}`, data);
 
@@ -112,14 +111,15 @@ export default class Feed extends Component {
           </Col>
         </Row>
         <Row>
-        {console.log(this.state.posts)}
-        
-          {/* {this.state.posts.map((item) => {
-            return (
-              <Col key={item.toString()} xs={12} md={6} style={{ padding: '10px' }}>
+          {this.state.posts !== undefined ? 
+            this.state.posts.map((item) => (
+              <Col key={item.id.toString()} xs={12} md={6} style={{ padding: '10px' }}>
+
                 <div className="comment">
                   <Card cardClass={"text-dark text-left card"}>
-                    <h4 className="username">Father Jackson</h4>
+                    <h4 className="username">
+                      {item.name}
+                    </h4>
                     <Row>
                       <Col className="col-3">
                         <figure className="float:right"
@@ -131,7 +131,7 @@ export default class Feed extends Component {
                         </figure>
                       </Col>
                       <Col className="col-9">
-                        <p className="comment">Man, this site is great! I love keeping in touch with my family without having to deal with a large corporation!</p>
+                        <p className="comment">{item.message}</p>
                         <ul style={{ padding: 0 }}>
                           <li className="btn btn-like" style={{ paddingLeft: 0 }}>
                             <a href="#">Like</a>
@@ -148,8 +148,10 @@ export default class Feed extends Component {
                   </Card>
                 </div>
               </Col>
-            );
-          })} */}
+            ))
+          :
+          <h2>No Comments Found. <br /> You should make some!</h2>
+          }
         </Row>
       </Container>
     );
