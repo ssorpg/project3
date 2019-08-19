@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-class ChatInput extends Component {
+export default class ChatInput extends Component {
   static propTypes = {
     onSubmitMessage: PropTypes.func.isRequired,
   }
+  
   state = {
     message: '',
   }
@@ -30,5 +31,3 @@ class ChatInput extends Component {
     )
   }
 }
-
-export default ChatInput;

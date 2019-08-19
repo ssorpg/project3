@@ -20,7 +20,6 @@ class Chat extends Component {
     messages: [],
   }
 
-
   componentDidMount() {
     this.ws.onopen = () => {
       // on connecting, do nothing but log it to the console

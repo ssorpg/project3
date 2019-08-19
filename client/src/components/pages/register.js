@@ -3,7 +3,7 @@ import { RegisterForm } from '../form';
 import { Jumbotron, Col, Row } from 'react-bootstrap';
 import '../../App.css'
 
-function RegisterPage() {
+export default function RegisterPage() {
     return (
         <div className="Register" style={{margin: '20px'}}>
             <Row>
@@ -19,5 +19,3 @@ function RegisterPage() {
         </div>
     );
 }
-
-export default RegisterPage;

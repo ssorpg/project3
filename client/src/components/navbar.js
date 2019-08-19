@@ -7,7 +7,17 @@ import login from '../images/icons/svg/user-plus.svg';
 import logout from '../images/icons/svg/user-minus.svg';
 import close from '../images/icons/svg/cancel-circle.svg';
 
-class Header extends Component {
+export default class Header extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      CommunityId: window.location.pathname.match(/\/community\/([0-9]*)/)
+        ? window.location.pathname.match(/\/community\/([0-9]*)/)[1]
+        : undefined
+    }
+  }
+
   async logout() {
     const res = await ax.get('/api/users/logout');
     if (res.status === 200) {
@@ -28,13 +38,22 @@ class Header extends Component {
 
   render() {
     return (
-      <Navbar bg="light" expand="lg" id='site-nav' style={{marginBottom:'20px'}}>
+      <Navbar bg="light" expand="lg" id='site-nav' style={{ marginBottom: '20px' }}>
         <Navbar.Brand href="/">TPN</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto nav navbar-nav navbar-left">
-            <Nav.Link href="/feed">Feed</Nav.Link>
-            {/* <Nav.Link href="/profile">Profile</Nav.Link> */}
+            <Nav.Link href="/profile">Profile</Nav.Link>
+            {
+              this.state.CommunityId
+                ? <Nav.Link href={"/community/" + this.state.CommunityId}>Feed</Nav.Link>
+                : ''
+            }
+            {
+              this.state.CommunityId
+                ? <Nav.Link href={"/community/" + this.state.CommunityId + "/friends"}>Friends</Nav.Link>
+                : ''
+            }
             <Nav.Link href="/chat">Chat</Nav.Link>
             {/* <NavDropdown title="Communities" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -45,29 +64,29 @@ class Header extends Component {
                         </NavDropdown> */}
           </Nav>
           <Nav className="nav navbar-nav navbar-right">
-            {this.props.isAuth ?
-              <div>
-                <a
-                  className="btn btn-outline-info user-state-button dashboard"
-                  title="Dashboard"
-                  href="/profile"
-                >
-                  <img src={user} alt="" />
-                </a>
-                <Button variant="outline-info"
-                  className="user-state-button logout"
-                  title="Log Out"
-                  onClick={this.logout}>
-                  <img src={logout} alt="" />
+            {
+              this.props.isAuth
+                ? <div>
+                  <a
+                    className="btn btn-outline-info user-state-button dashboard"
+                    title="Dashboard"
+                    href="/profile"
+                  >
+                    <img src={user} alt="" />
+                  </a>
+                  <Button variant="outline-info"
+                    className="user-state-button logout"
+                    title="Log Out"
+                    onClick={this.logout}>
+                    <img src={logout} alt="" />
+                  </Button>
+                </div>
+                : <Button variant="outline-info"
+                  className="user-state-button login"
+                  title="Log In"
+                  onClick={this.toggleLogin}>
+                  <img src={login} alt="" />
                 </Button>
-              </div>
-              :
-              <Button variant="outline-info"
-                className="user-state-button login"
-                title="Log In"
-                onClick={this.toggleLogin}>
-                <img src={login} alt="" />
-              </Button>
             }
             <Form inline>
               {/* // TODO make search route to handle searches */}
@@ -86,5 +105,3 @@ class Header extends Component {
     )
   }
 }
-
-export default Header;

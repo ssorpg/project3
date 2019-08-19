@@ -75,7 +75,7 @@ module.exports = function (app) {
 
             await newPost.setAuthor(user);
             await community.addPost(newPost);
-            await user.addPost(newPost);
+            await getUser.addPost(newPost);
         }
         else {
             newPost = await makeNewPost(req);
@@ -155,7 +155,7 @@ module.exports = function (app) {
         res.status(200).json(upPost);
     }));
 
-    app.put(route + ':PostId/:vote', wrap(async function (req, res, next) { // like/dislike post
+    app.put(route + '/:PostId/:vote', wrap(async function (req, res, next) { // like/dislike post
         const post = await db.Post.findOne({
             where: {
                 id: req.params.PostId
@@ -183,11 +183,13 @@ module.exports = function (app) {
         }
 
         const upPost = await db.Post.update({
-            score: post.score + req.params.vote,
-            where: {
-                id: post.id
-            }
-        });
+            score: post.score + parseInt(req.params.vote)
+        },
+            {
+                where: {
+                    id: post.id
+                }
+            });
 
         res.status(200).json(upPost);
     }));
@@ -266,7 +268,7 @@ module.exports = function (app) {
         res.status(200).json(newComment);
     }));
 
-    app.delete(route + ':PostId/comments/:CommentId', wrap(async function (req, res, next) { // delete comment
+    app.delete(route + '/:PostId/comments/:CommentId', wrap(async function (req, res, next) { // delete comment
         const comment = await db.Comment.findOne({
             where: {
                 id: req.params.CommentId
@@ -290,7 +292,7 @@ module.exports = function (app) {
         res.status(200).send('Comment deleted.');
     }));
 
-    app.put(route + ':PostId/comments/:CommentId', wrap(async function (req, res, next) { // edit comment
+    app.put(route + '/:PostId/comments/:CommentId', wrap(async function (req, res, next) { // edit comment
         const comment = await db.Comment.findOne({
             where: {
                 id: req.params.CommentId
@@ -339,7 +341,7 @@ module.exports = function (app) {
         res.status(200).json(upComment);
     }));
 
-    app.put(route + ':PostId/comments/:CommentId/:vote', wrap(async function (req, res, next) { // like/dislike comment
+    app.put(route + '/:PostId/comments/:CommentId/:vote', wrap(async function (req, res, next) { // like/dislike comment
         const comment = await db.Comment.findOne({
             where: {
                 id: req.params.CommentId
@@ -373,11 +375,13 @@ module.exports = function (app) {
         }
 
         const upComment = await db.Comment.update({
-            score: comment.score + req.params.vote,
-            where: {
-                id: comment.id
-            }
-        });
+            score: comment.score + parseInt(req.params.vote)
+        },
+            {
+                where: {
+                    id: comment.id
+                }
+            });
 
         res.status(200).json(upComment);
     }));

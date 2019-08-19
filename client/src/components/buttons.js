@@ -10,7 +10,7 @@ export function LoginButton() {
 export function Register() {
     return (
         <a href="/register" className="btn btn-danger">
-          Register
+            Register
         </a>
     )
 }

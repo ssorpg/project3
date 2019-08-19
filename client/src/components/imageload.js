@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class Imageload extends Component {
+export default class Imageload extends Component {
     state = {
         filename: '51d93fa72053ac5d4e44cc57b78824ad'
     };
@@ -28,10 +28,8 @@ class Imageload extends Component {
         return (
             <div>
                 {console.log(this.state.filename)}
-                <img src={require(`../public/user/images/${this.state.filename}`)}></img>
+                <img src={require(`../public/user/images/${this.state.filename}`)} alt=""></img>
             </div>
         )
     }
 }
-
-export default Imageload;

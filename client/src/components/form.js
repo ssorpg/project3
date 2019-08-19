@@ -3,9 +3,8 @@ import { Form, Dropdown } from 'react-bootstrap';
 import { LoginButton, Register } from './buttons';
 import ax from 'axios';
 
-
 export class LoginForm extends Component {
-    handleSubmit = (event) => {
+    handleSubmit = event => {
         event.preventDefault();
         let formData = event.target;
         let inputs = formData.getElementsByTagName('input');
@@ -14,11 +13,11 @@ export class LoginForm extends Component {
         for (let i = 0; i < inputs.length; i++) {
             postData[inputs[i].name] = inputs[i].value;
         }
-      
+
         this.login(postData);
     }
 
-    login = async (postData) => {
+    login = async postData => {
         let res = await ax.post('/api/users', postData);
 
         if (res.status === 200) {
@@ -48,7 +47,7 @@ export class LoginForm extends Component {
 }
 
 export class RegisterForm extends Component {
-    handleSubmit = (event) => {
+    handleSubmit = event => {
         event.preventDefault();
         let formData = event.target;
         let inputs = formData.getElementsByTagName('input');
@@ -61,35 +60,31 @@ export class RegisterForm extends Component {
         this.postToDB(postData);
     }
 
-    postToDB = async (postData) => {
-      console.log(postData);
-      const {
-        name, email, password,
-        password_match, photo,
-        community_name} = postData;
+    postToDB = async postData => {
+        console.log(postData);
+        const { name, email, password, photo, community_name } = postData;
 
         try {
             let register_results = await ax.post(
-              '/api/users/register',
-              {
-                name: name,
-                email: email,
-                password: password,
-                photo: photo
-              }  
+                '/api/users/register',
+                {
+                    name: name,
+                    email: email,
+                    password: password,
+                    photo: photo
+                }
             );
-            
+
             if (register_results.status === 200) {
                 const logged = await this.login(
-                  postData.email,
-                  postData.password
+                    postData.email,
+                    postData.password
                 );
-                if(logged) {
-                  let community_results = await ax.post('/api/communities', {name: community_name});
-                  if(community_results.status === 200) {
-                    //todo add a cookie for community
-                    this.redirectToCommunityPage(community_results);
-                  }
+                if (logged) {
+                    let community_results = await ax.post('/api/communities', { name: community_name });
+                    if (community_results.status === 200) {
+                        this.redirectToCommunityPage(community_results);
+                    }
                 }
             }
         } catch (error) {
@@ -107,7 +102,7 @@ export class RegisterForm extends Component {
     }
 
     redirectToCommunityPage = (commId) => {
-      window.location = `/community/${commId.data.id}`;
+        window.location = `/community/${commId.data.id}`;
     }
 
     render() {
@@ -135,8 +130,8 @@ export class RegisterForm extends Component {
                         <Form.Control type="file" name="photo" placeholder="Image" {...this.props} />
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label>Create A Community for You and Your People</Form.Label>
-                      <Form.Control type="text" name="community_name" />
+                        <Form.Label>Create A Community for You and Your People</Form.Label>
+                        <Form.Control type="text" name="community_name" />
                     </Form.Group>
                     <Form.Group controlId="formGroupText">
                         <Form.Label>Choose Community</Form.Label>
