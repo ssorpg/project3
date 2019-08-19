@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ImageUploader from 'react-images-upload';
+// import ImageUploader from 'react-images-upload'; // just so we don't get react warns
 import axios from 'axios';
 
 export default class ImageUpload extends Component {
@@ -75,7 +75,7 @@ export default class ImageUpload extends Component {
       }
 
       render() {
-        const { description, selectedFile } = this.state;
+        const { description/* , selectedFile */ } = this.state; // just so we don't get react warns
         return (
           <form onSubmit={this.onSubmit}>
             <input
