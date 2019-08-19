@@ -3,5 +3,5 @@ node_modules
 /config/*
 .env
 .vscode
-public/user/images
+public/images
 .eslintrc.js
