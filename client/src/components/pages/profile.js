@@ -20,7 +20,7 @@ class Profile extends Component {
   GetData = async () => {
     try {
       var results = await ax.get(`/api/users/profile/`);
-      this.setState({userData: results});
+      this.setState({ userData: results });
     } catch (error) {
       console.log('Error :', error, '\n');
     }
@@ -70,6 +70,7 @@ class Profile extends Component {
           :
           ""
         }
+        <ImageUpload />
       </div>
     )
   }
