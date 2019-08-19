@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import '../css/chat.css';
 
 export default class ChatInput extends Component {
   static propTypes = {
@@ -25,8 +26,9 @@ export default class ChatInput extends Component {
           placeholder={'Enter message...'}
           value={this.state.message}
           onChange={e => this.setState({ message: e.target.value })}
+          required
         />
-        <input type="submit" value={'Send'} />
+        <button type="submit" value={'Send'}> Send </button>
       </form>
     )
   }

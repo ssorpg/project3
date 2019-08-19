@@ -1,26 +1,25 @@
 import React, { Component } from 'react'
 import ChatInput from '../chatinput'
 import ChatMessage from '../chatmessage'
+import ax from 'axios';
+import '../../css/chat.css';
 
 const URL = 'ws://localhost:3001'
 
-class Chat extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     userData: {},
-  //     userId: parseInt(props.match.params.UserId),
-  //   };
-  // }
-
-  ws = new WebSocket(URL)
-
-  state = {
-    name: this.props,
-    messages: [],
+export default class Chat extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userData: undefined,
+      messages: [],
+    };
   }
 
+  ws = new WebSocket(URL);
+
   componentDidMount() {
+    this.GetData();
+
     this.ws.onopen = () => {
       // on connecting, do nothing but log it to the console
       console.log('connected')
@@ -39,31 +38,53 @@ class Chat extends Component {
         ws: new WebSocket(URL),
       })
     }
+
+    console.log(this.state);
+    console.log(this.props);
+  };
+
+  GetData = async () => {
+    try {
+      const userData = await ax.get(`/api/users/profile/`);
+      this.setState({ userData: userData });
+    }
+    catch (error) {
+      console.log(error.response);
+    }
+  };
+
+
+  addMessage = message => {
+    this.setState(state => ({ 
+      messages: [message, ...state.messages] 
+    }));
   }
-
-  addMessage = message =>
-    this.setState(state => ({ messages: [message, ...state.messages] }))
-
+  
   submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
-    const message = { name: this.state.name, message: messageString }
+    const message = { 
+      name: this.state.userData.data.name, 
+      message: messageString 
+    };
     this.ws.send(JSON.stringify(message))
     this.addMessage(message)
   }
 
   render() {
     return (
-      <div>
+      <div className="chat">
+        {/* { this.state.userData ?
         <label htmlFor="name">
           Name:&nbsp;
           <input
             type="text"
             id={'name'}
-            placeholder={'Enter your name...'}
-            value={this.state.name}
-            onChange={e => this.setState({ name: e.target.value })}
+            value={this.state.userData.data.name}
+            //onChange={e => this.setState({ name: e.target.value })}
           />
         </label>
+        : ''
+        } */}
         <ChatInput
           ws={this.ws}
           onSubmitMessage={messageString => this.submitMessage(messageString)}
@@ -75,9 +96,9 @@ class Chat extends Component {
             name={message.name}
           />,
         )}
+      
       </div>
     )
   }
 }
 
-export default Chat
