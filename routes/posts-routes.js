@@ -7,7 +7,7 @@ module.exports = function (app) {
     async function makeNewPost(req) {
         return await db.Post.create({
             title: req.body.title,
-            AuthorId: req.token.UserId,
+            authorId: req.token.UserId,
             message: req.body.message
         });
     }
@@ -27,7 +27,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That community doesn\'t exist.' };
         }
 
-        const [user] = await community.getUsers({
+        const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
             }
@@ -56,13 +56,12 @@ module.exports = function (app) {
 
             newPost = await makeNewPost(req);
 
+            await newPost.setAuthor(user);
             await community.addPost(newPost);
             await event.addPost(newPost);
-
-            res.status(200).send('Event post created!');
         }
         else if (UserId) {
-            const [getUser] = await community.getUsers({
+            const [getUser] = await community.getMembers({
                 where: {
                     id: UserId
                 }
@@ -74,18 +73,19 @@ module.exports = function (app) {
 
             newPost = await makeNewPost(req);
 
+            await newPost.setAuthor(user);
             await community.addPost(newPost);
-            await getUser.addPost(newPost);
-
-            res.status(200).send('Wall post created!');
+            await user.addPost(newPost);
         }
         else {
             newPost = await makeNewPost(req);
 
+            await newPost.setAuthor(user);
             await community.addPost(newPost);
-
-            res.status(200).send('Feed post created!');
         }
+
+        newPost.dataValues.author = user;
+        res.status(200).json(newPost);
     }));
 
     app.delete(route + '/:PostId', wrap(async function (req, res, next) { // delete post
@@ -133,7 +133,7 @@ module.exports = function (app) {
             }
         });
 
-        const [user] = await community.getUsers({
+        const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
             }
@@ -143,7 +143,7 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' }; // can't edit posts to send messages to communities you're no longer in
         }
 
-        await db.Post.update({
+        const upPost = await db.Post.update({
 
             // update some stuff
 
@@ -152,7 +152,7 @@ module.exports = function (app) {
             }
         });
 
-        res.status(200).send('Post updated.');
+        res.status(200).json(upPost);
     }));
 
     app.put(route + ':PostId/:vote', wrap(async function (req, res, next) { // like/dislike post
@@ -172,7 +172,7 @@ module.exports = function (app) {
             }
         });
 
-        const [user] = await community.getUsers({
+        const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
             }
@@ -182,14 +182,14 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
-        await db.Post.update({
+        const upPost = await db.Post.update({
             score: post.score + req.params.vote,
             where: {
                 id: post.id
             }
         });
 
-        res.status(200).send('Thanks for voting.');
+        res.status(200).json(upPost);
     }));
 
     app.get(route + '/:PostId/comments', wrap(async function (req, res, next) { // get comments on post
@@ -209,7 +209,7 @@ module.exports = function (app) {
             }
         });
 
-        const [user] = await community.getUsers({
+        const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
             }
@@ -241,7 +241,7 @@ module.exports = function (app) {
             }
         });
 
-        const [user] = await community.getUsers({
+        const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
             }
@@ -251,12 +251,14 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
-        await post.addComment({
-            message: req.body.message,
-            AuthorId: req.token.UserId
+        const newComment = await db.Comment.create({
+            message: req.body.message
         });
 
-        res.status(200).send('Comment created!');
+        await newComment.setAuthor(user);
+        await post.addComment(newComment);
+
+        res.status(200).json(newComment);
     }));
 
     app.delete(route + ':PostId/comments/:CommentId', wrap(async function (req, res, next) { // delete comment
@@ -310,7 +312,7 @@ module.exports = function (app) {
             }
         });
 
-        const [user] = await community.getUsers({
+        const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
             }
@@ -320,7 +322,7 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
-        await db.Comment.update({
+        const upComment = await db.Comment.update({
 
             // update some stuff
 
@@ -329,7 +331,7 @@ module.exports = function (app) {
             }
         });
 
-        res.status(200).send('Comment updated.');
+        res.status(200).json(upComment);
     }));
 
     app.put(route + ':PostId/comments/:CommentId/:vote', wrap(async function (req, res, next) { // like/dislike comment
@@ -355,7 +357,7 @@ module.exports = function (app) {
             }
         });
 
-        const [user] = await community.getUsers({
+        const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
             }
@@ -365,13 +367,13 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
-        await db.Comment.update({
+        const upComment = await db.Comment.update({
             score: comment.score + req.params.vote,
             where: {
                 id: comment.id
             }
         });
 
-        res.status(200).send('Thanks for voting.');
+        res.status(200).json(upComment);
     }));
 };

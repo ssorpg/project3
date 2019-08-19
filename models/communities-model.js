@@ -14,17 +14,20 @@ module.exports = function (sequelize, DataTypes) {
                     msg: 'The name must be between 1 and 64 characters long.'
                 }
             }
-        },
-        FounderId: {
-            type: DataTypes.INTEGER,
-            allowNull: false
         }
     });
 
     Community.associate = function (models) {
         Community.belongsToMany(models.User, {
             through: 'CommunityUser',
-            as: 'users'
+            as: 'members'
+        });
+
+        Community.belongsTo(models.User, {
+            foreignKey: {
+                allowNull: false
+            },
+            as: 'founder'
         });
 
         Community.hasMany(models.Event, {
