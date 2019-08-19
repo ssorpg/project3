@@ -12,7 +12,7 @@ const cookieOptionsS = {
 
 const cookieOptionsU = {
     expires: new Date(Date.now() + 43200000),
-    httpOnly: true,
+    httpOnly: false,
     secure: false,
     signed: false
 };
