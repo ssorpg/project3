@@ -58,8 +58,7 @@ module.exports = function (app) {
             },
             include: [{
                 model: db.User,
-                as: 'author',
-                attributes: ['id', 'name'] // we don't want their hashed password and email in the response
+                as: 'author'
             }]
         });
 
@@ -138,9 +137,7 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
-        community.dataValues.members = await community.getMembers({
-            attributes: ['id', 'name']
-        });
+        community.dataValues.members = await community.getMembers();
 
         res.status(200).json(community);
     }));
@@ -233,8 +230,7 @@ module.exports = function (app) {
             },
             include: [{
                 model: db.User,
-                as: 'author',
-                attributes: ['id', 'name']
+                as: 'author'
             }]
         });
 
@@ -262,8 +258,7 @@ module.exports = function (app) {
                     req.params.UserId,
                     req.token.UserId
                 ]
-            },
-            attributes: ['id', 'name']
+            }
         });
 
         if (users.length !== 2) {
@@ -279,8 +274,7 @@ module.exports = function (app) {
             },
             include: [{
                 model: db.User,
-                as: 'author',
-                attributes: ['id', 'name']
+                as: 'author'
             }]
         });
 
@@ -383,8 +377,7 @@ module.exports = function (app) {
             limit: 20,
             include: [{
                 model: db.User,
-                as: 'author',
-                attributes: ['id', 'name']
+                as: 'author'
             }]
         });
 

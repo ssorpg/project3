@@ -42,7 +42,15 @@ module.exports = function (sequelize, DataTypes) {
                 }
             }
         }
-    });
+    },
+        {
+            defaultScope: {
+                attributes: {
+                    exclude: ['password', 'email'] // can't query email or password
+                },
+                order: [['id', 'DESC']]
+            }
+        });
 
     User.associate = function (models) {
         User.belongsToMany(models.Community, {

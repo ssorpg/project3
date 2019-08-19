@@ -15,10 +15,6 @@ module.exports = function (sequelize, DataTypes) {
                 }
             }
         },
-        FounderId: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
         date: {
             type: DataTypes.DATE,
             allowNull: true,
@@ -27,7 +23,12 @@ module.exports = function (sequelize, DataTypes) {
                 isDate: { msg: 'Please enter a valid date.' }
             }
         }
-    });
+    },
+        {
+            defaultScope: {
+                order: [['id', 'DESC']]
+            }
+        });
 
     Event.associate = function (models) {
         Event.belongsToMany(models.User, {

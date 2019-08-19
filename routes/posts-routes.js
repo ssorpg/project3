@@ -30,8 +30,7 @@ module.exports = function (app) {
         const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
-            },
-            attributes: ['id', 'name']
+            }
         });
 
         if (!user) {
@@ -223,8 +222,7 @@ module.exports = function (app) {
         const comments = await post.getComments({
             include: [{
                 model: db.User,
-                as: 'author',
-                attributes: ['id', 'name']
+                as: 'author'
             }]
         });
 
@@ -251,8 +249,7 @@ module.exports = function (app) {
         const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
-            },
-            attributes: ['id', 'name']
+            }
         });
 
         if (!user) {

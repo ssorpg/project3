@@ -65,8 +65,7 @@ module.exports = function (app) {
 
             where: {
                 id: req.token.UserId
-            },
-            attributes: ['id', 'name'],
+            }
         });
 
         res.status(200).json(upUser);
@@ -77,7 +76,6 @@ module.exports = function (app) {
             where: {
                 id: req.token.UserId
             },
-            attributes: ['id', 'name'],
             include: [{
                 model: db.Community,
                 as: 'communities'

@@ -20,7 +20,12 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
             defaultValue: 0
         }
-    });
+    },
+        {
+            defaultScope: {
+                order: [['id', 'DESC']]
+            }
+        });
 
     Comment.associate = function (models) {
         Comment.belongsTo(models.User, {
