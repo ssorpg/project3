@@ -12,7 +12,6 @@ import Chat from './components/pages/chat';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './css/styles.css';
 import PrivateRoutes from './utils/privateroutes';
-import ImageLoad from './components/imageload';
 import UserAuth from './utils/userauth';
 
 class TPN extends Component {
@@ -44,8 +43,7 @@ class TPN extends Component {
             </Switch>
           </div>
         </Router>
-        {/* <ImageLoad/> */}
-        <Footer />
+        {/* <Footer /> */}
         <aside id="popover" className="card bg-danger text-center">
           <h3 className="card-title"> </h3>
         </aside>
