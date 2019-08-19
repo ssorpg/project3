@@ -32,8 +32,7 @@ module.exports = function (app) {
 
         return res.status(200)
             .cookie('token', token, cookieOptionsS)
-            .cookie('loggedIn', true, cookieOptionsU)    // not sure we need this, if you have a token you're already logged in
-            .cookie('userId', user.id, cookieOptionsU)   // not sure we need this, the token has your id in it
+            .cookie('loggedIn', true, cookieOptionsU)
             .send({
                 message: 'Login successful.',
                 loggedIn: true
@@ -56,7 +55,6 @@ module.exports = function (app) {
         res.status(200)
             .clearCookie('token')
             .clearCookie('loggedIn')
-            .clearCookie('userId')
             .send('Logout successful.');
     }));
 

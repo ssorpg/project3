@@ -44,7 +44,7 @@ module.exports = function (app) {
         let newPost;
 
         if (EventId) {
-            const event = await community.getEvents({
+            const [event] = await community.getEvents({
                 where: {
                     id: EventId
                 }

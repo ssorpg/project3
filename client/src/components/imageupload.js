@@ -35,7 +35,7 @@ export default class ImageUpload extends Component {
       }
 
       render() {
-        const { description, selectedFile } = this.state;
+        const { description/* , selectedFile */ } = this.state; // just so we don't get react warns
         return (
           <form onSubmit={this.onSubmit}>
             <input

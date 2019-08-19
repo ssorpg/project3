@@ -48,11 +48,11 @@ module.exports = function (app) {
         if (!user) {
             return res.status(200).json(community);
         }
-
+        
         community.dataValues.feedPosts = await community.getPosts({
             limit: 20,
             where: {
-                UserId: null,
+                UserId: user.id !== undefined ? user.id : null,
                 EventId: null
             }
         });
@@ -154,7 +154,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That community doesn\'t exist.' };
         }
 
-        let [user] = await community.getUsers({
+        const [user] = await community.getUsers({
             where: {
                 id: req.token.UserId
             }
@@ -163,12 +163,6 @@ module.exports = function (app) {
         if (!user) {
             throw { status: 400, msg: 'You\'re not in that community.' };
         }
-
-        user = await db.User.findOne({
-            where: {
-                id: req.token.UserId
-            }
-        });
 
         await community.removeUser(user);
         await user.removeCommunity(community);
