@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ChatInput from '../chatinput'
 import ChatMessage from '../chatmessage'
 import ax from 'axios';
+import '../../css/chat.css';
 
 const URL = 'ws://localhost:3001'
 
@@ -40,7 +41,7 @@ export default class Chat extends Component {
 
     console.log(this.state);
     console.log(this.props);
-  }
+  };
 
   GetData = async () => {
     try {
@@ -50,23 +51,29 @@ export default class Chat extends Component {
     catch (error) {
       console.log(error.response);
     }
+  };
+
+
+  addMessage = message => {
+    this.setState(state => ({ 
+      messages: [message, ...state.messages] 
+    }));
   }
-
-
-  addMessage = message =>
-    this.setState(state => ({ messages: [message, ...state.messages] }))
-
+  
   submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
-    const message = { name: this.state.userData.data.name, message: messageString }
+    const message = { 
+      name: this.state.userData.data.name, 
+      message: messageString 
+    };
     this.ws.send(JSON.stringify(message))
     this.addMessage(message)
   }
 
   render() {
     return (
-      <div>
-        { this.state.userData ?
+      <div className="chat">
+        {/* { this.state.userData ?
         <label htmlFor="name">
           Name:&nbsp;
           <input
@@ -77,7 +84,7 @@ export default class Chat extends Component {
           />
         </label>
         : ''
-        }
+        } */}
         <ChatInput
           ws={this.ws}
           onSubmitMessage={messageString => this.submitMessage(messageString)}

@@ -41,7 +41,7 @@ class TPN extends Component {
             </Switch>
           </div>
         </Router>
-        <Footer />
+        {/* <Footer /> */}
         <aside id="popover" className="card bg-danger text-center">
           <h3 className="card-title"> </h3>
         </aside>
