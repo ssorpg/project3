@@ -49,11 +49,13 @@ module.exports = function (app) {
             return res.status(200).json(community);
         }
 
-        community.dataValues.founder = await community.getFounder();
+        //this was causing a conflict, im assuming you will want this at some point so i didn't remove it
+        //community.dataValues.founder = await community.getFounder();
+
         community.dataValues.feedPosts = await community.getPosts({
             limit: 20,
             where: {
-                UserId: null,
+                UserId: user.id !== undefined ? user.id : null,
                 EventId: null
             },
             include: [{
