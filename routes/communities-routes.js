@@ -19,7 +19,7 @@ module.exports = function (app) {
         await newCommunity.addMember(user);
         await user.addCommunity(newCommunity);
 
-        res.status(200).send('Community created!');
+        res.status(200).json(newCommunity);
     }));
 
     app.get(route, wrap(async function (req, res, next) { // get all communities?
