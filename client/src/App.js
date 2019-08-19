@@ -7,6 +7,7 @@ import HomePage from './components/pages/home';
 import RegisterPage from './components/pages/register';
 import Feed from './components/pages/feed';
 import Friends from './components/pages/friends';
+import createComm from './components/pages/create-community';
 import Chat from './components/pages/chat';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './css/styles.css';
@@ -38,6 +39,7 @@ class TPN extends Component {
               <Route exact path="/profile" component={Profile} />
               {/* TODO make friends tables/routes? */}
               <Route exact path="/friends" component={Friends} />
+              <Route exact path="/create-community" component={createComm} />
               <Route exact path="/chat" component={Chat} />
             </Switch>
           </div>
