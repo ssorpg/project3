@@ -14,7 +14,7 @@ export class LoginForm extends Component {
         for (let i = 0; i < inputs.length; i++) {
             postData[inputs[i].name] = inputs[i].value;
         }
-        console.log(postData);
+      
         this.login(postData);
     }
 
@@ -107,8 +107,7 @@ export class RegisterForm extends Component {
     }
 
     redirectToCommunityPage = (commId) => {
-
-      window.location = `/feed`;
+      window.location = `/community/${commId.data.id}`;
     }
 
     render() {

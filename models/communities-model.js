@@ -15,7 +15,12 @@ module.exports = function (sequelize, DataTypes) {
                 }
             }
         }
-    });
+    },
+        {
+            defaultScope: {
+                order: [['id', 'DESC']]
+            }
+        });
 
     Community.associate = function (models) {
         Community.belongsToMany(models.User, {
