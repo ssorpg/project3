@@ -4,6 +4,7 @@ import Card from '../card.js';
 import ax from 'axios';
 //import Imageload from '../imageload';
 import ImageUpload from '../imageupload';
+//import Chat from './chat';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -21,7 +22,8 @@ export default class Profile extends Component {
   GetData = async () => {
     try {
       const userData = await ax.get(`/api/users/profile/`);
-      this.setState({ userData: userData });
+      const data = await this.setState({ userData: userData });
+      console.log('profile',this.state);
     }
     catch (error) {
       console.log(error.response);
