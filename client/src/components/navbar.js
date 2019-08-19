@@ -28,7 +28,7 @@ class Header extends Component {
 
   render() {
     return (
-      <Navbar bg="light" expand="lg" id='site-nav'>
+      <Navbar bg="light" expand="lg" id='site-nav' style={{marginBottom:'20px'}}>
         <Navbar.Brand href="/">TPN</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

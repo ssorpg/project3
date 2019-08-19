@@ -31,7 +31,12 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
             defaultValue: 0
         }
-    });
+    },
+        {
+            defaultScope: {
+                order: [['id', 'DESC']]
+            }
+        });
 
     Post.associate = function (models) {
         Post.belongsTo(models.User, {

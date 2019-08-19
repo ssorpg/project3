@@ -219,7 +219,12 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
-        const comments = await post.getComments();
+        const comments = await post.getComments({
+            include: [{
+                model: db.User,
+                as: 'author'
+            }]
+        });
 
         res.status(200).json(comments);
     }));

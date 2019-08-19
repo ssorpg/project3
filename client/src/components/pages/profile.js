@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
 import Card from '../card.js';
 import ax from 'axios';
+import ImageUpload from '../imageupload';
 
 export default class Profile extends Component {
   constructor(props) {
