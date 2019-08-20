@@ -76,7 +76,7 @@ export default class Header extends Component {
           <Nav className="nav navbar-nav navbar-right">
             {
               this.props.isAuth
-                ? <div>
+                ? <div style={{textAlign: 'right'}}>
                   <a
                     className="btn btn-outline-info user-state-button dashboard"
                     title="Dashboard"
@@ -84,11 +84,11 @@ export default class Header extends Component {
                   >
                     <img src={user} alt="" />
                   </a>
-                  <Button variant="outline-info"
+                  <Button variant="danger"
                     className="user-state-button logout"
                     title="Log Out"
                     onClick={this.logout}>
-                    <img src={logout} alt="" />
+                    Log Out
                   </Button>
                 </div>
                 : <div>
