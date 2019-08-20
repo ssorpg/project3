@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Dropdown } from 'react-bootstrap';
-import { LoginButton, Register } from './buttons';
+import { LoginButton } from './buttons';
 import ax from 'axios';
 import ImageUpload from './imageupload';
 
@@ -43,7 +43,6 @@ export class LoginForm extends Component {
           </Form.Group>
           <span style={{ display: 'flex', justifyContent: 'space-between' }}>
             <LoginButton />
-            <Register />
           </span>
         </Form>
       </div>

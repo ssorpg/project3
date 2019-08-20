@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap';
 import ax from 'axios';
 import Login from './login';
+import { Register } from './buttons';
 import user from '../images/icons/svg/user.svg';
 import login from '../images/icons/svg/user-plus.svg';
 import logout from '../images/icons/svg/user-minus.svg';
@@ -43,7 +44,7 @@ export default class Header extends Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto nav navbar-nav navbar-left">
-            <Nav.Link href="/profile">Profile</Nav.Link>
+            {/* <Nav.Link href="/profile">Profile</Nav.Link> */}
             {
               this.state.CommunityId
                 ? <Nav.Link href={"/community/" + this.state.CommunityId}>Feed</Nav.Link>
@@ -75,7 +76,7 @@ export default class Header extends Component {
           <Nav className="nav navbar-nav navbar-right">
             {
               this.props.isAuth
-                ? <div>
+                ? <div style={{textAlign: 'right'}}>
                   <a
                     className="btn btn-outline-info user-state-button dashboard"
                     title="Dashboard"
@@ -83,19 +84,22 @@ export default class Header extends Component {
                   >
                     <img src={user} alt="" />
                   </a>
-                  <Button variant="outline-info"
+                  <Button variant="danger"
                     className="user-state-button logout"
                     title="Log Out"
                     onClick={this.logout}>
-                    <img src={logout} alt="" />
+                    Log Out
                   </Button>
                 </div>
-                : <Button variant="outline-info"
-                  className="user-state-button login"
-                  title="Log In"
-                  onClick={this.toggleLogin}>
-                  <img src={login} alt="" />
-                </Button>
+                : <div>
+                  <Button variant="success"
+                    className="user-state-button login"
+                    title="Log In"
+                    onClick={this.toggleLogin}>
+                    Log In
+                  </Button>
+                  <Register />
+                </div>
             }
             <Form inline>
               {/* // TODO make search route to handle searches */}
