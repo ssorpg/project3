@@ -220,17 +220,49 @@ export class UpdateForm extends Component {
 
 //SEARCH FORM
 export class SearchForm extends Component {
-  constructor() {
-    super();
-    this.state.indexes = [];
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      searchQuery: '',
+      indexes: []
+    }
   }
-
-  async componentDidMount() {
+  //TODO move search input to be hidden if not logged in
+   componentDidMount() {
     //*make indexes of top level data to speed up search
     //*if no matches in this dataset start searching tables one by one
-    return;
+    this.getData();
+  }
+
+  getData = async () => {
     try {
-      let res = await ax.get('/search/init');
+      let res = await ax.post('/api/search');
+
+      if (res.status === 200) {
+        this.setState({
+          indexes: res.data
+        });
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+
+  handleInputChange = event => {
+    this.setState({
+      searchQuery: event.target.value
+    });
+  }
+
+  handleSearchSubmit = event => {
+    event.preventDefault();
+    // this.search({ search: this.state.searchQuery});
+  }
+
+  search = async query => {
+    try {
+      let res = await ax.post('/api/search', query);
       console.log(res);
 
       if (res.status === 200) {
@@ -243,16 +275,23 @@ export class SearchForm extends Component {
     }
   }
 
-  handleSearchSubmit = () => {
-
-  }
-
   render() {
     return (
       <Form inline onSubmit={this.handleSearchSubmit}>
         {/* // TODO make search route to handle searches */}
-        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-        <Button variant="outline-success">Search</Button>
+        <FormControl
+          type="text"
+          placeholder="Search"
+          className="mr-sm-2"
+          id="search-input"
+          onChange={this.handleInputChange}
+        />
+        <Button
+          variant="outline-success"
+          type="Submit"
+        >
+          Search
+        </Button>
       </Form>
     )
   }
