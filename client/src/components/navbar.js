@@ -4,9 +4,8 @@ import ax from 'axios';
 import Login from './login';
 import { Register } from './buttons';
 import user from '../images/icons/svg/user.svg';
-import login from '../images/icons/svg/user-plus.svg';
-import logout from '../images/icons/svg/user-minus.svg';
 import close from '../images/icons/svg/cancel-circle.svg';
+import {SearchForm} from './form';
 
 export default class Header extends Component {
   constructor(props) {
@@ -101,11 +100,7 @@ export default class Header extends Component {
                   <Register />
                 </div>
             }
-            <Form inline>
-              {/* // TODO make search route to handle searches */}
-              <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-              <Button variant="outline-success">Search</Button>
-            </Form>
+            <SearchForm />
           </Nav>
         </Navbar.Collapse>
         <div className="expander closed" id="login">

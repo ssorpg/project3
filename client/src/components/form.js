@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Form, Dropdown } from 'react-bootstrap';
+import { Form, FormControl } from 'react-bootstrap';
 import { LoginButton } from './buttons';
+import { Button } from 'react-bootstrap';
 import ax from 'axios';
 import ImageUpload from './imageupload';
 
@@ -213,6 +214,46 @@ export class UpdateForm extends Component {
           <LoginButton />
         </Form>
       </div>
+    )
+  }
+}
+
+//SEARCH FORM
+export class SearchForm extends Component {
+  constructor() {
+    super();
+    this.state.indexes = [];
+  }
+
+  async componentDidMount() {
+    //*make indexes of top level data to speed up search
+    //*if no matches in this dataset start searching tables one by one
+    return;
+    try {
+      let res = await ax.get('/search/init');
+      console.log(res);
+
+      if (res.status === 200) {
+        this.setState({
+          indexes: res.data
+        });
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+
+  handleSearchSubmit = () => {
+
+  }
+
+  render() {
+    return (
+      <Form inline onSubmit={this.handleSearchSubmit}>
+        {/* // TODO make search route to handle searches */}
+        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+        <Button variant="outline-success">Search</Button>
+      </Form>
     )
   }
 }
