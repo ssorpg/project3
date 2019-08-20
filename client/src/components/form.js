@@ -41,8 +41,10 @@ export class LoginForm extends Component {
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" name="password" placeholder="Password" {...this.props} />
           </Form.Group>
-          <LoginButton />
-          <Register />
+          <span style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <LoginButton />
+            <Register />
+          </span>
         </Form>
       </div>
     )

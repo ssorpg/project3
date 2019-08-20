@@ -41,17 +41,19 @@ export default class Friends extends Component {
           {
             this.state.friends
               ? this.state.friends.map(friend => (
-                <Col xs={6} md={4} lg={3}>
-                  <Card cardClass={"text-dark text-left card"} href={"/community/" + this.state.CommunityId + "/users/" + friend.id}>
-                    <nav className="card-nav">
-                      {/* <button class="btn btn-default" className="favorite"></button> */}
-                      {/* <button class="btn btn-default" className="select"></button> */}
-                    </nav>
-                    <img class="card-img-top" src="http://place-hold.it/150" alt="" />
-                    <div class="card-body">
-                      <h5 className="card-title">{friend.name}</h5>
-                    </div>
-                  </Card>
+                <Col xs={4} md={3} lg={2}>
+                  <a href={"/community/" + this.state.CommunityId + "/users/" + friend.id}>
+                    <Card cardClass={"text-dark text-left card"}>
+                      <nav className="card-nav">
+                        {/* <button class="btn btn-default" className="favorite"></button> */}
+                        {/* <button class="btn btn-default" className="select"></button> */}
+                      </nav>
+                      <img class="card-img-top" src="http://place-hold.it/150" alt="" />
+                      <div class="card-body">
+                        <h5 className="card-title">{friend.name}</h5>
+                      </div>
+                    </Card>
+                  </a>
                 </Col>
               ))
               : ''

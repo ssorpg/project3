@@ -3,6 +3,7 @@ module.exports = function (sequelize, DataTypes) {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: { msg: 'That community name is already in use.' },
             trim: true,
             validate: {
                 notNull: {

@@ -9,6 +9,7 @@ module.exports = {
     },
 
     makeToken: function (req, user) {
+        // getting an error here, possibly from attempting to log in after registering
         const doesMatch = bcrypt.compare(req.body.password, user.password);
 
         if (doesMatch) {

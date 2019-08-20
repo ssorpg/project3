@@ -34,16 +34,17 @@ export default class TPN extends Component {
         <Router>
           <div className="App" id="App">
             <Switch>
-              <Route exact path="/" component={HomePage} />
               <Route exact path="/register" component={RegisterPage} />
               <Route exact path="/profile" component={Profile} />
-              <Route exact path="/community/:CommunityId" component={Feed} />
-              {/* TODO: make friends tables/routes? */}
-              <Route exact path="/community/:CommunityId/friends" component={Friends} />
-              <Route exact path="/community/:CommunityId/users/:UserId" component={Wall} />
               <Route exact path="/update-profile" component={UpdateProfile} />
               <Route exact path="/create-community" component={createComm} />
-              <Route exact path="/chat" component={Chat} />
+              <Route exact path="/community/:CommunityId" component={Feed} />
+              <Route exact path="/community/:CommunityId/wall" component={Wall} />
+              {/* TODO: make friends tables/routes? */}
+              <Route exact path="/community/:CommunityId/friends" component={Friends} />
+              <Route exact path="/community/:CommunityId/friends/:UserId" component={Wall} />
+              <Route exact path="/community/:CommunityId/chat" component={Chat} />
+              <Route path="/" component={HomePage} />
             </Switch>
           </div>
         </Router>
