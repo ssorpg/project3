@@ -202,7 +202,7 @@ module.exports = function (app) {
         res.status(200).send('You left the community.');
     }));
 
-    app.get(route + '/:CommunityId/users/profile', wrap(async function (req, res, next) { // your community wall
+    app.get(route + '/:CommunityId/users/wall', wrap(async function (req, res, next) { // your community wall
         const community = await db.Community.findOne({
             where: {
                 id: req.params.CommunityId
@@ -237,7 +237,7 @@ module.exports = function (app) {
         res.status(200).json(user);
     }));
 
-    app.get(route + '/:CommunityId/users/:UserId', wrap(async function (req, res, next) { // another user's wall
+    app.get(route + '/:CommunityId/users/:UserId/wall', wrap(async function (req, res, next) { // another user's wall
         if (req.token.UserId === parseInt(req.params.UserId)) {
             throw { status: 400, msg: 'That\'s you.' };
         }
@@ -252,25 +252,27 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That community doesn\'t exist.' };
         }
 
-        const users = await community.getMembers({
-            id: {
-                $or: [
-                    req.params.UserId,
-                    req.token.UserId
-                ]
+        const users = await community.getMembers();
+
+        let curUser;
+        let getUser
+
+        users.forEach(user => {
+            if (user.id === req.token.UserId) {
+                curUser = user;
+            }
+            else if (user.id === parseInt(req.params.UserId)) {
+                getUser = user;
             }
         });
 
-        if (users.length !== 2) {
+        if (!curUser || !getUser) {
             throw { status: 401, msg: 'You\'re not in a community with that user.' };
         }
 
-        const getUser = users[0];
-
-        getUser.wallPosts = await getUser.getPosts({
+        getUser.dataValues.wallPosts = await getUser.getPosts({
             where: {
-                CommunityId: community.id,
-                UserId: getUser.id
+                CommunityId: community.id
             },
             include: [{
                 model: db.User,

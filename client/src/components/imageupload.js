@@ -10,7 +10,7 @@ export default class ImageUpload extends Component {
         };
       }
 
-      onChange = (e) => {
+      onChange = e => {
         switch (e.target.name) {
           case 'selectedFile':
             this.setState({ selectedFile: e.target.files[0] });
@@ -20,7 +20,7 @@ export default class ImageUpload extends Component {
         }
       }
 
-      onSubmit = (e) => {
+      onSubmit = e => {
         e.preventDefault();
         const { description, selectedFile } = this.state;
         let formData = new FormData();

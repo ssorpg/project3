@@ -6,6 +6,7 @@ import Footer from './components/footer';
 import HomePage from './components/pages/home';
 import RegisterPage from './components/pages/register';
 import Feed from './components/pages/feed';
+import Wall from './components/pages/wall';
 import Friends from './components/pages/friends';
 import createComm from './components/pages/create-community';
 import Chat from './components/pages/chat';
@@ -14,7 +15,7 @@ import './css/styles.css';
 import PrivateRoutes from './utils/privateroutes';
 import UserAuth from './utils/userauth';
 
-class TPN extends Component {
+export default class TPN extends Component {
   state = {
     isAuth: true
   }
@@ -34,10 +35,11 @@ class TPN extends Component {
             <Switch>
               <Route exact path="/" component={HomePage} />
               <Route exact path="/register" component={RegisterPage} />
-              <Route exact path="/community/:CommunityId" component={Feed} />
               <Route exact path="/profile" component={Profile} />
-              {/* TODO make friends tables/routes? */}
-              <Route exact path="/friends" component={Friends} />
+              <Route exact path="/community/:CommunityId" component={Feed} />
+              {/* TODO: make friends tables/routes? */}
+              <Route exact path="/community/:CommunityId/friends" component={Friends} />
+              <Route exact path="/community/:CommunityId/users/:UserId" component={Wall} />
               <Route exact path="/create-community" component={createComm} />
               <Route exact path="/chat" component={Chat} />
             </Switch>
@@ -51,6 +53,3 @@ class TPN extends Component {
     );
   };
 }
-
-
-export default TPN;

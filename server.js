@@ -30,7 +30,9 @@ app.use(wrap(async (req, res, next) => {
             UserId: tokenDecoded.UserId
         };
     }
-    else if (req.path !== '/api/users' && req.path !== '/api/users/register' && req.path !== '/api/users/logout' ) {
+    else if (req.path !== '/api/users'
+    && req.path !== '/api/users/register'
+    && req.path !== '/api/users/logout') {
         throw { status: 401 };
     }
 

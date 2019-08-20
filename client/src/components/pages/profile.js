@@ -33,17 +33,15 @@ export default class Profile extends Component {
         {
           this.state.userData ?
             <Card cardClass={"text-dark text-left col-12 card"}>
-
-              <img className="card-img-top" src="http://place-hold.it/200" alt="" style={{ height: '200px', width: '200px', padding: '20px' }} />
-              <div className="card-body">
-                <header>
+              <div className="row justify-content-start">
+                <img className="card-img-top col-2" src="http://place-hold.it/200" alt="" style={{ height: '200px', minWidth: '200px', padding: '20px' }} />
+                <header className="col-5" style={{ paddingTop: '20px' }}>
                   <h5 className="card-title">
                     {this.state.userData.data.name}
                   </h5>
-                  <h6 className="card-subtitle">
-                    {this.state.userData.data.name}
-                  </h6>
                 </header>
+              </div>
+              <div className="card-body">
                 <p className="card-text">
                   {this.state.userData.data.bio}
                 </p>
@@ -54,7 +52,7 @@ export default class Profile extends Component {
                     {
                       this.state.userData.data.communities.map((community, id) => (
                         <ListGroupItem>
-                          <a key={id} href={"/community/" + community.id}>{community.name}</a>
+                          <a key={id.toString()} href={"/community/" + community.id}>{community.name}</a>
                         </ListGroupItem>
                       ))
                     }

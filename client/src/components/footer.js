@@ -5,7 +5,7 @@ import Chat from './pages/chat';
 export default class Footer extends Component {
 
     componentDidMount() {
-        //console.log('testing',this.state);
+        //console.log('testing', this.state);
     }
 
     render() {
@@ -17,15 +17,15 @@ export default class Footer extends Component {
                 </Popover.Content>
             </Popover>
         );
-    
+
         const ChatButton = () => (
             <OverlayTrigger trigger="click" placement="top" overlay={popover}>
-                <Button variant="success" style={{margin: '10px'}}>Chat</Button>
+                <Button variant="success" style={{ margin: '10px' }}>Chat</Button>
             </OverlayTrigger>
         );
 
         return (
-            <Nav style={{position: 'fixed', bottom: '0'}}>
+            <Nav style={{ position: 'fixed', bottom: '0' }}>
                 <ChatButton />
             </Nav>
         );

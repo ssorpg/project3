@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { LoginForm } from './form';
 
-function Login() {
+export default function Login() {
   return (
     <Row>
       <Col>
@@ -12,5 +12,3 @@ function Login() {
     </Row>
   );
 }
-
-export default Login;

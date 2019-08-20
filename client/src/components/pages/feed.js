@@ -19,8 +19,15 @@ export default class Feed extends Component {
     }
   }
 
-  componentWillMount(props) {
-    this.getData(props);
+  componentDidMount() {
+    this.getData();
+  }
+
+  resetAlerts = async () => {
+    await this.setState({
+      success_alert: undefined,
+      error_alert: undefined
+    });
   }
 
   getData = async () => {
@@ -32,13 +39,16 @@ export default class Feed extends Component {
         communityData: res.data,
         posts: res.data.feedPosts
       });
-    } catch (error) {
+    }
+    catch (error) {
       console.log(error);
     }
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = async event => {
     event.preventDefault();
+    this.resetAlerts();
+
     const formData = event.target;
     const inputs = formData.getElementsByTagName('input');
 
@@ -50,7 +60,9 @@ export default class Feed extends Component {
     this.postToDB(post);
   }
 
-  postToDB = async (data) => {
+  postToDB = async data => {
+    this.resetAlerts();
+
     try {
       const res = await ax.post(`/api/posts?CommunityId=` + this.props.match.params.CommunityId, data);
 
@@ -61,9 +73,21 @@ export default class Feed extends Component {
     }
     catch (error) {
       console.log('Error Posting: ', error.response);
-      this.setState({
-        error_alert: error.response.data
-      });
+      this.setState({ error_alert: error.response.data });
+    }
+  }
+
+  vote = async event => {
+    this.resetAlerts();
+
+    try {
+      await ax.put(`/api/posts/${event.target.dataset.id}/${event.target.dataset.vote}`);
+
+      this.setState({ success_alert: 'Thanks for voting.' });
+    }
+    catch (error) {
+      console.log('Error Posting: ', error);
+      this.setState({ error_alert: error.response.data });
     }
   }
 
@@ -100,51 +124,52 @@ export default class Feed extends Component {
                 </div>
                 : ''
               }
-              <input type="text" name="feed-comment" placeholder="Tell the community what you're thinking…" />
-              <button type="submit" value="submit" className="btn btn-primary">Submit</button>
+              <input type="text" name="feed-comment" placeholder="Tell the community what you're thinking…" style={{ minWidth: '310px' }} />
+              <button type="submit" value="submit" className="btn btn-primary" style={{ margin: '15px' }}>Post</button>
             </form>
           </Col>
         </Row>
         <Row>
-          {this.state.posts
-            ? this.state.posts.map(post => (
-              <Col key={post.id.toString()} xs={12} md={6} style={{ padding: '10px' }}>
+          {
+            this.state.posts
+              ? this.state.posts.map(post => (
+                <Col key={post.id.toString()} md={12} lg={6} style={{ padding: '15px' }}>
 
-                <div className="comment">
-                  <Card cardClass={"text-dark text-left card"}>
-                    <h4 className="username">
-                      {post.name}
-                    </h4>
-                    <Row>
-                      <Col className="col-3">
-                        <figure className="float:right"
-                          style={{
-                            borderRadius: '150px',
-                            overflow: 'hidden'
-                          }}>
-                          <img src="http://place-hold.it/150" alt="of a guy" style={{ maxWidth: '100%' }} />
-                        </figure>
-                      </Col>
-                      <Col className="col-9">
-                        <p className="comment">{post.message}</p>
-                        <ul style={{ padding: 0 }}>
-                          <li className="btn btn-like" style={{ paddingLeft: 0 }}>
-                            <a href="#">Like</a>
-                          </li>
-                          <li className="btn btn-dislike">
-                            <a href="#">Dislike</a>
-                          </li>
-                          <li className="btn btn-comment">
-                            <a href="#">Comment</a>
-                          </li>
-                        </ul>
-                      </Col>
-                    </Row>
-                  </Card>
-                </div>
-              </Col>
-            ))
-            : <h2>No Posts Found. <br /> You should make some!</h2>
+                  <div className="comment">
+                    <Card cardClass={"text-dark text-left card"}>
+                      <h4 className="username" style={{ margin: '10px' }}>
+                        {post.author.name}
+                      </h4>
+                      <Row className="justify-content-center">
+                        <Col className="col-3">
+                          <figure className="float:right"
+                            style={{
+                              borderRadius: '150px',
+                              overflow: 'hidden'
+                            }}>
+                            <img src="http://place-hold.it/150" alt="of a guy" style={{ maxWidth: '100%' }} />
+                          </figure>
+                        </Col>
+                        <Col className="col-8">
+                          <p className="comment">{post.message}</p>
+                          <ul style={{ padding: 0, position: 'absolute', bottom: '5px', marginBottom: 0 }}>
+                            <li className="btn" style={{ padding: '2px' }}>
+                              <button className="btn btn-success" onClick={this.vote} data-id={post.id} data-vote={"1"}>Like</button>
+                            </li>
+                            <li className="btn" style={{ padding: '2px' }}>
+                              <button className="btn btn-danger" onClick={this.vote} data-id={post.id} data-vote={"-1"}>Dislike</button>
+                            </li>
+                            <li className="btn" style={{ padding: '2px' }}>
+                              <button className="btn btn-primary" onClick={this.addComment} data-id={post.id}>Comment</button>
+                            </li>
+                          </ul>
+                        </Col>
+                      </Row>
+                    </Card>
+                  </div>
+                </Col>
+              ))
+              : <h2>No posts in this community. <br /> You should make some!</h2>
           }
         </Row>
       </Container>

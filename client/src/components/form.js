@@ -3,7 +3,6 @@ import { Form, Dropdown } from 'react-bootstrap';
 import { LoginButton, Register } from './buttons';
 import ax from 'axios';
 
-
 export class LoginForm extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
