@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Success from './success';
 
 export default class ImageUpload extends Component {
   constructor() {
@@ -33,6 +34,7 @@ export default class ImageUpload extends Component {
         break;
       default:
         this.setState({ [e.target.name]: e.target.value });
+        break;
     }
   }
 

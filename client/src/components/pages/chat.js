@@ -11,7 +11,7 @@ export default class Chat extends Component {
     super(props);
     this.state = {
       userData: undefined,
-      messages: [],
+      messages: []
     };
   }
 
@@ -21,7 +21,6 @@ export default class Chat extends Component {
     this.GetData();
 
     this.ws.onopen = () => {
-      // on connecting, do nothing but log it to the console
       console.log('connected')
     }
 
@@ -73,18 +72,6 @@ export default class Chat extends Component {
   render() {
     return (
       <div className="chat">
-        {/* { this.state.userData ?
-        <label htmlFor="name">
-          Name:&nbsp;
-          <input
-            type="text"
-            id={'name'}
-            value={this.state.userData.data.name}
-            //onChange={e => this.setState({ name: e.target.value })}
-          />
-        </label>
-        : ''
-        } */}
         <ChatInput
           ws={this.ws}
           onSubmitMessage={messageString => this.submitMessage(messageString)}

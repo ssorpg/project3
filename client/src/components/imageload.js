@@ -17,7 +17,7 @@ export default class Imageload extends Component {
     GetData = async () => {
         try {
             const userData = await axios.get(`/api/users/profile/`);
-            await this.setState({ userData: userData });
+            await this.setState({ userData });
             console.log(this.state.userData.data.id);
             this.findImage();
         }
@@ -35,8 +35,7 @@ export default class Imageload extends Component {
             .then(response => {
                 //console.log(response.data[0].filename);
                 let filename = response.data[0].filename;
-                this.setState({ filename: filename });
-                return;
+                this.setState({ filename });
             })
             .catch(error => {
                 console.log(error);
@@ -48,7 +47,7 @@ export default class Imageload extends Component {
             <div>
                 {console.log(this.state.filename)}
                 {/* <img src={require(`../public/user/images/${this.state.filename}`)} alt="" /> */}
-                <img src={`/images/${this.state.filename}`} alt="" />
+                <img src={`/images/${this.state.filename}`} alt="profile" style={{height:'250px', width:'250px'}}/>
             </div>
         )
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap';
+import { Nav, Navbar, Form, FormControl, Button, NavDropdown } from 'react-bootstrap';
 import ax from 'axios';
 import Login from './login';
 import user from '../images/icons/svg/user.svg';
@@ -59,18 +59,15 @@ export default class Header extends Component {
                 ? <Nav.Link href={"/community/" + this.state.CommunityId + "/wall"}>Wall</Nav.Link>
                 : ''
             }
-                        {
+            {
               this.state.CommunityId
-                ? <Nav.Link href="/chat">Chat</Nav.Link>
+                ? <Nav.Link href="/community/:CommunityId/chat">Chat</Nav.Link>
                 : ''
             }
-            {/* <NavDropdown title="Communities" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                        </NavDropdown> */}
+            <NavDropdown title="Settings" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/update-profile">Update Bio</NavDropdown.Item>
+              <NavDropdown.Item href="/update-photo">Update Photo</NavDropdown.Item>
+            </NavDropdown>
           </Nav>
           <Nav className="nav navbar-nav navbar-right">
             {
