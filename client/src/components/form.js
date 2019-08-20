@@ -225,24 +225,38 @@ export class SearchForm extends Component {
     
     this.state = {
       searchQuery: '',
-      indexes: []
+      communities: [],
+      users: [],
+      events: []
     }
   }
   //TODO move search input to be hidden if not logged in
    componentDidMount() {
     //*make indexes of top level data to speed up search
     //*if no matches in this dataset start searching tables one by one
-    this.getData();
+    //  this.getData();
   }
 
   getData = async () => {
     try {
-      let res = await ax.post('/api/search');
-
+      console.log(this.state.searchQuery);
+      let res = await
+        ax.post(
+          '/api/search',
+          {search: this.state.searchQuery}
+        );
       if (res.status === 200) {
+        let {
+          users,
+          events,
+          communities
+        } = res.data;
+
         this.setState({
-          indexes: res.data
-        });
+          'users': users,
+          'events': events,
+          'communities': communities
+        }, () => console.log(this.state));
       }
     } catch (error) {
       console.log(error.response);
@@ -254,10 +268,18 @@ export class SearchForm extends Component {
       searchQuery: event.target.value
     });
   }
-
+  //todo remove init data grab and let users troll entire db
+  //todo maybe add paging to results
   handleSearchSubmit = event => {
     event.preventDefault();
-    // this.search({ search: this.state.searchQuery});
+    this.getData();
+    // if (this.state.users.length > 0) {
+    //   this.state.users.forEach(item => {
+    //     console.log(item);
+    //   })
+    // } else {
+    //   console.log('Nothing to Search');
+    // }
   }
 
   search = async query => {
@@ -267,7 +289,7 @@ export class SearchForm extends Component {
 
       if (res.status === 200) {
         this.setState({
-          indexes: res.data
+          initData: res.data
         });
       }
     } catch (error) {
@@ -277,7 +299,10 @@ export class SearchForm extends Component {
 
   render() {
     return (
-      <Form inline onSubmit={this.handleSearchSubmit}>
+      <Form
+        inline
+        onSubmit={this.handleSearchSubmit}
+      >
         {/* // TODO make search route to handle searches */}
         <FormControl
           type="text"

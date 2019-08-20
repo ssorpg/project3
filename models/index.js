@@ -3,6 +3,7 @@
 var fs = require('fs');
 var path = require('path');
 var Sequelize = require('sequelize');
+var op = Sequelize.Op;
 var basename = path.basename(module.filename);
 var env = process.env.NODE_ENV || 'development';
 var config = require(__dirname + '/../config/config.js')[env];
@@ -33,5 +34,6 @@ Object.keys(db).forEach(function (modelName) {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+db.op = op;
 
 module.exports = db;
