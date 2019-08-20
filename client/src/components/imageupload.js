@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import CheckError from '../utils/checkerror';
 
 export default class ImageUpload extends Component {
   constructor() {
@@ -15,10 +16,9 @@ export default class ImageUpload extends Component {
     try {
       const userData = await axios.get(`/api/users/profile/`);
       await this.setState({ userData: userData });
-      console.log(this.state.userData.data.id);
     }
     catch (error) {
-      console.log(error.response);
+      CheckError(error);
     }
   };
 
@@ -45,7 +45,7 @@ export default class ImageUpload extends Component {
     formData.append('selectedFile', selectedFile);
 
     axios.post(`/api/${userid}/images`, formData)
-      .then((result) => {
+      .then(result => {
         console.log(result);
       });
   }
