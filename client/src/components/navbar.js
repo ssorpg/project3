@@ -92,11 +92,11 @@ export default class Header extends Component {
                   </Button>
                 </div>
                 : <div>
-                  <Button variant="outline-info"
+                  <Button variant="success"
                     className="user-state-button login"
                     title="Log In"
                     onClick={this.toggleLogin}>
-                    <img src={login} alt="" />
+                    Log In
                   </Button>
                   <Register />
                 </div>
