@@ -5,6 +5,7 @@ import {
   ListGroup, ListGroupItem
 } from 'react-bootstrap';
 import ax from 'axios';
+import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 
 export default class CreateCommunity extends Component {
   constructor() {
