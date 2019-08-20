@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Form } from 'react-bootstrap';
-import { LoginButton, Register } from './buttons';
+import { Form, Dropdown } from 'react-bootstrap';
+import { LoginButton } from './buttons';
 import ax from 'axios';
 
 // LOGIN FORM
@@ -40,7 +40,6 @@ export class LoginForm extends Component {
           </Form.Group>
           <span style={{ display: 'flex', justifyContent: 'space-between' }}>
             <LoginButton />
-            <Register />
           </span>
         </Form>
       </div>

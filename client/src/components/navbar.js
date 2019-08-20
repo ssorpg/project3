@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap';
 import ax from 'axios';
 import Login from './login';
+import { Register } from './buttons';
 import user from '../images/icons/svg/user.svg';
 import login from '../images/icons/svg/user-plus.svg';
 import logout from '../images/icons/svg/user-minus.svg';
@@ -96,19 +97,22 @@ export default class Header extends Component {
                   >
                     <img src={user} alt="" />
                   </a>
-                  <Button variant="outline-info"
+                  <Button variant="danger"
                     className="user-state-button logout"
                     title="Log Out"
                     onClick={this.logout}>
-                    <img src={logout} alt="" />
+                    Log Out
                   </Button>
                 </div>
-                : <Button variant="outline-info"
-                  className="user-state-button login"
-                  title="Log In"
-                  onClick={this.toggleLogin}>
-                  <img src={login} alt="" />
-                </Button>
+                : <div>
+                  <Button variant="success"
+                    className="user-state-button login"
+                    title="Log In"
+                    onClick={this.toggleLogin}>
+                    Log In
+                  </Button>
+                  <Register />
+                </div>
             }
             <Form inline>
               {/* // TODO make search route to handle searches */}
