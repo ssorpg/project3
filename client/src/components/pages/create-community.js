@@ -53,7 +53,23 @@ export default class CreateCommunity extends Component {
   
   handleCreateCommunity = (event) => {
     event.preventDefault();
-    console.log('submitting a new community')
+    const form = event.target;
+    const inputs = form.getElementsByTagName('input')
+    const value = inputs[0].value;
+    this.createCommunity({name: value});
+  }
+  createCommunity = async (community) => {
+    console.log(community);
+    try {
+      const results = await ax.post('/api/communities', community);
+      if(results.status === 200) {
+        let communityId = results.data.id;
+        // console.log(communityId);
+        window.location = `/community/${communityId}`;
+      }
+    } catch (error) {
+      console.log('error createing community: ', error);
+    }
   }
 
   render() {
@@ -109,7 +125,7 @@ export default class CreateCommunity extends Component {
             <Col className="dropdown">
               <Row>
                 <Col className="input">
-                  <Form>
+                  <Form onSubmit={this.handleCreateCommunity}>
                     <Form.Group controlId="formGroupCommunity">
                       <Form.Label>
                         Enter Your Community Name
