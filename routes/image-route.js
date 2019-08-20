@@ -14,7 +14,10 @@ module.exports = app => {
   });
 
   app.get('/api/:userid/images', (req, res) => {
-    db.Image.findAll({ where: {userid: req.params.userid}})
+    db.Image.findAll({
+      where: { userid: req.params.userid },
+      order: [['createdAt', 'DESC']]
+    })
       .then(images => {
         res.json(images);
       });

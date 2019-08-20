@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
 import Card from '../card.js';
 import ax from 'axios';
+import Profilephoto from '../imageload';
 import ImageUpload from '../imageupload';
 import CheckError from '../../utils/checkerror';
+
 
 export default class Profile extends Component {
   constructor(props) {
@@ -37,7 +39,7 @@ export default class Profile extends Component {
           this.state.userData ?
             <Card cardClass={"text-dark text-left col-12 card"}>
               <div className="row justify-content-start">
-                <img className="card-img-top col-2" src="http://place-hold.it/200" alt="" style={{ height: '200px', minWidth: '200px', padding: '20px' }} />
+                <Profilephoto />
                 <header className="col-5" style={{ paddingTop: '20px' }}>
                   <h5 className="card-title">
                     {this.state.userData.data.name}
@@ -46,7 +48,10 @@ export default class Profile extends Component {
               </div>
               <div className="card-body">
                 <p className="card-text">
-                  {this.state.userData.data.bio}
+                  <h5>Bio:</h5> {this.state.userData.data.bio}
+                </p>
+                <p className="card-text">
+                  <h5>Location:</h5> {this.state.userData.data.location}
                 </p>
 
                 <div className="networks">
@@ -65,7 +70,6 @@ export default class Profile extends Component {
             </Card>
             : ''
         }
-        <ImageUpload />
       </div>
     )
   }

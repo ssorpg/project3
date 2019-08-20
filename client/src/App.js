@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 // import './App.css';
 import Nav from './components/navbar.js';
 import Profile from './components/pages/profile';
-// import Footer from './components/footer';
+import Footer from './components/footer';
+import UpdatePhoto from './components/pages/update-photo';
 import HomePage from './components/pages/home';
 import RegisterPage from './components/pages/register';
 import Feed from './components/pages/feed';
@@ -25,6 +26,7 @@ export default class TPN extends Component {
               <Route exact path="/register" component={RegisterPage} />
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/update-profile" component={UpdateProfile} />
+              <Route exact path="/update-photo" component={UpdatePhoto} />
               <Route exact path="/create-community" component={createComm} />
               <Route exact path="/community/:CommunityId" component={Feed} />
               <Route exact path="/community/:CommunityId/wall" component={Wall} />
@@ -36,7 +38,7 @@ export default class TPN extends Component {
             </Switch>
           </div>
         </Router>
-        {/* <Footer /> */}
+        <Footer />
         <aside id="popover" className="card bg-danger text-center">
           <h3 className="card-title"> </h3>
         </aside>

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Success from './success';
 import CheckError from '../utils/checkerror';
+
 
 export default class ImageUpload extends Component {
   constructor() {
@@ -33,6 +35,7 @@ export default class ImageUpload extends Component {
         break;
       default:
         this.setState({ [e.target.name]: e.target.value });
+        break;
     }
   }
 
@@ -47,6 +50,8 @@ export default class ImageUpload extends Component {
     axios.post(`/api/${userid}/images`, formData)
       .then(result => {
         console.log(result);
+        //this is an alert for now, will swap it out with some cool popup thingie from material-ui when we switch to it.
+        alert('s u c c e s s');
       });
   }
 
