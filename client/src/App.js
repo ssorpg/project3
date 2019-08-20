@@ -10,6 +10,7 @@ import Wall from './components/pages/wall';
 import Friends from './components/pages/friends';
 import createComm from './components/pages/create-community';
 import Chat from './components/pages/chat';
+import UpdateProfile from './components/pages/update-profile';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './css/styles.css';
 import PrivateRoutes from './utils/privateroutes';
@@ -40,6 +41,7 @@ export default class TPN extends Component {
               {/* TODO: make friends tables/routes? */}
               <Route exact path="/community/:CommunityId/friends" component={Friends} />
               <Route exact path="/community/:CommunityId/users/:UserId" component={Wall} />
+              <Route exact path="/update-profile" component={UpdateProfile} />
               <Route exact path="/create-community" component={createComm} />
               <Route exact path="/chat" component={Chat} />
             </Switch>
