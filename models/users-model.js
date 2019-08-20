@@ -41,6 +41,14 @@ module.exports = function (sequelize, DataTypes) {
                     msg: 'Your password must be between 8 and 128 characters long.'
                 }
             }
+        },
+        bio: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        location: {
+            type: DataTypes.STRING,
+            allowNull: true
         }
     },
         {

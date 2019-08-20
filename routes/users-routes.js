@@ -47,8 +47,21 @@ module.exports = function (app) {
             email: req.body.email,
             password: password
         });
-
         res.status(200).send('Account created!');
+    }));
+
+    app.put(route + '/update', wrap(async function (req, res, next) { // register user
+        console.log(req.body);
+        await db.User.update(
+            {
+                bio: req.body.bio,
+                location: req.body.location,
+            },
+            {
+                where: { id: req.body.id }
+            }
+        );
+        res.status(200).send('Profile updated!');
     }));
 
     app.get(route + '/logout', wrap(async function (req, res, next) { // logout

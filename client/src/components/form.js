@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { Form, Dropdown } from 'react-bootstrap';
 import { LoginButton, Register } from './buttons';
 import ax from 'axios';
+import ImageUpload from './imageupload';
 
+// LOGIN FORM 
+// LOGIN FORM 
+// LOGIN FORM 
 export class LoginForm extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
@@ -46,6 +50,10 @@ export class LoginForm extends Component {
 
 }
 
+
+//REGISTER FORM
+//REGISTER FORM
+//REGISTER FORM
 export class RegisterForm extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
@@ -63,8 +71,7 @@ export class RegisterForm extends Component {
   postToDB = async (postData) => {
     console.log(postData);
     const {
-      name, email, password,
-      password_match, photo
+      name, email, password, password_match
     } = postData;
 
     try {
@@ -74,7 +81,6 @@ export class RegisterForm extends Component {
           name: name,
           email: email,
           password: password,
-          photo: photo
         }
       );
 
@@ -93,7 +99,7 @@ export class RegisterForm extends Component {
     let res = await ax.post('/api/users', { email: email, password: pass });
 
     if (res.status === 200) {
-      window.location = `/create-community/`;
+      window.location = `/update-profile/`;
     }
   }
 
@@ -117,10 +123,92 @@ export class RegisterForm extends Component {
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control type="password" name="password_match" placeholder="Confirm Password" {...this.props} />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>Upload Profile Photo</Form.Label>
-            <Form.Control type="file" name="photo" placeholder="Image" {...this.props} />
+          <LoginButton />
+        </Form>
+      </div>
+    )
+  }
+}
+
+
+//UPDATE FORM
+//UPDATE FORM
+//UPDATE FORM
+export class UpdateForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userData: undefined,
+    };
+  }
+
+  componentDidMount() {
+    this.GetData();
+  }
+
+  GetData = async () => {
+    try {
+      const userData = await ax.get(`/api/users/profile/`);
+      await this.setState({ userData: userData });
+      console.log(this.state.userData);
+    }
+    catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    let formData = event.target;
+    let inputs = formData.getElementsByTagName('input');
+    let postData = {};
+
+    for (let i = 0; i < inputs.length; i++) {
+      postData[inputs[i].name] = inputs[i].value;
+    }
+
+    this.postToDB(postData);
+  }
+
+  postToDB = async (postData) => {
+    console.log(postData);
+    const {
+      bio, location
+    } = postData;
+
+    try {
+      let register_results = await ax.put(
+        '/api/users/update',
+        {
+          bio: bio,
+          location: location,
+          id: this.state.userData.data.id
+        }
+      );
+
+      if (register_results.status === 200) {
+        window.location = `/create-community/`;
+      }
+    } catch (error) {
+      console.log('Error :', error.response);
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Group controlId="formGroupPhoto">
           </Form.Group>
+          <Form.Group controlId="formGroupBio">
+            <Form.Label>Bio</Form.Label>
+            <Form.Control type="text" name="bio" placeholder="Tell me about yourself!" required {...this.props} />
+          </Form.Group>
+          <Form.Group controlId="formGroupText">
+            <Form.Label>Location</Form.Label>
+            <Form.Control type="text" name="location" placeholder="Westwood, LA" required {...this.props} />
+          </Form.Group>
+          {/* <ImageUpload /> */}
           <LoginButton />
         </Form>
       </div>
