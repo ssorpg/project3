@@ -10,7 +10,7 @@
     margin: 20px;
 }
 
-form {
+.chat form {
     background: #fff;
     padding: 3px;
     position: fixed;
@@ -21,7 +21,7 @@ form {
     border-top-width: 1px;
 }
 
-form input {
+.chat form input {
     border-style: solid;
     border-width: 1px;
     padding: 10px;
@@ -29,7 +29,7 @@ form input {
     margin-right: .5%;
 }
 
-form button {
+.chat form button {
     width: 9%;
     background: rgb(130, 224, 255);
     border: none;
@@ -37,13 +37,13 @@ form button {
     margin-left: 2%;
 }
 
-li {
+.chat li {
     padding: 5px 10px;
     list-style-type: none;
     margin-bottom: 10px;
     padding: 0;
 }
 
-li:nth-child(odd) {
+.chat li:nth-child(odd) {
     background: #eee;
 }

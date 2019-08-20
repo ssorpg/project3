@@ -4,19 +4,17 @@ const db = require("../models");
 const path = require('path');
 
 module.exports = app => {
-  app.post('/api/images', multer.any(), async (req, res) => {
-    //console.log('testing',req.files[0]);
+  app.post('/api/:userid/images', multer.any(), async (req, res) => {
     let fileinfo = req.files[0];
-    //console.log(fileinfo);
-    //fileinfo.userid = req.params.userid;
+    fileinfo.userid = req.params.userid;
     let image = await db.Image.create(fileinfo);
 
     res.json(image);
     //res.json('success');
   });
 
-  app.get('/api/images', (req, res) => {
-    db.Image.findAll({})
+  app.get('/api/:userid/images', (req, res) => {
+    db.Image.findAll({ where: {userid: req.params.userid}})
       .then(images => {
         res.json(images);
       });

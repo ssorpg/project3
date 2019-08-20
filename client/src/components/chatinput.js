@@ -14,6 +14,7 @@ export default class ChatInput extends Component {
   render() {
     return (
       <form
+        className="chat"
         action="."
         onSubmit={e => {
           e.preventDefault()
@@ -22,6 +23,7 @@ export default class ChatInput extends Component {
         }}
       >
         <input
+        className="chat"
           type="text"
           placeholder={'Enter message...'}
           value={this.state.message}
