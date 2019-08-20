@@ -7,6 +7,8 @@ import user from '../images/icons/svg/user.svg';
 import login from '../images/icons/svg/user-plus.svg';
 import logout from '../images/icons/svg/user-minus.svg';
 import close from '../images/icons/svg/cancel-circle.svg';
+import UserAuth from '../utils/userauth';
+import CheckError from '../utils/checkerror';
 
 export default class Header extends Component {
   constructor(props) {
@@ -15,14 +17,25 @@ export default class Header extends Component {
     this.state = {
       CommunityId: window.location.pathname.match(/\/community\/([0-9]*)/)
         ? window.location.pathname.match(/\/community\/([0-9]*)/)[1]
-        : undefined
+        : undefined,
+      isAuth: true
     }
   }
 
+  componentDidMount() {
+    const isAuth = UserAuth();
+    this.setState({ isAuth: isAuth });
+  }
+
   async logout() {
-    const res = await ax.get('/api/users/logout');
-    if (res.status === 200) {
-      window.location = '/';
+    try {
+      const res = await ax.get('/api/users/logout');
+      if (res.status === 200) {
+        window.location = '/';
+      }
+    }
+    catch (error) {
+      CheckError(error);
     }
   }
 
@@ -60,9 +73,9 @@ export default class Header extends Component {
                 ? <Nav.Link href={"/community/" + this.state.CommunityId + "/wall"}>Wall</Nav.Link>
                 : ''
             }
-                        {
+            {
               this.state.CommunityId
-                ? <Nav.Link href="/chat">Chat</Nav.Link>
+                ? <Nav.Link href={"/community/" + this.state.CommunityId + "/chat"}>Chat</Nav.Link>
                 : ''
             }
             {/* <NavDropdown title="Communities" id="basic-nav-dropdown">
@@ -75,8 +88,8 @@ export default class Header extends Component {
           </Nav>
           <Nav className="nav navbar-nav navbar-right">
             {
-              this.props.isAuth
-                ? <div style={{textAlign: 'right'}}>
+              this.state.isAuth
+                ? <div>
                   <a
                     className="btn btn-outline-info user-state-button dashboard"
                     title="Dashboard"

@@ -3,6 +3,7 @@ import { ListGroup, ListGroupItem } from 'react-bootstrap';
 import Card from '../card.js';
 import ax from 'axios';
 import ImageUpload from '../imageupload';
+import CheckError from '../../utils/checkerror';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -20,11 +21,12 @@ export default class Profile extends Component {
   GetData = async () => {
     try {
       const userData = await ax.get(`/api/users/profile/`);
-      const data = await this.setState({ userData: userData });
-      console.log('profile',this.state);
+
+      await this.setState({ userData: userData });
+      console.log('profile', this.state.userData);
     }
     catch (error) {
-      console.log(error.response);
+      CheckError(error);
     }
   }
 
@@ -63,7 +65,7 @@ export default class Profile extends Component {
             </Card>
             : ''
         }
-        <ImageUpload/>
+        <ImageUpload />
       </div>
     )
   }

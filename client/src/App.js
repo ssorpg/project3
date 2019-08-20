@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-//import './App.css';
+// import './App.css';
 import Nav from './components/navbar.js';
 import Profile from './components/pages/profile';
-import Footer from './components/footer';
+// import Footer from './components/footer';
 import HomePage from './components/pages/home';
 import RegisterPage from './components/pages/register';
 import Feed from './components/pages/feed';
@@ -13,24 +13,12 @@ import Chat from './components/pages/chat';
 import UpdateProfile from './components/pages/update-profile';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './css/styles.css';
-import PrivateRoutes from './utils/privateroutes';
-import UserAuth from './utils/userauth';
 
 export default class TPN extends Component {
-  state = {
-    isAuth: true
-  }
-
-  componentDidMount() {
-    const isAuth = UserAuth();
-    this.setState({ isAuth: isAuth });  // setState is async - can either call it with await or set a variable if need to use state value immediately
-    PrivateRoutes(isAuth);              // like we do here
-  }
-
   render() {
     return (
       <div>
-        <Nav isAuth={this.state.isAuth} />
+        <Nav />
         <Router>
           <div className="App" id="App">
             <Switch>
