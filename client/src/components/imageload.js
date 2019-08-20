@@ -29,7 +29,7 @@ export default class Imageload extends Component {
 
     //fix later to attach userid to image incoming from props??
     findImage() {
-        let userid = this.state.userData.data.id;
+        const userid = this.state.userData.data.id;
 
         axios.get(`/api/${userid}/images`)
             .then(response => {

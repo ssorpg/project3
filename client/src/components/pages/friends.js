@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Card from '../card.js';
 import ax from 'axios';
+import CheckError from '../../utils/checkerror';
 
 export default class Friends extends Component {
   constructor(props) {
@@ -25,7 +26,7 @@ export default class Friends extends Component {
       this.setState({ friends: res.data.members });
     }
     catch (error) {
-      console.log(error);
+      CheckError(error);
     }
   }
 
@@ -42,7 +43,7 @@ export default class Friends extends Component {
             this.state.friends
               ? this.state.friends.map(friend => (
                 <Col xs={4} md={3} lg={2}>
-                  <a href={"/community/" + this.state.CommunityId + "/users/" + friend.id}>
+                  <a href={"/community/" + this.state.CommunityId + "/friends/" + friend.id}>
                     <Card cardClass={"text-dark text-left card"}>
                       <nav className="card-nav">
                         {/* <button class="btn btn-default" className="favorite"></button> */}

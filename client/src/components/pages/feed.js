@@ -7,6 +7,7 @@ import './images/icons/svg/check-empty.svg';
 import './images/icons/svg/check-full.svg';
 import OtherPhoto from '../otherphoto';
 import ax from 'axios';
+import CheckError from '../../utils/checkerror';
 
 export default class Feed extends Component {
   constructor(props) {
@@ -15,20 +16,12 @@ export default class Feed extends Component {
     this.state = {
       communityData: {},
       posts: [],
-      success_alert: undefined,
       error_alert: undefined
     }
   }
 
   componentDidMount() {
     this.getData();
-  }
-
-  resetAlerts = async () => {
-    await this.setState({
-      success_alert: undefined,
-      error_alert: undefined
-    });
   }
 
   getData = async () => {
@@ -43,52 +36,51 @@ export default class Feed extends Component {
       console.log(this.state.posts);
     }
     catch (error) {
-      console.log(error);
+      CheckError(error);
     }
   }
 
   handleSubmit = async event => {
     event.preventDefault();
-    this.resetAlerts();
 
-    const formData = event.target;
-    const inputs = formData.getElementsByTagName('input');
+    const form = event.target;
 
+    const submit = form.getElementsByTagName('button')[0];
+    submit.style.visibility = 'hidden';
+
+    const input = form.getElementsByTagName('input[name=feed-comment]');
     const post = {
-      title: 'A New Comment!',
-      message: inputs[0].value
+      message: input.value
     };
 
-    this.postToDB(post);
+    await this.postToDB(post);
+    submit.style.visibility = 'visible';
   }
 
   postToDB = async data => {
-    this.resetAlerts();
+    this.setState({ error_alert: undefined });
 
     try {
       const res = await ax.post(`/api/posts?CommunityId=` + this.props.match.params.CommunityId, data);
 
       this.setState({
-        success_alert: 'You have posted.',
         posts: [res.data, ...this.state.posts]
       });
     }
     catch (error) {
-      console.log('Error Posting: ', error.response);
+      console.log(error.response);
       this.setState({ error_alert: error.response.data });
     }
   }
 
   vote = async event => {
-    this.resetAlerts();
+    this.setState({ error_alert: undefined });
 
     try {
       await ax.put(`/api/posts/${event.target.dataset.id}/${event.target.dataset.vote}`);
-
-      this.setState({ success_alert: 'Thanks for voting.' });
     }
     catch (error) {
-      console.log('Error Posting: ', error);
+      console.log(error.response);
       this.setState({ error_alert: error.response.data });
     }
   }
@@ -107,24 +99,15 @@ export default class Feed extends Component {
               className="form-group"
               onSubmit={this.handleSubmit}
             >
-              {this.state.success_alert ?
-                <div className="alert alert-success">
-                  <p>
-                    <strong>Success: </strong>
-                    {this.state.success_alert}
-                  </p>
-                </div>
-                : ''
-              }
-
-              {this.state.error_alert ?
-                <div className="alert alert-danger">
-                  <p>
-                    <strong>Error: </strong>
-                    {this.state.error_alert}
-                  </p>
-                </div>
-                : ''
+              {
+                this.state.error_alert ?
+                  <div className="alert alert-danger">
+                    <p>
+                      <strong>Error: </strong>
+                      {this.state.error_alert}
+                    </p>
+                  </div>
+                  : ''
               }
               <input type="text" name="feed-comment" placeholder="Tell the community what you're thinking…" style={{ minWidth: '310px' }} />
               <button type="submit" value="submit" className="btn btn-primary" style={{ margin: '15px' }}>Post</button>
@@ -172,7 +155,7 @@ export default class Feed extends Component {
                   </div>
                 </Col>
               ))
-              : <h2>No posts in this community. <br /> You should make some!</h2>
+              : <h2>No posts in this community. <br /> You should make one!</h2>
           }
         </Row>
       </Container>

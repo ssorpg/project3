@@ -3,6 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import Card from '../card.js';
 import ax from 'axios';
 import ImageUpload from '../imageupload';
+import CheckError from '../../utils/checkerror';
 
 export default class Wall extends Component {
   constructor(props) {
@@ -22,23 +23,50 @@ export default class Wall extends Component {
 
   GetData = async () => {
     try {
-      if (this.state.UserId) { // someone else's wall
-        const userData = await ax.get(`/api/communities/${this.state.CommunityId}/users/${this.state.UserId}/wall`);
-        this.setState({
-          userData: userData,
-          posts: userData.data.wallPosts
-        });
-      }
-      else { // your wall
-        const userData = await ax.get(`/api/communities/${this.state.CommunityId}/wall`);
-        this.setState({
-          userData: userData,
-          posts: userData.data.wallPosts
-        });
-      }
+      const userData = this.state.UserId
+        ? await ax.get(`/api/communities/${this.state.CommunityId}/users/${this.state.UserId}/wall`) // someone else's wall
+        : await ax.get(`/api/communities/${this.state.CommunityId}/wall`); // your wall
+
+      this.setState({
+        userData: userData,
+        posts: userData.data.wallPosts
+      });
     }
     catch (error) {
-      console.log(error.response);
+      if (error.response.status === 400) {
+        return window.location = '/community/' + this.state.CommunityId + '/wall';
+      }
+
+      CheckError(error);
+    }
+  }
+
+  handleSubmit = async event => {
+    event.preventDefault();
+
+    const form = event.target;
+
+    const submit = form.getElementsByTagName('button')[0];
+    submit.style.visibility = 'hidden';
+
+    const input = form.getElementsByTagName('input[name=feed-comment]');
+    const post = {
+      message: input.value
+    };
+
+    await this.postToDB(post);
+    submit.style.visibility = 'visible';
+  }
+
+  postToDB = async data => {
+    try {
+      const res = await ax.post(`/api/posts?CommunityId=` + this.props.match.params.CommunityId + `&UserId=` + this.props.match.params.UserId, data);
+
+      this.setState({ posts: [res.data, ...this.state.posts] });
+    }
+    catch (error) {
+      console.log('Error Posting: ', error.response);
+      this.setState({ error_alert: error.response.data });
     }
   }
 
@@ -60,6 +88,21 @@ export default class Wall extends Component {
                 <p className="card-text">
                   {this.state.userData.data.bio}
                 </p>
+                {
+                  this.state.UserId
+                    ? <Row>
+                      <Col className="col-12" style={{ textAlign: 'center' }}>
+                        <form
+                          className="form-group"
+                          onSubmit={this.handleSubmit}
+                        >
+                          <input type="text" name="feed-comment" placeholder={"Say something!"} style={{ minWidth: '310px' }} />
+                          <button type="submit" value="submit" className="btn btn-primary" style={{ margin: '15px' }}>Post</button>
+                        </form>
+                      </Col>
+                    </Row>
+                    : ''
+                }
                 <Row>
                   {
                     this.state.posts
