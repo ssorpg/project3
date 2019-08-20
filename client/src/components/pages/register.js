@@ -13,7 +13,7 @@ export default function RegisterPage() {
                     </Jumbotron>
                 </Col>
                 <Col className='mobile-hide'>
-                    <p>teststeest</p>
+                    <p>test test</p>
                 </Col>
             </Row>
         </div>

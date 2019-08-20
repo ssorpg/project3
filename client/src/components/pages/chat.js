@@ -3,6 +3,7 @@ import ChatInput from '../chatinput'
 import ChatMessage from '../chatmessage'
 import ax from 'axios';
 import '../../css/chat.css';
+import CheckError from '../../utils/checkerror';
 
 const URL = 'ws://localhost:3001'
 
@@ -45,25 +46,25 @@ export default class Chat extends Component {
   GetData = async () => {
     try {
       const userData = await ax.get(`/api/users/profile/`);
+
       this.setState({ userData: userData });
     }
     catch (error) {
-      console.log(error.response);
+      CheckError(error);
     }
   };
 
-
   addMessage = message => {
-    this.setState(state => ({ 
-      messages: [message, ...state.messages] 
+    this.setState(state => ({
+      messages: [message, ...state.messages]
     }));
   }
-  
+
   submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
-    const message = { 
-      name: this.state.userData.data.name, 
-      message: messageString 
+    const message = {
+      name: this.state.userData.data.name,
+      message: messageString
     };
     this.ws.send(JSON.stringify(message))
     this.addMessage(message)
@@ -76,14 +77,16 @@ export default class Chat extends Component {
           ws={this.ws}
           onSubmitMessage={messageString => this.submitMessage(messageString)}
         />
-        {this.state.messages.map((message, index) =>
-          <ChatMessage
-            key={index}
-            message={message.message}
-            name={message.name}
-          />,
-        )}
-      
+        {
+          this.state.messages.map((message, index) =>
+            <ChatMessage
+              key={index}
+              message={message.message}
+              name={message.name}
+            />,
+          )
+        }
+
       </div>
     )
   }
