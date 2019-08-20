@@ -11,7 +11,8 @@ export default class CreateCommunity extends Component {
     super();
     this.state = {
       communities: [],
-      selectFromExisting: false
+      selectFromExisting: false,
+      toggleButtonClassName: 'btn btn-success d-none'
     }
   }
 
@@ -20,15 +21,21 @@ export default class CreateCommunity extends Component {
     let comArray = [];
 
     comRes.data.forEach((com) => {
-      comArray.push({ id: com.id, name: com.name });
+      comArray.push({
+        id: com.id,
+        name: com.name
+      });
     });
 
-    this.setState({
-      communities: comArray
-    });
+    if(comArray.length > 0) {
+      this.setState({
+        communities: comArray,
+        toggleButtonClassName: 'btn btn-success'
+      });
+    }
   }
 
-  handleFormChange = (event) => {
+  handleFormChange = () => {
     if (this.state.selectFromExisting) {
       this.setState({
         selectFromExisting: false
@@ -45,7 +52,8 @@ export default class CreateCommunity extends Component {
   }
   
   handleCreateCommunity = (event) => {
-
+    event.preventDefault();
+    console.log('submitting a new community')
   }
 
   render() {
@@ -56,7 +64,7 @@ export default class CreateCommunity extends Component {
           <p>Select a community from the dropdown or fill in a name below to create your own!</p>
         </Jumbotron>
         <Row>
-          {this.state.selectFromExisting === false ? 
+          {this.state.selectFromExisting === true ? 
           <Col className="dropdown">
               <Row>
                 <Col>
@@ -110,7 +118,8 @@ export default class CreateCommunity extends Component {
                       <Button type="submit">Submit</Button>
                     </Form.Group>
                   </Form>
-                  <Button className="btn btn-success" onClick={this.handleFormChange}>
+                  <Button className={this.state.toggleButtonClassName}
+                    onClick={this.handleFormChange}>
                     Or Choose An Existing One!
                   </Button>
                 </Col>
