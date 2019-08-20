@@ -3,6 +3,7 @@ import { ListGroup, ListGroupItem } from 'react-bootstrap';
 import Card from '../card.js';
 import ax from 'axios';
 import ImageUpload from '../imageupload';
+import OtherPhoto from '../otherphoto';
 
 export default class Profile extends Component {
   constructor(props) {

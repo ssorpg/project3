@@ -5,6 +5,7 @@ import './images/icons/svg/star-empty.svg';
 import './images/icons/svg/star-full.svg';
 import './images/icons/svg/check-empty.svg';
 import './images/icons/svg/check-full.svg';
+import OtherPhoto from '../otherphoto';
 import ax from 'axios';
 
 export default class Feed extends Component {
@@ -34,11 +35,12 @@ export default class Feed extends Component {
     try {
       const res = await ax.get('/api/communities/' + this.props.match.params.CommunityId);
 
-      this.setState({
+      await this.setState({
         pageTitle: res.data.name,
         communityData: res.data,
         posts: res.data.feedPosts
       });
+      console.log(this.state.posts);
     }
     catch (error) {
       console.log(error);
@@ -132,7 +134,8 @@ export default class Feed extends Component {
         <Row>
           {
             this.state.posts
-              ? this.state.posts.map(post => (
+              ? this.state.posts.map(post=> (
+                
                 <Col key={post.id.toString()} md={12} lg={6} style={{ padding: '15px' }}>
 
                   <div className="comment">
@@ -147,7 +150,7 @@ export default class Feed extends Component {
                               borderRadius: '150px',
                               overflow: 'hidden'
                             }}>
-                            <img src="http://place-hold.it/150" alt="of a guy" style={{ maxWidth: '100%' }} />
+                            <OtherPhoto id={post.authorId}/>
                           </figure>
                         </Col>
                         <Col className="col-8">
