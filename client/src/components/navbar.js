@@ -18,13 +18,13 @@ export default class Header extends Component {
       CommunityId: window.location.pathname.match(/\/community\/([0-9]*)/)
         ? window.location.pathname.match(/\/community\/([0-9]*)/)[1]
         : undefined,
-      isAuth: true
+      isAuth: false
     }
   }
 
   componentDidMount() {
     const isAuth = UserAuth();
-    this.setState({ isAuth: isAuth });
+    this.setState({ isAuth });
   }
 
   async logout() {
@@ -78,13 +78,18 @@ export default class Header extends Component {
                 ? <Nav.Link href={"/community/" + this.state.CommunityId + "/chat"}>Chat</Nav.Link>
                 : ''
             }
-            <NavDropdown title="Settings" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/update-profile">Update Bio</NavDropdown.Item>
-              <NavDropdown.Item href="/update-photo">Update Photo</NavDropdown.Item>
-              <NavDropdown.Item href="/create-community">Create Community</NavDropdown.Item>
-            </NavDropdown>
           </Nav>
           <Nav className="nav navbar-nav navbar-right">
+            {
+              this.state.isAuth ?
+                  <NavDropdown className="" title="Settings" id="basic-nav-dropdown">
+                    <NavDropdown.Item href="/update-profile">Update Bio</NavDropdown.Item>
+                    <NavDropdown.Item href="/update-photo">Update Photo</NavDropdown.Item>
+                    <NavDropdown.Item href="/create-community">Create Community</NavDropdown.Item>
+                  </NavDropdown>
+              
+                : ''
+            }
             {
               this.state.isAuth
                 ? <div>

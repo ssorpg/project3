@@ -3,6 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Card from '../card.js';
 import ax from 'axios';
 import CheckError from '../../utils/checkerror';
+import Profilephoto from '../otherphoto';
 
 export default class Friends extends Component {
   constructor(props) {
@@ -49,7 +50,7 @@ export default class Friends extends Component {
                         {/* <button class="btn btn-default" className="favorite"></button> */}
                         {/* <button class="btn btn-default" className="select"></button> */}
                       </nav>
-                      <img class="card-img-top" src="http://place-hold.it/150" alt="" />
+                      <Profilephoto id={friend.id}/>
                       <div class="card-body">
                         <h5 className="card-title">{friend.name}</h5>
                       </div>
