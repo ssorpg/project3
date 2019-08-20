@@ -36,15 +36,11 @@ export default class CreateCommunity extends Component {
   }
 
   handleFormChange = () => {
-    if (this.state.selectFromExisting) {
-      this.setState({
-        selectFromExisting: false
-      }, () => console.log(this.state));
-    } else {
-      this.setState({
-        selectFromExisting: true
-      }, () => console.log(this.state));
-    }
+    let stateBoolean = this.state.selectFromExisting ? false : true;
+
+    this.setState({
+      selectFromExisting: stateBoolean
+    });
   }
 
   handleChosenCommunity = (event) => {
