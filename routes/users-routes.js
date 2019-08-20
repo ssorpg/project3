@@ -25,7 +25,8 @@ module.exports = function (app) {
         const user = await db.User.findOne({
             where: {
                 email: req.body.email
-            }
+            },
+            attributes: ['id', 'password']
         });
 
         const token = auth.makeToken(req, user);
@@ -40,6 +41,10 @@ module.exports = function (app) {
     }));
 
     app.post(route + '/register', wrap(async function (req, res, next) { // register user
+        // if (req.body.password.length < 8 || req.body.password.length > 64) { // commented for development
+        //     throw { status: 400, msg: 'Your password must be between 8 and 64 characters long.' }
+        // }
+
         const password = await auth.hashPass(req);
 
         await db.User.create({
@@ -47,6 +52,7 @@ module.exports = function (app) {
             email: req.body.email,
             password: password
         });
+
         res.status(200).send('Account created!');
     }));
 

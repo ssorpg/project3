@@ -56,7 +56,7 @@ export default class CreateCommunity extends Component {
     event.preventDefault();
 
     try {
-      const res = await ax.ost(`/api/communities/${this.state.communityId}/users`)
+      const res = await ax.post(`/api/communities/${this.state.communityId}/users`)
 
       if (res.status === 200)
         window.location = `/community/${this.state.communityId}`;

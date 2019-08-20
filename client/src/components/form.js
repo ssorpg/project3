@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Dropdown } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { LoginButton } from './buttons';
 import ax from 'axios';
 

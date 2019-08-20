@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Success from './success';
+// import Success from './success';
 import CheckError from '../utils/checkerror';
 
 
