@@ -202,7 +202,7 @@ module.exports = function (app) {
         res.status(200).send('You left the community.');
     }));
 
-    app.get(route + '/:CommunityId/users/wall', wrap(async function (req, res, next) { // your community wall
+    app.get(route + '/:CommunityId/wall', wrap(async function (req, res, next) { // your community wall
         const community = await db.Community.findOne({
             where: {
                 id: req.params.CommunityId

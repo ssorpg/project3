@@ -54,7 +54,16 @@ export default class Header extends Component {
                 ? <Nav.Link href={"/community/" + this.state.CommunityId + "/friends"}>Friends</Nav.Link>
                 : ''
             }
-            <Nav.Link href="/chat">Chat</Nav.Link>
+            {
+              this.state.CommunityId
+                ? <Nav.Link href={"/community/" + this.state.CommunityId + "/wall"}>Wall</Nav.Link>
+                : ''
+            }
+                        {
+              this.state.CommunityId
+                ? <Nav.Link href="/chat">Chat</Nav.Link>
+                : ''
+            }
             {/* <NavDropdown title="Communities" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>

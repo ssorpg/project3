@@ -7,6 +7,7 @@ import ImageUpload from '../imageupload';
 export default class Wall extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       userData: undefined,
       posts: undefined,
@@ -21,11 +22,20 @@ export default class Wall extends Component {
 
   GetData = async () => {
     try {
-      const userData = await ax.get(`/api/communities/${this.state.CommunityId}/users/${this.state.UserId}/wall`);
-      this.setState({
-        userData: userData,
-        posts: userData.data.wallPosts
-      });
+      if (this.state.UserId) { // someone else's wall
+        const userData = await ax.get(`/api/communities/${this.state.CommunityId}/users/${this.state.UserId}/wall`);
+        this.setState({
+          userData: userData,
+          posts: userData.data.wallPosts
+        });
+      }
+      else { // your wall
+        const userData = await ax.get(`/api/communities/${this.state.CommunityId}/wall`);
+        this.setState({
+          userData: userData,
+          posts: userData.data.wallPosts
+        });
+      }
     }
     catch (error) {
       console.log(error.response);
@@ -50,13 +60,11 @@ export default class Wall extends Component {
                 <p className="card-text">
                   {this.state.userData.data.bio}
                 </p>
-
                 <Row>
                   {
                     this.state.posts
                       ? this.state.posts.map(post => (
                         <Col key={post.id.toString()} md={12} lg={6} style={{ padding: '15px' }}>
-
                           <div className="comment">
                             <Card cardClass={"text-dark text-left card"}>
                               <h4 className="username" style={{ margin: '10px' }}>
