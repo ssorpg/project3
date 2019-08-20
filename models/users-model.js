@@ -35,10 +35,6 @@ module.exports = function (sequelize, DataTypes) {
                 notNull: {
                     args: true,
                     msg: 'Please enter a password.'
-                },
-                len: {
-                    args: [8, 64],
-                    msg: 'Your password must be between 8 and 128 characters long.'
                 }
             }
         },

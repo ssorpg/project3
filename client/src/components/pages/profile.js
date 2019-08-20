@@ -3,7 +3,6 @@ import { ListGroup, ListGroupItem } from 'react-bootstrap';
 import Card from '../card.js';
 import ax from 'axios';
 import Profilephoto from '../imageload';
-import ImageUpload from '../imageupload';
 import CheckError from '../../utils/checkerror';
 
 

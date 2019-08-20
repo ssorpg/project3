@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Nav, Popover, OverlayTrigger, Button } from 'react-bootstrap';
-import Chat from './pages/chat';
+import { Nav } from 'react-bootstrap';
 
 export default class Footer extends Component {
 

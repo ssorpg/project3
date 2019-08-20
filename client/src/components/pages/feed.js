@@ -14,6 +14,7 @@ export default class Feed extends Component {
     super(props)
 
     this.state = {
+      CommunityId: this.props.match.params.CommunityId,
       communityData: {},
       posts: [],
       error_alert: undefined
@@ -26,7 +27,7 @@ export default class Feed extends Component {
 
   getData = async () => {
     try {
-      const res = await ax.get('/api/communities/' + this.props.match.params.CommunityId);
+      const res = await ax.get('/api/communities/' + this.state.CommunityId);
 
       await this.setState({
         pageTitle: res.data.name,
@@ -48,7 +49,7 @@ export default class Feed extends Component {
     const submit = form.getElementsByTagName('button')[0];
     submit.style.visibility = 'hidden';
 
-    const input = form.getElementsByTagName('input[name=feed-comment]');
+    const input = form.getElementsByTagName('input')[0];
     const post = {
       message: input.value
     };
@@ -61,7 +62,7 @@ export default class Feed extends Component {
     this.setState({ error_alert: undefined });
 
     try {
-      const res = await ax.post(`/api/posts?CommunityId=` + this.props.match.params.CommunityId, data);
+      const res = await ax.post(`/api/posts?CommunityId=` + this.state.CommunityId, data);
 
       this.setState({
         posts: [res.data, ...this.state.posts]
@@ -117,28 +118,30 @@ export default class Feed extends Component {
         <Row>
           {
             this.state.posts
-              ? this.state.posts.map(post=> (
-                
+              ? this.state.posts.map(post => (
                 <Col key={post.id.toString()} md={12} lg={6} style={{ padding: '15px' }}>
-
                   <div className="comment">
                     <Card cardClass={"text-dark text-left card"}>
-                      <h4 className="username" style={{ margin: '10px' }}>
-                        {post.author.name}
-                      </h4>
+                      <a href={"/community/" + this.state.CommunityId + "/friends/" + post.author.id}>
+                        <h4 className="username" style={{ margin: '10px' }}>
+                          {post.author.name}
+                        </h4>
+                      </a>
                       <Row className="justify-content-center">
-                        <Col className="col-3">
-                          <figure className="float:right"
-                            style={{
-                              borderRadius: '150px',
-                              overflow: 'hidden'
-                            }}>
-                            <OtherPhoto id={post.authorId}/>
-                          </figure>
-                        </Col>
-                        <Col className="col-8">
+                        <a href={"/community/" + this.state.CommunityId + "/friends/" + post.author.id}>
+                          <Col className="col-3">
+                            <figure className="float:right"
+                              style={{
+                                borderRadius: '150px',
+                                overflow: 'hidden'
+                              }}>
+                              <OtherPhoto id={post.authorId} />
+                            </figure>
+                          </Col>
+                        </a>
+                        <Col className="col-8" style={{ minHeight: '100px' }}>
                           <p className="comment">{post.message}</p>
-                          <ul style={{ padding: 0, position: 'absolute', bottom: '5px', marginBottom: 0 }}>
+                          <ul style={{ position: 'absolute', bottom: '5px', right: '5px' }}>
                             <li className="btn" style={{ padding: '2px' }}>
                               <button className="btn btn-success" onClick={this.vote} data-id={post.id} data-vote={"1"}>Like</button>
                             </li>
