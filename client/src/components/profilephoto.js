@@ -7,7 +7,7 @@ export default class OtherPhoto extends Component {
   }
 
   componentDidMount() {
-    console.log('IMG ID: ', this.props.id);
+    // console.log('IMG ID: ', this.props.id);
     this.findImage();
   };
 

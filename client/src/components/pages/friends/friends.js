@@ -26,7 +26,7 @@ export default class Friends extends Component {
     try {
       const res = await ax.get('/api/communities/' + this.props.match.params.CommunityId + '/users');
 
-      this.setState({ friends: res.data.members });
+      await this.setState({ friends: res.data.members });
     }
     catch (error) {
       CheckError(error);

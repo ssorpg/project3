@@ -1,25 +1,13 @@
-// COMPONENTS
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import PostDisplay from '../../postdisplay';
-
-// IMAGES
-import './images/icons/svg/star-empty.svg';
-import './images/icons/svg/star-full.svg';
-import './images/icons/svg/check-empty.svg';
-import './images/icons/svg/check-full.svg';
-
-// FUNCTIONS
 import ax from 'axios';
-import CheckError from '../../../utils/checkerror';
+import { Row, Col, Container } from 'react-bootstrap';
+import CheckError from '../utils/checkerror';
+import CommentDisplay from './commentdisplay';
 
-export default class Feed extends Component {
+export default class CommentOnPosts extends Component {
   constructor(props) {
     super(props)
-
     this.state = {
-      CommunityId: this.props.match.params.CommunityId,
-      communityData: undefined,
       posts: undefined
     }
   }
@@ -30,18 +18,18 @@ export default class Feed extends Component {
 
   getData = async () => {
     try {
-      const res = await ax.get('/api/communities/' + this.state.CommunityId);
+      const res = await ax.get(`/api/posts/${this.props.data.id}/comments`);
 
-      await this.setState({
-        pageTitle: res.data.name,
-        communityData: res.data,
-        posts: res.data.feedPosts
-      });
+      this.setState({
+        posts: res.data
+      })
+      console.log('RESPONSE get', res.data);
     }
     catch (error) {
       CheckError(error);
     }
   }
+
 
   handleSubmit = async event => {
     event.preventDefault();
@@ -64,15 +52,17 @@ export default class Feed extends Component {
     this.setState({ errorAlert: undefined });
 
     try {
-      const res = await ax.post(`/api/posts?CommunityId=` + this.state.CommunityId, data);
+      const res = await ax.post(`/api/posts/${this.props.data.id}/comments`, data);
 
       this.setState({
         posts: [res.data, ...this.state.posts]
       });
+      console.log('data', data);
+      console.log('response post??', res.data);
     }
     catch (error) {
-      console.log(error.response);
-      this.setState({ errorAlert: error.response.data });
+      // console.log(error.response);
+      // this.setState({ errorAlert: error.response.data });
     }
   }
 
@@ -105,10 +95,25 @@ export default class Feed extends Component {
             </form>
           </Col>
         </Row>
-        <PostDisplay
-          posts={this.state.posts}
-        />
+        {this.state.posts ?
+          this.state.posts.map(posts => (
+            <CommentDisplay
+              posts={posts}
+            />
+          ))
+          : ''}
       </Container>
     );
   }
 }
+
+
+//keep this here to understand later
+{/* {this.state.posts ?
+          messages = this.state.posts.map(item => {
+            // console.log(Object.keys(item).forEach((foo) => {
+            //   console.log(item.message);
+            //   <p>{foo}</p>
+            
+          })
+          : ''} */}
