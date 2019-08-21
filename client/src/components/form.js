@@ -274,8 +274,7 @@ export class SearchForm extends Component {
   //todo maybe add paging to results
   handleSearchSubmit = event => {
     event.preventDefault();
-    let query = {searchTerm: this.state.searchQuery}
-    window.location = `/search/${query}`;
+    window.location = `/search?q=${this.state.searchQuery}`;
     // if (this.state.users.length > 0) {
     //   this.state.users.forEach(item => {
     //     console.log(item);
