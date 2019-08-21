@@ -70,7 +70,8 @@ module.exports = function (sequelize, DataTypes) {
         User.hasMany(models.Post, {
             foreignKey: {
                 allowNull: true
-            }
+            },
+            as: 'wallPosts'
         });
     };
 

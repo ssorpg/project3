@@ -1,6 +1,9 @@
+// COMPONENTS
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import '../css/chat.css';
+
+// CSS
+import './chat.css';
 
 export default class ChatInput extends Component {
   static propTypes = {

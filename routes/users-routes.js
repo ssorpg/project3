@@ -98,6 +98,14 @@ module.exports = function (app) {
             include: [{
                 model: db.Community,
                 as: 'communities'
+            },
+            {
+                model: db.Post,
+                as: 'wallPosts',
+                include: [{
+                    model: db.User,
+                    as: 'author'
+                }]
             }]
         });
 

@@ -23,7 +23,9 @@ module.exports = function (app) {
     }));
 
     app.get(route, wrap(async function (req, res, next) { // get all communities?
-        const communities = await db.Community.findAll();
+        const communities = await db.Community.findAll({
+            attributes: ['id', 'name']
+        });
 
         res.status(200).json(communities);
     }));
@@ -255,7 +257,7 @@ module.exports = function (app) {
         const users = await community.getMembers();
 
         let curUser;
-        let getUser
+        let getUser;
 
         users.forEach(user => {
             if (user.id === req.token.UserId) {
@@ -270,7 +272,7 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in a community with that user.' };
         }
 
-        getUser.dataValues.wallPosts = await getUser.getPosts({
+        getUser.dataValues.wallPosts = await getUser.getWallPosts({
             where: {
                 CommunityId: community.id
             },

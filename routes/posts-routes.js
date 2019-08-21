@@ -75,7 +75,7 @@ module.exports = function (app) {
 
             await newPost.setAuthor(user);
             await community.addPost(newPost);
-            await getUser.addPost(newPost);
+            await getUser.addWallPost(newPost);
         }
         else {
             newPost = await makeNewPost(req);
@@ -182,8 +182,10 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
+        const newScore = post.score + parseInt(req.params.vote);
+
         const upPost = await db.Post.update({
-            score: post.score + parseInt(req.params.vote)
+            score: newScore
         },
             {
                 where: {
@@ -191,7 +193,7 @@ module.exports = function (app) {
                 }
             });
 
-        res.status(200).json(upPost);
+        res.status(200).json(newScore);
     }));
 
     app.get(route + '/:PostId/comments', wrap(async function (req, res, next) { // get comments on post
@@ -374,8 +376,10 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
+        const newScore = comment.score + parseInt(req.params.vote);
+
         const upComment = await db.Comment.update({
-            score: comment.score + parseInt(req.params.vote)
+            score: newScore
         },
             {
                 where: {
@@ -383,6 +387,6 @@ module.exports = function (app) {
                 }
             });
 
-        res.status(200).json(upComment);
+        res.status(200).json(newScore);
     }));
 };

@@ -1,11 +1,14 @@
+// COMPONENTS
 import React from 'react';
 import { Container, Jumbotron, Row, Col } from 'react-bootstrap';
-import tpn from '../../images/tpn.png'
+
+// IMAGES
+import tpn from '../../../images/tpn.png'
 
 export default function Home() {
   return (
-    <Container>
-      <img src={tpn} alt="icon"/>
+    <Container style={{ textAlign: 'center' }}>
+      <img src={tpn} alt="icon" />
       <Jumbotron id="welcome">
         <h1>Social Networking. Privatized.</h1>
         <p>Imagine a social network for just you and your friends and family. Well stop imagining. We made it. And it’s awesome.</p>

@@ -1,9 +1,14 @@
-import React, { Component } from 'react'
-import ChatInput from '../chatinput'
-import ChatMessage from '../chatmessage'
+// COMPONENTS
+import React, { Component } from 'react';
+import ChatInput from './chatinput';
+import ChatMessage from './chatmessage';
+
+// CSS
+import './chat.css';
+
+// FUNCTIONS
 import ax from 'axios';
-import '../../css/chat.css';
-import CheckError from '../../utils/checkerror';
+import CheckError from '../../../utils/checkerror';
 
 const URL = 'ws://localhost:3001'
 
