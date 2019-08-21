@@ -40,6 +40,11 @@ module.exports = function (sequelize, DataTypes) {
                 allowNull: true
             }
         });
+
+        Post.belongsToMany(models.User, {
+            through: 'PostVoter',
+            as: 'voters'
+        });
     };
 
     return Post;

@@ -57,7 +57,6 @@ module.exports = function (app) {
     }));
 
     app.put(route + '/update', wrap(async function (req, res, next) { // register user
-        console.log(req.body);
         await db.User.update(
             {
                 bio: req.body.bio,
@@ -75,19 +74,6 @@ module.exports = function (app) {
             .clearCookie('token')
             .clearCookie('loggedIn')
             .send('Logout successful.');
-    }));
-
-    app.put(route, wrap(async function (req, res, next) { // edit user
-        const upUser = await db.User.update({
-
-            // update some stuff
-
-            where: {
-                id: req.token.UserId
-            }
-        });
-
-        res.status(200).json(upUser);
     }));
 
     app.get(route + '/profile', wrap(async function (req, res, next) { // user profile

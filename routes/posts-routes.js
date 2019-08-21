@@ -103,11 +103,7 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You didn\'t make that post.' };
         }
 
-        await db.Post.destroy({
-            where: {
-                id: post.id
-            }
-        });
+        await post.destroy();
 
         res.status(200).send('Post deleted.');
     }));
@@ -143,13 +139,10 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' }; // can't edit posts to send messages to communities you're no longer in
         }
 
-        const upPost = await db.Post.update({
+        const upPost = await post.update({
 
             // update some stuff
 
-            where: {
-                id: post.id
-            }
         });
 
         res.status(200).json(upPost);
@@ -159,7 +152,16 @@ module.exports = function (app) {
         const post = await db.Post.findOne({
             where: {
                 id: req.params.PostId
-            }
+            },
+            include: [{
+                model: db.User,
+                through: 'PostVoter',
+                as: 'voters',
+                where: {
+                    id: req.token.UserId
+                },
+                required: false
+            }]
         });
 
         if (!post) {
@@ -182,16 +184,16 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
+        if (post.voters.length) {
+            throw { status: 400, msg: 'You\'ve already voted on that post.' };
+        }
+
         const newScore = post.score + parseInt(req.params.vote);
 
-        const upPost = await db.Post.update({
+        await post.addVoter(user);
+        await post.update({
             score: newScore
-        },
-            {
-                where: {
-                    id: post.id
-                }
-            });
+        });
 
         res.status(200).json(newScore);
     }));
@@ -223,7 +225,7 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
-        const comments = await post.getComments({
+        post.dataValues.comments = await post.getComments({
             include: [{
                 model: db.User,
                 as: 'author'
@@ -262,7 +264,7 @@ module.exports = function (app) {
 
         const newComment = await db.Comment.create({
             message: req.body.message,
-            authorId: req.token.UserId,
+            authorId: req.token.UserId
         });
 
         console.log(req.body.message);
@@ -271,7 +273,6 @@ module.exports = function (app) {
         await post.addComment(newComment);
         
         newComment.dataValues.author = user;
-
         res.status(200).json(newComment);
     }));
 
@@ -290,11 +291,7 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You didn\'t make that comment.' };
         }
 
-        await db.Comment.destroy({
-            where: {
-                id: comment.id
-            }
-        });
+        await comment.destroy();
 
         res.status(200).send('Comment deleted.');
     }));
@@ -336,13 +333,10 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
-        const upComment = await db.Comment.update({
+        const upComment = await comment.update({
 
             // update some stuff
 
-            where: {
-                id: comment.id
-            }
         });
 
         res.status(200).json(upComment);
@@ -352,7 +346,16 @@ module.exports = function (app) {
         const comment = await db.Comment.findOne({
             where: {
                 id: req.params.CommentId
-            }
+            },
+            include: [{
+                model: db.User,
+                through: 'CommentVoter',
+                as: 'voters',
+                where: {
+                    id: req.token.UserId
+                },
+                required: false
+            }]
         });
 
         if (!comment) {
@@ -381,16 +384,16 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
+        if (comment.voters.length) {
+            throw { status: 400, msg: 'You\'ve already voted on that post.' };
+        }
+
         const newScore = comment.score + parseInt(req.params.vote);
 
-        const upComment = await db.Comment.update({
+        await comment.addVoter(user);
+        await comment.update({
             score: newScore
-        },
-            {
-                where: {
-                    id: comment.id
-                }
-            });
+        });
 
         res.status(200).json(newScore);
     }));
