@@ -34,7 +34,11 @@ module.exports = function (app) {
         const community = await db.Community.findOne({
             where: {
                 id: req.params.CommunityId
-            }
+            },
+            include: [{
+                model: db.User,
+                as: 'founder'
+            }]
         });
 
         if (!community) {
@@ -51,7 +55,6 @@ module.exports = function (app) {
             return res.status(200).json(community);
         }
 
-        community.dataValues.founder = await community.getFounder();
         community.dataValues.feedPosts = await community.getPosts({
             limit: 20,
             where: {
@@ -82,11 +85,7 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You don\'t own that community.' };
         }
 
-        await db.Community.destroy({
-            where: {
-                id: community.id
-            }
-        });
+        await community.destroy();
 
         res.status(200).send('Community deleted.');
     }));
@@ -106,13 +105,10 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You don\'t own that community.' };
         }
 
-        const upCommunity = await db.Community.update({
+        const upCommunity = await community.update({
 
             // update some stuff
 
-            where: {
-                id: req.params.CommunityId
-            }
         });
 
         res.status(200).json(upCommunity);
@@ -254,21 +250,19 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That community doesn\'t exist.' };
         }
 
-        const users = await community.getMembers();
-
-        let curUser;
-        let getUser;
-
-        users.forEach(user => {
-            if (user.id === req.token.UserId) {
-                curUser = user;
-            }
-            else if (user.id === parseInt(req.params.UserId)) {
-                getUser = user;
+        const [user] = await community.getMembers({
+            where: {
+                id: req.token.UserId
             }
         });
 
-        if (!curUser || !getUser) {
+        const [getUser] = await community.getMembers({
+            where: {
+                id: req.params.UserId
+            }
+        });
+
+        if (!user || !getUser) {
             throw { status: 401, msg: 'You\'re not in a community with that user.' };
         }
 
@@ -349,7 +343,11 @@ module.exports = function (app) {
         const community = await db.Community.findOne({
             where: {
                 id: req.params.CommunityId
-            }
+            },
+            include: [{
+                model: db.User,
+                as: 'founder'
+            }]
         });
 
         if (!community) {
@@ -376,7 +374,6 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That event doesn\'t exist.' };
         }
 
-        event.dataValues.founder = await event.getFounder();
         event.dataValues.eventPosts = await event.getPosts({
             limit: 20,
             include: [{
@@ -403,11 +400,7 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You don\'t own that event.' };
         }
 
-        await db.Event.destroy({
-            where: {
-                id: event.id
-            }
-        });
+        await event.destroy();
 
         res.status(200).send('Event deleted.');
     }));
@@ -443,13 +436,10 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
-        const upEvent = await db.Event.update({
+        const upEvent = await event.update({
 
             // update some stuff
 
-            where: {
-                id: req.params.EventId
-            }
         });
 
         res.status(200).json(upEvent);

@@ -34,6 +34,11 @@ module.exports = function (sequelize, DataTypes) {
             },
             as: 'author'
         });
+
+        Comment.belongsToMany(models.User, {
+            through: 'CommentVoter',
+            as: 'voters'
+        });
     };
 
     return Comment;
