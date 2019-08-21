@@ -1,11 +1,11 @@
 const db = require('../models');
 const route = '/api/search';
 const like = db.op.like;
-console.log(like);
+
 module.exports = function (app) {
   //todo make a post to receive search terms
-  app.post(route, async function (
-    { body: { search } },
+  app.post(`${route}/:searchQuery`, async function (
+    { req: { search } },
     res
   ) {
     //*if no matches in this dataset start searching tables one by one

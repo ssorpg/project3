@@ -219,15 +219,17 @@ export class UpdateForm extends Component {
 }
 
 //SEARCH FORM
+//TODO send to search results page after they get response
+//TODO if no response stay on page and tell them to try again
 export class SearchForm extends Component {
   constructor(props) {
     super(props);
     
     this.state = {
-      searchQuery: '',
-      communities: [],
-      users: [],
-      events: []
+      searchQuery: ''
+      // communities: [],
+      // users: [],
+      // events: []
     }
   }
   //TODO move search input to be hidden if not logged in
@@ -237,31 +239,31 @@ export class SearchForm extends Component {
     //  this.getData();
   }
 
-  getData = async () => {
-    try {
-      console.log(this.state.searchQuery);
-      let res = await
-        ax.post(
-          '/api/search',
-          {search: this.state.searchQuery}
-        );
-      if (res.status === 200) {
-        let {
-          users,
-          events,
-          communities
-        } = res.data;
+  // getData = async () => {
+  //   try {
+  //     console.log(this.state.searchQuery);
+  //     let res = await
+  //       ax.post(
+  //         '/api/search',
+  //         {search: this.state.searchQuery}
+  //       );
+  //     if (res.status === 200) {
+  //       let {
+  //         users,
+  //         events,
+  //         communities
+  //       } = res.data;
 
-        this.setState({
-          'users': users,
-          'events': events,
-          'communities': communities
-        }, () => console.log(this.state));
-      }
-    } catch (error) {
-      console.log(error.response);
-    }
-  }
+  //       this.setState({
+  //         'users': users,
+  //         'events': events,
+  //         'communities': communities
+  //       }, () => console.log(this.state));
+  //     }
+  //   } catch (error) {
+  //     console.log(error.response);
+  //   }
+  // }
 
   handleInputChange = event => {
     this.setState({
@@ -272,7 +274,8 @@ export class SearchForm extends Component {
   //todo maybe add paging to results
   handleSearchSubmit = event => {
     event.preventDefault();
-    this.getData();
+    let query = {searchTerm: this.state.searchQuery}
+    window.location = `/search/${query}`;
     // if (this.state.users.length > 0) {
     //   this.state.users.forEach(item => {
     //     console.log(item);
