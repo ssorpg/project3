@@ -232,7 +232,7 @@ module.exports = function (app) {
             }]
         });
 
-        res.status(200).json(comments);
+        res.status(200).json(post);
     }));
 
     app.post(route + '/:PostId/comments', wrap(async function (req, res, next) { // make comment on post

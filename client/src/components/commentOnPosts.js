@@ -8,7 +8,7 @@ export default class CommentOnPosts extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      posts: undefined
+      posts: []
     }
   }
 
@@ -21,9 +21,9 @@ export default class CommentOnPosts extends Component {
       const res = await ax.get(`/api/posts/${this.props.data.id}/comments`);
 
       this.setState({
-        posts: res.data
+        posts: res.data.comments
       })
-      console.log('RESPONSE get', res.data);
+      console.log('RESPONSE get', res.data.comments);
     }
     catch (error) {
       CheckError(error);
@@ -107,13 +107,3 @@ export default class CommentOnPosts extends Component {
   }
 }
 
-
-//keep this here to understand later
-{/* {this.state.posts ?
-          messages = this.state.posts.map(item => {
-            // console.log(Object.keys(item).forEach((foo) => {
-            //   console.log(item.message);
-            //   <p>{foo}</p>
-            
-          })
-          : ''} */}
