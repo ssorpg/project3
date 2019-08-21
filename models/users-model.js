@@ -40,11 +40,13 @@ module.exports = function (sequelize, DataTypes) {
         },
         bio: {
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: true,
+            defaultValue: 'This person hasn\'t set their bio yet.'
         },
         location: {
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: true,
+            defaultValue: 'Unknown'
         }
     },
         {
