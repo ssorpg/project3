@@ -267,9 +267,11 @@ module.exports = function (app) {
             authorId: req.token.UserId
         });
 
+        console.log(req.body.message);
+
         await newComment.setAuthor(user);
         await post.addComment(newComment);
-
+        
         newComment.dataValues.author = user;
         res.status(200).json(newComment);
     }));

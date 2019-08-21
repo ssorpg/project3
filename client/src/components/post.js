@@ -2,7 +2,10 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import Card from './card.js';
-import OtherPhoto from './otherphoto';
+import Profilephoto from './profilephoto';
+import PostDisplay from './postdisplay.js';
+import CommentOnPosts from './commentOnPosts';
+
 
 export default function Post({ post, vote, addComment }) {
   return (
@@ -22,7 +25,10 @@ export default function Post({ post, vote, addComment }) {
                     borderRadius: '150px',
                     overflow: 'hidden'
                   }}>
-                  <OtherPhoto id={post.authorId} />
+                  <Profilephoto
+                    id={post.authorId}
+                    size={'150px'}
+                  />
                 </figure>
               </Col>
             </a>
@@ -44,6 +50,7 @@ export default function Post({ post, vote, addComment }) {
               <h6 id={'postScore' + post.id}>Score: {post.score}</h6>
             </div>
           </Row>
+          <CommentOnPosts data={post}/>
         </Card>
       </div>
     </Col>

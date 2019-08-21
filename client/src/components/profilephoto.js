@@ -7,7 +7,7 @@ export default class OtherPhoto extends Component {
   }
 
   componentDidMount() {
-    console.log('IMG ID: ', this.props.id);
+    // console.log('IMG ID: ', this.props.id);
     this.findImage();
   };
 
@@ -31,9 +31,9 @@ export default class OtherPhoto extends Component {
         {
           this.state.filename
             ? `/images/${this.state.filename}`
-            : 'http://place-hold.it/200'
+            : 'https://cdn2.iconfinder.com/data/icons/ui-1/60/05-512.png'
         }
-        style={{ height: '100px', width: '100px' }}
+        style={{ height: this.props.size, width: this.props.size, padding: '15px' }}
         alt="profile"
       />
     )
