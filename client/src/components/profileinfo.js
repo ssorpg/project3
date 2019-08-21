@@ -1,7 +1,7 @@
 // COMPONENTS
 import React from 'react';
 import { ListGroup, ListGroupItem, Card } from 'react-bootstrap';
-import ProfilePhoto from './imageload';
+import ProfilePhoto from './profilephoto';
 
 export default function ProfileInfo({ userData }) {
   return (
@@ -10,7 +10,7 @@ export default function ProfileInfo({ userData }) {
         userData
           ? <Card className="text-dark text-left col-12 card" style={{ margin:'15px' }}>
             <div className="row justify-content-start">
-              <ProfilePhoto />
+              <ProfilePhoto id={userData.data.id} size={'250px'} />
               <header className="col-8" style={{ paddingTop: '20px' }}>
                 <h5 className="card-title">{userData.data.name}</h5>
               </header>

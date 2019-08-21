@@ -31,8 +31,8 @@ app.use(wrap(async (req, res, next) => {
         };
     }
     else if (req.path !== '/api/users'
-    && req.path !== '/api/users/register'
-    && req.path !== '/api/users/logout') {
+        && req.path !== '/api/users/register'
+        && req.path !== '/api/users/logout') {
         throw { status: 401 };
     }
 
