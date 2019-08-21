@@ -4,27 +4,29 @@ const like = db.op.like;
 
 module.exports = function (app) {
   //todo make a post to receive search terms
-  app.post(`${route}/:searchQuery`, async function (
-    { req: { search } },
+  app.get(`${route}`, async function (
+    {query: {q}},
     res
   ) {
-    //*if no matches in this dataset start searching tables one by one
-    //* search for communities, comm events, comm users, in the communities the user has access to
+    const query = `\%${q}\%`;
+
     let communitiesArray = [];
     let usersArray = [];
     let eventsArray = [];
     let data = {};
-
-    //1. Get Communites and compile names and ids into an array of objects
+  
     try {
       let commRes = await
         db.Community.findAll({
           where: {
             name: {
               [db.op.like]:
-                '%' + search + '%'
+                query
             }
-          }
+          },
+          order: [
+            ['name', 'DESC']
+          ]
         });
 
       let usersRes = await
@@ -32,9 +34,12 @@ module.exports = function (app) {
           where: {
             name: {
               [db.op.like]:
-                '%' + search + '%'
+                query
             }
-          }
+          },
+          order: [
+            ['name', 'DESC']
+          ]
         });
 
       let eventsRes = await
@@ -42,9 +47,12 @@ module.exports = function (app) {
           where: {
             name: {
               [db.op.like]:
-                '%' + search + '%'
+                query
             }
-          }
+          },
+          order: [
+            ['name', 'DESC']
+          ]
         });
       //todo make these a util function
       if (commRes.length > 0) {
@@ -81,15 +89,9 @@ module.exports = function (app) {
         'events':
           eventsRes
       }
-      console.log(data);
       res.json(data);
     } catch (error) {
       console.log(error);
     }
-    //2. Get All Users and put names and ids into an array of objects
-
-    //3. Get All Events and put the names and ids into an array of objects
-
-
   })
 }
