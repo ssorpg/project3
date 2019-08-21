@@ -261,11 +261,16 @@ module.exports = function (app) {
         }
 
         const newComment = await db.Comment.create({
-            message: req.body.message
+            message: req.body.message,
+            authorId: req.token.UserId,
         });
+
+        console.log(req.body.message);
 
         await newComment.setAuthor(user);
         await post.addComment(newComment);
+        
+        newComment.dataValues.author = user;
 
         res.status(200).json(newComment);
     }));
