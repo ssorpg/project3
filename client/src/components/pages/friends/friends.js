@@ -1,9 +1,11 @@
+// COMPONENTS
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import Card from '../card.js';
+import Friend from './friend';
+
+// FUNCTIONS
 import ax from 'axios';
-import CheckError from '../../utils/checkerror';
-import Profilephoto from '../otherphoto';
+import CheckError from '../../../utils/checkerror';
 
 export default class Friends extends Component {
   constructor(props) {
@@ -33,7 +35,7 @@ export default class Friends extends Component {
 
   render() {
     return (
-      <Container id="friends">
+      <Container id="friends" style={{ textAlign: 'center' }}>
         <Row>
           <Col>
             <h1>Friends</h1>
@@ -43,20 +45,10 @@ export default class Friends extends Component {
           {
             this.state.friends
               ? this.state.friends.map(friend => (
-                <Col xs={4} md={3} lg={2}>
-                  <a href={"/community/" + this.state.CommunityId + "/friends/" + friend.id}>
-                    <Card cardClass={"text-dark text-left card"}>
-                      <nav className="card-nav">
-                        {/* <button class="btn btn-default" className="favorite"></button> */}
-                        {/* <button class="btn btn-default" className="select"></button> */}
-                      </nav>
-                      <Profilephoto id={friend.id}/>
-                      <div class="card-body">
-                        <h5 className="card-title">{friend.name}</h5>
-                      </div>
-                    </Card>
-                  </a>
-                </Col>
+                <Friend
+                  friend={friend}
+                  CommunityId={this.state.CommunityId}
+                />
               ))
               : ''
           }

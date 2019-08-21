@@ -1,6 +1,9 @@
+// COMPONENTS
 import React, { Component } from 'react';
 import { Form } from 'react-bootstrap';
 import { LoginButton } from './buttons';
+
+// FUNCTIONS
 import ax from 'axios';
 
 // LOGIN FORM
