@@ -11,22 +11,27 @@ export default class Modal extends Component {
 
   render() {
     return (
-    <div>
+      <div style={{ position: 'absolute', top: '15%', left: '25%', zIndex: '99', minWidth: '150px'}}>
       {
-        this.state.props.error ?
+        this.state.errorAlert ?
           <div className="alert alert-danger">
             <p>
               <strong>Error: </strong>
               {this.state.errorAlert}
             </p>
           </div>
-          :
+        :
+          ''
+       }
+       {this.state.successAlert ?
           <div className="alert alert-success">
             <p>
               <strong>Success: </strong>
               {this.state.errorAlert}
             </p>
           </div>
+        :
+          ''
         }
       </div>
     )

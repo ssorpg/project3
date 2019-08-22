@@ -47,8 +47,8 @@ export class LoginForm extends Component {
 
   render() {
     return (
-      <div>
-        <Form onSubmit={this.handleSubmit}>
+      <div style={{position: 'relative'}}>
+        <Form onSubmit={this.handleSubmit} >
           <Form.Group controlId="formGroupEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control type="email" name="email" placeholder="Enter email" {...this.props} />
@@ -136,7 +136,7 @@ export class RegisterForm extends Component {
   render() {
     return (
       <div>
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} style={{position: 'relative'}}>
           <Form.Group controlId="formGroupEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control type="email" name="email" placeholder="Enter email" {...this.props} />
@@ -232,7 +232,7 @@ export class UpdateForm extends Component {
   render() {
     return (
       <div>
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} style={{position: 'relative'}}>
           <Form.Group controlId="formGroupPhoto">
           </Form.Group>
           <Form.Group controlId="formGroupBio">
@@ -287,6 +287,7 @@ export class SearchForm extends Component {
       <Form
         inline
         onSubmit={this.handleSearchSubmit}
+        style={{position: 'relative'}}
       >
         {/* // TODO make search route to handle searches */}
         <FormControl
