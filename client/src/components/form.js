@@ -1,6 +1,6 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import { Form } from 'react-bootstrap';
+import { Form, FormGroup, FormControl, Button } from 'react-bootstrap';
 import { LoginButton } from './buttons';
 
 // FUNCTIONS
