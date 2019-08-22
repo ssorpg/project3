@@ -140,9 +140,7 @@ module.exports = function (app) {
         }
 
         const upPost = await post.update({
-
-            // update some stuff
-
+            message: req.body.message
         });
 
         res.status(200).json(upPost);
@@ -344,9 +342,7 @@ module.exports = function (app) {
         }
 
         const upComment = await comment.update({
-
-            // update some stuff
-
+            message: req.body.message
         });
 
         res.status(200).json(upComment);
