@@ -8,7 +8,7 @@ export default function ProfileInfo({ userData }) {
     <div>
       {
         userData
-          ? <Card className="text-dark text-left col-12 card" style={{ margin:'15px' }}>
+          ? <Card className="text-dark text-left col-12 card" style={{ maxWidth: 'calc( 100% - 30px )', margin: 'auto' }}>
             <div className="row justify-content-start">
               <ProfilePhoto id={userData.data.id} size={'250px'} />
               <header className="col-8" style={{ paddingTop: '20px' }}>
@@ -16,16 +16,16 @@ export default function ProfileInfo({ userData }) {
               </header>
             </div>
             <div className="card-body">
-              <p className="card-text">
+              <p className="card-text" style={{ marginTop: '30px' }}>
                 <h5>Bio:</h5> {userData.data.bio}
               </p>
-              <p className="card-text">
+              <p className="card-text" style={{ marginTop: '30px' }}>
                 <h5>Location:</h5> {userData.data.location}
               </p>
 
               {
                 userData.data.communities
-                  ? <div className="networks">
+                  ? <div className="networks" style={{ marginTop: '30px' }}>
                     <h5 className="card-title">Your Networks</h5>
                     <ListGroup>
                       {

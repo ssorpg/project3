@@ -8,7 +8,7 @@ const CommentDisplay = (props) => {
 
   return (
     <p>
-      <strong>{name} : </strong> {comment}
+      <strong>{name}</strong>: {comment}
     </p>
   );
 }
