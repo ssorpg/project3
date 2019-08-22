@@ -12,6 +12,7 @@ import './images/icons/svg/check-full.svg';
 // FUNCTIONS
 import ax from 'axios';
 import CheckError from '../../../utils/checkerror';
+import Modal from '../../modal';
 
 export default class Feed extends Component {
   constructor(props) {
@@ -92,12 +93,13 @@ export default class Feed extends Component {
             >
               {
                 this.state.errorAlert ?
-                  <div className="alert alert-danger">
-                    <p>
-                      <strong>Error: </strong>
-                      {this.state.errorAlert}
-                    </p>
-                  </div>
+                  <Modal />
+                  // <div className="alert alert-danger">
+                  //   <p>
+                  //     <strong>Error: </strong>
+                  //     {this.state.errorAlert}
+                  //   </p>
+                  // </div>
                   : ''
               }
               <input type="text" name="feed-comment" placeholder="What's on your mind?" style={{ minWidth: '310px', padding: '3px' }} />
