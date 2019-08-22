@@ -3,7 +3,6 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import Card from './card.js';
 import Profilephoto from './profilephoto';
-import PostDisplay from './postdisplay.js';
 import CommentOnPosts from './commentOnPosts';
 
 
@@ -17,9 +16,9 @@ export default function Post({ post, vote, addComment }) {
               {post.author.name}
             </h4>
           </a>
-          <Row className="justify-content-center">
-            <a href={"/community/" + post.CommunityId + "/friends/" + post.author.id}>
-              <Col className="col-12">
+          <Row className="justify-content-center" style={{ width: '100%', margin: 0 }}>
+            <Col className="col-4">
+              <a href={"/community/" + post.CommunityId + "/friends/" + post.author.id}>
                 <figure className="float:right"
                   style={{
                     borderRadius: '150px',
@@ -30,27 +29,31 @@ export default function Post({ post, vote, addComment }) {
                     size={'150px'}
                   />
                 </figure>
-              </Col>
-            </a>
+              </a>
+            </Col>
             <Col className="col-8" style={{ minHeight: '100px' }}>
               <p className="comment">{post.message}</p>
-              <ul style={{ position: 'absolute', bottom: '5px', right: '5px' }}>
+            </Col>
+            <Col className="col-12 justify-content-end">
+              <ul style={{ margin: 0, textAlign: 'right' }}>
                 <li className="btn" style={{ padding: '2px' }}>
                   <button className="btn btn-success" onClick={vote} data-id={post.id} data-vote={"1"}>Like</button>
                 </li>
-                <li className="btn" style={{ padding: '2px' }}>
+                <li className="btn" style={{ padding: '2px', marginRight: '5px' }}>
                   <button className="btn btn-danger" onClick={vote} data-id={post.id} data-vote={"-1"}>Dislike</button>
                 </li>
-                <li className="btn" style={{ padding: '2px' }}>
+                {/* <li className="btn">
                   <button className="btn btn-primary" onClick={addComment} data-id={post.id}>Comment</button>
-                </li>
+                </li> */}
               </ul>
             </Col>
             <div style={{ position: 'absolute', top: '5px', right: '10px' }}>
               <h6 id={'postScore' + post.id}>Score: {post.score}</h6>
             </div>
           </Row>
-          <CommentOnPosts data={post}/>
+          <CommentOnPosts
+            data={post}
+          />
         </Card>
       </div>
     </Col>

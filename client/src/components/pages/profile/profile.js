@@ -46,7 +46,6 @@ export default class Profile extends Component {
           <ProfileInfo
             userData={this.state.userData}
           />
-          <h2 style={{ textAlign: 'center' }}>Your Wall</h2>
           <PostDisplay
             posts={this.state.posts}
           />

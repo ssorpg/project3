@@ -91,17 +91,19 @@ export default class CommentOnPosts extends Component {
                   : ''
               }
               <input type="text" name="feed-comment" placeholder="What's on your mind?" style={{ minWidth: '310px', padding: '3px' }} />
-              <button type="submit" value="submit" className="btn btn-primary" style={{ margin: '15px' }}>Post</button>
+              <button type="submit" value="submit" className="btn btn-primary" style={{ margin: '10px', marginTop: '5px' }}>Comment</button>
             </form>
           </Col>
         </Row>
-        {this.state.posts ?
-          this.state.posts.map(posts => (
-            <CommentDisplay
-              posts={posts}
-            />
-          ))
-          : ''}
+        {
+          this.state.posts ?
+            this.state.posts.map(posts => (
+              <CommentDisplay
+                posts={posts}
+              />
+            ))
+            : ''
+        }
       </Container>
     );
   }

@@ -1,6 +1,6 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
 import Card from '../../card.js';
 import ProfileInfo from '../../profileinfo';
 import PostDisplay from '../../postdisplay';
@@ -79,31 +79,32 @@ export default class Wall extends Component {
           <ProfileInfo
             userData={this.state.userData}
           />
-          <h2 style={{ textAlign: 'center' }}>Their Wall</h2>
-          <Row style={{ textAlign: 'center' }}>
-            <Col className="col-12">
-              <form
-                className="form-group"
-                onSubmit={this.handleSubmit}
-              >
-                {
-                  this.state.errorAlert ?
-                    <div className="alert alert-danger">
-                      <p>
-                        <strong>Error: </strong>
-                        {this.state.errorAlert}
-                      </p>
-                    </div>
-                    : ''
-                }
-                <input type="text" name="feed-comment" placeholder="What's on your mind?" style={{ minWidth: '310px', padding: '3px' }} />
-                <button type="submit" value="submit" className="btn btn-primary" style={{ margin: '15px' }}>Post</button>
-              </form>
-            </Col>
-          </Row>
-          <PostDisplay
-            posts={this.state.posts}
-          />
+          <Container style={{ textAlign: 'center', padding: '15px' }}>
+            <Row style={{ textAlign: 'center' }}>
+              <Col className="col-12">
+                <form
+                  className="form-group"
+                  onSubmit={this.handleSubmit}
+                >
+                  {
+                    this.state.errorAlert ?
+                      <div className="alert alert-danger">
+                        <p>
+                          <strong>Error: </strong>
+                          {this.state.errorAlert}
+                        </p>
+                      </div>
+                      : ''
+                  }
+                  <input type="text" name="feed-comment" placeholder="What's on your mind?" style={{ minWidth: '310px', padding: '3px' }} />
+                  <button type="submit" value="submit" className="btn btn-primary" style={{ margin: '15px', marginTop: '10px' }}>Post</button>
+                </form>
+              </Col>
+            </Row>
+            <PostDisplay
+              posts={this.state.posts}
+            />
+          </Container>
         </Card>
       </div>
     )
