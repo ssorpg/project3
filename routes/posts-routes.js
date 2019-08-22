@@ -307,7 +307,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That comment doesn\'t exist.' };
         }
 
-        if (comment.AuthorId !== req.token.UserId) {
+        if (comment.authorId !== req.token.UserId) {
             throw { status: 401, msg: 'You didn\'t make that comment.' };
         }
 
@@ -334,9 +334,7 @@ module.exports = function (app) {
         }
 
         const upComment = await comment.update({
-
-            // update some stuff
-
+            message: req.body.message
         });
 
         res.status(200).json(upComment);
