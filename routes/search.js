@@ -1,6 +1,5 @@
 const db = require('../models');
 const route = '/api/search';
-const like = db.op.like;
 
 module.exports = function (app) {
   //todo make a post to receive search terms
@@ -16,7 +15,7 @@ module.exports = function (app) {
     let data = {};
   
     try {
-      let commRes = await
+      let data = await
         db.Community.findAll({
           where: {
             name: {
@@ -26,69 +25,33 @@ module.exports = function (app) {
           },
           order: [
             ['name', 'DESC']
-          ]
-        });
-
-      let usersRes = await
-        db.User.findAll({
-          where: {
-            name: {
-              [db.op.like]:
-                query
+          ],
+          include: [
+            {
+              model: db.User,
+              as: 'members',
+              where: {
+                name: {
+                  [db.op.like]:
+                    query
+                }
+              },
+              required: false
+            },
+            {
+              model: db.Event,
+              as: 'Events',
+              where: {
+                name: {
+                  [db.op.like]:
+                    query
+                }
+              },
+              required: false
             }
-          },
-          order: [
-            ['name', 'DESC']
           ]
         });
-
-      let eventsRes = await
-        db.Event.findAll({
-          where: {
-            name: {
-              [db.op.like]:
-                query
-            }
-          },
-          order: [
-            ['name', 'DESC']
-          ]
-        });
-      //todo make these a util function
-      if (commRes.length > 0) {
-        commRes.forEach(comm => {
-          communitiesArray.push({
-            'id': comm.id,
-            'name': comm.name
-          })
-        })
-      }
       
-      if (usersRes.length > 0) {
-        usersRes.forEach(comm => {
-          usersArray.push({
-            'id': comm.id,
-            'name': comm.name
-          })
-        })
-      }
-      
-      if (eventsRes.length > 0) {
-        eventsRes.forEach(comm => {
-          eventsArray.push({
-            'id': comm.id,
-            'name': comm.name
-          })
-        })
-      }
-      data = {
-        'communities':
-          communitiesArray,
-        'users':
-          usersRes,
-        'events':
-          eventsRes
-      }
       res.json(data);
     } catch (error) {
       console.log(error);
