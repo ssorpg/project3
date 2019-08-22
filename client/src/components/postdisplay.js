@@ -11,9 +11,9 @@ export default class PostDisplay extends Component {
     const post = event.target;
 
     try {
-      const upPost = await ax.put(`/api/posts/${event.target.dataset.id}/${event.target.dataset.vote}`);
+      const newScore = await ax.put(`/api/posts/${event.target.dataset.id}/${event.target.dataset.vote}`);
 
-      document.getElementById('postScore' + post.dataset.id).textContent = 'Score: ' + upPost.data;
+      document.getElementById('postScore' + post.dataset.id).textContent = 'Score: ' + newScore.data;
     }
     catch (error) {
       console.log(error.response);
