@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
-export function LoginButton() {
+export default function SubmitButton() {
   return (
     <Button variant="primary" type="submit">Submit</Button>
   )

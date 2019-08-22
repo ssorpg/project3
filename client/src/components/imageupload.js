@@ -1,8 +1,11 @@
+// COMPONENTS
 import React, { Component } from 'react';
+import SubmitButton from './buttons';
+
+// FUNCTIONS
 import axios from 'axios';
 // import Success from './success';
 import CheckError from '../utils/checkerror';
-
 
 export default class ImageUpload extends Component {
   constructor() {
@@ -66,11 +69,12 @@ export default class ImageUpload extends Component {
           onChange={this.onChange}
         />
         <input
+          style={{ marginLeft: '4px', padding: '2px' }}
           type="file"
           name="selectedFile"
           onChange={this.onChange}
         />
-        <button type="submit">Submit</button>
+        <SubmitButton />
       </form>
     );
   }

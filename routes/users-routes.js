@@ -29,6 +29,10 @@ module.exports = function (app) {
             attributes: ['id', 'password']
         });
 
+        if (!user) {
+            throw { status: 401, msg: 'That email is not registered.' };
+        }
+
         const token = await auth.makeToken(req, user);
 
         return res.status(200)

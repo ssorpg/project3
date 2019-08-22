@@ -3,7 +3,7 @@ import React from 'react';
 import { Col, Row, Form, Button, ListGroup } from 'react-bootstrap';
 import CommunityRadio from './communityradio';
 
-export default function SelectFromExisting({ communities, handleChosenCommunitySubmit, handleRadioSelection, handleFormChange }) {
+export default function SelectFromExisting({ communities, CommunityId, handleChosenCommunitySubmit, handleRadioSelection, handleFormChange }) {
   return (
     <Col className="dropdown">
       <Row>
@@ -16,6 +16,8 @@ export default function SelectFromExisting({ communities, handleChosenCommunityS
                 {
                   communities.map(com =>
                     <CommunityRadio
+                      key={com.id.toString()}
+                      CommunityId={CommunityId}
                       com={com}
                       handleRadioSelection={handleRadioSelection}
                     />
