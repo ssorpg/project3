@@ -1,15 +1,9 @@
 // COMPONENTS
 import React, { Component } from 'react';
-<<<<<<< HEAD
-import { Form, FormControl } from 'react-bootstrap';
-import { LoginButton } from './buttons';
-import { Button } from 'react-bootstrap';
-=======
 import { Form } from 'react-bootstrap';
 import { LoginButton } from './buttons';
 
 // FUNCTIONS
->>>>>>> master
 import ax from 'axios';
 
 // LOGIN FORM
