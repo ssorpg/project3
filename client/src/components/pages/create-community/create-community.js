@@ -7,6 +7,7 @@ import NewCommunity from './newcommunity';
 // FUNCTIONS
 import ax from 'axios';
 import CheckError from '../../../utils/checkerror';
+import Modal from '../../modal';
 
 export default class CreateCommunity extends Component {
   constructor() {
@@ -57,6 +58,7 @@ export default class CreateCommunity extends Component {
     }
     catch (error) {
       console.log(error.response);
+      this.setState({ errorAlert: error.response.data });
     }
   }
 
@@ -87,7 +89,7 @@ export default class CreateCommunity extends Component {
           <h1>Create A Community</h1>
           <p>Select a community from the dropdown or fill in a name below to create your own!</p>
         </Jumbotron>
-        <Row>
+        <Row style={{position: 'relative'}}>
           {
             this.state.selectFromExisting
               ? <SelectFromExisting
@@ -102,7 +104,20 @@ export default class CreateCommunity extends Component {
                 handleFormChange={this.handleFormChange}
               />
           }
+          {
+            this.state.errorAlert ?
+              <Modal error={this.state.errorAlert} />
+            :
+              ''
+          }
+          {
+            this.state.successAlert ?
+              <Modal error={this.state.successAlert} />
+            :
+              ''
+          }
         </Row>
+
       </Container>
     )
   }
