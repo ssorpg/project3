@@ -93,14 +93,9 @@ export default class Feed extends Component {
             >
               {
                 this.state.errorAlert ?
-                  <Modal />
-                  // <div className="alert alert-danger">
-                  //   <p>
-                  //     <strong>Error: </strong>
-                  //     {this.state.errorAlert}
-                  //   </p>
-                  // </div>
-                  : ''
+                  <Modal error={this.state.errorAlert} />
+                :
+                  ''
               }
               <input type="text" name="feed-comment" placeholder="What's on your mind?" style={{ minWidth: '310px', padding: '3px' }} />
               <button type="submit" value="submit" className="btn btn-primary" style={{ margin: '15px', marginTop: '10px' }}>Post</button>
