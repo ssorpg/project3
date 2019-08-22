@@ -12,6 +12,7 @@ import Friends from './components/pages/friends/friends';
 import CreateCommunity from './components/pages/create-community/create-community';
 import Chat from './components/pages/chat/chat';
 import UpdateProfile from './components/pages/update-profile/update-profile';
+import SearchResults from './components/pages/search-results/search-results';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Navbar as Nav } from 'react-bootstrap';
 
