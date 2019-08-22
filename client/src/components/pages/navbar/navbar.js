@@ -59,7 +59,11 @@ export default class Navbar extends Component {
             logout={this.logout}
             isAuth={this.state.isAuth}
           />
-          <Searchbar />
+          {this.props.isAuth ?
+            <Searchbar />
+          :
+            ''
+          }
         </Nav.Collapse>
         <div className="expander closed" id="login">
           <button className="btn icon closed" onClick={this.toggleLogin}>
