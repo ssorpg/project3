@@ -1,8 +1,14 @@
-import React, { Component } from 'react'
-import ChatInput from '../chatinput'
-import ChatMessage from '../chatmessage'
+// COMPONENTS
+import React, { Component } from 'react';
+import ChatInput from './chatinput';
+import ChatMessage from './chatmessage';
+
+// CSS
+import './chat.css';
+
+// FUNCTIONS
 import ax from 'axios';
-import '../../css/chat.css';
+import CheckError from '../../../utils/checkerror';
 
 const URL = 'ws://localhost:3001'
 
@@ -11,7 +17,7 @@ export default class Chat extends Component {
     super(props);
     this.state = {
       userData: undefined,
-      messages: [],
+      messages: []
     };
   }
 
@@ -21,7 +27,6 @@ export default class Chat extends Component {
     this.GetData();
 
     this.ws.onopen = () => {
-      // on connecting, do nothing but log it to the console
       console.log('connected')
     }
 
@@ -46,25 +51,25 @@ export default class Chat extends Component {
   GetData = async () => {
     try {
       const userData = await ax.get(`/api/users/profile/`);
+
       this.setState({ userData: userData });
     }
     catch (error) {
-      console.log(error.response);
+      CheckError(error);
     }
   };
 
-
   addMessage = message => {
-    this.setState(state => ({ 
-      messages: [message, ...state.messages] 
+    this.setState(state => ({
+      messages: [message, ...state.messages]
     }));
   }
-  
+
   submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
-    const message = { 
-      name: this.state.userData.data.name, 
-      message: messageString 
+    const message = {
+      name: this.state.userData.data.name,
+      message: messageString
     };
     this.ws.send(JSON.stringify(message))
     this.addMessage(message)
@@ -73,30 +78,20 @@ export default class Chat extends Component {
   render() {
     return (
       <div className="chat">
-        {/* { this.state.userData ?
-        <label htmlFor="name">
-          Name:&nbsp;
-          <input
-            type="text"
-            id={'name'}
-            value={this.state.userData.data.name}
-            //onChange={e => this.setState({ name: e.target.value })}
-          />
-        </label>
-        : ''
-        } */}
         <ChatInput
           ws={this.ws}
           onSubmitMessage={messageString => this.submitMessage(messageString)}
         />
-        {this.state.messages.map((message, index) =>
-          <ChatMessage
-            key={index}
-            message={message.message}
-            name={message.name}
-          />,
-        )}
-      
+        {
+          this.state.messages.map((message, index) =>
+            <ChatMessage
+              key={index}
+              message={message.message}
+              name={message.name}
+            />,
+          )
+        }
+
       </div>
     )
   }

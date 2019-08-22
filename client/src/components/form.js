@@ -1,19 +1,24 @@
+// COMPONENTS
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import { Form, FormControl } from 'react-bootstrap';
 import { LoginButton } from './buttons';
 import { Button } from 'react-bootstrap';
-import ax from 'axios';
-import ImageUpload from './imageupload';
+=======
+import { Form } from 'react-bootstrap';
+import { LoginButton } from './buttons';
 
-// LOGIN FORM 
-// LOGIN FORM 
-// LOGIN FORM 
+// FUNCTIONS
+>>>>>>> master
+import ax from 'axios';
+
+// LOGIN FORM
 export class LoginForm extends Component {
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     event.preventDefault();
-    let formData = event.target;
-    let inputs = formData.getElementsByTagName('input');
-    let postData = {};
+    const formData = event.target;
+    const inputs = formData.getElementsByTagName('input');
+    const postData = {};
 
     for (let i = 0; i < inputs.length; i++) {
       postData[inputs[i].name] = inputs[i].value;
@@ -22,11 +27,11 @@ export class LoginForm extends Component {
     this.login(postData);
   }
 
-  login = async (postData) => {
-    let res = await ax.post('/api/users', postData);
+  login = async postData => {
+    const res = await ax.post('/api/users', postData);
 
     if (res.status === 200) {
-      window.location = `/profile/`;
+      window.location = `/profile`;
     }
   }
 
@@ -52,16 +57,13 @@ export class LoginForm extends Component {
 
 }
 
-
-//REGISTER FORM
-//REGISTER FORM
 //REGISTER FORM
 export class RegisterForm extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
-    let formData = event.target;
-    let inputs = formData.getElementsByTagName('input');
-    let postData = {};
+    const formData = event.target;
+    const inputs = formData.getElementsByTagName('input');
+    const postData = {};
 
     for (let i = 0; i < inputs.length; i++) {
       postData[inputs[i].name] = inputs[i].value;
@@ -73,11 +75,11 @@ export class RegisterForm extends Component {
   postToDB = async (postData) => {
     console.log(postData);
     const {
-      name, email, password, password_match
+      name, email, password
     } = postData;
 
     try {
-      let register_results = await ax.post(
+      const register_results = await ax.post(
         '/api/users/register',
         {
           name: name,
@@ -87,18 +89,19 @@ export class RegisterForm extends Component {
       );
 
       if (register_results.status === 200) {
-        const logged = await this.login(
+        await this.login(
           postData.email,
           postData.password
         );
       }
-    } catch (error) {
-      console.log('Error :', error.response);
+    }
+    catch (error) {
+      console.log(error.response);
     }
   }
 
   login = async (email, pass) => {
-    let res = await ax.post('/api/users', { email: email, password: pass });
+    const res = await ax.post('/api/users', { email: email, password: pass });
 
     if (res.status === 200) {
       window.location = `/update-profile/`;
@@ -132,9 +135,6 @@ export class RegisterForm extends Component {
   }
 }
 
-
-//UPDATE FORM
-//UPDATE FORM
 //UPDATE FORM
 export class UpdateForm extends Component {
   constructor(props) {
@@ -161,9 +161,9 @@ export class UpdateForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    let formData = event.target;
-    let inputs = formData.getElementsByTagName('input');
-    let postData = {};
+    const formData = event.target;
+    const inputs = formData.getElementsByTagName('input');
+    const postData = {};
 
     for (let i = 0; i < inputs.length; i++) {
       postData[inputs[i].name] = inputs[i].value;
@@ -179,7 +179,7 @@ export class UpdateForm extends Component {
     } = postData;
 
     try {
-      let register_results = await ax.put(
+      const register_results = await ax.put(
         '/api/users/update',
         {
           bio: bio,
@@ -191,8 +191,9 @@ export class UpdateForm extends Component {
       if (register_results.status === 200) {
         window.location = `/create-community/`;
       }
-    } catch (error) {
-      console.log('Error :', error.response);
+    }
+    catch (error) {
+      console.log(error.response);
     }
   }
 

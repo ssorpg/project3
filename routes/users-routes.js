@@ -25,7 +25,8 @@ module.exports = function (app) {
         const user = await db.User.findOne({
             where: {
                 email: req.body.email
-            }
+            },
+            attributes: ['id', 'password']
         });
 
         const token = auth.makeToken(req, user);
@@ -40,6 +41,10 @@ module.exports = function (app) {
     }));
 
     app.post(route + '/register', wrap(async function (req, res, next) { // register user
+        // if (req.body.password.length < 8 || req.body.password.length > 64) { // commented for development
+        //     throw { status: 400, msg: 'Your password must be between 8 and 64 characters long.' }
+        // }
+
         const password = await auth.hashPass(req);
 
         await db.User.create({
@@ -47,11 +52,11 @@ module.exports = function (app) {
             email: req.body.email,
             password: password
         });
+
         res.status(200).send('Account created!');
     }));
 
     app.put(route + '/update', wrap(async function (req, res, next) { // register user
-        console.log(req.body);
         await db.User.update(
             {
                 bio: req.body.bio,
@@ -71,19 +76,6 @@ module.exports = function (app) {
             .send('Logout successful.');
     }));
 
-    app.put(route, wrap(async function (req, res, next) { // edit user
-        const upUser = await db.User.update({
-
-            // update some stuff
-
-            where: {
-                id: req.token.UserId
-            }
-        });
-
-        res.status(200).json(upUser);
-    }));
-
     app.get(route + '/profile', wrap(async function (req, res, next) { // user profile
         const user = await db.User.findOne({
             where: {
@@ -92,6 +84,14 @@ module.exports = function (app) {
             include: [{
                 model: db.Community,
                 as: 'communities'
+            },
+            {
+                model: db.Post,
+                as: 'wallPosts',
+                include: [{
+                    model: db.User,
+                    as: 'author'
+                }]
             }]
         });
 

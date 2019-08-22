@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+// import Success from './success';
+import CheckError from '../utils/checkerror';
+
 
 export default class ImageUpload extends Component {
   constructor() {
@@ -15,10 +18,9 @@ export default class ImageUpload extends Component {
     try {
       const userData = await axios.get(`/api/users/profile/`);
       await this.setState({ userData: userData });
-      console.log(this.state.userData.data.id);
     }
     catch (error) {
-      console.log(error.response);
+      CheckError(error);
     }
   };
 
@@ -33,6 +35,7 @@ export default class ImageUpload extends Component {
         break;
       default:
         this.setState({ [e.target.name]: e.target.value });
+        break;
     }
   }
 
@@ -45,8 +48,10 @@ export default class ImageUpload extends Component {
     formData.append('selectedFile', selectedFile);
 
     axios.post(`/api/${userid}/images`, formData)
-      .then((result) => {
+      .then(result => {
         console.log(result);
+        //this is an alert for now, will swap it out with some cool popup thingie from material-ui when we switch to it.
+        alert('s u c c e s s');
       });
   }
 

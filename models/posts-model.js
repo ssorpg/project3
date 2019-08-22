@@ -1,16 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
     const Post = sequelize.define('Post', {
-        title: {
-            type: DataTypes.STRING,
-            allowNull: true,
-            trim: true,
-            validate: {
-                len: {
-                    args: [1, 64],
-                    msg: 'The title must be between 1 and 64 characters long.'
-                }
-            }
-        },
         message: {
             type: DataTypes.TEXT,
             allowNull: false,
@@ -50,6 +39,11 @@ module.exports = function (sequelize, DataTypes) {
             foreignKey: {
                 allowNull: true
             }
+        });
+
+        Post.belongsToMany(models.User, {
+            through: 'PostVoter',
+            as: 'voters'
         });
     };
 

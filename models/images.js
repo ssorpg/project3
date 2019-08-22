@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    var Image = sequelize.define('Image', {
+    const Image = sequelize.define('Image', {
         originalname: DataTypes.STRING,
         mimetype: DataTypes.STRING,
         destination: DataTypes.STRING,
@@ -8,5 +8,6 @@ module.exports = function (sequelize, DataTypes) {
         size: DataTypes.INTEGER,
         userid: DataTypes.INTEGER
     });
+
     return Image;
 };

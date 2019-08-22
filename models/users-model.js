@@ -35,20 +35,18 @@ module.exports = function (sequelize, DataTypes) {
                 notNull: {
                     args: true,
                     msg: 'Please enter a password.'
-                },
-                len: {
-                    args: [8, 64],
-                    msg: 'Your password must be between 8 and 128 characters long.'
                 }
             }
         },
         bio: {
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: true,
+            defaultValue: 'This person hasn\'t set their bio yet.'
         },
         location: {
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: true,
+            defaultValue: 'Unknown'
         }
     },
         {
@@ -74,7 +72,8 @@ module.exports = function (sequelize, DataTypes) {
         User.hasMany(models.Post, {
             foreignKey: {
                 allowNull: true
-            }
+            },
+            as: 'wallPosts'
         });
     };
 
