@@ -7,9 +7,10 @@ export default function CommunityRadio({ CommunityId, com, handleRadioSelection 
   console.log('Current comm id: ', com.id);
 
   return (
-    <ListGroupItem className="radio" name="community">
+    <ListGroupItem className="radio" name="community" onClick={handleRadioSelection}>
       <Form.Check type="radio"
         name="community"
+        id={com.id}
         value={com.id}
         label={com.name}
         onChange={handleRadioSelection}

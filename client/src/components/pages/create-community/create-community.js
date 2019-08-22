@@ -40,6 +40,8 @@ export default class CreateCommunity extends Component {
   }
 
   handleRadioSelection = event => {
+    console.log(event.target);
+    
     this.setState({
       CommunityId: parseInt(event.target.value)
     })

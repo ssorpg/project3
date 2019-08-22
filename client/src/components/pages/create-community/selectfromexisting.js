@@ -10,7 +10,7 @@ export default function SelectFromExisting({ communities, CommunityId, handleCho
         <Col>
           <h3>Choose A Community</h3>
           <Form onSubmit={handleChosenCommunitySubmit}>
-            <Form.Group controlId="selectedCommunity">
+            <Form.Group>
               <h4>Community List</h4>
               <ListGroup className="list-unstyled text-left" style={{ columns: 2 }} id="community-list">
                 {
