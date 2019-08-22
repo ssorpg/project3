@@ -22,10 +22,15 @@ export class LoginForm extends Component {
   }
 
   login = async postData => {
-    const res = await ax.post('/api/users', postData);
-
-    if (res.status === 200) {
-      window.location = `/profile`;
+    try {
+      const res = await ax.post('/api/users', postData);
+  
+      if (res.status === 200) {
+        window.location = `/profile`;
+      }
+      
+    } catch (error) {
+      console.log(error.response);
     }
   }
 
