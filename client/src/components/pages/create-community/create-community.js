@@ -41,8 +41,10 @@ export default class CreateCommunity extends Component {
   }
 
   handleRadioSelection = event => {
+    console.log(event.target);
+    
     this.setState({
-      CommunityId: event.target.getAttribute('data-id')
+      CommunityId: parseInt(event.target.value)
     })
   }
 
@@ -94,6 +96,7 @@ export default class CreateCommunity extends Component {
             this.state.selectFromExisting
               ? <SelectFromExisting
                 communities={this.state.communities}
+                CommunityId={this.state.CommunityId}
                 handleChosenCommunitySubmit={this.handleChosenCommunitySubmit}
                 handleRadioSelection={this.handleRadioSelection}
                 handleFormChange={this.handleFormChange}

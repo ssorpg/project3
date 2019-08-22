@@ -1,7 +1,7 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import { Form, FormGroup, FormControl, Button } from 'react-bootstrap';
-import { LoginButton } from './buttons';
+import { Form, FormControl, Button } from 'react-bootstrap';
+import LoginButton from './buttons';
 
 // FUNCTIONS
 import ax from 'axios';
@@ -221,7 +221,7 @@ export class UpdateForm extends Component {
       );
 
       if (register_results.status === 200) {
-        window.location = `/create-community/`;
+        window.location = `/profile`;
       }
     }
     catch (error) {

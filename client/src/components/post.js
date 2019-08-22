@@ -5,13 +5,20 @@ import Card from './card.js';
 import Profilephoto from './profilephoto';
 import CommentOnPosts from './commentOnPosts';
 
-
-export default function Post({ post, vote }) {
+export default function Post({ UserId, post, vote }) {
   return (
     <Col key={post.id.toString()} md={12} lg={6} style={{ padding: '15px' }}>
       <div className="comment">
         <Card cardClass={"text-dark text-left card"}>
-          <a href={"/community/" + post.CommunityId + "/friends/" + post.author.id}>
+          <a
+          style={{ maxWidth: '50%' }}
+          href=
+            {
+              UserId === post.author.id
+                ? "/profile"
+                : "/community/" + post.CommunityId + "/friends/" + post.author.id
+            }
+          >
             <h4 className="username" style={{ margin: '10px' }}>
               {post.author.name}
             </h4>
