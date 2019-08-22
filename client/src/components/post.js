@@ -6,7 +6,7 @@ import Profilephoto from './profilephoto';
 import CommentOnPosts from './commentOnPosts';
 
 
-export default function Post({ post, vote, addComment }) {
+export default function Post({ post, vote }) {
   return (
     <Col key={post.id.toString()} md={12} lg={6} style={{ padding: '15px' }}>
       <div className="comment">
@@ -37,10 +37,10 @@ export default function Post({ post, vote, addComment }) {
             <Col className="col-12 justify-content-end">
               <ul style={{ margin: 0, textAlign: 'right' }}>
                 <li className="btn" style={{ padding: '2px' }}>
-                  <button className="btn btn-success" onClick={vote} data-id={post.id} data-vote={"1"}>Like</button>
+                  <button className="btn btn-success" onClick={vote} data-id={post.id} data-vote={"like"}>Like</button>
                 </li>
                 <li className="btn" style={{ padding: '2px', marginRight: '5px' }}>
-                  <button className="btn btn-danger" onClick={vote} data-id={post.id} data-vote={"-1"}>Dislike</button>
+                  <button className="btn btn-danger" onClick={vote} data-id={post.id} data-vote={"dislike"}>Dislike</button>
                 </li>
                 {/* <li className="btn">
                   <button className="btn btn-primary" onClick={addComment} data-id={post.id}>Comment</button>
