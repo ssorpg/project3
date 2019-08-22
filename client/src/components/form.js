@@ -1,13 +1,23 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import { Form, FormGroup, FormControl, Button } from 'react-bootstrap';
-import { LoginButton } from './buttons';
+import { Form, FormControl, Button } from 'react-bootstrap';
+import LoginButton from './buttons';
 
 // FUNCTIONS
 import ax from 'axios';
+//TODO CHANGE TO JUST RETURN ERROR OBJ
+import CheckError from '../utils/checkerror';
+import Modal from '../components/modal';
 
 // LOGIN FORM
 export class LoginForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      errorAlert: undefined
+    }
+  }
+
   handleSubmit = event => {
     event.preventDefault();
     const formData = event.target;
@@ -22,17 +32,23 @@ export class LoginForm extends Component {
   }
 
   login = async postData => {
-    const res = await ax.post('/api/users', postData);
-
-    if (res.status === 200) {
-      window.location = `/profile`;
+    try {
+      const res = await ax.post('/api/users', postData);
+  
+      if (res.status === 200) {
+        window.location = `/profile`;
+      }
+      
+    } catch (error) {
+      console.log(error.response);
+      this.setState({ errorAlert: error.response.data });
     }
   }
 
   render() {
     return (
-      <div>
-        <Form onSubmit={this.handleSubmit}>
+      <div style={{position: 'relative'}}>
+        <Form onSubmit={this.handleSubmit} >
           <Form.Group controlId="formGroupEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control type="email" name="email" placeholder="Enter email" {...this.props} />
@@ -45,6 +61,13 @@ export class LoginForm extends Component {
             <LoginButton />
           </span>
         </Form>
+
+        {
+          this.state.errorAlert ?
+            <Modal error={this.state.errorAlert} />
+          :
+            ''
+        }
       </div>
     )
   }
@@ -53,6 +76,13 @@ export class LoginForm extends Component {
 
 //REGISTER FORM
 export class RegisterForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      errorAlert: undefined
+    }
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
     const formData = event.target;
@@ -91,6 +121,7 @@ export class RegisterForm extends Component {
     }
     catch (error) {
       console.log(error.response);
+      this.setState({errorAlert: error.response.data });
     }
   }
 
@@ -105,7 +136,7 @@ export class RegisterForm extends Component {
   render() {
     return (
       <div>
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} style={{position: 'relative'}}>
           <Form.Group controlId="formGroupEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control type="email" name="email" placeholder="Enter email" {...this.props} />
@@ -124,6 +155,12 @@ export class RegisterForm extends Component {
           </Form.Group>
           <LoginButton />
         </Form>
+        {
+          this.state.errorAlert ?
+            <Modal error={this.state.errorAlert} />
+            :
+            ''
+        }
       </div>
     )
   }
@@ -150,6 +187,7 @@ export class UpdateForm extends Component {
     }
     catch (error) {
       console.log(error.response);
+      this.setState({ errorAlert: error.response.data });
     }
   };
 
@@ -183,7 +221,7 @@ export class UpdateForm extends Component {
       );
 
       if (register_results.status === 200) {
-        window.location = `/create-community/`;
+        window.location = `/profile`;
       }
     }
     catch (error) {
@@ -194,7 +232,7 @@ export class UpdateForm extends Component {
   render() {
     return (
       <div>
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} style={{position: 'relative'}}>
           <Form.Group controlId="formGroupPhoto">
           </Form.Group>
           <Form.Group controlId="formGroupBio">
@@ -208,6 +246,12 @@ export class UpdateForm extends Component {
           {/* <ImageUpload /> */}
           <LoginButton />
         </Form>
+        {
+          this.state.errorAlert ?
+            <Modal error={this.state.errorAlert} />
+          : 
+          <Modal success={this.state.success} />
+        }
       </div>
     )
   }
@@ -222,44 +266,10 @@ export class SearchForm extends Component {
     
     this.state = {
       searchQuery: ''
-      // communities: [],
-      // users: [],
-      // events: []
     }
   }
   //TODO move search input to be hidden if not logged in
-   componentDidMount() {
-    //*make indexes of top level data to speed up search
-    //*if no matches in this dataset start searching tables one by one
-    //  this.getData();
-  }
-
-  // getData = async () => {
-  //   try {
-  //     console.log(this.state.searchQuery);
-  //     let res = await
-  //       ax.post(
-  //         '/api/search',
-  //         {search: this.state.searchQuery}
-  //       );
-  //     if (res.status === 200) {
-  //       let {
-  //         users,
-  //         events,
-  //         communities
-  //       } = res.data;
-
-  //       this.setState({
-  //         'users': users,
-  //         'events': events,
-  //         'communities': communities
-  //       }, () => console.log(this.state));
-  //     }
-  //   } catch (error) {
-  //     console.log(error.response);
-  //   }
-  // }
-
+  
   handleInputChange = event => {
     this.setState({
       searchQuery: event.target.value
@@ -270,28 +280,6 @@ export class SearchForm extends Component {
   handleSearchSubmit = event => {
     event.preventDefault();
     window.location = `/search?q=${this.state.searchQuery}`;
-    // if (this.state.users.length > 0) {
-    //   this.state.users.forEach(item => {
-    //     console.log(item);
-    //   })
-    // } else {
-    //   console.log('Nothing to Search');
-    // }
-  }
-
-  search = async query => {
-    try {
-      let res = await ax.post('/api/search', query);
-      console.log(res);
-
-      if (res.status === 200) {
-        this.setState({
-          initData: res.data
-        });
-      }
-    } catch (error) {
-      console.log(error.response);
-    }
   }
 
   render() {
@@ -299,6 +287,7 @@ export class SearchForm extends Component {
       <Form
         inline
         onSubmit={this.handleSearchSubmit}
+        style={{position: 'relative'}}
       >
         {/* // TODO make search route to handle searches */}
         <FormControl

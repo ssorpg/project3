@@ -3,19 +3,21 @@ import React from 'react';
 import { Col, Row, Form, Button, ListGroup } from 'react-bootstrap';
 import CommunityRadio from './communityradio';
 
-export default function SelectFromExisting({ communities, handleChosenCommunitySubmit, handleRadioSelection, handleFormChange }) {
+export default function SelectFromExisting({ communities, CommunityId, handleChosenCommunitySubmit, handleRadioSelection, handleFormChange }) {
   return (
     <Col className="dropdown">
       <Row>
         <Col>
           <h3>Choose A Community</h3>
           <Form onSubmit={handleChosenCommunitySubmit}>
-            <Form.Group controlId="selectedCommunity">
+            <Form.Group>
               <h4>Community List</h4>
               <ListGroup className="list-unstyled text-left" style={{ columns: 2 }} id="community-list">
                 {
                   communities.map(com =>
                     <CommunityRadio
+                      key={com.id.toString()}
+                      CommunityId={CommunityId}
                       com={com}
                       handleRadioSelection={handleRadioSelection}
                     />

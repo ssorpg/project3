@@ -22,8 +22,7 @@ export default function NavbarRight({ logout, isAuth }) {
       {
         isAuth
           ? <NavDropdown className="" title="Settings" id="basic-nav-dropdown">
-            <NavDropdown.Item href="/update-profile">Update Bio</NavDropdown.Item>
-            <NavDropdown.Item href="/update-photo">Update Photo</NavDropdown.Item>
+            <NavDropdown.Item href="/update-profile">Update Profile</NavDropdown.Item>
             <NavDropdown.Item href="/create-community">Create Community</NavDropdown.Item>
           </NavDropdown>
           : ''

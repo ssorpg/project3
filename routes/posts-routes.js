@@ -186,7 +186,17 @@ module.exports = function (app) {
             throw { status: 400, msg: 'You\'ve already voted on that post.' };
         }
 
-        const newScore = post.score + parseInt(req.params.vote);
+        let newScore;;
+
+        if (req.params.vote === 'like') {
+            newScore = post.score + 1;
+        }
+        else if (req.params.vote === 'dislike') {
+            newScore = post.score - 1;
+        }
+        else {
+            throw { status: 400, msg: 'Invalid vote type.' };
+        }
 
         await post.addVoter(user);
         await post.update({
@@ -338,59 +348,69 @@ module.exports = function (app) {
         res.status(200).json(upComment);
     }));
 
-    app.put(route + '/:PostId/comments/:CommentId/:vote', wrap(async function (req, res, next) { // like/dislike comment
-        const comment = await db.Comment.findOne({
-            where: {
-                id: req.params.CommentId
-            },
-            include: [{
-                model: db.User,
-                through: 'CommentVoter',
-                as: 'voters',
-                where: {
-                    id: req.token.UserId
-                },
-                required: false
-            }]
-        });
+    // app.put(route + '/:PostId/comments/:CommentId/:vote', wrap(async function (req, res, next) { // like/dislike comment
+    //     const comment = await db.Comment.findOne({
+    //         where: {
+    //             id: req.params.CommentId
+    //         },
+    //         include: [{
+    //             model: db.User,
+    //             through: 'CommentVoter',
+    //             as: 'voters',
+    //             where: {
+    //                 id: req.token.UserId
+    //             },
+    //             required: false
+    //         }]
+    //     });
 
-        if (!comment) {
-            throw { status: 404, msg: 'That comment doesn\'t exist.' };
-        }
+    //     if (!comment) {
+    //         throw { status: 404, msg: 'That comment doesn\'t exist.' };
+    //     }
 
-        const post = await db.Post.findOne({
-            where: {
-                id: req.params.PostId
-            }
-        });
+    //     const post = await db.Post.findOne({
+    //         where: {
+    //             id: req.params.PostId
+    //         }
+    //     });
 
-        const community = await db.Community.findOne({
-            where: {
-                id: post.CommunityId
-            }
-        });
+    //     const community = await db.Community.findOne({
+    //         where: {
+    //             id: post.CommunityId
+    //         }
+    //     });
 
-        const [user] = await community.getMembers({
-            where: {
-                id: req.token.UserId
-            }
-        });
+    //     const [user] = await community.getMembers({
+    //         where: {
+    //             id: req.token.UserId
+    //         }
+    //     });
 
-        if (!user) {
-            throw { status: 401, msg: 'You\'re not in that community.' };
-        }
+    //     if (!user) {
+    //         throw { status: 401, msg: 'You\'re not in that community.' };
+    //     }
 
-        if (comment.voters.length) {
-            throw { status: 400, msg: 'You\'ve already voted on that post.' };
-        }
+    //     if (comment.voters.length) {
+    //         throw { status: 400, msg: 'You\'ve already voted on that post.' };
+    //     }
 
-        const newScore = comment.score + parseInt(req.params.vote);
+    //     let newScore;
 
-        await comment.addVoter(user);
-        await comment.update({
-            score: newScore
-        });
+    //     if (req.params.vote === 'like') {
+    //         newScore = comment.score + 1;
+    //     }
+    //     else if (req.params.vote === 'dislike') {
+    //         newScore = comment.score - 1;
+    //     }
+    //     else {
+    //         throw { status: 400, msg: 'Invalid vote type.' };
+    //     }
 
-        res.status(200).json(newScore);
-    }));
+    //     await comment.addVoter(user);
+    //     await comment.update({
+    //         score: newScore
+    //     });
+
+    //     res.status(200).json(newScore);
+    // }));
 };

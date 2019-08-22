@@ -6,6 +6,7 @@ import Friend from './friend';
 // FUNCTIONS
 import ax from 'axios';
 import CheckError from '../../../utils/checkerror';
+import GetUserId from '../../../utils/getuserid';
 
 export default class Friends extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ export default class Friends extends Component {
 
     this.state = {
       friends: undefined,
-      UserId: parseInt(props.match.params.UserId),
+      UserId: GetUserId(),
       CommunityId: parseInt(props.match.params.CommunityId)
     };
   }
@@ -45,10 +46,12 @@ export default class Friends extends Component {
           {
             this.state.friends
               ? this.state.friends.map(friend => (
-                <Friend
-                  friend={friend}
-                  CommunityId={this.state.CommunityId}
-                />
+                this.state.UserId === friend.id
+                  ? ''
+                  : <Friend
+                    friend={friend}
+                    CommunityId={this.state.CommunityId}
+                  />
               ))
               : ''
           }

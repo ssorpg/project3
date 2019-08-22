@@ -5,15 +5,24 @@ import Post from './post';
 
 // FUNCTIONS
 import ax from 'axios';
+import GetUserId from '../utils/getuserid';
 
 export default class PostDisplay extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      UserId: GetUserId()
+    }
+  }
+
   vote = async event => {
     const post = event.target;
     console.log(post);
     try {
-      const upPost = await ax.put(`/api/posts/${event.target.dataset.id}/${event.target.dataset.vote}`);
+      const newScore = await ax.put(`/api/posts/${event.target.dataset.id}/${event.target.dataset.vote}`);
 
-      document.getElementById('postScore' + post.dataset.id).textContent = 'Score: ' + upPost.data;
+      document.getElementById('postScore' + post.dataset.id).textContent = 'Score: ' + newScore.data;
     }
     catch (error) {
       console.log(error.response);
@@ -49,6 +58,7 @@ export default class PostDisplay extends Component {
           this.props.posts
             ? this.props.posts.map(post => (
               <Post
+                UserId={this.state.UserId}
                 post={post}
                 vote={this.vote}
                 deletePost={this.deletePost}

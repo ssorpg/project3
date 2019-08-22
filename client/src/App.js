@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 // import './App.css';
 import Navbar from './components/pages/navbar/navbar';
 import Profile from './components/pages/profile/profile';
-import UpdatePhoto from './components/pages/update-photo/update-photo';
 import HomePage from './components/pages/home/home';
 import Register from './components/pages/register/register';
 import Feed from './components/pages/feed/feed';
@@ -30,7 +29,6 @@ export default class TPN extends Component {
               <Route exact path="/register" component={Register} />
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/update-profile" component={UpdateProfile} />
-              <Route exact path="/update-photo" component={UpdatePhoto} />
               <Route exact path="/create-community" component={CreateCommunity} />
               <Route exact path="/community/:CommunityId" component={Feed} />
               {/* TODO: make friends tables/routes? */}

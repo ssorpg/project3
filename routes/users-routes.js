@@ -29,11 +29,15 @@ module.exports = function (app) {
             attributes: ['id', 'password']
         });
 
+        if (!user) {
+            throw { status: 401, msg: 'That email is not registered.' };
+        }
+
         const token = await auth.makeToken(req, user);
 
         return res.status(200)
             .cookie('token', token, cookieOptionsS)
-            .cookie('loggedIn', true, cookieOptionsU)
+            .cookie('userId', user.id, cookieOptionsU)
             .send({
                 message: 'Login successful.',
                 loggedIn: true
@@ -47,11 +51,20 @@ module.exports = function (app) {
 
         const password = await auth.hashPass(req);
 
-        await db.User.create({
+        const newUser = await db.User.create({
             name: req.body.name,
             email: req.body.email,
             password: password
         });
+        
+        const defaultCommunity = await db.Community.findOne({
+            where: {
+                name: 'TPN'
+            }
+        });
+
+        await defaultCommunity.addMember(newUser);
+        await newUser.addCommunity(defaultCommunity); // users join public community by default
 
         res.status(200).send('Account created!');
     }));
@@ -72,7 +85,7 @@ module.exports = function (app) {
     app.get(route + '/logout', wrap(async function (req, res, next) { // logout
         res.status(200)
             .clearCookie('token')
-            .clearCookie('loggedIn')
+            .clearCookie('userId')
             .send('Logout successful.');
     }));
 
@@ -98,19 +111,19 @@ module.exports = function (app) {
         res.status(200).json(user);
     }));
 
-    app.get(route + '/invites', wrap(async function (req, res, next) { // get your invites
-        const user = await db.User.findOne({
-            where: {
-                id: req.token.UserId
-            },
-            include: [{
-                model: db.Community,
-                as: 'invites'
-            }]
-        });
+    // app.get(route + '/invites', wrap(async function (req, res, next) { // get your invites
+    //     const user = await db.User.findOne({
+    //         where: {
+    //             id: req.token.UserId
+    //         },
+    //         include: [{
+    //             model: db.Community,
+    //             as: 'invites'
+    //         }]
+    //     });
 
-        res.status(200).json(user);
-    }));
+    //     res.status(200).json(user);
+    // }));
 
     app.delete(route, wrap(async function (req, res, next) { // delete user
         await db.User.destroy({

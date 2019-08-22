@@ -7,13 +7,20 @@ import CommentOnPosts from './commentOnPosts';
 
 
 export default function Post(props) {
-  const { post, vote, /*addComment,*/ editPost, deletePost } = props;
-  
+  const { UserId, post, vote, /*addComment,*/ editPost, deletePost } = props;
   return (
     <Col key={post.id.toString()} id={post.id.toString()} md={12} lg={6} style={{ padding: '15px' }}>
       <div className="comment">
         <Card cardClass={"text-dark text-left card"}>
-          <a href={"/community/" + post.CommunityId + "/friends/" + post.author.id}>
+          <a
+          style={{ maxWidth: '50%' }}
+          href=
+            {
+              UserId === post.author.id
+                ? "/profile"
+                : "/community/" + post.CommunityId + "/friends/" + post.author.id
+            }
+          >
             <h4 className="username" style={{ margin: '10px' }}>
               {post.author.name}
             </h4>
@@ -39,10 +46,10 @@ export default function Post(props) {
             <Col className="col-12 justify-content-end">
               <ul style={{ margin: 0, textAlign: 'right' }}>
                 <li className="btn" style={{ padding: '2px' }}>
-                  <button className="btn btn-success" onClick={vote} data-id={post.id} data-vote={"1"}>Like</button>
+                  <button className="btn btn-success" onClick={vote} data-id={post.id} data-vote={"like"}>Like</button>
                 </li>
                 <li className="btn" style={{ padding: '2px', marginRight: '5px' }}>
-                  <button className="btn btn-danger" onClick={vote} data-id={post.id} data-vote={"-1"}>Dislike</button>
+                  <button className="btn btn-danger" onClick={vote} data-id={post.id} data-vote={"dislike"}>Dislike</button>
                 </li>
                 {/* <li className="btn">
                   <button className="btn btn-primary" onClick={addComment} data-id={post.id}>Comment</button>

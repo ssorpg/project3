@@ -2,14 +2,19 @@
 import React from 'react';
 import { Form, ListGroupItem } from 'react-bootstrap';
 
-export default function CommunityRadio({ com, handleRadioSelection }) {
+export default function CommunityRadio({ CommunityId, com, handleRadioSelection }) {
+  console.log('State comm id: ', CommunityId);
+  console.log('Current comm id: ', com.id);
+
   return (
-    <ListGroupItem className="radio" name="community" key={com.id.toString()}>
+    <ListGroupItem className="radio" name="community" onClick={handleRadioSelection}>
       <Form.Check type="radio"
         name="community"
-        data-id={com.id.toString()}
+        id={com.id}
+        value={com.id}
         label={com.name}
-        onClick={handleRadioSelection}
+        onChange={handleRadioSelection}
+        checked={CommunityId === com.id}
       />
     </ListGroupItem>
   )
