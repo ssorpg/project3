@@ -96,3 +96,8 @@
   top: 5px;
   right: -5px;
 }
+
+.well {
+  border-radius: 15px;
+  border: 1px solid #ddd;
+}

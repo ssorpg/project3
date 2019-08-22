@@ -1,6 +1,6 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import { Form } from 'react-bootstrap';
+import { Form, FormGroup, FormControl, Button } from 'react-bootstrap';
 import { LoginButton } from './buttons';
 
 // FUNCTIONS
@@ -209,6 +209,112 @@ export class UpdateForm extends Component {
           <LoginButton />
         </Form>
       </div>
+    )
+  }
+}
+
+//SEARCH FORM
+//TODO send to search results page after they get response
+//TODO if no response stay on page and tell them to try again
+export class SearchForm extends Component {
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      searchQuery: ''
+      // communities: [],
+      // users: [],
+      // events: []
+    }
+  }
+  //TODO move search input to be hidden if not logged in
+   componentDidMount() {
+    //*make indexes of top level data to speed up search
+    //*if no matches in this dataset start searching tables one by one
+    //  this.getData();
+  }
+
+  // getData = async () => {
+  //   try {
+  //     console.log(this.state.searchQuery);
+  //     let res = await
+  //       ax.post(
+  //         '/api/search',
+  //         {search: this.state.searchQuery}
+  //       );
+  //     if (res.status === 200) {
+  //       let {
+  //         users,
+  //         events,
+  //         communities
+  //       } = res.data;
+
+  //       this.setState({
+  //         'users': users,
+  //         'events': events,
+  //         'communities': communities
+  //       }, () => console.log(this.state));
+  //     }
+  //   } catch (error) {
+  //     console.log(error.response);
+  //   }
+  // }
+
+  handleInputChange = event => {
+    this.setState({
+      searchQuery: event.target.value
+    });
+  }
+  //todo remove init data grab and let users troll entire db
+  //todo maybe add paging to results
+  handleSearchSubmit = event => {
+    event.preventDefault();
+    window.location = `/search?q=${this.state.searchQuery}`;
+    // if (this.state.users.length > 0) {
+    //   this.state.users.forEach(item => {
+    //     console.log(item);
+    //   })
+    // } else {
+    //   console.log('Nothing to Search');
+    // }
+  }
+
+  search = async query => {
+    try {
+      let res = await ax.post('/api/search', query);
+      console.log(res);
+
+      if (res.status === 200) {
+        this.setState({
+          initData: res.data
+        });
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+
+  render() {
+    return (
+      <Form
+        inline
+        onSubmit={this.handleSearchSubmit}
+      >
+        {/* // TODO make search route to handle searches */}
+        <FormControl
+          type="text"
+          placeholder="Search"
+          className="mr-sm-2"
+          id="search-input"
+          onChange={this.handleInputChange}
+        />
+        <Button
+          variant="outline-success"
+          type="Submit"
+        >
+          Search
+        </Button>
+      </Form>
     )
   }
 }
