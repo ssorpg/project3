@@ -81,7 +81,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That community doesn\'t exist.' };
         }
 
-        if (community.founderId !== req.token.UserId) {
+        if (req.token.UserId !== community.founderId) {
             throw { status: 401, msg: 'You don\'t own that community.' };
         }
 
@@ -101,7 +101,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That community doesn\'t exist.' };
         }
 
-        if (community.founderId !== req.token.UserId) {
+        if (req.token.UserId !== community.founderId) {
             throw { status: 401, msg: 'You don\'t own that community.' };
         }
 
@@ -140,6 +140,77 @@ module.exports = function (app) {
         res.status(200).json(community);
     }));
 
+    app.post(route + '/:CommunityId/invited/:UserEmail', wrap(async function (req, res, next) { // invite user to community
+        const community = await db.Community.findOne({
+            where: {
+                id: req.params.CommunityId
+            }
+        });
+
+        if (!community) {
+            throw { status: 404, msg: 'That community doesn\'t exist.' };
+        }
+
+        if (req.token.UserId !== community.founderId) {
+            throw { status: 401, msg: 'You don\'t own that community.' };
+        }
+
+        let [user] = await community.getMembers({
+            where: {
+                email: req.params.UserEmail
+            }
+        });
+
+        if (user) {
+            throw { status: 400, msg: 'That user\'s already in that community.' };
+        }
+
+        [user] = await community.getInvited({
+            where: {
+                email: req.params.UserEmail
+            }
+        });
+
+        if (user) {
+            throw { status: 400, msg: 'That user\'s already been invited to that community.' };
+        }
+        
+        user = await db.User.findOne({
+            where: {
+                email: req.params.UserEmail
+            }
+        });
+
+        if (!user) {
+            throw { status: 404, msg: 'That user doesn\'t exist.' };
+        }
+
+        await community.addInvited(user);
+        await user.addInvites(community);
+
+        res.status(200).send('You invited the user to the community!');
+    }));
+
+    app.get(route + '/:CommunityId/invited', wrap(async function (req, res, next) { // get community invites
+        const community = await db.Community.findOne({
+            where: {
+                id: req.params.CommunityId
+            }
+        });
+
+        if (!community) {
+            throw { status: 404, msg: 'That community doesn\'t exist.' };
+        }
+
+        if (req.token.UserId !== community.founderId) {
+            throw { status: 401, msg: 'You don\'t own that community.' };
+        }
+
+        community.dataValues.invited = await community.getInvited();
+
+        res.status(200).json(community);
+    }));
+
     app.post(route + '/:CommunityId/users', wrap(async function (req, res, next) { // join community
         const community = await db.Community.findOne({
             where: {
@@ -161,11 +232,23 @@ module.exports = function (app) {
             throw { status: 400, msg: 'You\'re already in that community.' };
         }
 
+        [user] = await community.getInvited({
+            where: {
+                id: req.token.UserId
+            }
+        });
+
+        if (!user) {
+            throw { status: 401, msg: 'You haven\'t been invited to that community.' };
+        }
+
         user = await db.User.findOne({
             where: {
                 id: req.token.UserId
             }
         });
+
+        await community.removeInvited(user);
 
         await community.addMember(user);
         await user.addCommunity(community);
@@ -182,6 +265,10 @@ module.exports = function (app) {
 
         if (!community) {
             throw { status: 404, msg: 'That community doesn\'t exist.' };
+        }
+
+        if (req.token.UserId === community.founderId) {
+            throw { status: 400, msg: 'You can\'t leave a community you own!' };
         }
 
         const [user] = await community.getMembers({
@@ -396,7 +483,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That event doesn\'t exist.' };
         }
 
-        if (event.founderId !== req.token.UserId) {
+        if (req.token.UserId !== event.founderId) {
             throw { status: 401, msg: 'You don\'t own that event.' };
         }
 
@@ -416,7 +503,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That event doesn\'t exist.' };
         }
 
-        if (event.founderId !== req.token.UserId) {
+        if (req.token.UserId !== event.founderId) {
             throw { status: 401, msg: 'You don\'t own that event.' };
         }
 

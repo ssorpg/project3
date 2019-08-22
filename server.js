@@ -52,7 +52,7 @@ app.use(function (err, req, res, next) { // error handler middleware, called wit
         case 404:
             return res.status(err.status).send(err.msg ? err.msg : 'Not found.');
         default:
-            return res.status(500).send('Server error.');
+            return res.status(500).send(err.errors ? err.errors[0].message : 'Server error.'); // returns sequelize error messages
     }
 });
 

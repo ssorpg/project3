@@ -29,6 +29,11 @@ module.exports = function (sequelize, DataTypes) {
             as: 'members'
         });
 
+        Community.belongsToMany(models.User, {
+            through: 'UserInvite',
+            as: 'invited'
+        });
+
         Community.belongsTo(models.User, {
             foreignKey: {
                 allowNull: false
