@@ -4,12 +4,14 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 module.exports = {
-    hashPass: function (req) {
-        return bcrypt.hash(req.body.password, 10);
+    hashPass: async function (req) {
+        return await bcrypt.hash(req.body.password, 10);
     },
 
-    makeToken: function (req, user) {
-        const doesMatch = bcrypt.compare(req.body.password, user.password);
+    makeToken: async function (req, user) {
+        const doesMatch = await bcrypt.compare(req.body.password, user.password);
+
+        console.log(doesMatch);
 
         if (doesMatch) {
             return jwt.sign({ UserId: user.id }, process.env.JWT_SECRET, { expiresIn: 43200 });

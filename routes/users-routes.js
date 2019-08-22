@@ -29,7 +29,7 @@ module.exports = function (app) {
             attributes: ['id', 'password']
         });
 
-        const token = auth.makeToken(req, user);
+        const token = await auth.makeToken(req, user);
 
         return res.status(200)
             .cookie('token', token, cookieOptionsS)
@@ -56,7 +56,7 @@ module.exports = function (app) {
         res.status(200).send('Account created!');
     }));
 
-    app.put(route + '/update', wrap(async function (req, res, next) { // register user
+    app.put(route + '/update', wrap(async function (req, res, next) { // update profile
         await db.User.update(
             {
                 bio: req.body.bio,
@@ -92,6 +92,20 @@ module.exports = function (app) {
                     model: db.User,
                     as: 'author'
                 }]
+            }]
+        });
+
+        res.status(200).json(user);
+    }));
+
+    app.get(route + '/invites', wrap(async function (req, res, next) { // get your invites
+        const user = await db.User.findOne({
+            where: {
+                id: req.token.UserId
+            },
+            include: [{
+                model: db.Community,
+                as: 'invites'
             }]
         });
 
