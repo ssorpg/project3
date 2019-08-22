@@ -287,7 +287,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That comment doesn\'t exist.' };
         }
 
-        if (comment.AuthorId !== req.token.UserId) {
+        if (comment.authorId !== req.token.UserId) {
             throw { status: 401, msg: 'You didn\'t make that comment.' };
         }
 

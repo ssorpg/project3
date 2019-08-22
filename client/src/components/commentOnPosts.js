@@ -23,7 +23,7 @@ export default class CommentOnPosts extends Component {
       this.setState({
         posts: res.data.comments
       })
-      console.log('RESPONSE get', res.data.comments);
+      //console.log('RESPONSE get', res.data.comments);
     }
     catch (error) {
       CheckError(error);
@@ -57,8 +57,8 @@ export default class CommentOnPosts extends Component {
       this.setState({
         posts: [res.data, ...this.state.posts]
       });
-      console.log('data', data);
-      console.log('response post??', res.data);
+      // console.log('data', data);
+      // console.log('response post??', res.data);
     }
     catch (error) {
       // console.log(error.response);
