@@ -6,9 +6,11 @@ import Profilephoto from './profilephoto';
 import CommentOnPosts from './commentOnPosts';
 
 
-export default function Post({ post, vote, addComment }) {
+export default function Post(props) {
+  const { post, vote, /*addComment,*/ editPost, deletePost } = props;
+  
   return (
-    <Col key={post.id.toString()} md={12} lg={6} style={{ padding: '15px' }}>
+    <Col key={post.id.toString()} id={post.id.toString()} md={12} lg={6} style={{ padding: '15px' }}>
       <div className="comment">
         <Card cardClass={"text-dark text-left card"}>
           <a href={"/community/" + post.CommunityId + "/friends/" + post.author.id}>
@@ -45,6 +47,20 @@ export default function Post({ post, vote, addComment }) {
                 {/* <li className="btn">
                   <button className="btn btn-primary" onClick={addComment} data-id={post.id}>Comment</button>
                 </li> */}
+
+
+                                {/* THESE TWO SHOULD ONLY SHOW UP IF IT IS THE LOGGED IN USER'S POST */}
+                <li className="btn" style={{ padding: '2px', marginRight: '5px' }}>
+                  <button className="btn btn-danger" onClick={editPost} data-id={post.id} >Edit</button>
+                </li>
+                <li className="btn" style={{ padding: '2px', marginRight: '5px' }}>
+                  <button className="btn btn-danger" onClick={deletePost} data-id={post.id}>Delete</button>
+                </li>
+                                {/* THESE TWO SHOULD ONLY SHOW UP IF IT IS THE LOGGED IN USER'S POST */}
+
+
+
+
               </ul>
             </Col>
             <div style={{ position: 'absolute', top: '5px', right: '10px' }}>

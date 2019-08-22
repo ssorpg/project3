@@ -9,13 +9,35 @@ import ax from 'axios';
 export default class PostDisplay extends Component {
   vote = async event => {
     const post = event.target;
-
+    console.log(post);
     try {
       const upPost = await ax.put(`/api/posts/${event.target.dataset.id}/${event.target.dataset.vote}`);
 
       document.getElementById('postScore' + post.dataset.id).textContent = 'Score: ' + upPost.data;
     }
     catch (error) {
+      console.log(error.response);
+    }
+  }
+
+  deletePost = async event => {
+    // console.log(event.target);
+    // console.log(event.target.parentNode);
+    document.getElementById(this.props.posts[0].id).remove();
+    
+    try {
+      await ax.delete(`/api/posts/${event.target.dataset.id}/`);
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+
+  editPost = async event => {
+    console.log(event.target);
+    //we want something to pop up that will allow user to edit the post.. but my brain fried.
+    try {
+      await ax.put(`/api/posts/${event.target.dataset.id}/`);
+    } catch (error) {
       console.log(error.response);
     }
   }
@@ -29,7 +51,9 @@ export default class PostDisplay extends Component {
               <Post
                 post={post}
                 vote={this.vote}
-                addComment={this.addComment}
+                deletePost={this.deletePost}
+                // addComment={this.addComment}
+                editPost={this.editPost}
               />
             ))
             : <h2 className="col-12">No posts here.<br />You should make one!</h2>

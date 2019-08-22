@@ -1,7 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import { OverlayTrigger, Popover } from 'react-bootstrap';
-
 
 const CommentDisplay = (props) => {
 
@@ -35,7 +33,6 @@ const CommentDisplay = (props) => {
   const postToDB = data => {
     console.log(data);
     axios.put(`/api/posts/${props.posts.PostId}/comments/${props.posts.id}`, data);
-
   }
 
   return (
@@ -48,8 +45,6 @@ const CommentDisplay = (props) => {
       </form>
     </p>
   )
-  //}
 }
-
 
 export default CommentDisplay;

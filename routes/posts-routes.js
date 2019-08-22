@@ -99,7 +99,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That post doesn\'t exist.' };
         }
 
-        if (post.AuthorId !== req.token.UserId) {
+        if (post.authorId !== req.token.UserId) {
             throw { status: 401, msg: 'You didn\'t make that post.' };
         }
 
@@ -119,7 +119,7 @@ module.exports = function (app) {
             throw { status: 404, msg: 'That post doesn\'t exist.' };
         }
 
-        if (post.AuthorId !== req.token.UserId) {
+        if (post.authorId !== req.token.UserId) {
             throw { status: 401, msg: 'You didn\'t make that post.' };
         }
 
@@ -140,9 +140,7 @@ module.exports = function (app) {
         }
 
         const upPost = await post.update({
-
-            // update some stuff
-
+            message: req.body.message
         });
 
         res.status(200).json(upPost);
