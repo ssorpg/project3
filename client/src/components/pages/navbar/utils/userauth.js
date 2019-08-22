@@ -3,7 +3,7 @@ export default function UserAuth() {
   let loggedIn = false;
   
   cookies.forEach(cookie => {
-    if(cookie.includes('loggedIn')) {
+    if(cookie.includes('userId')) {
       loggedIn = true;
     }
   });
