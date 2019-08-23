@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import PostDisplay from '../../postdisplay';
+import Modal from '../../modal';
 
 // IMAGES
 import './images/icons/svg/star-empty.svg';
@@ -12,7 +13,6 @@ import './images/icons/svg/check-full.svg';
 // FUNCTIONS
 import ax from 'axios';
 import CheckError from '../../../utils/checkerror';
-import Modal from '../../modal';
 
 export default class Feed extends Component {
   constructor(props) {
@@ -21,7 +21,8 @@ export default class Feed extends Component {
     this.state = {
       CommunityId: this.props.match.params.CommunityId,
       pageTitle: undefined,
-      posts: undefined
+      posts: undefined,
+      errorAlert: undefined
     }
   }
 
@@ -55,7 +56,7 @@ export default class Feed extends Component {
     };
 
     const submit = form.getElementsByTagName('button')[0];
-    
+
     submit.style.visibility = 'hidden';
     await this.postToDB(post);
     submit.style.visibility = 'visible';

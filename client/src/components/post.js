@@ -26,14 +26,21 @@ export default function Post(props) {
             </h4>
           </a>
           <Row className="justify-content-center" style={{ width: '100%', margin: 0 }}>
-            <Col>
-              <a href={`/community/${post.CommunityId}/friends/${post.author.id}`}>
-                <figure className="float:right" style={{ borderRadius: '150px', overflow: 'hidden' }}>
-                  <Profilephoto id={post.authorId} size='150px' />
+            <Col xs={6} sm={5} md={4} lg={5} xl={4}>
+              <a
+                href=
+                {
+                  YourId === post.author.id ?
+                    `/profile`
+                    : `/community/${post.CommunityId}/friends/${post.author.id}`
+                }
+              >
+                <figure className="float:right" style={{ overflow: 'hidden' }}>
+                  <Profilephoto id={post.authorId} />
                 </figure>
               </a>
             </Col>
-            <Col style={{ minHeight: '100px', width: 'calc( 100% - 150px )' }}>
+            <Col xs={6} sm={7} md={8} lg={7} xl={8} style={{ minHeight: '100px' }}>
               <p className="comment">{post.message}</p>
             </Col>
             <Col className="col-12 justify-content-end">

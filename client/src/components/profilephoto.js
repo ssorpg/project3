@@ -36,7 +36,7 @@ export default class OtherPhoto extends Component {
             `/images/${this.state.filename}`
             : 'https://cdn2.iconfinder.com/data/icons/ui-1/60/05-512.png'
         }
-        style={{ height: this.props.size, width: this.props.size, padding: '15px' }}
+        style={{ minHeight: '150px', width: '100%', minWidth: '150px', padding: '15px' }}
         alt="profile"
       />
     )

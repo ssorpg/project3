@@ -14,8 +14,7 @@ export default class Profile extends Component {
 
     this.state = {
       userData: undefined,
-      posts: undefined,
-      errorAlert: undefined
+      posts: undefined
     };
   }
 
@@ -44,9 +43,13 @@ export default class Profile extends Component {
           <ProfileInfo
             userData={this.state.userData}
           />
-          <PostDisplay
-            posts={this.state.posts}
-          />
+          {
+            this.state.posts ?
+              <PostDisplay
+                posts={this.state.posts}
+              />
+              : ''
+          }
         </Card>
       </div>
     )

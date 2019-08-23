@@ -12,7 +12,8 @@ export default class Modal extends Component {
 
   render() {
     return (
-      <div style={{ position: 'absolute', top: '-100%', left: '25%', zIndex: '99', minWidth: '150px' }}>
+      <div style={{ position: 'absolute', bottom: '-60%', left: '25%', zIndex: '9999', minWidth: '150px' }}>
+        {console.log(this.state)}
         {
           this.state.errorAlert ?
             <div className="alert alert-danger">
@@ -23,14 +24,15 @@ export default class Modal extends Component {
             </div>
             : ''
         }
-        {this.state.successAlert ?
-          <div className="alert alert-success">
-            <p>
-              <strong>Success: </strong>
-              {this.state.errorAlert}
-            </p>
-          </div>
-          : ''
+        {
+          this.state.successAlert ?
+            <div className="alert alert-success">
+              <p>
+                <strong>Success: </strong>
+                {this.state.errorAlert}
+              </p>
+            </div>
+            : ''
         }
       </div>
     )

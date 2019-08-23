@@ -4,6 +4,7 @@ import { Row, Col, Container } from 'react-bootstrap';
 import Card from '../../card.js';
 import ProfileInfo from '../../profileinfo';
 import PostDisplay from '../../postdisplay';
+import Modal from '../../modal';
 
 // FUNCTIONS
 import ax from 'axios';
@@ -18,6 +19,7 @@ export default class Wall extends Component {
       UserId: parseInt(props.match.params.UserId),
       userData: undefined,
       posts: undefined,
+      errorAlert: undefined
     };
   }
 
@@ -53,13 +55,15 @@ export default class Wall extends Component {
     };
 
     const submit = form.getElementsByTagName('button')[0];
-    
+
     submit.style.visibility = 'hidden';
     await this.postToDB(post);
     submit.style.visibility = 'visible';
   }
 
   postToDB = async data => {
+    this.setState({ errorAlert: undefined });
+
     try {
       const res = await ax.post(`/api/posts?CommunityId=` + this.state.CommunityId + `&UserId=` + this.state.UserId, data);
 
@@ -87,16 +91,11 @@ export default class Wall extends Component {
                 >
                   {
                     this.state.errorAlert ?
-                      <div className="alert alert-danger">
-                        <p>
-                          <strong>Error: </strong>
-                          {this.state.errorAlert}
-                        </p>
-                      </div>
+                      <Modal error={this.state.errorAlert} />
                       : ''
                   }
-              <textarea type="text" name="feed-comment" placeholder="What's on your mind?" style={{ minWidth: '350px', minHeight: '100px', padding: '3px', resize: 'none', verticalAlign: 'bottom' }} />
-              <button type="submit" value="submit" className="btn btn-primary" style={{ marginLeft: '15px', marginTop: '-80px' }}>Post to Wall</button>
+                  <textarea type="text" name="feed-comment" placeholder="What's on your mind?" style={{ minWidth: '350px', minHeight: '100px', padding: '3px', resize: 'none', verticalAlign: 'bottom' }} />
+                  <button type="submit" value="submit" className="btn btn-primary" style={{ marginLeft: '15px', marginTop: '-80px' }}>Post to Wall</button>
                 </form>
               </Col>
             </Row>

@@ -5,18 +5,7 @@ import { Nav, NavDropdown, Button } from 'react-bootstrap';
 // IMAGES
 import user from '../../../images/icons/svg/user.svg';
 
-export default function NavbarRight({ logout, isAuth }) {
-  function toggleLogin() {
-    const loginForm = document.getElementById('login');
-
-    if (loginForm.className === 'expander open') {
-      loginForm.className = 'expander closed';
-    }
-    else {
-      loginForm.className = 'expander open';
-    }
-  }
-
+export default function NavbarRight({ isAuth, logout, toggleLogin  }) {
   return (
     <Nav className="nav navbar-nav navbar-right">
       {

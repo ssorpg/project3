@@ -2,12 +2,12 @@
 import React, { Component } from 'react';
 import { Form, FormControl, Button } from 'react-bootstrap';
 import LoginButton from './buttons';
+import Modal from './modal';
 
 // FUNCTIONS
 import ax from 'axios';
 //TODO CHANGE TO JUST RETURN ERROR OBJ
 // import CheckError from '../utils/checkerror';
-import Modal from '../components/modal';
 
 // LOGIN FORM
 export class LoginForm extends Component {
@@ -33,14 +33,14 @@ export class LoginForm extends Component {
   }
 
   login = async postData => {
+    this.setState({ errorAlert: undefined });
+
     try {
-      const res = await ax.post('/api/users', postData);
+      await ax.post('/api/users', postData);
 
-      if (res.status === 200) {
-        window.location = `/profile`;
-      }
-
-    } catch (error) {
+      window.location = `/profile`;
+    }
+    catch (error) {
       console.log(error.response);
       this.setState({ errorAlert: error.response.data });
     }
@@ -49,6 +49,11 @@ export class LoginForm extends Component {
   render() {
     return (
       <div style={{ position: 'relative' }}>
+        {
+          this.state.errorAlert ?
+            <Modal error={this.state.errorAlert} />
+            : ''
+        }
         <Form onSubmit={this.handleSubmit} >
           <Form.Group controlId="formGroupEmail">
             <Form.Label>Email address</Form.Label>
@@ -62,11 +67,6 @@ export class LoginForm extends Component {
             <LoginButton />
           </span>
         </Form>
-        {
-          this.state.errorAlert ?
-            <Modal error={this.state.errorAlert} />
-            : ''
-        }
       </div>
     )
   }
@@ -97,10 +97,10 @@ export class RegisterForm extends Component {
   }
 
   postToDB = async postData => {
+    this.setState({ errorAlert: undefined });
+
     console.log(postData);
-    const {
-      name, email, password
-    } = postData;
+    const { name, email, password } = postData;
 
     try {
       await ax.post('/api/users/register',
@@ -119,6 +119,8 @@ export class RegisterForm extends Component {
   }
 
   login = async (email, pass) => {
+    this.setState({ errorAlert: undefined });
+
     try {
       await ax.post('/api/users', { email: email, password: pass });
 
@@ -132,8 +134,13 @@ export class RegisterForm extends Component {
 
   render() {
     return (
-      <div>
-        <Form onSubmit={this.handleSubmit} style={{ position: 'relative' }}>
+      <div style={{ position: 'relative' }}>
+        {
+          this.state.errorAlert ?
+            <Modal error={this.state.errorAlert} />
+            : <Modal success={this.state.success} />
+        }
+        <Form onSubmit={this.handleSubmit}>
           <Form.Group controlId="formGroupEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control type="email" name="email" placeholder="Enter email" {...this.props} />
@@ -152,11 +159,6 @@ export class RegisterForm extends Component {
           </Form.Group>
           <LoginButton />
         </Form>
-        {
-          this.state.errorAlert ?
-            <Modal error={this.state.errorAlert} />
-            : ''
-        }
       </div>
     )
   }
@@ -169,6 +171,7 @@ export class UpdateForm extends Component {
 
     this.state = {
       userData: undefined,
+      errorAlert: undefined
     };
   }
 
@@ -177,6 +180,8 @@ export class UpdateForm extends Component {
   }
 
   GetData = async () => {
+    this.setState({ errorAlert: undefined });
+
     try {
       const userData = await ax.get(`/api/users/profile/`);
       this.setState({ userData: userData });
@@ -201,6 +206,8 @@ export class UpdateForm extends Component {
   }
 
   postToDB = async postData => {
+    this.setState({ errorAlert: undefined });
+
     console.log(postData);
     const { bio, location } = postData;
 
@@ -222,7 +229,12 @@ export class UpdateForm extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ position: 'relative' }}>
+        {
+          this.state.errorAlert ?
+            <Modal error={this.state.errorAlert} />
+            : <Modal success={this.state.success} />
+        }
         <Form onSubmit={this.handleSubmit} style={{ position: 'relative' }}>
           <Form.Group controlId="formGroupPhoto">
           </Form.Group>
@@ -237,11 +249,6 @@ export class UpdateForm extends Component {
           {/* <ImageUpload /> */}
           <LoginButton />
         </Form>
-        {
-          this.state.errorAlert ?
-            <Modal error={this.state.errorAlert} />
-            : <Modal success={this.state.success} />
-        }
       </div>
     )
   }

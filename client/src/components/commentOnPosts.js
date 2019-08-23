@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Container } from 'react-bootstrap';
 import CommentDisplay from './commentdisplay';
+import Modal from './modal';
 
 // FUNCTIONS
 import ax from 'axios';
@@ -12,7 +13,8 @@ export default class CommentOnPosts extends Component {
     super(props)
 
     this.state = {
-      comments: undefined
+      comments: undefined,
+      errorAlert: undefined
     }
   }
 
@@ -64,8 +66,8 @@ export default class CommentOnPosts extends Component {
       // console.log('response post??', res.data);
     }
     catch (error) {
-      // console.log(error.response);
-      // this.setState({ errorAlert: error.response.data });
+      console.log(error.response);
+      this.setState({ errorAlert: error.response.data });
     }
   }
 
@@ -85,12 +87,7 @@ export default class CommentOnPosts extends Component {
             >
               {
                 this.state.errorAlert ?
-                  <div className="alert alert-danger">
-                    <p>
-                      <strong>Error: </strong>
-                      {this.state.errorAlert}
-                    </p>
-                  </div>
+                  <Modal error={this.state.errorAlert} />
                   : ''
               }
               <input type="text" name="feed-comment" placeholder="Make a comment?" style={{ minWidth: '310px', padding: '3px' }} />

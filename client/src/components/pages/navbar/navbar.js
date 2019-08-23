@@ -44,6 +44,17 @@ export default class Navbar extends Component {
     }
   }
 
+  toggleLogin() {
+    const loginForm = document.getElementById('login');
+
+    if (loginForm.className === 'expander open') {
+      loginForm.className = 'expander closed';
+    }
+    else {
+      loginForm.className = 'expander open';
+    }
+  }
+
   render() {
     return (
       <Nav bg="light" expand="lg" id='site-nav' style={{ marginBottom: '20px' }}>
@@ -54,11 +65,12 @@ export default class Navbar extends Component {
             CommunityId={this.state.CommunityId}
           />
           <NavbarRight
-            logout={this.logout}
             isAuth={this.state.isAuth}
+            logout={this.logout}
+            toggleLogin={this.toggleLogin}
           />
           {
-            this.props.isAuth ?
+            this.state.isAuth ?
               <Searchbar />
               : ''
           }

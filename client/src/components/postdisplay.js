@@ -58,7 +58,7 @@ export default class PostDisplay extends Component {
     return (
       <Row style={{ textAlign: 'center', margin: 'auto' }}>
         {
-          this.props.posts ?
+          this.props.posts && this.props.posts.length ?
             this.props.posts.map(post => (
               <Post
                 key={post.id}
@@ -69,7 +69,7 @@ export default class PostDisplay extends Component {
                 editPost={this.editPost}
               />
             ))
-            : <h2 className="col-12">No posts here.<br />You should make one!</h2>
+            : <h2 className="col-12" style={{ marginTop: '50px' }}>No posts here.<br />You should make one!</h2>
         }
       </Row>
     )

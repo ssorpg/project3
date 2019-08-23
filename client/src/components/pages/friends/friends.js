@@ -44,7 +44,7 @@ export default class Friends extends Component {
         </Row>
         <Row>
           {
-            this.state.friends ?
+            this.state.friends && this.state.friends.length > 1 ?
               this.state.friends.map(friend => (
                 this.state.YourId === friend.id ?
                   ''
@@ -53,7 +53,7 @@ export default class Friends extends Component {
                     CommunityId={this.state.CommunityId}
                   />
               ))
-              : ''
+              : <h2 className="col-12" style={{ marginTop: '50px' }}>No friends yet.<br />You should invite some!</h2>
           }
         </Row>
       </Container>

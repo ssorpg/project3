@@ -6,7 +6,6 @@ import NewCommunity from './newcommunity';
 
 // FUNCTIONS
 import ax from 'axios';
-import CheckError from '../../../utils/checkerror';
 import Modal from '../../modal';
 
 export default class CreateCommunity extends Component {
@@ -17,7 +16,8 @@ export default class CreateCommunity extends Component {
       communities: undefined,
       selectFromExisting: false,
       toggleButtonClassName: 'btn btn-success d-none',
-      CommunityId: undefined
+      CommunityId: undefined,
+      errorAlert: undefined
     }
   }
 
@@ -43,6 +43,7 @@ export default class CreateCommunity extends Component {
 
   handleChosenCommunitySubmit = async event => {
     event.preventDefault();
+    this.setState({ errorAlert: undefined });
 
     try {
       await ax.post(`/api/communities/${this.state.CommunityId}/users`)
@@ -70,13 +71,16 @@ export default class CreateCommunity extends Component {
   }
 
   createCommunity = async community => {
+    this.setState({ errorAlert: undefined });
+
     try {
       const newCommunity = await ax.post(`/api/communities`, community);
 
       window.location = `/community/${newCommunity.data.id}`;
     }
     catch (error) {
-      CheckError(error);
+      console.log(error.response);
+      this.setState({ errorAlert: error.response.data });
     }
   }
 
@@ -88,6 +92,11 @@ export default class CreateCommunity extends Component {
           <p>Select a community from the dropdown or fill in a name below to create your own!</p>
         </Jumbotron>
         <Row style={{ position: 'relative' }}>
+          {
+            this.state.errorAlert ?
+              <Modal error={this.state.errorAlert} />
+              : ''
+          }
           {
             this.state.selectFromExisting ?
               <SelectFromExisting
@@ -102,16 +111,6 @@ export default class CreateCommunity extends Component {
                 toggleButtonClassName={this.toggleButtonClassName}
                 handleFormChange={this.handleFormChange}
               />
-          }
-          {
-            this.state.errorAlert ?
-              <Modal error={this.state.errorAlert} />
-              : ''
-          }
-          {
-            this.state.successAlert ?
-              <Modal error={this.state.successAlert} />
-              : ''
           }
         </Row>
       </Container>

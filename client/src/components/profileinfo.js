@@ -10,8 +10,8 @@ export default function ProfileInfo({ userData }) {
         userData ?
           <Card className="text-dark text-left col-12 card" style={{ maxWidth: 'calc( 100% - 30px )', margin: 'auto' }}>
             <Row>
-              <Col className="col-3">
-                <ProfilePhoto id={userData.data.id} size={'250px'} />
+              <Col className="col-md-2" style={{ maxWidth: '250px' }}>
+                <ProfilePhoto id={userData.data.id} />
               </Col>
               <Col className="col-9">
                 <header className="col-8" style={{ paddingTop: '20px' }}>
