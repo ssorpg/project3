@@ -28,7 +28,7 @@ export class LoginForm extends Component {
     for (let i = 0; i < inputs.length; i++) {
       postData[inputs[i].name] = inputs[i].value;
     }
-
+    console.log(postData);
     this.login(postData);
   }
 
@@ -36,11 +36,13 @@ export class LoginForm extends Component {
     this.setState({ errorAlert: undefined });
 
     try {
-      await ax.post('/api/users', postData);
-
-      window.location = `/profile`;
-    }
-    catch (error) {
+      const res = await ax.post('/api/users', postData);
+      console.log(res);
+      if (res.status === 200) {
+        window.location = `/profile`;
+      }
+      
+    } catch (error) {
       console.log(error.response);
       this.setState({ errorAlert: error.response.data });
     }
