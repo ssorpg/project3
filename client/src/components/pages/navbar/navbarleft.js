@@ -7,18 +7,18 @@ export default function NavbarLeft({ CommunityId }) {
     <Nav className="mr-auto nav navbar-nav navbar-left">
       {/* <Nav.Link href="/profile">Profile</Nav.Link> */}
       {
-        CommunityId
-          ? <Nav.Link href={"/community/" + CommunityId}>Feed</Nav.Link>
+        CommunityId ? // annoying we have to do this because react requires on parent element
+          <Nav.Link href={"/community/" + CommunityId}>Feed</Nav.Link>
           : ''
       }
       {
-        CommunityId
-          ? <Nav.Link href={"/community/" + CommunityId + "/friends"}>Friends</Nav.Link>
+        CommunityId ?
+          <Nav.Link href={"/community/" + CommunityId + "/friends"}>Friends</Nav.Link>
           : ''
       }
       {
-        CommunityId
-          ? <Nav.Link href={"/community/" + CommunityId + "/chat"}>Chat</Nav.Link>
+        CommunityId ?
+          <Nav.Link href={"/community/" + CommunityId + "/chat"}>Chat</Nav.Link>
           : ''
       }
     </Nav>

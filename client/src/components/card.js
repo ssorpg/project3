@@ -1,3 +1,4 @@
+// COMPONENTS
 import React from 'react';
 
 export default function Card({ cardClass, children }) {

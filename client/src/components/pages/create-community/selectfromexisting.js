@@ -14,11 +14,11 @@ export default function SelectFromExisting({ communities, CommunityId, handleCho
               <h4>Community List</h4>
               <ListGroup className="list-unstyled text-left" style={{ columns: 2 }} id="community-list">
                 {
-                  communities.map(com =>
+                  communities.map(community =>
                     <CommunityRadio
-                      key={com.id.toString()}
+                      key={community.id}
                       CommunityId={CommunityId}
-                      com={com}
+                      community={community}
                       handleRadioSelection={handleRadioSelection}
                     />
                   )

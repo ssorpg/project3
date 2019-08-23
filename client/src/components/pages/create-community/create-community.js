@@ -12,8 +12,9 @@ import Modal from '../../modal';
 export default class CreateCommunity extends Component {
   constructor() {
     super();
+
     this.state = {
-      communities: [],
+      communities: undefined,
       selectFromExisting: false,
       toggleButtonClassName: 'btn btn-success d-none',
       CommunityId: undefined
@@ -21,28 +22,20 @@ export default class CreateCommunity extends Component {
   }
 
   async componentDidMount() {
-    const res = await ax.get('/api/communities');
+    const res = await ax.get(`/api/communities`);
 
-    if (res.data.length > 0) {
-      this.setState({
-        communities: res.data,
-        selectFromExisting: true,
-        toggleButtonClassName: 'btn btn-success'
-      });
-    }
+    this.setState({
+      communities: res.data,
+    });
   }
 
   handleFormChange = () => {
-    let stateBoolean = this.state.selectFromExisting === true ? false : true;
-
     this.setState({
-      selectFromExisting: stateBoolean
+      selectFromExisting: !this.state.selectFromExisting // toggle
     });
   }
 
   handleRadioSelection = event => {
-    console.log(event.target);
-    
     this.setState({
       CommunityId: parseInt(event.target.value)
     })
@@ -52,11 +45,9 @@ export default class CreateCommunity extends Component {
     event.preventDefault();
 
     try {
-      const res = await ax.post(`/api/communities/${this.state.CommunityId}/users`)
+      await ax.post(`/api/communities/${this.state.CommunityId}/users`)
 
-      if (res.status === 200) {
-        window.location = `/community/${this.state.CommunityId}`;
-      }
+      window.location = `/community/${this.state.CommunityId}`;
     }
     catch (error) {
       console.log(error.response);
@@ -64,20 +55,25 @@ export default class CreateCommunity extends Component {
     }
   }
 
-  handleCreateCommunitySubmit = event => {
+  handleCreateCommunitySubmit = async event => {
     event.preventDefault();
     const form = event.target;
+
     const input = form.getElementsByTagName('input')[0];
-    const value = input.value;
-    this.createCommunity({ name: value });
+    const name = input.value;
+
+    const submit = form.getElementsByTagName('button')[0];
+
+    submit.style.visibility = 'hidden';
+    await this.createCommunity({ name: name });
+    submit.style.visibility = 'visible';
   }
 
   createCommunity = async community => {
     try {
-      const results = await ax.post('/api/communities', community);
+      const newCommunity = await ax.post(`/api/communities`, community);
 
-      let CommunityId = results.data.id;
-      window.location = `/community/${CommunityId}`;
+      window.location = `/community/${newCommunity.data.id}`;
     }
     catch (error) {
       CheckError(error);
@@ -91,10 +87,10 @@ export default class CreateCommunity extends Component {
           <h1>Create A Community</h1>
           <p>Select a community from the dropdown or fill in a name below to create your own!</p>
         </Jumbotron>
-        <Row style={{position: 'relative'}}>
+        <Row style={{ position: 'relative' }}>
           {
-            this.state.selectFromExisting
-              ? <SelectFromExisting
+            this.state.selectFromExisting ?
+              <SelectFromExisting
                 communities={this.state.communities}
                 CommunityId={this.state.CommunityId}
                 handleChosenCommunitySubmit={this.handleChosenCommunitySubmit}
@@ -110,17 +106,14 @@ export default class CreateCommunity extends Component {
           {
             this.state.errorAlert ?
               <Modal error={this.state.errorAlert} />
-            :
-              ''
+              : ''
           }
           {
             this.state.successAlert ?
               <Modal error={this.state.successAlert} />
-            :
-              ''
+              : ''
           }
         </Row>
-
       </Container>
     )
   }

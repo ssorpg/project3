@@ -7,18 +7,18 @@ import CommentOnPosts from './commentOnPosts';
 
 
 export default function Post(props) {
-  const { UserId, post, vote, /*addComment,*/ editPost, deletePost } = props;
+  const { YourId, post, vote, /*addComment,*/ editPost, deletePost } = props;
   return (
-    <Col key={post.id.toString()} id={post.id.toString()} md={12} lg={6} style={{ padding: '15px' }}>
+    <Col key={post.id} id={`post${post.id}`} md={12} lg={6} style={{ padding: '15px' }}>
       <div className="comment">
         <Card cardClass={"text-dark text-left card"}>
           <a
-          style={{ maxWidth: '50%' }}
-          href=
+            style={{ maxWidth: '50%' }}
+            href=
             {
-              UserId === post.author.id
-                ? "/profile"
-                : "/community/" + post.CommunityId + "/friends/" + post.author.id
+              YourId === post.author.id ?
+                `/profile`
+                : `/community/${post.CommunityId}/friends/${post.author.id}`
             }
           >
             <h4 className="username" style={{ margin: '10px' }}>
@@ -26,21 +26,14 @@ export default function Post(props) {
             </h4>
           </a>
           <Row className="justify-content-center" style={{ width: '100%', margin: 0 }}>
-            <Col className="col-4">
-              <a href={"/community/" + post.CommunityId + "/friends/" + post.author.id}>
-                <figure className="float:right"
-                  style={{
-                    borderRadius: '150px',
-                    overflow: 'hidden'
-                  }}>
-                  <Profilephoto
-                    id={post.authorId}
-                    size={'150px'}
-                  />
+            <Col>
+              <a href={`/community/${post.CommunityId}/friends/${post.author.id}`}>
+                <figure className="float:right" style={{ borderRadius: '150px', overflow: 'hidden' }}>
+                  <Profilephoto id={post.authorId} size='150px' />
                 </figure>
               </a>
             </Col>
-            <Col className="col-8" style={{ minHeight: '100px' }}>
+            <Col style={{ minHeight: '100px', width: 'calc( 100% - 150px )' }}>
               <p className="comment">{post.message}</p>
             </Col>
             <Col className="col-12 justify-content-end">
@@ -51,23 +44,20 @@ export default function Post(props) {
                 <li className="btn" style={{ padding: '2px', marginRight: '5px' }}>
                   <button className="btn btn-danger" onClick={vote} data-id={post.id} data-vote={"dislike"}>Dislike</button>
                 </li>
-                {/* <li className="btn">
-                  <button className="btn btn-primary" onClick={addComment} data-id={post.id}>Comment</button>
-                </li> */}
-
-
-                                {/* THESE TWO SHOULD ONLY SHOW UP IF IT IS THE LOGGED IN USER'S POST */}
-                <li className="btn" style={{ padding: '2px', marginRight: '5px' }}>
-                  <button className="btn btn-danger" onClick={editPost} data-id={post.id} >Edit</button>
-                </li>
-                <li className="btn" style={{ padding: '2px', marginRight: '5px' }}>
-                  <button className="btn btn-danger" onClick={deletePost} data-id={post.id}>Delete</button>
-                </li>
-                                {/* THESE TWO SHOULD ONLY SHOW UP IF IT IS THE LOGGED IN USER'S POST */}
-
-
-
-
+                {
+                  YourId === post.author.id ?
+                    <li className="btn" style={{ padding: '2px', marginRight: '5px' }}>
+                      <button className="btn btn-danger" onClick={editPost} data-id={post.id} >Edit</button>
+                    </li>
+                    : ''
+                }
+                {
+                  YourId === post.author.id ?
+                    <li className="btn" style={{ padding: '2px', marginRight: '5px' }}>
+                      <button className="btn btn-danger" onClick={deletePost} data-id={post.id}>Delete</button>
+                    </li>
+                    : ''
+                }
               </ul>
             </Col>
             <div style={{ position: 'absolute', top: '5px', right: '10px' }}>

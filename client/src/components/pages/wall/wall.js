@@ -14,10 +14,10 @@ export default class Wall extends Component {
     super(props);
 
     this.state = {
+      CommunityId: parseInt(props.match.params.CommunityId),
+      UserId: parseInt(props.match.params.UserId),
       userData: undefined,
       posts: undefined,
-      UserId: parseInt(props.match.params.UserId),
-      CommunityId: parseInt(props.match.params.CommunityId)
     };
   }
 
@@ -27,7 +27,7 @@ export default class Wall extends Component {
 
   GetData = async () => {
     try {
-      const userData = await ax.get(`/api/communities/` + this.state.CommunityId + `/users/` + this.state.UserId + `/wall`);
+      const userData = await ax.get(`/api/communities/${this.state.CommunityId}/users/${this.state.UserId}/wall`);
 
       this.setState({
         userData: userData,
@@ -45,17 +45,16 @@ export default class Wall extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-
     const form = event.target;
 
-    const submit = form.getElementsByTagName('button')[0];
-    submit.style.visibility = 'hidden';
-
-    const input = form.getElementsByTagName('input')[0];
+    const input = form.getElementsByTagName('textarea')[0];
     const post = {
       message: input.value
     };
 
+    const submit = form.getElementsByTagName('button')[0];
+    
+    submit.style.visibility = 'hidden';
     await this.postToDB(post);
     submit.style.visibility = 'visible';
   }
@@ -96,8 +95,8 @@ export default class Wall extends Component {
                       </div>
                       : ''
                   }
-                  <input type="text" name="feed-comment" placeholder="What's on your mind?" style={{ minWidth: '310px', padding: '3px' }} />
-                  <button type="submit" value="submit" className="btn btn-primary" style={{ margin: '15px', marginTop: '10px' }}>Post</button>
+              <textarea type="text" name="feed-comment" placeholder="What's on your mind?" style={{ minWidth: '350px', minHeight: '100px', padding: '3px', resize: 'none', verticalAlign: 'bottom' }} />
+              <button type="submit" value="submit" className="btn btn-primary" style={{ marginLeft: '15px', marginTop: '-80px' }}>Post to Wall</button>
                 </form>
               </Col>
             </Row>
