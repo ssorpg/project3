@@ -270,49 +270,50 @@ export class UpdateForm extends Component {
 //SEARCH FORM
 //TODO send to search results page after they get response
 //TODO if no response stay on page and tell them to try again
-export class SearchForm extends Component {
-  constructor(props) {
-    super(props);
+// export class SearchForm extends Component {
+//   // constructor(props) {
+//   //   super(props);
 
-    this.state = {
-      searchQuery: ''
-    }
-  }
-  //TODO move search input to be hidden if not logged in
+//   //   this.state = {
+//   //     searchQuery: ''
+//   //   }
+//   // }
+//   // //TODO move search input to be hidden if not logged in
 
-  handleInputChange = event => {
-    this.setState({
-      searchQuery: event.target.value
-    });
-  }
-  //todo remove init data grab and let users troll entire db
-  //todo maybe add paging to results
-  handleSearchSubmit = event => {
-    event.preventDefault();
-    window.location = `/search?q=${this.state.searchQuery}`;
-  }
+//   // handleInputChange = event => {
+//   //   this.setState({
+//   //     searchQuery: event.target.value
+//   //   });
+//   // }
+//   // //todo remove init data grab and let users troll entire db
+//   // //todo maybe add paging to results
+//   // handleSearchSubmit = event => {
+//   //   event.preventDefault();
+//   //   window.location = `/search?q=${this.state.searchQuery}`;
+//   // }
 
-  render() {
-    return (
-      <Form
-        inline
-        onSubmit={this.handleSearchSubmit}
-        style={{ position: 'relative' }}
-      >
-        <FormControl
-          type="text"
-          placeholder="Search"
-          className="mr-sm-2"
-          id="search-input"
-          onChange={this.handleInputChange}
-        />
-        <Button
-          variant="outline-success"
-          type="Submit"
-        >
-          Search
-        </Button>
-      </Form>
-    )
-  }
-}
+//   render() {
+//     return (
+//       <Form
+//         inline
+//         onSubmit={this.handleSearchSubmit}
+//         style={{ position: 'relative' }}
+//       >
+//         <FormControl
+//           type="text"
+//           placeholder="Search"
+//           className="mr-sm-2"
+//           data-meg="sdgfsg"
+//           id="search-input"
+//           onChange={this.handleInputChange}
+//         />
+//         <Button
+//           variant="outline-success"
+//           type="Submit"
+//         >
+//           Search
+//         </Button>
+//       </Form>
+//     )
+//   }
+// }
