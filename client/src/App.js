@@ -41,7 +41,7 @@ export default class TPN extends Component {
         <Router>
           <div className="App" id="App">
             <Switch>
-              <Route exact path="/register" component={Register} />
+              <Route exact path="/register" component={this.state.isAuth ? Profile : Register} />
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/update-profile" component={UpdateProfile} />
               <Route exact path="/create-community" component={CreateCommunity} />
@@ -51,7 +51,7 @@ export default class TPN extends Component {
               <Route exact path="/community/:CommunityId/friends/:UserId" component={Wall} />
               <Route exact path="/community/:CommunityId/chat" component={Chat} />
               <Route path="/search" component={SearchResults} />
-              <Route path="/" component={HomePage} />
+              <Route path="/" component={this.state.isAuth ? Profile : HomePage} />
             </Switch>
           </div>
         </Router>
