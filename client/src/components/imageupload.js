@@ -55,7 +55,7 @@ export default class ImageUpload extends Component {
       .then(result => {
         console.log(result);
         //this is an alert for now, will swap it out with some cool popup thingie from material-ui when we switch to it.
-        alert('s u c c e s s');
+        window.location = '/profile';
       });
   }
 
