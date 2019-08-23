@@ -13,16 +13,31 @@ import Chat from './components/pages/chat/chat';
 import UpdateProfile from './components/pages/update-profile/update-profile';
 import SearchResults from './components/pages/search-results/search-results';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Navbar as Nav } from 'react-bootstrap';
 
 // CSS
 import './css/styles.css';
 
+// FUNCTIONS
+import UserAuth from './utils/userauth';
+import GetYourId from './utils/getyourid';
+
 export default class TPN extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      isAuth: UserAuth(),
+      YourId: GetYourId(),
+      CommunityId: window.location.pathname.match(/\/community\/([0-9]*)/) ?
+        window.location.pathname.match(/\/community\/([0-9]*)/)[1]
+        : undefined
+    }
+  }
+
   render() {
     return (
       <div>
-        <Navbar />
+        <Navbar isAuth={this.state.isAuth} CommunityId={this.state.CommunityId} />
         <Router>
           <div className="App" id="App">
             <Switch>
