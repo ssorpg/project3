@@ -18,6 +18,10 @@ export class LoginForm extends Component {
     }
   }
 
+  componentDidMount() {
+    this.emailInput.focus();
+  }
+
   handleSubmit = event => {
     event.preventDefault();
     const formData = event.target;
@@ -51,7 +55,14 @@ export class LoginForm extends Component {
         <Form onSubmit={this.handleSubmit} >
           <Form.Group controlId="formGroupEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" name="email" placeholder="Enter email" {...this.props} />
+            <Form.Control
+              type="email"
+              name="email"
+              placeholder="Enter email"
+              ref={(input) => {
+                this.emailInput = input
+              }}
+              {...this.props} />
           </Form.Group>
           <Form.Group controlId="formGroupPassword">
             <Form.Label>Password</Form.Label>
