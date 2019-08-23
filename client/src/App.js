@@ -19,7 +19,23 @@ import Footer from './components/footer';
 // CSS
 import './css/styles.css';
 
+// FUNCTIONS
+import UserAuth from './utils/userauth';
+import GetYourId from './utils/getyourid';
+
 export default class TPN extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      isAuth: UserAuth(),
+      YourId: GetYourId(),
+      CommunityId: window.location.pathname.match(/\/community\/([0-9]*)/) ?
+        window.location.pathname.match(/\/community\/([0-9]*)/)[1]
+        : undefined
+    }
+  }
+
   render() {
     return (
       <>
