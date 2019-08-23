@@ -13,22 +13,35 @@ import Chat from './components/pages/chat/chat';
 import UpdateProfile from './components/pages/update-profile/update-profile';
 import SearchResults from './components/pages/search-results/search-results';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Navbar as Nav } from 'react-bootstrap';
-import CssBaseLine from '@material-ui/core/CssBaseLine';
 
 // CSS
 import './css/styles.css';
 
+// FUNCTIONS
+import UserAuth from './utils/userauth';
+import GetYourId from './utils/getyourid';
+
 export default class TPN extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      isAuth: UserAuth(),
+      YourId: GetYourId(),
+      CommunityId: window.location.pathname.match(/\/community\/([0-9]*)/) ?
+        window.location.pathname.match(/\/community\/([0-9]*)/)[1]
+        : undefined
+    }
+  }
+
   render() {
     return (
       <div>
-        <CssBaseLine />
-        <Navbar />
+        <Navbar isAuth={this.state.isAuth} CommunityId={this.state.CommunityId} />
         <Router>
           <div className="App" id="App">
             <Switch>
-              <Route exact path="/register" component={Register} />
+              <Route exact path="/register" component={this.state.isAuth ? Profile : Register} />
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/update-profile" component={UpdateProfile} />
               <Route exact path="/create-community" component={CreateCommunity} />
@@ -38,7 +51,7 @@ export default class TPN extends Component {
               <Route exact path="/community/:CommunityId/friends/:UserId" component={Wall} />
               <Route exact path="/community/:CommunityId/chat" component={Chat} />
               <Route path="/search" component={SearchResults} />
-              <Route path="/" component={HomePage} />
+              <Route path="/" component={this.state.isAuth ? Profile : HomePage} />
             </Switch>
           </div>
         </Router>
