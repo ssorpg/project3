@@ -47,6 +47,7 @@ export default class Profile extends Component {
             this.state.posts ?
               <PostDisplay
                 posts={this.state.posts}
+                cantPost={true}
               />
               : ''
           }

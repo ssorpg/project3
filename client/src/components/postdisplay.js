@@ -69,7 +69,9 @@ export default class PostDisplay extends Component {
                 editPost={this.editPost}
               />
             ))
-            : <h2 className="col-12" style={{ marginTop: '50px' }}>No posts here.<br />You should make one!</h2>
+            : this.props.cantPost ?
+              ''
+              : <h2 className="col-12" style={{ marginTop: '50px' }}>No posts here.<br />You should make one!</h2>
         }
       </Row>
     )

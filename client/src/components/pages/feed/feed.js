@@ -1,14 +1,6 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import PostDisplay from '../../postdisplay';
-import Modal from '../../modal';
-
-// IMAGES
-import './images/icons/svg/star-empty.svg';
-import './images/icons/svg/star-full.svg';
-import './images/icons/svg/check-empty.svg';
-import './images/icons/svg/check-full.svg';
+import Posts from '../../posts';
 
 // FUNCTIONS
 import ax from 'axios';
@@ -16,10 +8,9 @@ import CheckError from '../../../utils/checkerror';
 
 export default class Feed extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      CommunityId: this.props.match.params.CommunityId,
       pageTitle: undefined,
       posts: undefined,
       errorAlert: undefined
@@ -32,7 +23,7 @@ export default class Feed extends Component {
 
   getData = async () => {
     try {
-      const res = await ax.get(`/api/communities/${this.state.CommunityId}`);
+      const res = await ax.get(`/api/communities/${this.props.CommunityId}`);
 
       this.setState({
         pageTitle: res.data.name,
@@ -66,7 +57,7 @@ export default class Feed extends Component {
     this.setState({ errorAlert: undefined });
 
     try {
-      const res = await ax.post(`/api/posts?CommunityId=${this.state.CommunityId}`, data);
+      const res = await ax.post(`/api/posts?CommunityId=${this.props.CommunityId}`, data);
 
       this.setState({
         posts: [res.data, ...this.state.posts]
@@ -80,32 +71,12 @@ export default class Feed extends Component {
 
   render() {
     return (
-      <Container style={{ textAlign: 'center' }}>
-        <Row>
-          <Col>
-            <h1>{this.state.pageTitle}</h1>
-          </Col>
-        </Row>
-        <Row>
-          <Col className="col-12">
-            <form
-              className="form-group"
-              onSubmit={this.handleSubmit}
-            >
-              {
-                this.state.errorAlert ?
-                  <Modal error={this.state.errorAlert} />
-                  : ''
-              }
-              <textarea type="text" name="feed-comment" placeholder="What's on your mind?" style={{ minWidth: '350px', minHeight: '100px', padding: '3px', resize: 'none', verticalAlign: 'bottom' }} />
-              <button type="submit" value="submit" className="btn btn-primary" style={{ marginLeft: '15px', marginTop: '-80px' }}>Post to Feed</button>
-            </form>
-          </Col>
-        </Row>
-        <PostDisplay
-          posts={this.state.posts}
-        />
-      </Container>
+      <Posts
+        YourId={this.props.YourId}
+        posts={this.state.posts}
+        vote={this.vote}
+        deletePost={this.deletePost}
+      />
     );
   }
 }
