@@ -272,7 +272,8 @@ module.exports = function (app) {
 
         const newComment = await db.Comment.create({
             message: req.body.message,
-            authorId: req.token.UserId
+            authorId: req.token.UserId,
+            PostId: post.id
         });
 
         console.log(req.body.message);

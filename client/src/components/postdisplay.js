@@ -5,24 +5,24 @@ import Post from './post';
 
 // FUNCTIONS
 import ax from 'axios';
-import GetUserId from '../utils/getuserid';
+import GetYourId from '../utils/getyourid';
 
 export default class PostDisplay extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      UserId: GetUserId()
+      YourId: GetYourId()
     }
   }
 
   vote = async event => {
     const post = event.target;
-    console.log(post);
-    try {
-      const newScore = await ax.put(`/api/posts/${event.target.dataset.id}/${event.target.dataset.vote}`);
 
-      document.getElementById('postScore' + post.dataset.id).textContent = 'Score: ' + newScore.data;
+    try {
+      const newScore = await ax.put(`/api/posts/${post.dataset.id}/${post.dataset.vote}`);
+
+      document.getElementById(`postScore${post.dataset.id}`).textContent = 'Score: ' + newScore.data;
     }
     catch (error) {
       console.log(error.response);
@@ -30,23 +30,26 @@ export default class PostDisplay extends Component {
   }
 
   deletePost = async event => {
-    // console.log(event.target);
-    // console.log(event.target.parentNode);
-    document.getElementById(this.props.posts[0].id).remove();
-    
+    const post = document.getElementById(`post${event.target.dataset.id}`);
+    post.style.display = 'none'; // can't delete elements, it causes a react error
+
     try {
       await ax.delete(`/api/posts/${event.target.dataset.id}/`);
-    } catch (error) {
+    }
+    catch (error) {
       console.log(error.response);
     }
   }
 
   editPost = async event => {
     console.log(event.target);
-    //we want something to pop up that will allow user to edit the post.. but my brain fried.
+
+    // we want something to pop up that will allow user to edit the post.. but my brain fried.
+
     try {
       await ax.put(`/api/posts/${event.target.dataset.id}/`);
-    } catch (error) {
+    }
+    catch (error) {
       console.log(error.response);
     }
   }
@@ -55,18 +58,18 @@ export default class PostDisplay extends Component {
     return (
       <Row style={{ textAlign: 'center', margin: 'auto' }}>
         {
-          this.props.posts
-            ? this.props.posts.map(post => (
+          this.props.posts && this.props.posts.length ?
+            this.props.posts.map(post => (
               <Post
-                UserId={this.state.UserId}
+                key={post.id}
+                YourId={this.state.YourId}
                 post={post}
                 vote={this.vote}
                 deletePost={this.deletePost}
-                // addComment={this.addComment}
                 editPost={this.editPost}
               />
             ))
-            : <h2 className="col-12">No posts here.<br />You should make one!</h2>
+            : <h2 className="col-12" style={{ marginTop: '50px' }}>No posts here.<br />You should make one!</h2>
         }
       </Row>
     )

@@ -40,9 +40,9 @@ export default class TPN extends Component {
             </Switch>
           </div>
         </Router>
-        <Nav style={{ position: 'fixed', bottom: '0' }}>
+        {/* <Nav style={{ position: 'fixed', bottom: '0' }}>
           <strong>© T P N</strong>
-        </Nav>
+        </Nav> */}
         <aside id="popover" className="card bg-danger text-center">
           <h3 className="card-title"> </h3>
         </aside>

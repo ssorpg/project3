@@ -20,7 +20,8 @@ export default class ImageUpload extends Component {
   GetData = async () => {
     try {
       const userData = await axios.get(`/api/users/profile/`);
-      await this.setState({ userData: userData });
+      
+      this.setState({ userData: userData });
     }
     catch (error) {
       CheckError(error);
@@ -31,22 +32,22 @@ export default class ImageUpload extends Component {
     this.GetData();
   };
 
-  onChange = e => {
-    switch (e.target.name) {
+  onChange = event => {
+    switch (event.target.name) {
       case 'selectedFile':
-        this.setState({ selectedFile: e.target.files[0] });
+        this.setState({ selectedFile: event.target.files[0] });
         break;
       default:
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({ [event.target.name]: event.target.value });
         break;
     }
   }
 
-  onSubmit = e => {
-    e.preventDefault();
+  onSubmit = event => {
+    event.preventDefault();
     const { description, selectedFile } = this.state;
-    let formData = new FormData();
-    let userid = this.state.userData.data.id;
+    const formData = new FormData();
+    const userid = this.state.userData.data.id;
     formData.append('description', description);
     formData.append('selectedFile', selectedFile);
 
@@ -54,7 +55,7 @@ export default class ImageUpload extends Component {
       .then(result => {
         console.log(result);
         //this is an alert for now, will swap it out with some cool popup thingie from material-ui when we switch to it.
-        alert('s u c c e s s');
+        window.location = '/profile';
       });
   }
 

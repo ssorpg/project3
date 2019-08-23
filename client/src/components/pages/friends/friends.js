@@ -6,7 +6,7 @@ import Friend from './friend';
 // FUNCTIONS
 import ax from 'axios';
 import CheckError from '../../../utils/checkerror';
-import GetUserId from '../../../utils/getuserid';
+import GetYourId from '../../../utils/getyourid';
 
 export default class Friends extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ export default class Friends extends Component {
 
     this.state = {
       friends: undefined,
-      UserId: GetUserId(),
+      YourId: GetYourId(),
       CommunityId: parseInt(props.match.params.CommunityId)
     };
   }
@@ -25,9 +25,9 @@ export default class Friends extends Component {
 
   getData = async () => {
     try {
-      const res = await ax.get('/api/communities/' + this.props.match.params.CommunityId + '/users');
+      const res = await ax.get(`/api/communities/${this.props.match.params.CommunityId}/users`);
 
-      await this.setState({ friends: res.data.members });
+      this.setState({ friends: res.data.members });
     }
     catch (error) {
       CheckError(error);
@@ -44,16 +44,16 @@ export default class Friends extends Component {
         </Row>
         <Row>
           {
-            this.state.friends
-              ? this.state.friends.map(friend => (
-                this.state.UserId === friend.id
-                  ? ''
+            this.state.friends && this.state.friends.length > 1 ?
+              this.state.friends.map(friend => (
+                this.state.YourId === friend.id ?
+                  ''
                   : <Friend
                     friend={friend}
                     CommunityId={this.state.CommunityId}
                   />
               ))
-              : ''
+              : <h2 className="col-12" style={{ marginTop: '50px' }}>No friends yet.<br />You should invite some!</h2>
           }
         </Row>
       </Container>

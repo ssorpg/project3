@@ -62,7 +62,8 @@ module.exports = function (app) {
                 name: 'TPN'
             }
         });
-
+        console.log(newUser);
+        console.log(defaultCommunity);
         await defaultCommunity.addMember(newUser);
         await newUser.addCommunity(defaultCommunity); // users join public community by default
 
