@@ -14,6 +14,7 @@ import UpdateProfile from './components/pages/update-profile/update-profile';
 import SearchResults from './components/pages/search-results/search-results';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Navbar as Nav } from 'react-bootstrap';
+import CssBaseLine from '@material-ui/core/CssBaseLine';
 
 // CSS
 import './css/styles.css';
@@ -22,6 +23,7 @@ export default class TPN extends Component {
   render() {
     return (
       <div>
+        <CssBaseLine />
         <Navbar />
         <Router>
           <div className="App" id="App">
