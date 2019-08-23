@@ -11,13 +11,15 @@ export default function NewCommunity({ handleCreateCommunitySubmit, toggleButton
             <Form.Group controlId="formGroupCommunity">
               <Form.Label>
                 Enter Your Community Name
-                  </Form.Label>
+              </Form.Label>
               <Form.Control type="text" name="community" placeholder="Awesome Community" />
               <Button type="submit">Submit</Button>
             </Form.Group>
           </Form>
-          <Button className={toggleButtonClassName}
-            onClick={handleFormChange}>
+          <Button
+            className={toggleButtonClassName}
+            onClick={handleFormChange}
+          >
             Or Choose An Existing One!
           </Button>
         </Col>

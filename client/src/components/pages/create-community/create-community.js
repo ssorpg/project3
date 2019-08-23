@@ -6,43 +6,36 @@ import NewCommunity from './newcommunity';
 
 // FUNCTIONS
 import ax from 'axios';
-import CheckError from '../../../utils/checkerror';
 import Modal from '../../modal';
 
 export default class CreateCommunity extends Component {
   constructor() {
     super();
+
     this.state = {
-      communities: [],
+      communities: undefined,
       selectFromExisting: false,
       toggleButtonClassName: 'btn btn-success d-none',
-      CommunityId: undefined
+      CommunityId: undefined,
+      errorAlert: undefined
     }
   }
 
   async componentDidMount() {
-    const res = await ax.get('/api/communities');
+    const res = await ax.get(`/api/communities`);
 
-    if (res.data.length > 0) {
-      this.setState({
-        communities: res.data,
-        selectFromExisting: true,
-        toggleButtonClassName: 'btn btn-success'
-      });
-    }
+    this.setState({
+      communities: res.data,
+    });
   }
 
   handleFormChange = () => {
-    let stateBoolean = this.state.selectFromExisting === true ? false : true;
-
     this.setState({
-      selectFromExisting: stateBoolean
+      selectFromExisting: !this.state.selectFromExisting // toggle
     });
   }
 
   handleRadioSelection = event => {
-    console.log(event.target);
-    
     this.setState({
       CommunityId: parseInt(event.target.value)
     })
@@ -50,13 +43,12 @@ export default class CreateCommunity extends Component {
 
   handleChosenCommunitySubmit = async event => {
     event.preventDefault();
+    this.setState({ errorAlert: undefined });
 
     try {
-      const res = await ax.post(`/api/communities/${this.state.CommunityId}/users`)
+      await ax.post(`/api/communities/${this.state.CommunityId}/users`)
 
-      if (res.status === 200) {
-        window.location = `/community/${this.state.CommunityId}`;
-      }
+      window.location = `/community/${this.state.CommunityId}`;
     }
     catch (error) {
       console.log(error.response);
@@ -64,23 +56,31 @@ export default class CreateCommunity extends Component {
     }
   }
 
-  handleCreateCommunitySubmit = event => {
+  handleCreateCommunitySubmit = async event => {
     event.preventDefault();
     const form = event.target;
+
     const input = form.getElementsByTagName('input')[0];
-    const value = input.value;
-    this.createCommunity({ name: value });
+    const name = input.value;
+
+    const submit = form.getElementsByTagName('button')[0];
+
+    submit.style.visibility = 'hidden';
+    await this.createCommunity({ name: name });
+    submit.style.visibility = 'visible';
   }
 
   createCommunity = async community => {
-    try {
-      const results = await ax.post('/api/communities', community);
+    this.setState({ errorAlert: undefined });
 
-      let CommunityId = results.data.id;
-      window.location = `/community/${CommunityId}`;
+    try {
+      const newCommunity = await ax.post(`/api/communities`, community);
+
+      window.location = `/community/${newCommunity.data.id}`;
     }
     catch (error) {
-      CheckError(error);
+      console.log(error.response);
+      this.setState({ errorAlert: error.response.data });
     }
   }
 
@@ -91,10 +91,15 @@ export default class CreateCommunity extends Component {
           <h1>Create A Community</h1>
           <p>Select a community from the dropdown or fill in a name below to create your own!</p>
         </Jumbotron>
-        <Row style={{position: 'relative'}}>
+        <Row style={{ position: 'relative' }}>
           {
-            this.state.selectFromExisting
-              ? <SelectFromExisting
+            this.state.errorAlert ?
+              <Modal error={this.state.errorAlert} />
+              : ''
+          }
+          {
+            this.state.selectFromExisting ?
+              <SelectFromExisting
                 communities={this.state.communities}
                 CommunityId={this.state.CommunityId}
                 handleChosenCommunitySubmit={this.handleChosenCommunitySubmit}
@@ -107,20 +112,7 @@ export default class CreateCommunity extends Component {
                 handleFormChange={this.handleFormChange}
               />
           }
-          {
-            this.state.errorAlert ?
-              <Modal error={this.state.errorAlert} />
-            :
-              ''
-          }
-          {
-            this.state.successAlert ?
-              <Modal error={this.state.successAlert} />
-            :
-              ''
-          }
         </Row>
-
       </Container>
     )
   }
