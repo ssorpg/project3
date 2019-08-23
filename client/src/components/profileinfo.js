@@ -1,56 +1,116 @@
-// COMPONENTS
 import React from 'react';
-import { ListGroup, ListGroupItem, Card, Row, Col } from 'react-bootstrap';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import { red } from '@material-ui/core/colors';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ProfilePhoto from './profilephoto';
+import {
+  Card, List, ListItem,
+  CardHeader, CardContent,
+  CardActions, Collapse,
+  Avatar, IconButton, Typography
+} from '@material-ui/core';
+
+const useStyles = makeStyles(theme => ({
+  card: {
+    maxWidth: 'auto',
+    marginTop: '20px'
+  },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
+  },
+  avatar: {
+    backgroundColor: red[500],
+  },
+}));
+
 
 export default function ProfileInfo({ userData }) {
+  console.log(userData);
+  const classes = useStyles();
+  const [expanded, setExpanded] = React.useState(false);
+  function handleExpandClick() {
+    setExpanded(!expanded);
+  }
+
   return (
-    <div>
+    <>
       {
         userData ?
-          <Card className="text-dark text-left col-12 card" style={{ maxWidth: 'calc( 100% - 30px )', margin: 'auto' }}>
-            <Row>
-              <Col className="col-md-2" style={{ maxWidth: '250px' }}>
-                <ProfilePhoto id={userData.data.id} />
-              </Col>
-              <Col className="col-9">
-                <header className="col-8" style={{ paddingTop: '20px' }}>
-                  <h2 className="card-title">{userData.data.name}</h2>
-                </header>
-                <div className="card-body">
-                  <p className="card-text">
-                    <h5>Bio: </h5>{userData.data.bio}
-                  </p>
-                  <p className="card-text">
-                    <h5>Location: </h5>{userData.data.location}
-                  </p>
-                </div>
-              </Col>
-            </Row>
+          <Card className={classes.card}>
+            <CardHeader
+              avatar={
+                <Avatar aria-label="friend" className={classes.avatar}>
+                </Avatar>
+              }
+              action={
+                <IconButton aria-label="settings">
+                  <MoreVertIcon />
+                </IconButton>
+              }
+              title={userData.data.name}
+              subheader={userData.data.location}
+            />
+            <ProfilePhoto id={userData.data.id} />
+            <CardActions disableSpacing>
+              <IconButton
+                className={clsx(classes.expand, {
+                  [classes.expandOpen]: expanded,
+                })}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+              >
+                <ExpandMoreIcon />
+              </IconButton>
+            </CardActions>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+              <CardContent>
+                <Typography paragraph><strong>Profile</strong></Typography>
+                <Typography paragraph>
+                  Bio: {userData.data.bio}
+                </Typography>
+                <Typography paragraph>
+                  Location: {userData.data.location}
+                </Typography>
+              </CardContent>
+            </Collapse>
             {
               userData.data.communities ?
                 <div className="networks" style={{ margin: '30px' }}>
                   <h5 className="card-title">Your Networks</h5>
-                  <ListGroup>
+                  <List>
                     {
                       userData.data.communities.map(community => (
-                        <ListGroupItem>
+                        <ListItem>
                           <a
                             key={community.id}
                             href={`/community/${community.id}`}
                           >
                             {community.name}
                           </a>
-                        </ListGroupItem>
+                        </ListItem>
                       ))
                     }
-                  </ListGroup>
+                  </List>
                 </div>
                 : ''
             }
           </Card>
           : ''
       }
-    </div>
+    </>
   );
 }

@@ -22,7 +22,7 @@ export default class TPN extends Component {
   render() {
     return (
       <div>
-        <Navbar />
+        {/* <Navbar /> */}
         <Router>
           <div className="App" id="App">
             <Switch>
