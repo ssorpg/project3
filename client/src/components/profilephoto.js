@@ -1,4 +1,7 @@
+// COMPONENTS
 import React, { Component } from 'react';
+
+// FUNCTIONS
 import axios from 'axios';
 
 export default class OtherPhoto extends Component {
@@ -11,7 +14,7 @@ export default class OtherPhoto extends Component {
     this.findImage();
   };
 
-  //fix later to attach userid to image incoming from props??
+  // fix later to attach userid to image incoming from props??
   findImage() {
     const userid = this.props.id;
 
@@ -29,11 +32,11 @@ export default class OtherPhoto extends Component {
     return (
       <img src=
         {
-          this.state.filename
-            ? `/images/${this.state.filename}`
+          this.state.filename ?
+            `/images/${this.state.filename}`
             : 'https://cdn2.iconfinder.com/data/icons/ui-1/60/05-512.png'
         }
-        style={{ height: this.props.size, width: this.props.size, padding: '15px' }}
+        style={{ minHeight: '150px', width: '100%', minWidth: '150px', padding: '15px' }}
         alt="profile"
       />
     )

@@ -21,9 +21,9 @@ export default class Navbar extends Component {
     super(props);
 
     this.state = {
-      CommunityId: window.location.pathname.match(/\/community\/([0-9]*)/)
-        ? window.location.pathname.match(/\/community\/([0-9]*)/)[1]
-        : undefined,
+      CommunityId: window.location.pathname.match(/\/community\/([0-9]*)/) ?
+        window.location.pathname.match(/\/community\/([0-9]*)/)[1]
+        : undefined, // unfortunately can't use this.props.params because we always want navbar rendered and can only use params with router paths
       isAuth: false
     }
   }
@@ -35,14 +35,23 @@ export default class Navbar extends Component {
 
   async logout() {
     try {
-      const res = await ax.get('/api/users/logout');
+      await ax.get('/api/users/logout');
 
-      if (res.status === 200) {
-        window.location = '/';
-      }
+      window.location = '/';
     }
     catch (error) {
       CheckError(error);
+    }
+  }
+
+  toggleLogin() {
+    const loginForm = document.getElementById('login');
+
+    if (loginForm.className === 'expander open') {
+      loginForm.className = 'expander closed';
+    }
+    else {
+      loginForm.className = 'expander open';
     }
   }
 
@@ -56,13 +65,14 @@ export default class Navbar extends Component {
             CommunityId={this.state.CommunityId}
           />
           <NavbarRight
-            logout={this.logout}
             isAuth={this.state.isAuth}
+            logout={this.logout}
+            toggleLogin={this.toggleLogin}
           />
-          {this.props.isAuth ?
-            <Searchbar />
-          :
-            ''
+          {
+            this.state.isAuth ?
+              <Searchbar />
+              : ''
           }
         </Nav.Collapse>
         <div className="expander closed" id="login">

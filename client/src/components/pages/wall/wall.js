@@ -4,6 +4,7 @@ import { Row, Col, Container } from 'react-bootstrap';
 import Card from '../../card.js';
 import ProfileInfo from '../../profileinfo';
 import PostDisplay from '../../postdisplay';
+import Modal from '../../modal';
 
 // FUNCTIONS
 import ax from 'axios';
@@ -14,10 +15,11 @@ export default class Wall extends Component {
     super(props);
 
     this.state = {
+      CommunityId: parseInt(props.match.params.CommunityId),
+      UserId: parseInt(props.match.params.UserId),
       userData: undefined,
       posts: undefined,
-      UserId: parseInt(props.match.params.UserId),
-      CommunityId: parseInt(props.match.params.CommunityId)
+      errorAlert: undefined
     };
   }
 
@@ -27,7 +29,7 @@ export default class Wall extends Component {
 
   GetData = async () => {
     try {
-      const userData = await ax.get(`/api/communities/` + this.state.CommunityId + `/users/` + this.state.UserId + `/wall`);
+      const userData = await ax.get(`/api/communities/${this.state.CommunityId}/users/${this.state.UserId}/wall`);
 
       this.setState({
         userData: userData,
@@ -45,22 +47,23 @@ export default class Wall extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-
     const form = event.target;
 
-    const submit = form.getElementsByTagName('button')[0];
-    submit.style.visibility = 'hidden';
-
-    const input = form.getElementsByTagName('input')[0];
+    const input = form.getElementsByTagName('textarea')[0];
     const post = {
       message: input.value
     };
 
+    const submit = form.getElementsByTagName('button')[0];
+
+    submit.style.visibility = 'hidden';
     await this.postToDB(post);
     submit.style.visibility = 'visible';
   }
 
   postToDB = async data => {
+    this.setState({ errorAlert: undefined });
+
     try {
       const res = await ax.post(`/api/posts?CommunityId=` + this.state.CommunityId + `&UserId=` + this.state.UserId, data);
 
@@ -88,16 +91,11 @@ export default class Wall extends Component {
                 >
                   {
                     this.state.errorAlert ?
-                      <div className="alert alert-danger">
-                        <p>
-                          <strong>Error: </strong>
-                          {this.state.errorAlert}
-                        </p>
-                      </div>
+                      <Modal error={this.state.errorAlert} />
                       : ''
                   }
-                  <input type="text" name="feed-comment" placeholder="What's on your mind?" style={{ minWidth: '310px', padding: '3px' }} />
-                  <button type="submit" value="submit" className="btn btn-primary" style={{ margin: '15px', marginTop: '10px' }}>Post</button>
+                  <textarea type="text" name="feed-comment" placeholder="What's on your mind?" style={{ minWidth: '350px', minHeight: '100px', padding: '3px', resize: 'none', verticalAlign: 'bottom' }} />
+                  <button type="submit" value="submit" className="btn btn-primary" style={{ marginLeft: '15px', marginTop: '-80px' }}>Post to Wall</button>
                 </form>
               </Col>
             </Row>

@@ -4,7 +4,7 @@ const route = '/api/search';
 module.exports = function (app) {
   //todo make a post to receive search terms
   app.get(`${route}`, async function (
-    {query: {q}},
+    { query: { q } },
     res
   ) {
     const query = `\%${q}\%`;
@@ -13,7 +13,7 @@ module.exports = function (app) {
     let usersArray = [];
     let eventsArray = [];
     let data = {};
-  
+
     try {
       let data = await
         db.Community.findAll({
@@ -51,10 +51,11 @@ module.exports = function (app) {
             }
           ]
         });
-      
+
       res.json(data);
-    } catch (error) {
-      console.log(error);
+    }
+    catch (error) {
+      console.log(error.response);
     }
   })
 }

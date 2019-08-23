@@ -15,6 +15,7 @@ const URL = 'ws://localhost:3001'
 export default class Chat extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       userData: undefined,
       messages: []
@@ -71,6 +72,7 @@ export default class Chat extends Component {
       name: this.state.userData.data.name,
       message: messageString
     };
+
     this.ws.send(JSON.stringify(message))
     this.addMessage(message)
   }
@@ -96,4 +98,3 @@ export default class Chat extends Component {
     )
   }
 }
-

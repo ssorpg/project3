@@ -1,50 +1,80 @@
-import React from 'react';
-import axios from 'axios';
+// COMPONENTS
+import React, { Component } from 'react';
 
-const CommentDisplay = (props) => {
+// FUNCTIONS
+import ax from 'axios';
+import GetYourId from '../utils/getyourid';
 
-  let authName = props.posts.author.name;
-  let comment = props.posts.message;
+export default class CommentDisplay extends Component {
+  constructor(props) {
+    super(props)
 
-  const deleteComment = (e) => {
-    e.preventDefault();
-    e.target.parentNode.remove();
-    axios
-      .delete(`/api/posts/${props.posts.PostId}/comments/${props.posts.id}`)
+    this.state = {
+      YourId: GetYourId(),
+      comment: props.comment
+    }
   }
 
-  const handleSubmit = async event => {
+  deleteComment = async event => {
+    try {
+      event.preventDefault();
+
+      await ax.delete(`/api/posts/${this.state.comment.PostId}/comments/${this.state.comment.id}`);
+
+      const commentElement = document.getElementById(`comment${this.state.comment.id}`);
+      commentElement.style.display = 'none';
+    }
+    catch (error) {
+      console.log(error.response);
+    }
+  }
+
+  handleEditComment = async event => {
     event.preventDefault();
     const form = event.target;
 
-    const submit = form.getElementsByTagName('button')[0];
-    submit.style.visibility = 'hidden';
-
     const input = form.getElementsByTagName('input')[0];
+    const message = input.value;
+
     const post = {
-      message: input.value
+      message: message
     };
-    document.getElementById("comment").innerHTML = post.message;
 
-    await postToDB(post);
+    const submit = form.getElementsByTagName('button')[0];
+
+    submit.style.visibility = 'hidden';
+    await this.postToDB(post);
     submit.style.visibility = 'visible';
+
+    const commentElement = document.getElementById(`comment${this.state.comment.id}Message`);
+    commentElement.innerHTML = post.message;
   }
 
-  const postToDB = data => {
-    console.log(data);
-    axios.put(`/api/posts/${props.posts.PostId}/comments/${props.posts.id}`, data);
+  postToDB = async data => {
+    try {
+      await ax.put(`/api/posts/${this.state.comment.PostId}/comments/${this.state.comment.id}`, data);
+    }
+    catch (error) {
+      console.log(error.response);
+    }
   }
 
-  return (
-    <p>
-      <strong>{authName}</strong>: <span id="comment">{comment}</span><br />
-      <button type="submit" onClick={deleteComment}>Delete</button> <br />
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="feed-comment" placeholder="What's on your mind?" style={{ minWidth: '310px', padding: '3px' }} />
-        <button type="submit" value="submit">Edit</button>
-      </form>
-    </p>
-  )
+  render() {
+    return (
+      <p id={`comment${this.state.comment.id}`}>
+        <strong>{this.state.comment.author.name}</strong>: <span id={`comment${this.state.comment.id}Message`}>{this.state.comment.message}</span>
+        {
+          this.state.YourId === this.state.comment.author.id ?
+            <span>
+              <button type="submit" onClick={this.deleteComment} style={{ display: 'inline-block', marginLeft: '10px', padding: '0 1px' }}>Delete</button>
+              <form onSubmit={this.handleEditComment}>
+                <input type="text" name="feed-comment" placeholder="Make edit" style={{ minWidth: '200px', marginTop: '10px', padding: '1px' }} />
+                <button type="submit" value="submit" style={{ marginLeft: '10px', padding: '0 2px' }}>Edit</button>
+              </form>
+            </span>
+            : ''
+        }
+      </p>
+    )
+  }
 }
-
-export default CommentDisplay;

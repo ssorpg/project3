@@ -5,31 +5,20 @@ import { Nav, NavDropdown, Button } from 'react-bootstrap';
 // IMAGES
 import user from '../../../images/icons/svg/user.svg';
 
-export default function NavbarRight({ logout, isAuth }) {
-  function toggleLogin() {
-    const loginForm = document.getElementById('login');
-
-    if (loginForm.className === 'expander open') {
-      loginForm.className = 'expander closed';
-    }
-    else {
-      loginForm.className = 'expander open';
-    }
-  }
-
+export default function NavbarRight({ isAuth, logout, toggleLogin  }) {
   return (
     <Nav className="nav navbar-nav navbar-right">
       {
-        isAuth
-          ? <NavDropdown className="" title="Settings" id="basic-nav-dropdown">
+        isAuth ?
+          <NavDropdown className="" title="Settings" id="basic-nav-dropdown">
             <NavDropdown.Item href="/update-profile">Update Profile</NavDropdown.Item>
             <NavDropdown.Item href="/create-community">Create Community</NavDropdown.Item>
           </NavDropdown>
           : ''
       }
       {
-        isAuth
-          ? <div>
+        isAuth ?
+          <div>
             <a
               className="btn btn-outline-info user-state-button dashboard"
               title="Dashboard"
