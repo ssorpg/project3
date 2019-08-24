@@ -32,8 +32,8 @@ export default function Megatron(props) {
       backgroundPosition: `${imgPos}`,
       backgroundBlendMode: 'lighten',
       backgroundSize: 'cover',
-      // color: "#f3f3f3",
-      minHeight: '75vh',
+      height: '65vh',
+      maxHeight: '320px!important',
       overflow: 'hidden'
     },
     title: {
