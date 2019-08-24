@@ -47,7 +47,6 @@ export default function Megatron(props) {
   
   }));
   const classes = useStyles();
-  console.log(props)
   
   return (
     <Paper className={classes.megatron}>
