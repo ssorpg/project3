@@ -40,10 +40,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ProfileInfo({ userData }) {
-  console.log(userData);
+export default function ProfileInfo({ user }) {
+  console.log(user);
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(true);
+
   function handleExpandClick() {
     setExpanded(!expanded);
   }
@@ -51,23 +52,23 @@ export default function ProfileInfo({ userData }) {
   return (
     <>
       {
-        userData ?
+        user ?
           <Card className={classes.card}>
             <CardHeader
               avatar={
                 <Avatar aria-label="friend" className={classes.avatar}>
                 </Avatar>
               }
-              title={<h3>{userData.data.name}</h3>}
-              subheader={<i>{userData.data.location}</i>}
+              title={<h3>{user.name}</h3>}
+              subheader={<i>{user.location}</i>}
             />
-              <Card className={classes.card2}>
-                <CardMedia
-                  className={classes.media}
-                  image={GetProfileImage(userData.data)}
-                  title="Profile"
-                />
-              </Card>
+            <Card className={classes.card2}>
+              <CardMedia
+                className={classes.media}
+                image={GetProfileImage(user)}
+                title="Profile"
+              />
+            </Card>
             <CardActions disableSpacing>
               <IconButton
                 className={clsx(classes.expand, {
@@ -84,20 +85,20 @@ export default function ProfileInfo({ userData }) {
               <CardContent>
                 <Typography paragraph><h4>Profile</h4></Typography>
                 <Typography paragraph>
-                  <strong>Bio:</strong> {userData.data.bio}
+                  <strong>Bio:</strong> {user.bio}
                 </Typography>
                 <Typography paragraph>
-                  <strong>Location:</strong> {userData.data.location}
+                  <strong>Location:</strong> {user.location}
                 </Typography>
               </CardContent>
             </Collapse>
             {
-              userData.data.communities ?
+              user.communities ?
                 <div className="networks" style={{ margin: '30px' }}>
                   <h5 className="card-title">Your Networks</h5>
                   <List>
                     {
-                      userData.data.communities.map(community => (
+                      user.communities.map(community => (
                         <>
                           <ListItem button component="a">
                             <a

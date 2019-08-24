@@ -1,46 +1,15 @@
 // COMPONENTS
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { Card } from '@material-ui/core';
+import Modal from '../../modal';
+
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
-import ax from 'axios';
-
-const handleSubmit = event => {
-  event.preventDefault();
-  const formData = event.target;
-  const inputs = formData.getElementsByTagName('input');
-  const postData = {};
-
-  for (let i = 0; i < inputs.length; i++) {
-    postData[inputs[i].name] = inputs[i].value;
-  }
-  console.log(postData);
-  login(postData);
-};
-
-const login = async postData => {
-  try {
-    const res = await ax.post('/api/users', postData);
-    console.log(res);
-    if (res.status === 200) {
-      window.location = `/profile`;
-    }
-
-  } catch (error) {
-    console.log(error.response);
-    // this.setState({ errorAlert: error.response.data });
-  }
-}
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -101,7 +70,6 @@ export default function Home({ handleSubmit, errorAlert }) {
 
   return (
     <Grid container component="main" className={classes.root}>
-      <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} >
         <Grid item xs={false} id="hide" className={classes.logo}>
           <img src="https://i.ibb.co/6WVS2GB/tpn2.png" />

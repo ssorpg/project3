@@ -15,7 +15,17 @@ import GetProfileImage from '../utils/getprofileimage';
 
 const useStyles = makeStyles({
   media: {
+<<<<<<< HEAD
     paddingTop: '100%' // 16:9
+=======
+    paddingTop: '100%'
+  },
+
+  score: {
+    position: 'absolute',
+    bottom: '10px',
+    right: '10px'
+>>>>>>> 9348fabbe3b8b8be5c06b5a91dca7838732da046
   }
 });
 
