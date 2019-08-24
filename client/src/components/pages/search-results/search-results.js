@@ -1,5 +1,7 @@
 // COMPONENTS
 import React, { Component } from 'react';
+import {withRouter} from 'react-router-dom';
+import PropTypes from 'prop-types';
 import {
   Avatar,
   Container,
@@ -21,6 +23,9 @@ import CheckError from '../../../utils/checkerror';
 
 
 class SearchResults extends Component {
+  static propTypes = {
+    location: PropTypes.object.isRequired
+  }
   constructor(props) {
     super(props);
 
@@ -127,4 +132,4 @@ class SearchResults extends Component {
 }
 
 
-export default SearchResults;
+export default withRouter(SearchResults);
