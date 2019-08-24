@@ -19,6 +19,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import './styles.css';
 
 const useStyles = makeStyles(theme => ({
+  siteNav: {
+    marginBottom: '48px'
+  },
   grow: {
     flexGrow: 1
   },
@@ -159,7 +162,7 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
     <div className={classes.grow}>
       {
         isAuth ?
-          <AppBar position="static" id="site-nav">
+          <AppBar position="static" className={classes.siteNav}>
             <Toolbar>
               {
                 CommunityId ?
