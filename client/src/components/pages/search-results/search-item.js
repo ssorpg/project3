@@ -1,8 +1,6 @@
 import React from 'react';
 import {
   Avatar,
-  Container,
-  Paper,
   Grid,
   List,
   ListItem,
@@ -10,8 +8,17 @@ import {
   Link,
   SvgIcon
 } from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+  listItem: {
+    borderBottom: '1px solid #ddd',
+    marginBottom: '48px'
+  }
+}));
 
 export default function SearchItem(props) {
+  const classes = useStyles();
   const {data: {searchResults}} = props;
   return (
     searchResults ?
@@ -29,10 +36,7 @@ export default function SearchItem(props) {
                   key={item.id}
                   cols="2"
                   rows="auto"
-                  style={{
-                    borderBottom: '1px solid #ddd',
-                    marginBottom: '48px'
-                  }}
+                  className={classes.listItem}
                 >
 
                   <ListItemAvatar>
