@@ -253,7 +253,7 @@ export class UpdateForm extends Component {
           </Form.Group>
           <Form.Group controlId="formGroupBio">
             <Form.Label>Bio</Form.Label>
-            <Form.Control type="text" name="bio" placeholder="Tell me about yourself!" required {...this.props} />
+            <Form.Control type="text" name="bio" placeholder="Tell us about yourself!" required {...this.props} />
           </Form.Group>
           <Form.Group controlId="formGroupText">
             <Form.Label>Location</Form.Label>

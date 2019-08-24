@@ -1,77 +1,56 @@
 // COMPONENTS
-import React, { Component } from 'react';
-import { Row } from 'react-bootstrap';
-import Post from './post';
+import React from 'react';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
+import Post from './post'
 
 // FUNCTIONS
-import ax from 'axios';
-import GetYourId from '../utils/getyourid';
+import { makeStyles } from '@material-ui/core/styles';
 
-export default class PostDisplay extends Component {
-  constructor(props) {
-    super(props);
+const useStyles = makeStyles(theme => ({
+  mainGrid: {
+    marginTop: theme.spacing(3)
+  },
 
-    this.state = {
-      YourId: GetYourId()
-    }
+  footer: {
+    backgroundColor: theme.palette.background.paper,
+    marginTop: theme.spacing(8),
+    padding: theme.spacing(6, 0)
   }
+}));
 
-  vote = async event => {
-    const post = event.target;
+export default function PostDisplay({ YourId, CommunityId, posts, vote, deletePost }) {
+  const classes = useStyles();
 
-    try {
-      const newScore = await ax.put(`/api/posts/${post.dataset.id}/${post.dataset.vote}`);
-
-      document.getElementById(`postScore${post.dataset.id}`).textContent = 'Score: ' + newScore.data;
-    }
-    catch (error) {
-      console.log(error.response);
-    }
-  }
-
-  deletePost = async event => {
-    const post = document.getElementById(`post${event.target.dataset.id}`);
-    post.style.display = 'none'; // can't delete elements, it causes a react error
-
-    try {
-      await ax.delete(`/api/posts/${event.target.dataset.id}/`);
-    }
-    catch (error) {
-      console.log(error.response);
-    }
-  }
-
-  editPost = async event => {
-    console.log(event.target);
-
-    // we want something to pop up that will allow user to edit the post.. but my brain fried.
-
-    try {
-      await ax.put(`/api/posts/${event.target.dataset.id}/`);
-    }
-    catch (error) {
-      console.log(error.response);
-    }
-  }
-
-  render() {
-    return (
-      <Row style={{ textAlign: 'center', margin: 'auto' }}>
-        {
-          this.props.posts && this.props.posts.length ?
-            this.props.posts.map(post => (
-              <Post
-                key={post.id}
-                YourId={this.state.YourId}
-                post={post}
-                vote={this.vote}
-                deletePost={this.deletePost}
-                editPost={this.editPost}
-              />
-            ))
-            : <h2 className="col-12" style={{ marginTop: '50px' }}>No posts here.<br />You should make one!</h2>
-        }
-      </Row>
-    )
-  }
+  return (
+    <>
+      <Container maxWidth="lg">
+        <main>
+          <Grid
+            container
+            direction="row"
+            justify="center"
+            spacing={4}
+            className={classes.mainGrid}
+          >
+            {
+              posts ?
+                posts.map(post => (
+                  <Grid item xs={12} md={4}>
+                    <Post
+                      YourId={YourId}
+                      CommunityId={CommunityId}
+                      post={post}
+                      vote={vote}
+                      deletePost={deletePost}
+                    />
+                  </Grid>
+                ))
+                : ''
+            }
+          </Grid>
+        </main>
+      </Container>
+    </>
+  );
 }

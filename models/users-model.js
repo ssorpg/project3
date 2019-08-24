@@ -80,6 +80,13 @@ module.exports = function (sequelize, DataTypes) {
             },
             as: 'wallPosts'
         });
+
+        User.hasMany(models.Image, {
+            foreignKey: {
+                allowNull: true
+            },
+            as: 'profileImage'
+        });
     };
 
     return User;

@@ -3,23 +3,27 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { green } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ProfilePhoto from './profilephoto';
 import {
   Card, List, ListItem,
   CardHeader, CardContent,
   CardActions, Collapse,
   Avatar, IconButton, Typography,
-  Grid
+  CardMedia
 } from '@material-ui/core';
+import GetProfileImage from '../utils/getprofileimage';
 
 const useStyles = makeStyles(theme => ({
   card: {
     maxWidth: 'auto',
     marginTop: '20px'
   },
+  card2: {
+    maxWidth: '500px',
+    marginTop: '20px'
+  },
   media: {
     height: 0,
-    paddingTop: '56.25%', // 16:9
+    paddingTop: '100%', // 16:9
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -58,9 +62,13 @@ export default function ProfileInfo({ userData }) {
               title={<h3>{userData.data.name}</h3>}
               subheader={<i>{userData.data.location}</i>}
             />
-            <Grid container spacing={3}>
-              <ProfilePhoto id={userData.data.id} />
-            </Grid>
+            <Card className={classes.card2}>
+              <CardMedia
+                className={classes.media}
+                image={GetProfileImage(userData.data)}
+                title="Profile"
+              />
+            </Card>
             <CardActions disableSpacing>
               <IconButton
                 className={clsx(classes.expand, {
@@ -75,12 +83,12 @@ export default function ProfileInfo({ userData }) {
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
               <CardContent>
-                <Typography paragraph><strong>Profile</strong></Typography>
+                <Typography paragraph><h4>Profile</h4></Typography>
                 <Typography paragraph>
-                  Bio: {userData.data.bio}
+                  <strong>Bio:</strong> {userData.data.bio}
                 </Typography>
                 <Typography paragraph>
-                  Location: {userData.data.location}
+                  <strong>Location:</strong> {userData.data.location}
                 </Typography>
               </CardContent>
             </Collapse>

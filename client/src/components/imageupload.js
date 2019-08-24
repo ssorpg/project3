@@ -47,11 +47,10 @@ export default class ImageUpload extends Component {
     event.preventDefault();
     const { description, selectedFile } = this.state;
     const formData = new FormData();
-    const userid = this.state.userData.data.id;
     formData.append('description', description);
     formData.append('selectedFile', selectedFile);
 
-    axios.post(`/api/${userid}/images`, formData)
+    axios.post(`/api/images`, formData)
       .then(result => {
         console.log(result);
         //this is an alert for now, will swap it out with some cool popup thingie from material-ui when we switch to it.
