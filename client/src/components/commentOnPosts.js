@@ -12,7 +12,9 @@ export default class CommentOnPosts extends Component {
     super(props)
 
     this.state = {
-      comments: props.post.comments,
+      comments: props.post.comments ?
+        props.post.comments
+        : [],
       errorAlert: undefined
     }
   }
@@ -43,11 +45,9 @@ export default class CommentOnPosts extends Component {
       this.setState({
         comments: [...this.state.comments, res.data]
       });
-      // console.log('data', data);
-      // console.log('response post??', res.data);
     }
     catch (error) {
-      console.log(error.response);
+      console.log(error);
       this.setState({ errorAlert: error.response.data });
     }
   }

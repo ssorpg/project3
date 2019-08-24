@@ -1,11 +1,11 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import SubmitButton from './buttons';
+import SubmitButton from '../../buttons';
 
 // FUNCTIONS
 import axios from 'axios';
 // import Success from './success';
-import CheckError from '../utils/checkerror';
+import CheckError from '../../../utils/checkerror';
 
 export default class ImageUpload extends Component {
   constructor() {

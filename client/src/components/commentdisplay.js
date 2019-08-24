@@ -1,5 +1,7 @@
 // COMPONENTS
 import React, { Component } from 'react';
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 // FUNCTIONS
 import ax from 'axios';
@@ -31,13 +33,13 @@ export default class CommentDisplay extends Component {
 
   render() {
     return (
-      <p id={`comment${this.state.comment.id}`}>
-        <strong>{this.state.comment.author.name}</strong>: <span id={`comment${this.state.comment.id}Message`}>{this.state.comment.message}</span>
+      <p id={`comment${this.state.comment.id}`} style={{ textAlign: 'left', display: 'flex', justifyContent: 'space-between' }}>
+        <span>
+          <strong>{this.state.comment.author.name}</strong>: <span id={`comment${this.state.comment.id}Message`}>{this.state.comment.message}</span>
+        </span>
         {
           this.state.YourId === this.state.comment.author.id ?
-            <span>
-              <button type="submit" onClick={this.deleteComment} style={{ display: 'inline-block', marginLeft: '10px', padding: '0 1px' }}>Delete</button>
-            </span>
+            <Button type="submit" onClick={this.deleteComment} style={{ display: 'inline-block', marginLeft: '10px', padding: 0 }}><DeleteIcon /></Button>
             : ''
         }
       </p>
