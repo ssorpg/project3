@@ -8,7 +8,7 @@ import {
   CardHeader, CardContent,
   CardActions, Collapse,
   Avatar, IconButton, Typography,
-  CardMedia
+  CardMedia, Divider
 } from '@material-ui/core';
 import GetProfileImage from '../utils/getprofileimage';
 
@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
   card2: {
     maxWidth: '500px',
-    marginTop: '20px'
+    marginTop: '20px',
   },
   media: {
     height: 0,
@@ -39,7 +39,6 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: green[500],
   },
 }));
-
 
 export default function ProfileInfo({ userData }) {
   console.log(userData);
@@ -62,7 +61,9 @@ export default function ProfileInfo({ userData }) {
               title={<h3>{userData.data.name}</h3>}
               subheader={<i>{userData.data.location}</i>}
             />
-            <Card className={classes.card2}>
+            <Card
+              className={classes.card2}
+            >
               <CardMedia
                 className={classes.media}
                 image={GetProfileImage(userData.data)}
@@ -99,14 +100,17 @@ export default function ProfileInfo({ userData }) {
                   <List>
                     {
                       userData.data.communities.map(community => (
-                        <ListItem >
-                          <a
-                            key={community.id}
-                            href={`/community/${community.id}`}
-                          >
-                            {community.name}
-                          </a>
-                        </ListItem>
+                        <>
+                          <ListItem button component="a">
+                            <a
+                              key={community.id}
+                              href={`/community/${community.id}`}
+                            >
+                              {community.name}
+                            </a>
+                          </ListItem>
+                          <Divider />
+                        </>
                       ))
                     }
                   </List>
