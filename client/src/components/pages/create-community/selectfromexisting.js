@@ -28,27 +28,28 @@ export default function SelectFromExisting({
   return (
     <Paper className={classes.communityList}>
       <h3>Choose A Community</h3>
-      <FormControl onSubmit={handleChosenCommunitySubmit}>
-        <FormGroup>
-          <List className={classes.fixedSizeList}
-            className="list-unstyled text-left"
-            style={{ columns: 2 }}
-            id="community-list"
-          >
-            {communities.map(community => (
-              <RadioGroup key={community.id}>
-                <CommunityRadio
-                  CommunityId={CommunityId}
-                  community={community}
-                  handleRadioSelection={handleRadioSelection}
-                />
-              </RadioGroup>
-            ))}
-          </List>
-        </FormGroup>
-        <Button type="submit">Submit</Button>
-        <Button type="reset">Reset</Button>
-      </FormControl>
+      <form onSubmit={handleChosenCommunitySubmit}>
+        <FormControl>
+          <FormGroup>
+            <List className={classes.fixedSizeList}
+              className="list-unstyled text-left"
+              id="community-list"
+            >
+              {communities.map(community => (
+                <RadioGroup key={community.id}>
+                  <CommunityRadio
+                    CommunityId={CommunityId}
+                    community={community}
+                    handleRadioSelection={handleRadioSelection}
+                  />
+                </RadioGroup>
+              ))}
+            </List>
+          </FormGroup>
+          <Button type="submit">Submit</Button>
+          <Button type="reset">Reset</Button>
+        </FormControl>
+      </form>
       <Button className="btn btn-success" onClick={handleFormChange}>
         Or Create Your Own!
       </Button>
