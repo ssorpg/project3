@@ -46,9 +46,10 @@ export default function SignUp({ handleSubmit, errorAlert }) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+        {/* <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
-        </Avatar>
+        </Avatar> */}
+        <img src="https://i.ibb.co/6WVS2GB/tpn2.png" xs={false}/>
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
