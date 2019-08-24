@@ -1,21 +1,19 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import Friend from './friend';
+import Header from '../../header';
+import FriendDisplay from './frienddisplay';
 
 // FUNCTIONS
 import ax from 'axios';
 import CheckError from '../../../utils/checkerror';
-import GetYourId from '../../../utils/getyourid';
 
 export default class Friends extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
-      friends: undefined,
-      YourId: GetYourId(),
-      CommunityId: parseInt(props.match.params.CommunityId)
+      pageTitle: undefined,
+      friends: undefined
     };
   }
 
@@ -25,9 +23,12 @@ export default class Friends extends Component {
 
   getData = async () => {
     try {
-      const res = await ax.get(`/api/communities/${this.props.match.params.CommunityId}/users`);
+      const res = await ax.get(`/api/communities/${this.props.CommunityId}/users`);
 
-      this.setState({ friends: res.data.members });
+      this.setState({
+        pageTitle: res.data.name + ' Friends',
+        friends: res.data.members
+      });
     }
     catch (error) {
       CheckError(error);
@@ -36,27 +37,13 @@ export default class Friends extends Component {
 
   render() {
     return (
-      <Container id="friends" style={{ textAlign: 'center' }}>
-        <Row>
-          <Col>
-            <h1>Friends</h1>
-          </Col>
-        </Row>
-        <Row>
-          {
-            this.state.friends && this.state.friends.length > 1 ?
-              this.state.friends.map(friend => (
-                this.state.YourId === friend.id ?
-                  ''
-                  : <Friend
-                    friend={friend}
-                    CommunityId={this.state.CommunityId}
-                  />
-              ))
-              : <h2 className="col-12" style={{ marginTop: '50px' }}>No friends yet.<br />You should invite some!</h2>
-          }
-        </Row>
-      </Container>
-    )
+      <>
+        <Header pageTitle={this.state.pageTitle} />
+        <FriendDisplay
+          {...this.props}
+          friends={this.state.friends}
+        />
+      </>
+    );
   }
 }

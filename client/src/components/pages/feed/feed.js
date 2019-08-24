@@ -1,14 +1,15 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import Posts from '../../posts';
+import Header from '../../header';
+import PostDisplay from '../../postdisplay';
 
 // FUNCTIONS
 import ax from 'axios';
 import CheckError from '../../../utils/checkerror';
 
 export default class Feed extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
       pageTitle: undefined,
@@ -71,12 +72,15 @@ export default class Feed extends Component {
 
   render() {
     return (
-      <Posts
-        YourId={this.props.YourId}
-        posts={this.state.posts}
-        vote={this.vote}
-        deletePost={this.deletePost}
-      />
+      <>
+        <Header pageTitle={this.state.pageTitle} />
+        <PostDisplay
+          {...this.props}
+          posts={this.state.posts}
+          vote={this.vote}
+          deletePost={this.deletePost}
+        />
+      </>
     );
   }
 }

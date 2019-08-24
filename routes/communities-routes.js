@@ -83,7 +83,20 @@ module.exports = function (app) {
             },
             include: [{
                 model: db.User,
-                as: 'author'
+                as: 'author',
+                include: [{
+                    model: db.Image,
+                    as: 'profileImage',
+                    limit: 1
+                }]
+            },
+            {
+                model: db.Comment,
+                as: 'comments',
+                include: [{
+                    model: db.User,
+                    as: 'author'
+                }]
             }]
         });
 
@@ -155,7 +168,16 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You\'re not in that community.' };
         }
 
-        community.dataValues.members = await community.getMembers();
+        community.dataValues.members = await community.getMembers({
+            include: [{
+                model: db.Image,
+                as: 'profileImage',
+                where: {
+                    id: req.token.UserId
+                },
+                limit: 1
+            }]
+        });
 
         res.status(200).json(community);
     }));
@@ -194,7 +216,7 @@ module.exports = function (app) {
     //     if (user) {
     //         throw { status: 400, msg: 'That user\'s already been invited to that community.' };
     //     }
-        
+
     //     user = await db.User.findOne({
     //         where: {
     //             email: req.params.UserEmail
@@ -307,40 +329,40 @@ module.exports = function (app) {
         res.status(200).send('You left the community.');
     }));
 
-    app.get(route + '/:CommunityId/wall', wrap(async function (req, res, next) { // your community wall
-        const community = await db.Community.findOne({
-            where: {
-                id: req.params.CommunityId
-            }
-        });
+    // app.get(route + '/:CommunityId/wall', wrap(async function (req, res, next) { // your community wall
+    //     const community = await db.Community.findOne({
+    //         where: {
+    //             id: req.params.CommunityId
+    //         }
+    //     });
 
-        if (!community) {
-            throw { status: 404, msg: 'That community doesn\'t exist.' };
-        }
+    //     if (!community) {
+    //         throw { status: 404, msg: 'That community doesn\'t exist.' };
+    //     }
 
-        const [user] = await community.getMembers({
-            where: {
-                id: req.token.UserId
-            }
-        });
+    //     const [user] = await community.getMembers({
+    //         where: {
+    //             id: req.token.UserId
+    //         }
+    //     });
 
-        if (!user) {
-            throw { status: 400, msg: 'You\'re not in that community.' };
-        }
+    //     if (!user) {
+    //         throw { status: 400, msg: 'You\'re not in that community.' };
+    //     }
 
-        user.dataValues.wallPosts = await user.getPosts({
-            where: {
-                CommunityId: community.id,
-                UserId: req.token.UserId
-            },
-            include: [{
-                model: db.User,
-                as: 'author'
-            }]
-        });
+    //     user.dataValues.wallPosts = await user.getPosts({
+    //         where: {
+    //             CommunityId: community.id,
+    //             UserId: req.token.UserId
+    //         },
+    //         include: [{
+    //             model: db.User,
+    //             as: 'author'
+    //         }]
+    //     });
 
-        res.status(200).json(user);
-    }));
+    //     res.status(200).json(user);
+    // }));
 
     app.get(route + '/:CommunityId/users/:UserId/wall', wrap(async function (req, res, next) { // another user's wall
         if (req.token.UserId === parseInt(req.params.UserId)) {
@@ -366,7 +388,15 @@ module.exports = function (app) {
         const [getUser] = await community.getMembers({
             where: {
                 id: req.params.UserId
-            }
+            },
+            include: [{
+                model: db.Image,
+                as: 'profileImage',
+                where: {
+                    id: req.token.UserId
+                },
+                limit: 1
+            }]
         });
 
         if (!user || !getUser) {
@@ -379,7 +409,20 @@ module.exports = function (app) {
             },
             include: [{
                 model: db.User,
-                as: 'author'
+                as: 'author',
+                include: [{
+                    model: db.Image,
+                    as: 'profileImage',
+                    limit: 1
+                }]
+            },
+            {
+                model: db.Comment,
+                as: 'comments',
+                include: [{
+                    model: db.User,
+                    as: 'author'
+                }]
             }]
         });
 

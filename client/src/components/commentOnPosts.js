@@ -6,33 +6,14 @@ import Modal from './modal';
 
 // FUNCTIONS
 import ax from 'axios';
-import CheckError from '../utils/checkerror';
 
 export default class CommentOnPosts extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      comments: undefined,
+      comments: props.post.comments,
       errorAlert: undefined
-    }
-  }
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = async () => {
-    try {
-      const res = await ax.get(`/api/posts/${this.props.data.id}/comments`);
-
-      this.setState({
-        comments: res.data.comments
-      })
-      //console.log('RESPONSE get', res.data.comments);
-    }
-    catch (error) {
-      CheckError(error);
     }
   }
 
@@ -57,10 +38,10 @@ export default class CommentOnPosts extends Component {
     this.setState({ errorAlert: undefined });
 
     try {
-      const res = await ax.post(`/api/posts/${this.props.data.id}/comments`, data);
+      const res = await ax.post(`/api/posts/${this.props.post.id}/comments`, data);
 
       this.setState({
-        comments: [res.data, ...this.state.comments]
+        comments: [...this.state.comments, res.data]
       });
       // console.log('data', data);
       // console.log('response post??', res.data);

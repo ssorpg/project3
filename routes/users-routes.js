@@ -56,14 +56,13 @@ module.exports = function (app) {
             email: req.body.email,
             password: password
         });
-        
+
         const defaultCommunity = await db.Community.findOne({
             where: {
                 name: 'TPN'
             }
         });
-        console.log(newUser);
-        console.log(defaultCommunity);
+
         await defaultCommunity.addMember(newUser);
         await newUser.addCommunity(defaultCommunity); // users join public community by default
 
@@ -96,6 +95,14 @@ module.exports = function (app) {
                 id: req.token.UserId
             },
             include: [{
+                model: db.Image,
+                as: 'profileImage',
+                where: {
+                    id: req.token.UserId
+                },
+                limit: 1
+            },
+            {
                 model: db.Community,
                 as: 'communities'
             },
@@ -104,7 +111,12 @@ module.exports = function (app) {
                 as: 'wallPosts',
                 include: [{
                     model: db.User,
-                    as: 'author'
+                    as: 'author',
+                    include: [{
+                        model: db.Image,
+                        as: 'profileImage',
+                        limit: 1
+                    }]
                 }]
             }]
         });
