@@ -1,8 +1,10 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import { Container, Row, Jumbotron } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
+import { Container, Paper, Typography} from '@material-ui/core';
 import SelectFromExisting from './selectfromexisting';
 import NewCommunity from './newcommunity';
+import Megatron from '../../megatron';
 
 // FUNCTIONS
 import ax from 'axios';
@@ -86,12 +88,16 @@ export default class CreateCommunity extends Component {
 
   render() {
     return (
-      <Container id="create-community-form">
-        <Jumbotron>
-          <h1>Create A Community</h1>
-          <p>Select a community from the dropdown or fill in a name below to create your own!</p>
-        </Jumbotron>
-        <Row style={{ position: 'relative' }}>
+      <Container id="create-community-form" maxWidth="md">
+        <Megatron
+          heading="Create A Community"
+          subheading="Select a community from the dropdown or fill in a name below to create
+            your own!"
+          image="https://picsum.photos/id/469/1000/1100"
+          imagePosition="77% 5%"
+        />
+        <Paper style={{padding: '24px'}}>
+          <Row style={{ position: 'relative' }}>
           {
             this.state.errorAlert ?
               <Modal error={this.state.errorAlert} />
@@ -113,6 +119,7 @@ export default class CreateCommunity extends Component {
               />
           }
         </Row>
+        </Paper>
       </Container>
     )
   }
