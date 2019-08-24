@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { green } from '@material-ui/core/colors';
+import { green, blue } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {
   Card, List, ListItem,
@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 export default function ProfileInfo({ userData }) {
   console.log(userData);
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(true);
   function handleExpandClick() {
     setExpanded(!expanded);
   }
@@ -61,15 +61,13 @@ export default function ProfileInfo({ userData }) {
               title={<h3>{userData.data.name}</h3>}
               subheader={<i>{userData.data.location}</i>}
             />
-            <Card
-              className={classes.card2}
-            >
-              <CardMedia
-                className={classes.media}
-                image={GetProfileImage(userData.data)}
-                title="Profile"
-              />
-            </Card>
+              <Card className={classes.card2}>
+                <CardMedia
+                  className={classes.media}
+                  image={GetProfileImage(userData.data)}
+                  title="Profile"
+                />
+              </Card>
             <CardActions disableSpacing>
               <IconButton
                 className={clsx(classes.expand, {
