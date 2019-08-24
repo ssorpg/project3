@@ -186,7 +186,7 @@ module.exports = function (app) {
             throw { status: 400, msg: 'You\'ve already voted on that post.' };
         }
 
-        let newScore;;
+        let newScore;
 
         if (req.params.vote === 'like') {
             newScore = post.score + 1;
@@ -206,42 +206,42 @@ module.exports = function (app) {
         res.status(200).json(newScore);
     }));
 
-    app.get(route + '/:PostId/comments', wrap(async function (req, res, next) { // get comments on post
-        const post = await db.Post.findOne({
-            where: {
-                id: req.params.PostId
-            }
-        });
+    // app.get(route + '/:PostId/comments', wrap(async function (req, res, next) { // get comments on post
+    //     const post = await db.Post.findOne({
+    //         where: {
+    //             id: req.params.PostId
+    //         }
+    //     });
 
-        if (!post) {
-            throw { status: 404, msg: 'That post doesn\'t exist.' };
-        }
+    //     if (!post) {
+    //         throw { status: 404, msg: 'That post doesn\'t exist.' };
+    //     }
 
-        const community = await db.Community.findOne({
-            where: {
-                id: post.CommunityId
-            }
-        });
+    //     const community = await db.Community.findOne({
+    //         where: {
+    //             id: post.CommunityId
+    //         }
+    //     });
 
-        const [user] = await community.getMembers({
-            where: {
-                id: req.token.UserId
-            }
-        });
+    //     const [user] = await community.getMembers({
+    //         where: {
+    //             id: req.token.UserId
+    //         }
+    //     });
 
-        if (!user) {
-            throw { status: 401, msg: 'You\'re not in that community.' };
-        }
+    //     if (!user) {
+    //         throw { status: 401, msg: 'You\'re not in that community.' };
+    //     }
 
-        post.dataValues.comments = await post.getComments({
-            include: [{
-                model: db.User,
-                as: 'author'
-            }]
-        });
+    //     post.dataValues.comments = await post.getComments({
+    //         include: [{
+    //             model: db.User,
+    //             as: 'author'
+    //         }]
+    //     });
 
-        res.status(200).json(post);
-    }));
+    //     res.status(200).json(post);
+    // }));
 
     app.post(route + '/:PostId/comments', wrap(async function (req, res, next) { // make comment on post
         const post = await db.Post.findOne({

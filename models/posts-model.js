@@ -38,7 +38,8 @@ module.exports = function (sequelize, DataTypes) {
         Post.hasMany(models.Comment, {
             foreignKey: {
                 allowNull: true
-            }
+            },
+            as: 'comments'
         });
 
         Post.belongsToMany(models.User, {

@@ -5,9 +5,14 @@ module.exports = function (sequelize, DataTypes) {
         destination: DataTypes.STRING,
         filename: DataTypes.STRING,
         path: DataTypes.STRING,
-        size: DataTypes.INTEGER,
-        userid: DataTypes.INTEGER
-    });
+        size: DataTypes.INTEGER
+    },
+        {
+            defaultScope: {
+                order: [['id', 'DESC']],
+                attributes: ['filename']
+            }
+        });
 
     return Image;
 };

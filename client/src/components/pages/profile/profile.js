@@ -40,14 +40,10 @@ export default class Profile extends Component {
     return (
       <div>
         <Card className="text-dark text-left col-12 card" style={{ border: 'none' }}>
-          <ProfileInfo
-            userData={this.state.userData}
-          />
+          <ProfileInfo userData={this.state.userData} />
           {
             this.state.posts ?
-              <PostDisplay
-                posts={this.state.posts}
-              />
+              <PostDisplay posts={this.state.posts} cantPost={true} />
               : ''
           }
         </Card>

@@ -1,31 +1,4 @@
-// // COMPONENTS
-// import React from 'react';
-// import { Container, Jumbotron, Row, Col } from 'react-bootstrap';
-
-// // IMAGES
-// import tpn from '../../../images/tpn.png'
-
-// export default function Home() {
-//   return (
-//     <Container style={{ textAlign: 'center' }}>
-//       <img src={tpn} alt="icon" />
-//       <Jumbotron id="welcome">
-//         <h1>Social Networking. Privatized.</h1>
-//         <p>Imagine a social network for just you and your friends and family. Well stop imagining. We made it. And it’s awesome.</p>
-//       </Jumbotron>
-//       <Row>
-//         <Col>
-//           <Jumbotron>
-//             <p>Pour-over poutine coloring book, asymmetrical cray pitchfork jianbing taxidermy marfa art party cronut. Pork belly hot chicken XOXO, mustache vinyl succulents hoodie twee selfies enamel pin tousled sartorial schlitz chicharrones yr. Man braid raclette migas fashion axe cornhole tbh gastropub. Jean shorts irony iPhone, tofu chia brooklyn actually edison bulb 3 wolf moon. Pour-over wolf deep v skateboard beard brooklyn.</p>
-//           </Jumbotron>
-//         </Col>
-//       </Row>
-//     </Container>
-//   )
-// }
-
-//old code saved above
-
+// COMPONENTS
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -35,28 +8,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
+
+// FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
 import ax from 'axios';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © T P N'}
-      <Link color="inherit" href="https://material-ui.com/">
-        The Private Network
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'. Built with '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Material-UI.
-      </Link>
-    </Typography>
-  );
-}
 
 const handleSubmit = event => {
   event.preventDefault();
@@ -87,30 +45,30 @@ const login = async postData => {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: '100vh',
+    height: '100vh'
   },
   image: {
     backgroundImage: 'url(https://source.unsplash.com/random)',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundPosition: 'center'
   },
   paper: {
     margin: theme.spacing(8, 4),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.main
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(3, 0, 2)
   },
 }));
 
@@ -177,9 +135,6 @@ export default function SignInSide() {
                 </Link>
               </Grid>
             </Grid>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
           </form>
         </div>
       </Grid>
