@@ -2,82 +2,60 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
+import Modal from '../../modal';
 
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
-import ax from 'axios';
-
-const handleSubmit = event => {
-  event.preventDefault();
-  const formData = event.target;
-  const inputs = formData.getElementsByTagName('input');
-  const postData = {};
-
-  for (let i = 0; i < inputs.length; i++) {
-    postData[inputs[i].name] = inputs[i].value;
-  }
-  console.log(postData);
-  login(postData);
-};
-
-const login = async postData => {
-  try {
-    const res = await ax.post('/api/users', postData);
-    console.log(res);
-    if (res.status === 200) {
-      window.location = `/profile`;
-    }
-    
-  } catch (error) {
-    console.log(error.response);
-    // this.setState({ errorAlert: error.response.data });
-  }
-}
 
 const useStyles = makeStyles(theme => ({
   root: {
     height: '100vh'
   },
+
   image: {
     backgroundImage: 'url(https://source.unsplash.com/random)',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center'
   },
+
   paper: {
     margin: theme.spacing(8, 4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
   },
+
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main
   },
+
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1)
   },
+
   submit: {
     margin: theme.spacing(3, 0, 2)
-  },
+  }
 }));
 
-export default function SignInSide() {
+export default function Home({ handleSubmit, errorAlert }) {
   const classes = useStyles();
+
+  console.log(handleSubmit);
 
   return (
     <Grid container component="main" className={classes.root}>
-      <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
@@ -110,10 +88,15 @@ export default function SignInSide() {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
+            {
+              errorAlert ?
+                <Modal error={errorAlert} />
+                : ''
+            }
             <Button
               type="submit"
               fullWidth
@@ -125,9 +108,9 @@ export default function SignInSide() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                {/* <Link href="#" variant="body2">
                   Forgot password?
-                </Link>
+                </Link> */}
               </Grid>
               <Grid item>
                 <Link href="/register" variant="body2">

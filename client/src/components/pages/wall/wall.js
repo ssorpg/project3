@@ -1,22 +1,19 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import { Row, Col, Container } from 'react-bootstrap';
 import Card from '../../card.js';
 import ProfileInfo from '../../profileinfo';
+import MakePost from '../../makepost';
 import PostDisplay from '../../postdisplay';
-import Modal from '../../modal';
 
 // FUNCTIONS
 import ax from 'axios';
 import CheckError from '../../../utils/checkerror';
 
-export default class Wall extends Component {
+export default class Profile extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      CommunityId: parseInt(props.match.params.CommunityId),
-      UserId: parseInt(props.match.params.UserId),
       userData: undefined,
       posts: undefined,
       errorAlert: undefined
@@ -29,7 +26,7 @@ export default class Wall extends Component {
 
   GetData = async () => {
     try {
-      const userData = await ax.get(`/api/communities/${this.state.CommunityId}/users/${this.state.UserId}/wall`);
+      const userData = await ax.get(`/api/communities/${this.props.CommunityId}/users/${this.props.UserId}/wall`);
 
       this.setState({
         userData: userData,
@@ -37,10 +34,6 @@ export default class Wall extends Component {
       });
     }
     catch (error) {
-      if (error.response.status === 400) {
-        return window.location = '/profile';
-      }
-
       CheckError(error);
     }
   }
@@ -65,9 +58,63 @@ export default class Wall extends Component {
     this.setState({ errorAlert: undefined });
 
     try {
-      const res = await ax.post(`/api/posts?CommunityId=` + this.state.CommunityId + `&UserId=` + this.state.UserId, data);
+      const res = await ax.post(`/api/posts?CommunityId=` + this.props.CommunityId + `&UserId=` + this.props.UserId, data);
 
       this.setState({ posts: [res.data, ...this.state.posts] });
+    }
+    catch (error) {
+      console.log(error.response);
+      this.setState({ errorAlert: error.response.data });
+    }
+  }
+
+  vote = async event => {
+    event.preventDefault();
+    const postInfo = event.target.dataset.id ?
+      event.target
+      : event.target.parentNode;
+
+    try {
+      const res = await ax.put(`/api/posts/${postInfo.dataset.id}/${postInfo.dataset.vote}`);
+
+      this.state.posts.forEach((post, id) => {
+        if (post.id === res.data.id) {
+          const newPostsScore = this.state.posts;
+          newPostsScore[id].score = res.data.score;
+
+          this.setState({
+            posts: newPostsScore
+          });
+        }
+      });
+    }
+    catch (error) {
+      console.log(error.response);
+      this.setState({ errorAlert: error.response.data });
+    }
+  }
+
+  deletePost = async event => {
+    event.preventDefault();
+    const postInfo = event.target.dataset.id ?
+      event.target
+      : event.target.parentNode;
+
+    try {
+      const res = await ax.delete(`/api/posts/${postInfo.dataset.id}`);
+
+      this.state.posts.forEach((post, id) => {
+        if (post.id === res.data.id) {
+          const newRemovedPosts = this.state.posts;
+          newRemovedPosts.splice(id, 1);
+
+          console.log(newRemovedPosts);
+
+          this.setState({
+            posts: newRemovedPosts
+          });
+        }
+      });
     }
     catch (error) {
       console.log(error.response);
@@ -79,30 +126,17 @@ export default class Wall extends Component {
     return (
       <div>
         <Card className="text-dark text-left col-12 card" style={{ border: 'none' }}>
-          <ProfileInfo
-            userData={this.state.userData}
-          />
-          <Container style={{ textAlign: 'center', padding: '15px' }}>
-            <Row style={{ textAlign: 'center' }}>
-              <Col className="col-12">
-                <form
-                  className="form-group"
-                  onSubmit={this.handleSubmit}
-                >
-                  {
-                    this.state.errorAlert ?
-                      <Modal error={this.state.errorAlert} />
-                      : ''
-                  }
-                  <textarea type="text" name="feed-comment" placeholder="What's on your mind?" style={{ minWidth: '350px', minHeight: '100px', padding: '3px', resize: 'none', verticalAlign: 'bottom' }} />
-                  <button type="submit" value="submit" className="btn btn-primary" style={{ marginLeft: '15px', marginTop: '-80px' }}>Post to Wall</button>
-                </form>
-              </Col>
-            </Row>
-            <PostDisplay
-              posts={this.state.posts}
-            />
-          </Container>
+          {
+            this.state.userData ?
+              <ProfileInfo user={this.state.userData.data} />
+              : ''
+          }
+          <MakePost handleSubmit={this.handleSubmit} errorAlert={this.state.errorAlert} postTo={'Wall'} />
+          {
+            this.state.posts ?
+              <PostDisplay {...this.props} posts={this.state.posts} cantPost={true} vote={this.vote} deletePost={this.deletePost} />
+              : ''
+          }
         </Card>
       </div>
     )

@@ -14,10 +14,11 @@ const useStyles = makeStyles(theme => ({
   },
 
   form: {
-    padding: theme.spacing(0, 0, 4),
+    padding: theme.spacing(0, 0, 3),
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    maxWidth: '350px'
   },
 
   textarea: {
@@ -53,21 +54,18 @@ export default function PostDisplay({ handleSubmit, errorAlert, postTo }) {
             spacing={4}
             className={classes.mainGrid}
           >
-            <form
-              className={classes.form}
-              onSubmit={handleSubmit}
-            >
-              {
-                errorAlert ?
-                  <Modal error={errorAlert} />
-                  : ''
-              }
+            <form className={classes.form} onSubmit={handleSubmit}>
               <textarea type="text" name="feed-comment" placeholder="What's on your mind?" className={classes.textarea} />
               <Button type="submit" value="submit" variant="contained" color="primary" className={classes.submit}>
                 {
                   postTo ? `Post To ${postTo}` : 'Post'
                 }
               </Button>
+              {
+                errorAlert ?
+                  <Modal error={errorAlert} />
+                  : ''
+              }
             </form>
           </Grid>
         </main>

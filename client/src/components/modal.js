@@ -1,40 +1,38 @@
-import React, { Component } from 'react';
+// COMPONENTS
+import React from 'react';
 
-export default class Modal extends Component {
-  constructor(props) {
-    super(props);
+// FUNCTIONS
+import { makeStyles } from '@material-ui/core/styles';
 
-    this.state = {
-      errorAlert: props.error,
-      successAlert: props.success,
+const useStyles = makeStyles(theme => ({
+  error: {
+    zIndex: '9999',
+    minWidth: '150px',
+    margin: '10px'
+  }
+}));
+
+export default function Modal({ error }) {
+  const classes = useStyles();
+
+  function removeErrors() { // remove error messages by clicking on them
+    const errors = document.getElementsByClassName('error');
+
+    for (let i = 0; i < errors.length; i++) { // can't use foreach on a list :(
+      errors[i].style.display = 'none';
     }
   }
 
-  render() {
-    return (
-      <div style={{ position: 'absolute', bottom: '-60%', left: '25%', zIndex: '9999', minWidth: '150px' }}>
-        {console.log(this.state)}
-        {
-          this.state.errorAlert ?
-            <div className="alert alert-danger">
-              <p>
-                <strong>Error: </strong>
-                {this.state.errorAlert}
-              </p>
-            </div>
-            : ''
-        }
-        {
-          this.state.successAlert ?
-            <div className="alert alert-success">
-              <p>
-                <strong>Success: </strong>
-                {this.state.errorAlert}
-              </p>
-            </div>
-            : ''
-        }
-      </div>
-    )
-  }
+  return (
+    <div onClick={removeErrors} className={classes.error + " error"}>
+      {
+        error ?
+          <div className="alert alert-danger">
+            <strong>Error: </strong>
+            {error}
+          </div>
+          : ''
+      }
+    </div>
+  )
 }

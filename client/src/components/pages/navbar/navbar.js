@@ -44,6 +44,10 @@ const useStyles = makeStyles(theme => ({
     }
   },
 
+  logout: {
+    color: '#f00'
+  },
+
   sectionDesktop: {
     display: 'none',
     [theme.breakpoints.up('md')]: {
@@ -110,7 +114,9 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
       onClose={handleMenuClose}
     >
       <a href="/profile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></a>
-      <MenuItem onClick={logout}>Logout</MenuItem>
+      <a href="/update-profile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Edit Profile</MenuItem></a>
+      <a href="/create-community" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Join/Create Community</MenuItem></a>
+      <MenuItem className={classes.logout} onClick={logout}>Logout</MenuItem>
     </Menu>
   );
 
@@ -135,6 +141,9 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
           <AccountCircle />
         </IconButton>
         <a href="/profile"><p>Profile</p></a>
+        <a href="/update-profile"><p>Edit Profile</p></a>
+        <a href="/create-community"><p>Join/Create Community</p></a>
+        <a onClick={logout}><p>Logout</p></a>
       </MenuItem>
     </Menu>
   );
@@ -150,6 +159,7 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
       open={isSidebarMenuOpen}
       onClose={handleMenuClose}
     >
+      <a href="/profile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></a>
       <a href={`/community/${CommunityId}`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Feed</MenuItem></a>
       <a href={`/community/${CommunityId}/friends`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Friends</MenuItem></a>
       <a href={`/community/${CommunityId}/chat`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Chat</MenuItem></a>
@@ -177,11 +187,9 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
                   </IconButton>
                   : ''
               }
-              <a href="/profile" className={classes.linkStyleReset}>
-                <Typography className={classes.title} variant="h6" noWrap>
-                  TPN
-                </Typography>
-              </a>
+              <Typography className={classes.title} variant="h6" noWrap>
+                The Private Network
+              </Typography>
               <Searchbar />
               <div className={classes.grow} />
               <div className={classes.sectionDesktop}>

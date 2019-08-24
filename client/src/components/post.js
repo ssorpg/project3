@@ -16,6 +16,12 @@ import GetProfileImage from '../utils/getprofileimage';
 const useStyles = makeStyles({
   media: {
     paddingTop: '56.25%' // 16:9
+  },
+
+  score: {
+    position: 'absolute',
+    bottom: '10px',
+    right: '10px'
   }
 });
 
@@ -25,7 +31,7 @@ export default function MediaCard({ YourId, CommunityId, post, vote, deletePost 
   function goToAuthor() {
     const goTo = YourId === post.author.id ?
       `/profile`
-      : `/community/${CommunityId}/users/${post.author.id}/wall`
+      : `/community/${CommunityId}/friends/${post.author.id}`
 
     window.location = goTo;
   }
@@ -45,6 +51,9 @@ export default function MediaCard({ YourId, CommunityId, post, vote, deletePost 
           <Typography variant="body2" color="textSecondary" component="p">
             {post.message}
           </Typography>
+          <div className={classes.score}>
+            Likes: {post.score}
+          </div>
         </CardContent>
       </CardActionArea>
       <CardActions>
@@ -56,15 +65,13 @@ export default function MediaCard({ YourId, CommunityId, post, vote, deletePost 
         </Button>
         {
           YourId === post.author.id ?
-            <Button size="small" color="secondary" onClick={deletePost}>
+            <Button size="small" color="secondary" onClick={deletePost} data-id={post.id}>
               Delete
             </Button>
             : ''
         }
       </CardActions>
-      <CommentOnPosts
-        post={post}
-      />
+      <CommentOnPosts post={post} />
     </Card>
   );
 }
