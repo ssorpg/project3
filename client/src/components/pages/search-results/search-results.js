@@ -78,7 +78,7 @@ class SearchResults extends Component {
                                   marginBottom: '48px'
                                 }}
                               >
-                              {console.log(item)}
+
                                 <ListItemAvatar>
                                   <Avatar>
                                     <SvgIcon>
