@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import Header from '../../header';
 import PostDisplay from '../../postdisplay';
 import MakePost from '../../makepost';
+import Megatron from '../../megatron';
+import { Container } from '@material-ui/core';
 
 // FUNCTIONS
 import ax from 'axios';
@@ -128,7 +130,16 @@ export default class Feed extends Component {
   render() {
     return (
       <>
-        <Header pageTitle={this.state.pageTitle} />
+        {/* <Header pageTitle={this.state.pageTitle} /> */}
+        <Container>
+          <Megatron
+            heading={this.state.pageTitle}
+            image="https://source.unsplash.com/random"
+            imagePosition="5%"
+            megaHeight='30vh'
+            megaMaxHeight='320px!important'
+          />
+        </Container>
         <MakePost handleSubmit={this.handleSubmit} errorAlert={this.state.errorAlert} postTo={'Feed'} />
         <PostDisplay
           {...this.props}
