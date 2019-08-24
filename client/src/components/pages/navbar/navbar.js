@@ -16,8 +16,6 @@ import CheckError from '../../../utils/checkerror';
 import ax from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 
-import './styles.css';
-
 const useStyles = makeStyles(theme => ({
   siteNav: {
     marginBottom: '48px'
