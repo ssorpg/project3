@@ -100,6 +100,7 @@ export default class Profile extends Component {
           image="https://source.unsplash.com/random"
           imagePosition="50%"
           megaHeight='20vh'
+          megaMaxHeight='320px!important'
         />
         <Paper >
           {

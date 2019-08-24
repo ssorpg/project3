@@ -16,8 +16,8 @@ export default class UpdateProfile extends Component {
             subheading="Edit bio and profile picture"
             image="https://source.unsplash.com/random"
             imagePosition="77% 5%"
-            megaHeight='55vh'
-            megaMaxHeight=''
+            megaHeight='60vh'
+            megaMaxHeight='620px!important'
             />
           <Grid item className="col-6">
             <Grid item>

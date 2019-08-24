@@ -21,7 +21,8 @@ export default function Megatron(props) {
   };
   const imgSrc = titles.image.src;
   const imgPos = titles.image.position;
-  
+  const megaHeight = props.megaHeight;
+  const megaMaxHeight = props.megaMaxHeight;
   const useStyles = makeStyles( (theme) => ({
     megatron: {
       position: 'relative',
@@ -32,8 +33,8 @@ export default function Megatron(props) {
       backgroundPosition: `${imgPos}`,
       backgroundBlendMode: 'lighten',
       backgroundSize: 'cover',
-      // color: "#f3f3f3",
-      minHeight: '70vh',
+      height: `${megaHeight}`,
+      maxHeight: `${megaMaxHeight}`,
       overflow: 'hidden'
     },
     title: {

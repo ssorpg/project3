@@ -137,7 +137,7 @@ export default class Feed extends Component {
             image="https://source.unsplash.com/random"
             imagePosition="5%"
             megaHeight='30vh'
-            megaMaxHeight=''
+            megaMaxHeight='320px!important'
           />
         </Container>
         <MakePost handleSubmit={this.handleSubmit} errorAlert={this.state.errorAlert} postTo={'Feed'} />

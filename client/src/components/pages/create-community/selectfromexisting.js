@@ -1,42 +1,63 @@
 // COMPONENTS
 import React from 'react';
-import { Col, Row, Form, Button, ListGroup } from 'react-bootstrap';
 import CommunityRadio from './communityradio';
+import { Paper, FormGroup, RadioGroup, List, Button} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-export default function SelectFromExisting({ communities, CommunityId, handleChosenCommunitySubmit, handleRadioSelection, handleFormChange }) {
+export default function SelectFromExisting({
+  communities,
+  CommunityId,
+  handleChosenCommunitySubmit,
+  handleRadioSelection,
+  handleFormChange
+}) {
+  
+  const useStyles = makeStyles( theme => ({
+    communityList: {
+      padding: '24px'
+    },
+    fixedSizeList: {
+      maxHeight: '12vh',
+      overflow: 'scroll'
+    },
+    button: {
+      display: 'inline-block',
+      verticalAlign: 'center',
+      margin: theme.spacing(1.5)
+    }
+  }));
+  const classes = useStyles();
+
   return (
-    <Col className="dropdown">
-      <Row>
-        <Col>
-          <h3>Choose A Community</h3>
-          <Form onSubmit={handleChosenCommunitySubmit}>
-            <Form.Group>
-              <h4>Community List</h4>
-              <ListGroup className="list-unstyled text-left" style={{ columns: 2 }} id="community-list">
-                {
-                  communities.map(community =>
-                    <CommunityRadio
-                      key={community.id}
-                      CommunityId={CommunityId}
-                      community={community}
-                      handleRadioSelection={handleRadioSelection}
-                    />
-                  )
-                }
-              </ListGroup>
-            </Form.Group>
-            <Button type="submit">Submit</Button>
-            <Button type="reset">Reset</Button>
-          </Form>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Button className="btn btn-success" onClick={handleFormChange}>
+    <Paper className={classes.communityList}>
+      <h3>Choose A Community</h3>
+      <form onSubmit={handleChosenCommunitySubmit}>
+        <FormGroup>
+          <List className={classes.fixedSizeList}
+            className="list-unstyled text-left"
+            id="community-list"
+          >
+            {communities.map(community => (
+              <RadioGroup key={community.id}>
+                <CommunityRadio
+                  CommunityId={CommunityId}
+                  community={community}
+                  handleRadioSelection={handleRadioSelection}
+                />
+              </RadioGroup>
+            ))}
+          </List>
+        </FormGroup>
+        <Button className={classes.button}
+          variant="contained" color="primary" 
+          type="submit">Submit</Button>
+          <Button className={classes.button}
+            variant="outlined" color="primary"
+            onClick={handleFormChange}
+          >
             Or Create Your Own!
           </Button>
-        </Col>
-      </Row>
-    </Col>
-  )
+      </form>
+    </Paper>
+  );
 }

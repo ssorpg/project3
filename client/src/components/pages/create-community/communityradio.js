@@ -1,11 +1,16 @@
 // COMPONENTS
 import React from 'react';
-import { Form, ListGroupItem } from 'react-bootstrap';
+import { FormControlLabel, Radio, ListItem}
+  from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
 
 export default function CommunityRadio({ CommunityId, community, handleRadioSelection }) {
+  const useStyles = makeStyles({});
+  const classes = useStyles();
   return (
-    <ListGroupItem className="radio" name="community" onClick={handleRadioSelection}>
-      <Form.Check type="radio"
+    <ListItem className="radio">
+      <FormControlLabel
+        control={<Radio />}
         name="community"
         id={community.id}
         value={community.id}
@@ -13,6 +18,6 @@ export default function CommunityRadio({ CommunityId, community, handleRadioSele
         onChange={handleRadioSelection}
         checked={CommunityId === community.id}
       />
-    </ListGroupItem>
+    </ListItem>
   )
 }
