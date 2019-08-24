@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { green, blue } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {
   Card, List, ListItem,
@@ -36,7 +35,8 @@ const useStyles = makeStyles(theme => ({
     transform: 'rotate(180deg)',
   },
   avatar: {
-    backgroundColor: green[500],
+    backgroundColor: '#3f51b5',
+    backgroundImage: 'url(https://i.ibb.co/6WVS2GB/tpn2.png)'
   },
 }));
 
