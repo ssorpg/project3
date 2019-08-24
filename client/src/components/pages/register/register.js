@@ -9,10 +9,10 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import Modal from '../../modal';
 
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
-import ax from 'axios';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -39,57 +39,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const handleSubmit = (event) => {
-  event.preventDefault();
-  const formData = event.target;
-  const inputs = formData.getElementsByTagName('input');
-  const postData = {};
-
-  for (let i = 0; i < inputs.length; i++) {
-    postData[inputs[i].name] = inputs[i].value;
-  }
-
-  postToDB(postData);
-}
-
-const postToDB = async (postData) => {
-  console.log(postData);
-  const {
-    name, email, password
-  } = postData;
-
-  try {
-    const register_results = await ax.post(
-      '/api/users/register',
-      {
-        name: name,
-        email: email,
-        password: password,
-      }
-    );
-
-    if (register_results.status === 200) {
-      await login(
-        postData.email,
-        postData.password
-      );
-    }
-  }
-  catch (error) {
-    console.log(error.response);
-    // this.setState({errorAlert: error.response.data });
-  }
-}
-
-const login = async (email, pass) => {
-  const res = await ax.post('/api/users', { email: email, password: pass });
-
-  if (res.status === 200) {
-    window.location = `/update-profile/`;
-  }
-}
-
-export default function SignUp() {
+export default function SignUp({ handleSubmit, errorAlert }) {
   const classes = useStyles();
 
   return (
@@ -157,6 +107,11 @@ export default function SignUp() {
               />
             </Grid> */}
           </Grid>
+          {
+            errorAlert ?
+              <Modal error={errorAlert} />
+              : ''
+          }
           <Button
             type="submit"
             fullWidth

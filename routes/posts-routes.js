@@ -30,7 +30,12 @@ module.exports = function (app) {
         const [user] = await community.getMembers({
             where: {
                 id: req.token.UserId
-            }
+            },
+            include: [{
+                model: db.Image,
+                as: 'profileImage',
+                limit: 1
+            }]
         });
 
         if (!user) {
@@ -61,6 +66,10 @@ module.exports = function (app) {
             await event.addPost(newPost);
         }
         else if (UserId) {
+            if (req.token.UserId === UserId) {
+                throw { status: 400, msg: 'You can\'t post on your own wall.' };
+            }
+
             const [getUser] = await community.getMembers({
                 where: {
                     id: UserId
@@ -103,9 +112,9 @@ module.exports = function (app) {
             throw { status: 401, msg: 'You didn\'t make that post.' };
         }
 
-        await post.destroy();
+        const delPost = await post.destroy();
 
-        res.status(200).send('Post deleted.');
+        res.status(200).json(delPost);
     }));
 
     app.put(route + '/:PostId', wrap(async function (req, res, next) { // edit post
@@ -199,11 +208,11 @@ module.exports = function (app) {
         }
 
         await post.addVoter(user);
-        await post.update({
+        const upPost = await post.update({
             score: newScore
         });
 
-        res.status(200).json(newScore);
+        res.status(200).json(upPost);
     }));
 
     // app.get(route + '/:PostId/comments', wrap(async function (req, res, next) { // get comments on post
@@ -279,9 +288,10 @@ module.exports = function (app) {
         console.log(req.body.message);
 
         await newComment.setAuthor(user);
+        newComment.dataValues.author = user;
+
         await post.addComment(newComment);
         
-        newComment.dataValues.author = user;
         res.status(200).json(newComment);
     }));
 

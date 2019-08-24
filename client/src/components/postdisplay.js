@@ -12,6 +12,10 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(3)
   },
 
+  noPostsHere: {
+    textAlign: 'center'
+  },
+
   footer: {
     backgroundColor: theme.palette.background.paper,
     marginTop: theme.spacing(8),
@@ -19,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function PostDisplay({ YourId, CommunityId, posts, vote, deletePost }) {
+export default function PostDisplay(props) {
   const classes = useStyles();
 
   return (
@@ -34,19 +38,15 @@ export default function PostDisplay({ YourId, CommunityId, posts, vote, deletePo
             className={classes.mainGrid}
           >
             {
-              posts ?
-                posts.map(post => (
+              props.posts ?
+                props.posts.map(post => (
                   <Grid item xs={12} md={4}>
-                    <Post
-                      YourId={YourId}
-                      CommunityId={CommunityId}
-                      post={post}
-                      vote={vote}
-                      deletePost={deletePost}
-                    />
+                    <Post key={post.id} {...props} post={post} />
                   </Grid>
                 ))
-                : ''
+                : props.cantPost ?
+                  ''
+                  : <h2 className={classes.noPostsHere}>No posts here.<br />You should make one!</h2>
             }
           </Grid>
         </main>

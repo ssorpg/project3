@@ -177,7 +177,14 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
                   </IconButton>
                   : ''
               }
-              <a href="/profile" className={classes.linkStyleReset}>
+              <a href=
+                {
+                  CommunityId ?
+                    `/community/${CommunityId}`
+                    : `/profile`
+                }
+                className={classes.linkStyleReset}
+              >
                 <Typography className={classes.title} variant="h6" noWrap>
                   TPN
                 </Typography>
