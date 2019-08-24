@@ -33,7 +33,7 @@ export default function Megatron(props) {
       backgroundBlendMode: 'lighten',
       backgroundSize: 'cover',
       // color: "#f3f3f3",
-      minHeight: '75vh',
+      minHeight: '70vh',
       overflow: 'hidden'
     },
     title: {

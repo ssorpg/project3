@@ -2,21 +2,36 @@
 import React, { Component } from 'react';
 import Imageupload from './imageupload';
 import { UpdateForm } from '../../form';
-import { Jumbotron, Row, Col } from 'react-bootstrap';
+import Megatron from '../../megatron';
+import { Grid, Container, Paper, Divider } from '@material-ui/core';
 
 export default class UpdateProfile extends Component {
   render() {
     return (
-      <Row className="justify-content-center">
-        <Col className="col-6">
-          <Jumbotron>
-            <h3>Update Profile</h3>
-            <UpdateForm />
-          </Jumbotron>
-          <h3>Profile Photo</h3>
-          <Imageupload />
-        </Col>
-      </Row>
+      <Container maxWidth="md">
+        <Paper />
+        <Grid container maxWidth="md">
+          <Megatron
+            heading="Profile Settings"
+            subheading="Edit bio and profile picture"
+            image="https://source.unsplash.com/random"
+            imagePosition="77% 5%"
+            megaHeight='55vh'
+            megaMaxHeight=''
+            />
+          <Grid item className="col-6">
+            <Grid item>
+              <h3>Update Profile</h3>
+              <UpdateForm />
+            </Grid>
+            <Divider style={{marginTop: '30px'}}/>
+            <Grid item style={{marginTop:'20px'}}>
+              <h3>Update Photo</h3>
+              <Imageupload />
+            </Grid>
+          </Grid>
+        </Grid>
+      </Container>
     )
   }
 };

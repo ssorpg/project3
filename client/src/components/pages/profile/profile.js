@@ -4,6 +4,8 @@ import Card from '../../card.js';
 import ProfileInfo from '../../profileinfo';
 import PostDisplay from '../../postdisplay';
 import { Paper, Container } from '@material-ui/core';
+import Megatron from '../../megatron';
+
 // FUNCTIONS
 import ax from 'axios';
 import CheckError from '../../../utils/checkerror';
@@ -93,10 +95,16 @@ export default class Profile extends Component {
   render() {
     return (
       <Container maxWidth="lg">
+        <Megatron
+          heading="Profile"
+          image="https://source.unsplash.com/random"
+          imagePosition="50%"
+          megaHeight='20vh'
+        />
         <Paper >
-          {/* <Card className="text-dark text-left col-12 card" style={{ border: 'none' }}> */}
           {
             this.state.userData ?
+
               <ProfileInfo user={this.state.userData.data} />
               : ''
           }
