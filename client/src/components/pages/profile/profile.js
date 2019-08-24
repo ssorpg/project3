@@ -4,7 +4,6 @@ import Card from '../../card.js';
 import ProfileInfo from '../../profileinfo';
 import PostDisplay from '../../postdisplay';
 import { Paper, Container } from '@material-ui/core';
-
 // FUNCTIONS
 import ax from 'axios';
 import CheckError from '../../../utils/checkerror';

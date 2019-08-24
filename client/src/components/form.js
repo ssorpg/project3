@@ -19,6 +19,10 @@ export class LoginForm extends Component {
     }
   }
 
+  componentDidMount() {
+    this.emailInput.focus();
+  }
+
   handleSubmit = event => {
     event.preventDefault();
     const formData = event.target;
@@ -59,7 +63,14 @@ export class LoginForm extends Component {
         <Form onSubmit={this.handleSubmit} >
           <Form.Group controlId="formGroupEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" name="email" placeholder="Enter email" {...this.props} />
+            <Form.Control
+              type="email"
+              name="email"
+              placeholder="Enter email"
+              ref={(input) => {
+                this.emailInput = input
+              }}
+              {...this.props} />
           </Form.Group>
           <Form.Group controlId="formGroupPassword">
             <Form.Label>Password</Form.Label>
@@ -252,56 +263,6 @@ export class UpdateForm extends Component {
           <LoginButton />
         </Form>
       </div>
-    )
-  }
-}
-
-//SEARCH FORM
-//TODO send to search results page after they get response
-//TODO if no response stay on page and tell them to try again
-export class SearchForm extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      searchQuery: ''
-    }
-  }
-  //TODO move search input to be hidden if not logged in
-
-  handleInputChange = event => {
-    this.setState({
-      searchQuery: event.target.value
-    });
-  }
-  //todo remove init data grab and let users troll entire db
-  //todo maybe add paging to results
-  handleSearchSubmit = event => {
-    event.preventDefault();
-    window.location = `/search?q=${this.state.searchQuery}`;
-  }
-
-  render() {
-    return (
-      <Form
-        inline
-        onSubmit={this.handleSearchSubmit}
-        style={{ position: 'relative' }}
-      >
-        <FormControl
-          type="text"
-          placeholder="Search"
-          className="mr-sm-2"
-          id="search-input"
-          onChange={this.handleInputChange}
-        />
-        <Button
-          variant="outline-success"
-          type="Submit"
-        >
-          Search
-        </Button>
-      </Form>
     )
   }
 }

@@ -1,15 +1,15 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { red } from '@material-ui/core/colors';
+import { green } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ProfilePhoto from './profilephoto';
 import {
   Card, List, ListItem,
   CardHeader, CardContent,
   CardActions, Collapse,
-  Avatar, IconButton, Typography
+  Avatar, IconButton, Typography,
+  Grid
 } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     transform: 'rotate(180deg)',
   },
   avatar: {
-    backgroundColor: red[500],
+    backgroundColor: green[500],
   },
 }));
 
@@ -55,15 +55,12 @@ export default function ProfileInfo({ userData }) {
                 <Avatar aria-label="friend" className={classes.avatar}>
                 </Avatar>
               }
-              action={
-                <IconButton aria-label="settings">
-                  <MoreVertIcon />
-                </IconButton>
-              }
-              title={userData.data.name}
-              subheader={userData.data.location}
+              title={<h3>{userData.data.name}</h3>}
+              subheader={<i>{userData.data.location}</i>}
             />
-            <ProfilePhoto id={userData.data.id} />
+            <Grid container spacing={3}>
+              <ProfilePhoto id={userData.data.id} />
+            </Grid>
             <CardActions disableSpacing>
               <IconButton
                 className={clsx(classes.expand, {
@@ -94,7 +91,7 @@ export default function ProfileInfo({ userData }) {
                   <List>
                     {
                       userData.data.communities.map(community => (
-                        <ListItem>
+                        <ListItem >
                           <a
                             key={community.id}
                             href={`/community/${community.id}`}
@@ -111,6 +108,7 @@ export default function ProfileInfo({ userData }) {
           </Card>
           : ''
       }
+
     </>
   );
 }
