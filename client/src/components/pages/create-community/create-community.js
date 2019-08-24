@@ -1,7 +1,6 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import { Row } from 'react-bootstrap';
-import { Container, Paper, Typography} from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import SelectFromExisting from './selectfromexisting';
 import NewCommunity from './newcommunity';
 import Megatron from '../../megatron';
@@ -40,7 +39,7 @@ export default class CreateCommunity extends Component {
   handleRadioSelection = event => {
     this.setState({
       CommunityId: parseInt(event.target.value)
-    })
+    });
   }
 
   handleChosenCommunitySubmit = async event => {
@@ -96,15 +95,15 @@ export default class CreateCommunity extends Component {
           image="https://picsum.photos/id/469/1000/1100"
           imagePosition="77% 5%"
         />
-        <Paper style={{padding: '24px'}}>
-          <Row style={{ position: 'relative' }}>
-          {
-            this.state.errorAlert ?
-              <Modal error={this.state.errorAlert} />
-              : ''
-          }
-          {
-            this.state.selectFromExisting ?
+
+        {
+          this.state.errorAlert ?
+            <Modal error={this.state.errorAlert} />
+            : ''
+        }
+
+        {
+          this.state.selectFromExisting ?
               <SelectFromExisting
                 communities={this.state.communities}
                 CommunityId={this.state.CommunityId}
@@ -112,14 +111,13 @@ export default class CreateCommunity extends Component {
                 handleRadioSelection={this.handleRadioSelection}
                 handleFormChange={this.handleFormChange}
               />
-              : <NewCommunity
+            :
+              <NewCommunity
                 handleCreateCommunitySubmit={this.handleCreateCommunitySubmit}
                 toggleButtonClassName={this.toggleButtonClassName}
                 handleFormChange={this.handleFormChange}
               />
-          }
-        </Row>
-        </Paper>
+        }
       </Container>
     )
   }
