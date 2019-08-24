@@ -15,7 +15,7 @@ import GetProfileImage from '../utils/getprofileimage';
 
 const useStyles = makeStyles({
   media: {
-    paddingTop: '56.25%' // 16:9
+    paddingTop: '100%'
   },
 
   score: {
@@ -35,6 +35,7 @@ export default function MediaCard({ YourId, CommunityId, post, vote, deletePost 
 
     window.location = goTo;
   }
+  // console.log(post.author);
 
   return (
     <Card>

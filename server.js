@@ -62,7 +62,7 @@ const WebSocket = require('ws');
 
 //creating the constant connection between server and client
 db.sequelize.sync().then(function () {
-    // require('./data/seeds')(db); // run seeds
+    require('./data/seeds')(db); // run seeds
 
     const server = app.listen(PORT, function () {
         console.log('App listening on PORT ' + PORT);
