@@ -16,6 +16,8 @@ import CheckError from '../../../utils/checkerror';
 import ax from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 
+import './styles.css';
+
 const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1
@@ -157,7 +159,7 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
     <div className={classes.grow}>
       {
         isAuth ?
-          <AppBar position="static">
+          <AppBar position="static" id="site-nav">
             <Toolbar>
               {
                 CommunityId ?
