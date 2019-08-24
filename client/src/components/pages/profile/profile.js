@@ -95,17 +95,6 @@ export default class Profile extends Component {
       <Container maxWidth="lg">
         <Paper >
           {/* <Card className="text-dark text-left col-12 card" style={{ border: 'none' }}> */}
-<<<<<<< HEAD
-          <ProfileInfo
-            userData={this.state.userData}
-          />
-          {
-            this.state.posts ?
-              <PostDisplay
-                posts={this.state.posts}
-                cantPost={true}
-              />
-=======
           {
             this.state.userData ?
               <ProfileInfo user={this.state.userData.data} />
@@ -114,7 +103,6 @@ export default class Profile extends Component {
           {
             this.state.posts ?
               <PostDisplay {...this.props} posts={this.state.posts} cantPost={true} vote={this.vote} deletePost={this.deletePost} />
->>>>>>> 9348fabbe3b8b8be5c06b5a91dca7838732da046
               : ''
           }
           {/* </Card> */}
