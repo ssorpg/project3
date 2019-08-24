@@ -12,6 +12,7 @@ export default class OtherPhoto extends Component {
   componentDidMount() {
     // console.log('IMG ID: ', this.props.id);
     this.findImage();
+    console.log(this.props.id);
   };
 
   // fix later to attach userid to image incoming from props??
@@ -20,7 +21,7 @@ export default class OtherPhoto extends Component {
 
     axios.get(`/api/${userid}/images`)
       .then(response => {
-        const filename = response.data[0].filename;
+        const filename = response.data.filename;
         this.setState({ filename });
       })
       .catch(error => {
@@ -36,7 +37,7 @@ export default class OtherPhoto extends Component {
             `/images/${this.state.filename}`
             : 'https://cdn2.iconfinder.com/data/icons/ui-1/60/05-512.png'
         }
-        style={{ minHeight: '150px', width: '100%', minWidth: '150px', padding: '15px' }}
+        style={{ minHeight: '150px', minWidth: '150px', padding: '15px' }}
         alt="profile"
       />
     )

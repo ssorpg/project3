@@ -1,6 +1,7 @@
 #site-nav .user-state-button {
   margin: 10px;
 }
+
 #site-nav .user-state-button img {
   fill: orange;
 }
@@ -13,49 +14,56 @@
   transform: translate(-50%, 50%);
   z-index: 1;
 }
-#login > div {
+
+#login>div {
   background-color: #f8f9fa;
   padding: 25px;
   border-radius: 10px;
   border: 1px dotted #888;
   box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.2);
 }
+
 #friends .card {
   position: relative;
   padding: 0;
   margin-bottom: 15px;
 }
+
 #friends .card .card-nav {
   position: absolute;
 }
+
 #friends .card .card-nav {
   min-width: 100%;
 }
+
 #friends .card .card-nav button:before {
   max-width: 15px;
   max-height: 15px;
 }
+
 #friends .card .card-nav button.favorite {
   float: left;
 }
+
 #friends .card .card-nav button.select {
   float: right;
 }
+
 #friends .card .card-nav button.favorite:before {
   content: url('../images/icons/svg/star-empty.svg');
 }
+
 #friends .card .card-nav button.select:before {
   content: url('../images/icons/svg/check-full.svg');
 }
+
 #friends .card .card-nav button.favorited:before {
   content: url('../images/icons/svg/star-empty.svg');
 }
+
 #friends .card .card-nav button.selected:before {
   content: url('../images/icons/svg/check-empty.svg');
-}
-
-#create-community-form {
-  
 }
 
 #popover {
@@ -70,10 +78,12 @@
 .expander {
   transition: all .5s ease;
 }
+
 .expander.closed {
   pointer-events: none;
   opacity: 0;
 }
+
 .expander.open {
   pointer-events: all;
   opacity: 1;
@@ -87,10 +97,12 @@
   height: 25px;
   padding: 0;
 }
+
 .icon img {
   max-width: 100%;
   height: auto;
 }
+
 .icon.closed {
   position: absolute;
   top: 5px;
@@ -100,4 +112,10 @@
 .well {
   border-radius: 15px;
   border: 1px solid #ddd;
+}
+
+@media screen and (max-width: 400px) {
+  #hide {
+    display: none;
+  }
 }

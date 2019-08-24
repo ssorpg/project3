@@ -172,9 +172,6 @@ module.exports = function (app) {
             include: [{
                 model: db.Image,
                 as: 'profileImage',
-                where: {
-                    id: req.token.UserId
-                },
                 limit: 1
             }]
         });
@@ -392,9 +389,6 @@ module.exports = function (app) {
             include: [{
                 model: db.Image,
                 as: 'profileImage',
-                where: {
-                    id: req.token.UserId
-                },
                 limit: 1
             }]
         });

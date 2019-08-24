@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   heroContent: {
-    padding: theme.spacing(4, 0, 6)
+    padding: theme.spacing(0, 0, 2)
   }
 }));
 

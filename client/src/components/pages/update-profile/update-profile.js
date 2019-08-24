@@ -1,6 +1,6 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import Imageupload from '../../imageupload';
+import Imageupload from './imageupload';
 import { UpdateForm } from '../../form';
 import { Jumbotron, Row, Col } from 'react-bootstrap';
 
