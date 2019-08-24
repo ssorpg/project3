@@ -95,6 +95,8 @@ export default class CreateCommunity extends Component {
             your own!"
           image="https://picsum.photos/id/469/1000/1100"
           imagePosition="77% 5%"
+          megaHeight="65vh"
+          megaMaxHeight="380px"
         />
         <Paper style={{padding: '24px'}}>
           <Row style={{ position: 'relative' }}>
