@@ -71,6 +71,11 @@ export default class CreateCommunity extends Component {
     submit.style.visibility = 'visible';
   }
 
+  handleFormReset = event => {
+    console.log(event.target);
+    event.target.reset();
+  }
+
   createCommunity = async community => {
     this.setState({ errorAlert: undefined });
 
@@ -110,6 +115,7 @@ export default class CreateCommunity extends Component {
                 handleChosenCommunitySubmit={this.handleChosenCommunitySubmit}
                 handleRadioSelection={this.handleRadioSelection}
                 handleFormChange={this.handleFormChange}
+                handleFormReset={this.handleFormReset}
               />
             :
               <NewCommunity
