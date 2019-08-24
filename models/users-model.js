@@ -39,7 +39,7 @@ module.exports = function (sequelize, DataTypes) {
             }
         },
         bio: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: true,
             defaultValue: 'This person hasn\'t set their bio yet.'
         },

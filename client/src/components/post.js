@@ -15,13 +15,7 @@ import GetProfileImage from '../utils/getprofileimage';
 
 const useStyles = makeStyles({
   media: {
-    paddingTop: '56.25%' // 16:9
-  },
-
-  score: {
-    position: 'absolute',
-    bottom: '10px',
-    right: '10px'
+    paddingTop: '100%' // 16:9
   }
 });
 
@@ -35,6 +29,7 @@ export default function MediaCard({ YourId, CommunityId, post, vote, deletePost 
 
     window.location = goTo;
   }
+  // console.log(post.author);
 
   return (
     <Card>

@@ -10,10 +10,37 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import Modal from '../../modal';
-
+import { Card } from '@material-ui/core';
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
+import ax from 'axios';
+
+const handleSubmit = event => {
+  event.preventDefault();
+  const formData = event.target;
+  const inputs = formData.getElementsByTagName('input');
+  const postData = {};
+
+  for (let i = 0; i < inputs.length; i++) {
+    postData[inputs[i].name] = inputs[i].value;
+  }
+  console.log(postData);
+  login(postData);
+};
+
+const login = async postData => {
+  try {
+    const res = await ax.post('/api/users', postData);
+    console.log(res);
+    if (res.status === 200) {
+      window.location = `/profile`;
+    }
+
+  } catch (error) {
+    console.log(error.response);
+    // this.setState({ errorAlert: error.response.data });
+  }
+}
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,10 +48,28 @@ const useStyles = makeStyles(theme => ({
   },
 
   image: {
+    // background: 'linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url(https://source.unsplash.com/random)',
     backgroundImage: 'url(https://source.unsplash.com/random)',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    backgroundPosition: 'center'
+    backgroundPosition: 'center',
+  },
+  logo: {
+    margin: 'auto',
+    marginTop: '100px',
+    width: '60%',
+    alignItems: 'center',
+    background: 'rgba(0,0,0,0.8)',
+    textAlign: 'center',
+
+  },
+  name: {
+    fontSize: '30px',
+    color: '#DBDADA'
+  },
+  slogan: {
+    fontSize: '16px',
+    color: '#DBDADA'
   },
 
   paper: {
@@ -56,12 +101,20 @@ export default function Home({ handleSubmit, errorAlert }) {
 
   return (
     <Grid container component="main" className={classes.root}>
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
+      <CssBaseline />
+      <Grid item xs={false} sm={4} md={7} className={classes.image} >
+        <Grid item xs={false} id="hide" className={classes.logo}>
+          <img src="https://i.ibb.co/6WVS2GB/tpn2.png" />
+          <span className={classes.name} >The Private Network</span>
+          <p className={classes.slogan} >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam eum cupiditate quaerat laudantium ullam aut rem deleniti obcaecati quas voluptates dolores iure modi, aliquam, illo quae. Hic dicta corrupti eos.</p>
+        </Grid>
+      </Grid>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
+          {/* <Avatar className={classes.avatar}> */}
+            {/* <LockOutlinedIcon /> */}
+            <img src="https://i.ibb.co/6WVS2GB/tpn2.png" xs={false}/>
+          {/* </Avatar> */}
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
