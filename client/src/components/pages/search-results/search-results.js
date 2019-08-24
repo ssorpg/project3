@@ -6,26 +6,24 @@ import {
   Avatar,
   Container,
   Paper,
-  Typography,
   Grid,
   List,
   ListItem,
   ListItemAvatar,
-  ListItemTest,
   Link,
-  Box
+  SvgIcon
 } from '@material-ui/core';
 
-import ImageIcon from '@material-ui/icons/Image';
 // FUNCTIONS
 import ax from 'axios';
 import CheckError from '../../../utils/checkerror';
-
+import './styles.css';
 
 class SearchResults extends Component {
   static propTypes = {
     location: PropTypes.object.isRequired
   }
+
   constructor(props) {
     super(props);
 
@@ -80,9 +78,12 @@ class SearchResults extends Component {
                                   marginBottom: '48px'
                                 }}
                               >
+                              {console.log(item)}
                                 <ListItemAvatar>
                                   <Avatar>
-                                    <ImageIcon />
+                                    <SvgIcon>
+                                    <path d="M0 0h24v24H0z" fill="none"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM8 17.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM9.5 8c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5S9.5 9.38 9.5 8zm6.5 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                    </SvgIcon>
                                   </Avatar>
                                 </ListItemAvatar>
                                 <header>
@@ -92,10 +93,10 @@ class SearchResults extends Component {
                                     </Link>
                                   </h4>
                                 </header>
-
-                                <Grid container className={this.state.root} spacing={2} style={{padding: '6px'}}>
+                                
                                   {
-                                    item.members.length ?
+                                    item.members.length > 0 ?
+                                    <Grid container className={this.state.root} spacing={2} style={{padding: '6px'}}>
                                       <Grid item xs={12}>
                                         <h6>Community Members:</h6>
                                         <ul className="list-unstyled members">
@@ -112,9 +113,10 @@ class SearchResults extends Component {
                                           }
                                         </ul>
                                       </Grid>
-                                      : ''
+                                      </Grid>
+                                    :
+                                      ''
                                   }
-                                </Grid>
 
                               </ListItem>
                             ))
