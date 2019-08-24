@@ -2,7 +2,6 @@ const db = require('../models');
 const route = '/api/search';
 
 module.exports = function (app) {
-  //todo make a post to receive search terms
   app.get(`${route}`, async function (
     { query: { q } },
     res
@@ -51,7 +50,6 @@ module.exports = function (app) {
             }
           ]
         });
-
       res.json(data);
     }
     catch (error) {
