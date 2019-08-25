@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     right: '0',
     width: '100%',
     alignItems: 'center',
-    background: 'rgba(124,124,124,0.5)',
+    // background: 'rgba(124,124,124,0.5)',
     background: 'linear-gradient(180deg, rgba(255,255,255,1) 70%, rgba(255,255,255,0) 100%)',
     textAlign: 'center',
     padding: '24px 24px 72px',
@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   },
   slogan: {
     fontSize: '16px',
-    color: '#DBDADA',
+    // color: '#DBDADA',
     color: '#3d3d3d'
   },
 
@@ -75,7 +75,7 @@ export default function Home({ handleSubmit, errorAlert }) {
     <Grid container component="main" className={classes.root}>
       <Grid item xs={false} sm={4} md={7} className={classes.image} >
         <Grid item xs={false} id="hide" className={classes.logo}>
-          <img src="https://i.ibb.co/6WVS2GB/tpn2.png" />
+          <img src="https://i.ibb.co/6WVS2GB/tpn2.png" alt="" />
           <span className={classes.name} >The Private Network</span>
           <p className={classes.slogan} >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam eum cupiditate quaerat laudantium ullam aut rem deleniti obcaecati quas voluptates dolores iure modi, aliquam, illo quae. Hic dicta corrupti eos.</p>
         </Grid>
@@ -83,8 +83,8 @@ export default function Home({ handleSubmit, errorAlert }) {
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           {/* <Avatar className={classes.avatar}> */}
-            {/* <LockOutlinedIcon /> */}
-            <img src="https://i.ibb.co/6WVS2GB/tpn2.png" xs={false}/>
+          {/* <LockOutlinedIcon /> */}
+          <img src="https://i.ibb.co/6WVS2GB/tpn2.png" xs={false} alt="" />
           {/* </Avatar> */}
           <Typography component="h1" variant="h5">
             Sign in
@@ -116,11 +116,6 @@ export default function Home({ handleSubmit, errorAlert }) {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             /> */}
-            {
-              errorAlert ?
-                <Modal error={errorAlert} />
-                : ''
-            }
             <Button
               type="submit"
               fullWidth
@@ -130,6 +125,11 @@ export default function Home({ handleSubmit, errorAlert }) {
             >
               Sign In
             </Button>
+            {
+              errorAlert ?
+                <Modal error={errorAlert} />
+                : ''
+            }
             <Grid container>
               <Grid item xs>
                 {/* <Link href="#" variant="body2">

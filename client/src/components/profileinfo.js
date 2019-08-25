@@ -16,24 +16,29 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 'auto',
     marginTop: '20px'
   },
+  
   card2: {
     maxWidth: '500px',
-    marginTop: '20px',
+    marginTop: '20px'
   },
+  
   media: {
     height: 0,
-    paddingTop: '100%', // 16:9
+    paddingTop: '100%'
   },
+
   expand: {
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
     transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
+      duration: theme.transitions.duration.shortest
+    })
   },
+
   expandOpen: {
-    transform: 'rotate(180deg)',
+    transform: 'rotate(180deg)'
   },
+
   avatar: {
     backgroundColor: '#3f51b5',
     backgroundImage: 'url(https://i.ibb.co/6WVS2GB/tpn2.png)'
@@ -100,14 +105,11 @@ export default function ProfileInfo({ user }) {
                     {
                       user.communities.map(community => (
                         <>
-                          <ListItem button component="a">
-                            <a
-                              key={community.id}
-                              href={`/community/${community.id}`}
-                            >
+                          <a key={community.id} href={`/community/${community.id}`} >
+                            <ListItem button component="a">
                               {community.name}
-                            </a>
-                          </ListItem>
+                            </ListItem>
+                          </a>
                           <Divider />
                         </>
                       ))
@@ -119,7 +121,6 @@ export default function ProfileInfo({ user }) {
           </Card>
           : ''
       }
-
     </>
   );
 }

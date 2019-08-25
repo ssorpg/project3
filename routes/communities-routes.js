@@ -41,7 +41,7 @@ module.exports = function (app) {
             attributes: ['id', 'name'],
             where: {
                 id: {
-                    [db.op.ne]: commIds
+                    [db.op.notIn]: commIds
                 }
             },
             limit: 20

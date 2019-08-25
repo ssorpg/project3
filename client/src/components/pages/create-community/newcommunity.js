@@ -45,10 +45,9 @@ export default function NewCommunity({ handleCreateCommunitySubmit, toggleButton
             Submit
           </Button>
           <Button
-            className={classes.button}
+            className={classes.button + toggleButtonClassName}
             variant="outlined"
             color="primary"
-            className={toggleButtonClassName}
             onClick={handleFormChange}
             type="button"
           >

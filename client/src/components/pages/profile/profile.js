@@ -1,10 +1,10 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import Card from '../../card.js';
 import ProfileInfo from '../../profileinfo';
 import PostDisplay from '../../postdisplay';
-import { Paper, Container } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import Megatron from '../../megatron';
+import Modal from '../../modal';
 
 // FUNCTIONS
 import ax from 'axios';
@@ -40,6 +40,8 @@ export default class Profile extends Component {
 
   vote = async event => {
     event.preventDefault();
+    this.setState({ errorAlert: undefined });
+
     const postInfo = event.target.dataset.id ?
       event.target
       : event.target.parentNode;
@@ -66,6 +68,8 @@ export default class Profile extends Component {
 
   deletePost = async event => {
     event.preventDefault();
+    this.setState({ errorAlert: undefined });
+
     const postInfo = event.target.dataset.id ?
       event.target
       : event.target.parentNode;
@@ -102,20 +106,23 @@ export default class Profile extends Component {
           megaHeight='20vh'
           megaMaxHeight='320px!important'
         />
-        <Paper >
-          {
-            this.state.userData ?
-
-              <ProfileInfo user={this.state.userData.data} />
-              : ''
-          }
-          {
-            this.state.posts ?
-              <PostDisplay {...this.props} posts={this.state.posts} cantPost={true} vote={this.vote} deletePost={this.deletePost} />
-              : ''
-          }
-          {/* </Card> */}
-        </Paper>
+        {/* <Paper > */} {/* makes the footer margin bug out but can always add back if needed */}
+        {
+          this.state.userData ?
+            <ProfileInfo user={this.state.userData.data} />
+            : ''
+        }
+        {
+          this.state.errorAlert ?
+            <Modal error={this.state.errorAlert} />
+            : ''
+        }
+        {
+          this.state.posts ?
+            <PostDisplay {...this.props} posts={this.state.posts} cantPost={true} vote={this.vote} deletePost={this.deletePost} />
+            : ''
+        }
+        {/* </Paper> */}
       </Container>
     )
   }
