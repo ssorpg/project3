@@ -76,6 +76,7 @@ export default class ImageUpload extends Component {
           type="file"
           name="selectedFile"
           onChange={this.onChange}
+          required
         />
         <br /><br />
         <Button variant="contained" color="primary" type="submit" >
