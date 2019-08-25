@@ -14,7 +14,7 @@ export default class CommentOnPosts extends Component {
     this.state = {
       comments: props.post.comments ?
         props.post.comments
-        : [],
+        : undefined,
       errorAlert: undefined
     }
   }
