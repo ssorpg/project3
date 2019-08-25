@@ -24,7 +24,7 @@ export default function Copyright() {
       <Container maxWidth="lg">
         <Typography variant="body2" color="textSecondary" align="center">
           {'Copyright © '}
-          <Link color="inherit" href="https://theprivatenetwork.com/">
+          <Link color="inherit" href={window.location.origin}>
             The Private Network
           </Link>{' '}
           {new Date().getFullYear()}

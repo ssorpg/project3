@@ -42,7 +42,7 @@ export default class TPN extends Component {
   render() {
     return (
       <>
-        <div style={{ minHeight: 'calc( 100vh - 120px )' }}>
+        <div style={{ minHeight: 'calc( 100vh - 148px )' }}>
           <CssBaseline />
           <Navbar isAuth={this.state.isAuth} CommunityId={this.state.CommunityId} />
           <Router>
