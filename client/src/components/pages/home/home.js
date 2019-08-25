@@ -15,30 +15,33 @@ const useStyles = makeStyles(theme => ({
   root: {
     height: '100vh'
   },
-
   image: {
     // background: 'linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url(https://source.unsplash.com/random)',
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage: 'url(https://picsum.photos/id/177/2515/1830)',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
   logo: {
-    margin: 'auto',
-    marginTop: '100px',
-    width: '60%',
+    postion: 'absolute',
+    top: '0',
+    left: '0',
+    right: '0',
+    width: '100%',
     alignItems: 'center',
-    background: 'rgba(0,0,0,0.8)',
+    background: 'rgba(124,124,124,0.5)',
+    background: 'linear-gradient(180deg, rgba(255,255,255,1) 70%, rgba(255,255,255,0) 100%)',
     textAlign: 'center',
-
+    padding: '24px 24px 72px',
   },
   name: {
     fontSize: '30px',
-    color: '#DBDADA'
+    color: '#1d1d1d'
   },
   slogan: {
     fontSize: '16px',
-    color: '#DBDADA'
+    color: '#DBDADA',
+    color: '#3d3d3d'
   },
 
   paper: {
