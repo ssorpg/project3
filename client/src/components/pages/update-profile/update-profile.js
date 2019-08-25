@@ -1,7 +1,7 @@
 // COMPONENTS
 import React, { Component } from 'react';
 import Imageupload from './imageupload';
-import { UpdateForm } from '../../form';
+import { UpdateForm } from './updateform';
 import Megatron from '../../megatron';
 import { Grid, Container, Paper, Divider } from '@material-ui/core';
 
