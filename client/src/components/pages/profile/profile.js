@@ -49,18 +49,9 @@ export default class Profile extends Component {
     try {
       const res = await ax.delete(`/api/communities/${commInfo.dataset.id}`);
 
-      this.state.userData.data.communities.forEach((comm, id) => {
-        if (comm.id === res.data.id) {
-          const newUserData = this.state.userData;
-          newUserData.data.communities.splice(id, 1);
-
-          console.log(newUserData);
-
-          this.setState({
-            userData: newUserData
-          });
-        }
-      });
+      const newUserData = this.state.userData;
+      newUserData.data.communities = newUserData.data.communities.filter(comm => { return comm.id !== res.data.id; });
+      this.setState({ userData: newUserData });
     }
     catch (error) {
       console.log(error.response);
@@ -79,18 +70,9 @@ export default class Profile extends Component {
     try {
       const res = await ax.delete(`/api/communities/${commInfo.dataset.id}/users`);
 
-      this.state.userData.data.communities.forEach((comm, id) => {
-        if (comm.id === res.data.id) {
-          const newUserData = this.state.userData;
-          newUserData.data.communities.splice(id, 1);
-
-          console.log(newUserData);
-
-          this.setState({
-            userData: newUserData
-          });
-        }
-      });
+      const newUserData = this.state.userData;
+      newUserData.data.communities = newUserData.data.communities.filter(comm => { return comm.id !== res.data.id; });
+      this.setState({ userData: newUserData });
     }
     catch (error) {
       console.log(error.response);
@@ -109,16 +91,13 @@ export default class Profile extends Component {
     try {
       const res = await ax.put(`/api/posts/${postInfo.dataset.id}/${postInfo.dataset.vote}`);
 
-      this.state.posts.forEach((post, id) => {
+      const newPostsScore = this.state.posts.map(post => {
         if (post.id === res.data.id) {
-          const newPostsScore = this.state.posts;
-          newPostsScore[id].score = res.data.score;
-
-          this.setState({
-            posts: newPostsScore
-          });
+          post.score = res.data.score;
         }
+        return post;
       });
+      this.setState({ posts: newPostsScore });
     }
     catch (error) {
       console.log(error.response);
@@ -137,18 +116,8 @@ export default class Profile extends Component {
     try {
       const res = await ax.delete(`/api/posts/${postInfo.dataset.id}`);
 
-      this.state.posts.forEach((post, id) => {
-        if (post.id === res.data.id) {
-          const newRemovedPosts = this.state.posts;
-          newRemovedPosts.splice(id, 1);
-
-          console.log(newRemovedPosts);
-
-          this.setState({
-            posts: newRemovedPosts
-          });
-        }
-      });
+      const newRemovedPosts = this.state.posts.filter(post => { return post.id !== res.data.id; });
+      this.setState({ posts: newRemovedPosts });
     }
     catch (error) {
       console.log(error.response);
