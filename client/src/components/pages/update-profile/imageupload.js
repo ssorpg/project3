@@ -6,12 +6,6 @@ import Button from '@material-ui/core/Button';
 export default function ImageUpload({ onSubmit, onChange }) {
   return (
     <form onSubmit={onSubmit}>
-      {/* <input
-          type="text"
-          name="description"
-          value={description}
-          onChange={onChange}
-        /> */}
       <input
         style={{ marginLeft: '4px', padding: '2px' }}
         type="file"

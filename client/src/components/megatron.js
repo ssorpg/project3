@@ -50,7 +50,7 @@ export default function Megatron(props) {
   const classes = useStyles();
   
   return (
-    <Paper className={classes.megatron}>
+    <Paper className={classes.megatron} id='banner'>
       <Typography className={classes.title}
         variant="h3" gutterBottom>
           {titles.heading.text} 
