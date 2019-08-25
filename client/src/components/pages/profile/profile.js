@@ -37,6 +37,66 @@ export default class Profile extends Component {
       CheckError(error);
     }
   }
+  
+  deleteCommunity = async event => {
+    event.preventDefault();
+    this.setState({ errorAlert: undefined });
+
+    const commInfo = event.target.dataset.id ?
+      event.target
+      : event.target.parentNode;
+
+    try {
+      const res = await ax.delete(`/api/communities/${commInfo.dataset.id}`);
+
+      this.state.userData.data.communities.forEach((comm, id) => {
+        if (comm.id === res.data.id) {
+          const newUserData = this.state.userData;
+          newUserData.data.communities.splice(id, 1);
+
+          console.log(newUserData);
+
+          this.setState({
+            userData: newUserData
+          });
+        }
+      });
+    }
+    catch (error) {
+      console.log(error.response);
+      this.setState({ errorAlert: error.response.data });
+    }
+  }
+
+  leaveCommunity = async event => {
+    event.preventDefault();
+    this.setState({ errorAlert: undefined });
+
+    const commInfo = event.target.dataset.id ?
+      event.target
+      : event.target.parentNode;
+
+    try {
+      const res = await ax.delete(`/api/communities/${commInfo.dataset.id}/users`);
+
+      this.state.userData.data.communities.forEach((comm, id) => {
+        if (comm.id === res.data.id) {
+          const newUserData = this.state.userData;
+          newUserData.data.communities.splice(id, 1);
+
+          console.log(newUserData);
+
+          this.setState({
+            userData: newUserData
+          });
+        }
+      });
+    }
+    catch (error) {
+      console.log(error.response);
+      this.setState({ errorAlert: error.response.data });
+    }
+  }
 
   vote = async event => {
     event.preventDefault();
@@ -109,7 +169,7 @@ export default class Profile extends Component {
         {/* <Paper > */} {/* makes the footer margin bug out but can always add back if needed */}
         {
           this.state.userData ?
-            <ProfileInfo user={this.state.userData.data} />
+            <ProfileInfo user={this.state.userData.data} deleteCommunity={this.deleteCommunity} leaveCommunity={this.leaveCommunity} />
             : ''
         }
         {

@@ -9,6 +9,7 @@ import {
   Avatar, IconButton, Typography,
   CardMedia, Divider
 } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import GetProfileImage from '../utils/getprofileimage';
 
 const useStyles = makeStyles(theme => ({
@@ -16,12 +17,12 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 'auto',
     marginTop: '20px'
   },
-  
+
   card2: {
     maxWidth: '500px',
     marginTop: '20px'
   },
-  
+
   media: {
     height: 0,
     paddingTop: '100%'
@@ -39,13 +40,22 @@ const useStyles = makeStyles(theme => ({
     transform: 'rotate(180deg)'
   },
 
+  spaceBetween: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+
+  fillSpace: {
+    flex: 1
+  },
+
   avatar: {
     backgroundColor: '#3f51b5',
     backgroundImage: 'url(https://i.ibb.co/6WVS2GB/tpn2.png)'
   },
 }));
 
-export default function ProfileInfo({ user }) {
+export default function ProfileInfo({ user, deleteCommunity, leaveCommunity }) {
   console.log(user);
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(true);
@@ -105,11 +115,18 @@ export default function ProfileInfo({ user }) {
                     {
                       user.communities.map(community => (
                         <>
-                          <a key={community.id} href={`/community/${community.id}`} >
-                            <ListItem button component="a">
-                              {community.name}
-                            </ListItem>
-                          </a>
+                          <div className={classes.spaceBetween}>
+                            <a className={classes.fillSpace} key={community.id} href={`/community/${community.id}`} >
+                              <ListItem button component="a">
+                                {community.name}
+                              </ListItem>
+                            </a>
+                            {
+                              user.id === community.founderId ?
+                                <Button color="secondary" onClick={deleteCommunity} data-id={community.id}>Delete Community</Button>
+                                : <Button color="secondary" onClick={leaveCommunity} data-id={community.id}>Leave Community</Button>
+                            }
+                          </div>
                           <Divider />
                         </>
                       ))

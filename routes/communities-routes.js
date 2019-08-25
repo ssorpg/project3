@@ -120,7 +120,7 @@ module.exports = function (app) {
 
         await community.destroy();
 
-        res.status(200).send('Community deleted.');
+        res.status(200).json(community);
     }));
 
     app.put(route + '/:CommunityId', wrap(async function (req, res, next) { // edit community
@@ -323,7 +323,7 @@ module.exports = function (app) {
         await community.removeMember(user);
         await user.removeCommunity(community);
 
-        res.status(200).send('You left the community.');
+        res.status(200).json(community);
     }));
 
     // app.get(route + '/:CommunityId/wall', wrap(async function (req, res, next) { // your community wall
