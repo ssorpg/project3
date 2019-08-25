@@ -73,23 +73,26 @@ export class UpdateForm extends Component {
 
   render() {
     return (
-      <div style={{ position: 'relative' }}>
+      // <div style={{ position: 'relative' }}>
+      <>
         {
           this.state.errorAlert ?
             <Modal error={this.state.errorAlert} />
             : <Modal success={this.state.success} />
         }
-        <form onSubmit={this.handleSubmit} style={{ position: 'relative' }}>
+        < form onSubmit={this.handleSubmit} style={{ position: 'relative' }
+        }>
           <TextField
             id="outlined-multiline-flexible"
             label="Bio"
             rowsMax="6"
             margin="normal"
-            helperText="Tell me about yourself! What are your goals?! Hobbies?!"
+            helperText="Tell me about yourself! What are your goals? Hobbies?"
             variant="outlined"
             name="bio"
             required
           />
+          <br />
           <TextField
             id="outlined-name"
             label="Location"
@@ -98,14 +101,14 @@ export class UpdateForm extends Component {
             variant="outlined"
             name="location"
             required
-          /><br/>
-          {/* <LoginButton /> */}
-          <Button variant="contained" color="primary" size="small" type="submit">
-            <SaveIcon  />
+          />
+
+          <Button variant="contained" color="primary" size="large" type="submit" style={{ margin: '20px' }}>
+            <SaveIcon />
             Save
       </Button>
-        </form>
-      </div>
+        </form >
+      </>
     )
   }
 }

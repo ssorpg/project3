@@ -118,6 +118,9 @@
   #hide {
     display: none;
   }
+  #banner {
+    height: 200px;
+  }
 }
 
 /* @media (prefers-color-scheme: dark) {

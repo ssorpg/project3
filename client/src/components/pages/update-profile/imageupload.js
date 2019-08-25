@@ -64,26 +64,28 @@ export default class ImageUpload extends Component {
   render() {
     // const { description , selectedFile } = this.state; // just so we don't get react warns
     return (
-      <form onSubmit={this.onSubmit}>
-        {/* <input
+      <>
+        <form onSubmit={this.onSubmit}>
+          {/* <input
           type="text"
           name="description"
           value={description}
           onChange={this.onChange}
         /> */}
-        <input
-          style={{ marginLeft: '4px', padding: '2px' }}
-          type="file"
-          name="selectedFile"
-          onChange={this.onChange}
-          required
-        />
-        <br /><br />
-        <Button variant="contained" color="primary" type="submit" >
-          Upload
+          <input
+            style={{ marginLeft: '4px', padding: '2px' }}
+            type="file"
+            name="selectedFile"
+            onChange={this.onChange}
+            required
+          />
+          <br /><br />
+          <Button variant="contained" color="primary" type="submit" >
+            Upload
         <CloudUploadIcon />
-        </Button>
-      </form>
+          </Button>
+        </form>
+      </>
     );
   }
 }
