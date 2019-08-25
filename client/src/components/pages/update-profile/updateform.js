@@ -1,8 +1,10 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import { Form } from 'react-bootstrap';
-import LoginButton from '../../buttons';
 import Modal from '../../modal';
+import TextField from '@material-ui/core/TextField';
+// import clsx from 'clsx';
+import Button from '@material-ui/core/Button';
+import SaveIcon from '@material-ui/icons/Save';
 
 // FUNCTIONS
 import ax from 'axios';
@@ -18,6 +20,7 @@ export class UpdateForm extends Component {
 
   componentDidMount() {
     this.GetData();
+    // console.log(this.state);
   }
 
   GetData = async () => {
@@ -76,19 +79,32 @@ export class UpdateForm extends Component {
             <Modal error={this.state.errorAlert} />
             : <Modal success={this.state.success} />
         }
-        <Form onSubmit={this.handleSubmit} style={{ position: 'relative' }}>
-          <Form.Group controlId="formGroupPhoto">
-          </Form.Group>
-          <Form.Group controlId="formGroupBio">
-            <Form.Label>Bio</Form.Label>
-            <Form.Control type="text" name="bio" placeholder="Tell us about yourself!" required {...this.props} />
-          </Form.Group>
-          <Form.Group controlId="formGroupText">
-            <Form.Label>Location</Form.Label>
-            <Form.Control type="text" name="location" placeholder="Westwood, LA" required {...this.props} />
-          </Form.Group>
-          <LoginButton />
-        </Form>
+        <form onSubmit={this.handleSubmit} style={{ position: 'relative' }}>
+          <TextField
+            id="outlined-multiline-flexible"
+            label="Bio"
+            rowsMax="6"
+            margin="normal"
+            helperText="Tell me about yourself! What are your goals?! Hobbies?!"
+            variant="outlined"
+            name="bio"
+            required
+          />
+          <TextField
+            id="outlined-name"
+            label="Location"
+            margin="normal"
+            helperText="Where do you live?"
+            variant="outlined"
+            name="location"
+            required
+          /><br/>
+          {/* <LoginButton /> */}
+          <Button variant="contained" color="primary" size="small" type="submit">
+            <SaveIcon  />
+            Save
+      </Button>
+        </form>
       </div>
     )
   }
