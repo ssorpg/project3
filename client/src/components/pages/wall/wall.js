@@ -1,6 +1,6 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import Card from '../../card.js';
+import { Container } from '@material-ui/core';
 import ProfileInfo from '../../profileinfo';
 import MakePost from '../../makepost';
 import PostDisplay from '../../postdisplay';
@@ -70,6 +70,8 @@ export default class Profile extends Component {
 
   vote = async event => {
     event.preventDefault();
+    this.setState({ errorAlert: undefined });
+
     const postInfo = event.target.dataset.id ?
       event.target
       : event.target.parentNode;
@@ -96,6 +98,8 @@ export default class Profile extends Component {
 
   deletePost = async event => {
     event.preventDefault();
+    this.setState({ errorAlert: undefined });
+    
     const postInfo = event.target.dataset.id ?
       event.target
       : event.target.parentNode;
@@ -125,7 +129,7 @@ export default class Profile extends Component {
   render() {
     return (
       <div>
-        <Card className="text-dark text-left col-12 card" style={{ border: 'none' }}>
+        <Container maxWidth="lg">
           {
             this.state.userData ?
               <ProfileInfo user={this.state.userData.data} />
@@ -137,7 +141,7 @@ export default class Profile extends Component {
               <PostDisplay {...this.props} posts={this.state.posts} cantPost={true} vote={this.vote} deletePost={this.deletePost} />
               : ''
           }
-        </Card>
+        </Container>
       </div>
     )
   }

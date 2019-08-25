@@ -1,7 +1,7 @@
 // COMPONENTS
 import React from 'react';
 import CommunityRadio from './communityradio';
-import { Paper, FormGroup, RadioGroup, List, Button} from '@material-ui/core';
+import { Paper, FormGroup, RadioGroup, List, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 export default function SelectFromExisting({
@@ -11,8 +11,8 @@ export default function SelectFromExisting({
   handleRadioSelection,
   handleFormChange
 }) {
-  
-  const useStyles = makeStyles( theme => ({
+
+  const useStyles = makeStyles(theme => ({
     communityList: {
       padding: '24px'
     },
@@ -33,29 +33,28 @@ export default function SelectFromExisting({
       <h3>Choose A Community</h3>
       <form onSubmit={handleChosenCommunitySubmit}>
         <FormGroup>
-          <List className={classes.fixedSizeList}
-            className="list-unstyled text-left"
-            id="community-list"
-          >
-            {communities.map(community => (
-              <RadioGroup key={community.id}>
-                <CommunityRadio
-                  CommunityId={CommunityId}
-                  community={community}
-                  handleRadioSelection={handleRadioSelection}
-                />
-              </RadioGroup>
-            ))}
+          <List className={classes.fixedSizeList + 'list-unstyled text-left'} id="community-list">
+            {
+              communities.map(community => (
+                <RadioGroup key={community.id}>
+                  <CommunityRadio
+                    CommunityId={CommunityId}
+                    community={community}
+                    handleRadioSelection={handleRadioSelection}
+                  />
+                </RadioGroup>
+              ))
+            }
           </List>
         </FormGroup>
         <Button className={classes.button}
-          variant="contained" color="primary" 
+          variant="contained" color="primary"
           type="submit">Submit</Button>
-          <Button className={classes.button}
-            variant="outlined" color="primary"
-            onClick={handleFormChange}
-          >
-            Or Create Your Own!
+        <Button className={classes.button}
+          variant="outlined" color="primary"
+          onClick={handleFormChange}
+        >
+          Or Create Your Own!
           </Button>
       </form>
     </Paper>

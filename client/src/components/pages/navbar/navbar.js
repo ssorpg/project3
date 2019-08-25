@@ -8,7 +8,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import Searchbar from './searchbar';
 
 // FUNCTIONS
@@ -46,39 +45,19 @@ const useStyles = makeStyles(theme => ({
 
   logout: {
     color: '#f00'
-  },
-
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex'
-    }
-  },
-
-  sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
-      display: 'none'
-    }
   }
 }));
 
 export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [sidebarAnchorEl, setSidebarAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isSidebarMenuOpen = Boolean(sidebarAnchorEl);
 
   function handleProfileMenuOpen(event) {
     setAnchorEl(event.currentTarget);
-  }
-
-  function handleMobileMenuOpen(event) {
-    setMobileMoreAnchorEl(event.currentTarget);
   }
 
   function handleMenuOpen(event) {
@@ -87,7 +66,6 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
 
   function handleMenuClose() {
     setAnchorEl(null);
-    setMobileMoreAnchorEl(null);
     setSidebarAnchorEl(null);
   }
 
@@ -120,34 +98,6 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
     </Menu>
   );
 
-  const mobileAccountMenuId = 'primary-search-account-menu-mobile';
-  const renderMobileAccountMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={mobileAccountMenuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMobileMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <a href="/profile"><p>Profile</p></a>
-        <a href="/update-profile"><p>Edit Profile</p></a>
-        <a href="/create-community"><p>Join/Create Community</p></a>
-        <a onClick={logout}><p>Logout</p></a>
-      </MenuItem>
-    </Menu>
-  );
-
   const menuId = 'primary-search-menu';
   const renderMenu = (
     <Menu
@@ -160,8 +110,8 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
       onClose={handleMenuClose}
     >
       <a href="/profile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></a>
-      <a href={`/community/${CommunityId}`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Feed</MenuItem></a>
-      <a href={`/community/${CommunityId}/friends`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Friends</MenuItem></a>
+      <a href={`/community/${CommunityId}`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Community Feed</MenuItem></a>
+      <a href={`/community/${CommunityId}/friends`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Community Friends</MenuItem></a>
       <a href={`/community/${CommunityId}/chat`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Chat</MenuItem></a>
     </Menu>
   );
@@ -204,22 +154,10 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
                   <AccountCircle />
                 </IconButton>
               </div>
-              <div className={classes.sectionMobile}>
-                <IconButton
-                  aria-label="show more"
-                  aria-controls={mobileAccountMenuId}
-                  aria-haspopup="true"
-                  onClick={handleMobileMenuOpen}
-                  color="inherit"
-                >
-                  <MoreIcon />
-                </IconButton>
-              </div>
             </Toolbar>
           </AppBar>
           : ''
       }
-      {renderMobileAccountMenu}
       {renderAccountMenu}
       {renderMenu}
     </div>

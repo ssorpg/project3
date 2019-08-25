@@ -1,6 +1,5 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import Header from '../../header';
 import PostDisplay from '../../postdisplay';
 import MakePost from '../../makepost';
 import Megatron from '../../megatron';
@@ -30,7 +29,7 @@ export default class Feed extends Component {
       const res = await ax.get(`/api/communities/${this.props.CommunityId}`);
 
       this.setState({
-        pageTitle: res.data.name,
+        pageTitle: res.data.name + ' Feed',
         posts: res.data.feedPosts
       });
     }
@@ -75,6 +74,8 @@ export default class Feed extends Component {
 
   vote = async event => {
     event.preventDefault();
+    this.setState({ errorAlert: undefined });
+
     const postInfo = event.target.dataset.id ?
       event.target
       : event.target.parentNode;
@@ -101,6 +102,8 @@ export default class Feed extends Component {
 
   deletePost = async event => {
     event.preventDefault();
+    this.setState({ errorAlert: undefined });
+    
     const postInfo = event.target.dataset.id ?
       event.target
       : event.target.parentNode;
