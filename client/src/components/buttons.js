@@ -1,9 +1,9 @@
 // COMPONENTS
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import Button from '@material-ui/core/Button';
 
 export default function SubmitButton() {
   return (
-    <Button variant="primary" type="submit">Submit</Button>
+    <Button variant="contained" color="primary" type="submit">Submit</Button>
   )
 }

@@ -1,6 +1,5 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import Header from '../../header';
 import Friends from './friends';
 import Megatron from '../../megatron';
 import { Container } from '@material-ui/core';

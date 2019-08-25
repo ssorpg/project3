@@ -12,7 +12,7 @@ import GetProfileImage from '../../../utils/getprofileimage';
 
 const useStyles = makeStyles({
   media: {
-    paddingTop: '100%' // 16:9
+    paddingTop: '100%'
   }
 });
 
