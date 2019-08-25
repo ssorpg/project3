@@ -1,10 +1,10 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import Card from '../../card.js';
 import ProfileInfo from '../../profileinfo';
 import PostDisplay from '../../postdisplay';
-import { Paper, Container } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import Megatron from '../../megatron';
+import Modal from '../../modal';
 
 // FUNCTIONS
 import ax from 'axios';
@@ -37,9 +37,71 @@ export default class Profile extends Component {
       CheckError(error);
     }
   }
+  
+  deleteCommunity = async event => {
+    event.preventDefault();
+    this.setState({ errorAlert: undefined });
+
+    const commInfo = event.target.dataset.id ?
+      event.target
+      : event.target.parentNode;
+
+    try {
+      const res = await ax.delete(`/api/communities/${commInfo.dataset.id}`);
+
+      this.state.userData.data.communities.forEach((comm, id) => {
+        if (comm.id === res.data.id) {
+          const newUserData = this.state.userData;
+          newUserData.data.communities.splice(id, 1);
+
+          console.log(newUserData);
+
+          this.setState({
+            userData: newUserData
+          });
+        }
+      });
+    }
+    catch (error) {
+      console.log(error.response);
+      this.setState({ errorAlert: error.response.data });
+    }
+  }
+
+  leaveCommunity = async event => {
+    event.preventDefault();
+    this.setState({ errorAlert: undefined });
+
+    const commInfo = event.target.dataset.id ?
+      event.target
+      : event.target.parentNode;
+
+    try {
+      const res = await ax.delete(`/api/communities/${commInfo.dataset.id}/users`);
+
+      this.state.userData.data.communities.forEach((comm, id) => {
+        if (comm.id === res.data.id) {
+          const newUserData = this.state.userData;
+          newUserData.data.communities.splice(id, 1);
+
+          console.log(newUserData);
+
+          this.setState({
+            userData: newUserData
+          });
+        }
+      });
+    }
+    catch (error) {
+      console.log(error.response);
+      this.setState({ errorAlert: error.response.data });
+    }
+  }
 
   vote = async event => {
     event.preventDefault();
+    this.setState({ errorAlert: undefined });
+
     const postInfo = event.target.dataset.id ?
       event.target
       : event.target.parentNode;
@@ -66,6 +128,8 @@ export default class Profile extends Component {
 
   deletePost = async event => {
     event.preventDefault();
+    this.setState({ errorAlert: undefined });
+
     const postInfo = event.target.dataset.id ?
       event.target
       : event.target.parentNode;
@@ -102,20 +166,23 @@ export default class Profile extends Component {
           megaHeight='20vh'
           megaMaxHeight='320px!important'
         />
-        <Paper >
-          {
-            this.state.userData ?
-
-              <ProfileInfo user={this.state.userData.data} />
-              : ''
-          }
-          {
-            this.state.posts ?
-              <PostDisplay {...this.props} posts={this.state.posts} cantPost={true} vote={this.vote} deletePost={this.deletePost} />
-              : ''
-          }
-          {/* </Card> */}
-        </Paper>
+        {/* <Paper > */} {/* makes the footer margin bug out but can always add back if needed */}
+        {
+          this.state.userData ?
+            <ProfileInfo user={this.state.userData.data} deleteCommunity={this.deleteCommunity} leaveCommunity={this.leaveCommunity} />
+            : ''
+        }
+        {
+          this.state.errorAlert ?
+            <Modal error={this.state.errorAlert} />
+            : ''
+        }
+        {
+          this.state.posts ?
+            <PostDisplay {...this.props} posts={this.state.posts} cantPost={true} vote={this.vote} deletePost={this.deletePost} />
+            : ''
+        }
+        {/* </Paper> */}
       </Container>
     )
   }

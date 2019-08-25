@@ -72,13 +72,16 @@ module.exports = function (app) {
     app.put(route + '/update', wrap(async function (req, res, next) { // update profile
         await db.User.update(
             {
+                name: req.body.name,
                 bio: req.body.bio,
                 location: req.body.location,
             },
             {
-                where: { id: req.body.id }
-            }
-        );
+                where: {
+                    id: req.token.UserId
+                }
+            });
+
         res.status(200).send('Profile updated!');
     }));
 

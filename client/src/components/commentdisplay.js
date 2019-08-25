@@ -39,7 +39,7 @@ export default class CommentDisplay extends Component {
         </span>
         {
           this.state.YourId === this.state.comment.author.id ?
-            <Button type="submit" onClick={this.deleteComment} style={{ display: 'inline-block', marginLeft: '10px', padding: 0 }}><DeleteIcon /></Button>
+            <Button type="submit" title="Delete Comment" onClick={this.deleteComment} style={{ display: 'inline-block', marginLeft: '10px', padding: 0 }}><DeleteIcon /></Button>
             : ''
         }
       </p>

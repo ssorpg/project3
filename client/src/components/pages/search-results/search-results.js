@@ -1,11 +1,8 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {
-  Container,
-  Paper
-} from '@material-ui/core';
+import { Container, Paper } from '@material-ui/core';
 
 // FUNCTIONS
 import ax from 'axios';
@@ -27,7 +24,7 @@ class SearchResults extends Component {
       searchResults: undefined,
     }
   }
-  
+
   componentDidMount() {
     this.getData(this.props.location.search);
   }
@@ -46,14 +43,14 @@ class SearchResults extends Component {
   }
 
   render() {
-    
+
     return (
-        <Container maxWidth="md">
-          <Paper style={{padding: '24px'}}>
-            <h1>Search Results Page</h1>
-              <SearchItem data={this.state} />
-            </Paper>
-        </Container>
+      <Container maxWidth="md">
+        <Paper style={{ padding: '24px' }}>
+          <h1>Search Results Page</h1>
+          <SearchItem data={this.state} />
+        </Paper>
+      </Container>
     )
   }
 }
