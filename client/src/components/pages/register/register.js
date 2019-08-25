@@ -1,12 +1,10 @@
 // COMPONENTS
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Modal from '../../modal';
@@ -49,7 +47,7 @@ export default function SignUp({ handleSubmit, errorAlert }) {
         {/* <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar> */}
-        <img src="https://i.ibb.co/6WVS2GB/tpn2.png" xs={false}/>
+        <img src="https://i.ibb.co/6WVS2GB/tpn2.png" xs={false} alt="" />
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>

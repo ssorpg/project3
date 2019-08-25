@@ -1,12 +1,12 @@
 // COMPONENTS
 import React from 'react';
-import { FormControlLabel, Radio, ListItem}
-  from '@material-ui/core';
-import {makeStyles} from '@material-ui/core/styles';
+import { FormControlLabel, Radio, ListItem } from '@material-ui/core';
+// import { makeStyles } from '@material-ui/core/styles';
 
 export default function CommunityRadio({ CommunityId, community, handleRadioSelection }) {
-  const useStyles = makeStyles({});
-  const classes = useStyles();
+  // const useStyles = makeStyles({});
+  // const classes = useStyles();
+
   return (
     <ListItem className="radio">
       <FormControlLabel

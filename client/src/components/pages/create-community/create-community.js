@@ -32,6 +32,7 @@ export default class CreateCommunity extends Component {
 
   handleFormChange = () => {
     this.setState({
+      errorAlert: undefined,
       selectFromExisting: !this.state.selectFromExisting // toggle
     });
   }
@@ -97,13 +98,6 @@ export default class CreateCommunity extends Component {
           megaHeight="65vh"
           megaMaxHeight="380px"
         />
-
-        {
-          this.state.errorAlert ?
-            <Modal error={this.state.errorAlert} />
-            : ''
-        }
-
         {
           this.state.selectFromExisting ?
               <SelectFromExisting
@@ -119,6 +113,11 @@ export default class CreateCommunity extends Component {
                 toggleButtonClassName={this.toggleButtonClassName}
                 handleFormChange={this.handleFormChange}
               />
+        }
+        {
+          this.state.errorAlert ?
+            <Modal error={this.state.errorAlert} />
+            : ''
         }
       </Container>
     )
