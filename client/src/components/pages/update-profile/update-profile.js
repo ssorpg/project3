@@ -1,11 +1,12 @@
 // COMPONENTS
 import React, { Component } from 'react';
 import Imageupload from './imageupload';
-import { UpdateForm } from '../../form';
+import { UpdateForm } from './updateform';
 import Megatron from '../../megatron';
 import { Grid, Container, Paper, Divider } from '@material-ui/core';
 
 export default class UpdateProfile extends Component {
+  
   render() {
     return (
       <Container maxWidth="md">
@@ -18,16 +19,16 @@ export default class UpdateProfile extends Component {
             imagePosition="77% 5%"
             megaHeight='60vh'
             megaMaxHeight='620px!important'
-            />
+          />
           <Grid item className="col-6">
             <Grid item>
               <h3>Update Profile</h3>
-              <UpdateForm />
+              <UpdateForm id={this.props.id}/>
             </Grid>
-            <Divider style={{marginTop: '30px'}}/>
-            <Grid item style={{marginTop:'20px'}}>
+            <Divider style={{ marginTop: '30px' }} />
+            <Grid item style={{ marginTop: '20px' }}>
               <h3>Update Photo</h3>
-              <Imageupload />
+              <Imageupload id={this.props.id}/>
             </Grid>
           </Grid>
         </Grid>

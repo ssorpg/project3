@@ -1,6 +1,9 @@
 // COMPONENTS
 import React, { Component } from 'react';
 import SubmitButton from '../../buttons';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Button from '@material-ui/core/Button';
+
 
 // FUNCTIONS
 import axios from 'axios';
@@ -20,7 +23,7 @@ export default class ImageUpload extends Component {
   GetData = async () => {
     try {
       const userData = await axios.get(`/api/users/profile/`);
-      
+
       this.setState({ userData: userData });
     }
     catch (error) {
@@ -74,8 +77,11 @@ export default class ImageUpload extends Component {
           name="selectedFile"
           onChange={this.onChange}
         />
-        <br/><br/>
-        <SubmitButton />
+        <br /><br />
+        <Button variant="contained" color="primary" type="submit" >
+          Upload
+        <CloudUploadIcon />
+        </Button>
       </form>
     );
   }
