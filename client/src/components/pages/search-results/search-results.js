@@ -31,10 +31,10 @@ class SearchResults extends Component {
 
   getData = async searchString => {
     try {
-      const searchResults = await ax.get(`/api/search/${searchString}`);
+      const results = await ax.get(`/api/search/${searchString}`);
 
       this.setState({
-        searchResults: searchResults.data
+        searchResults: results.data
       });
     }
     catch (error) {
