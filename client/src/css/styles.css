@@ -125,7 +125,10 @@
     height: 200px;
   }
 }
-
+#search .members li {
+  display: inline-block;
+  width: auto;
+}
 /* @media (prefers-color-scheme: dark) {
   html {
     content: 'dark'
