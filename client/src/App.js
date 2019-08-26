@@ -46,11 +46,11 @@ export default class TPN extends Component {
   render() {
     return (
       <>
-        <div style={{ minHeight: 'calc( 100vh - 148px )' }}>
+        <div>
           <CssBaseline />
           <Navbar isAuth={this.state.isAuth} CommunityId={this.state.CommunityId} />
           <Router>
-            <div className="App" id="App" style={{ minHeight: '374px' }}>
+            <div className="App" id="App">
               <Switch>
                 <Route exact path="/register" render=
                   {

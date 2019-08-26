@@ -1,3 +1,6 @@
+#App {
+  min-height: 65vh;
+}
 #site-nav .user-state-button {
   margin: 10px;
 }
