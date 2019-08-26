@@ -45,7 +45,7 @@ class SearchResults extends Component {
   render() {
 
     return (
-      <Container maxWidth="md">
+      <Container maxWidth="md" id="search">
         <Paper style={{ padding: '24px' }}>
           <h1>Search Results Page</h1>
           <SearchItem data={this.state} />
