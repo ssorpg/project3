@@ -35,6 +35,7 @@ export default class ChatInput extends Component {
             style={{ margin: 8 }}
             placeholder='Enter message...'
             value={this.state.message}
+            // multiline
             fullWidth
             onChange={e => this.setState({ message: e.target.value })}
             required

@@ -6,6 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import findphoto from '../../../utils/getprofileimage';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,16 +17,20 @@ const useStyles = makeStyles(theme => ({
   inline: {
     display: 'inline',
   },
+  msg: {
+    wordBreak: 'break-all',
+    maxWidth: '95vw'
+  }
 }));
 
-export default function ChatMessage({ name, message, filename }) {
+export default function ChatMessage({ name, message, user, time }) {
   const classes = useStyles();
 
   return (
     <>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="qtpie" src={`/images/${filename}`} />
+          <Avatar alt="qtpie" src={findphoto(user)} />
         </ListItemAvatar>
         <ListItemText
           primary={name}
@@ -35,10 +40,10 @@ export default function ChatMessage({ name, message, filename }) {
                 component="span"
                 variant="body2"
                 className={classes.inline}
-                color="textPrimary"
+                color="textSecondary"
               >
+                <p className={classes.msg}>{time + ': ' + message}</p>
               </Typography>
-              {message}
             </>
           }
         />
