@@ -78,7 +78,8 @@ export default class Chat extends Component {
   submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
     let today = new Date();
-    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    let time = today.getHours() + ":" + ((today.getMinutes() < 10 ? '0' : '') + today.getMinutes()) + ":" + today.getSeconds();
+
     const message = {
       name: this.state.userData.data.name,
       message: messageString,
