@@ -19,9 +19,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function SearchItem(props) {
   const classes = useStyles();
-  const { data: { searchResults } } = props;
+
   return (
-    searchResults ?
+    Array.isArray(props.data.searchResults) ?
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <List
@@ -31,7 +31,7 @@ export default function SearchItem(props) {
             }}
           >
             {
-              searchResults.map(item => (
+              props.data.searchResults.map(item => (
                 <ListItem
                   key={item.id}
                   cols="2"
@@ -83,6 +83,11 @@ export default function SearchItem(props) {
           </List>
         </Grid>
       </Grid>
-      : 'Nothing found.'
+      :
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          {props.data.searchResults}
+        </Grid>
+      </Grid>
   )
 }
