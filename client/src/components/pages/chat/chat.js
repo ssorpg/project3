@@ -12,14 +12,20 @@ import List from '@material-ui/core/List';
 import ax from 'axios';
 import CheckError from '../../../utils/checkerror';
 
-const URL = 'ws://localhost:3001'
+let URL;
+
+if (window.location.origin.indexOf('https') === 0) {
+  URL = 'wss://localhost:3001'
+} else {
+  URL = 'ws://localhost:3001'
+}
 
 export default class Chat extends Component {
   constructor(props) {
     super(props);
     this.state = {
       userData: undefined,
-      messages: []
+      messages: [],
     };
   }
   root = {
@@ -49,7 +55,6 @@ export default class Chat extends Component {
         ws: new WebSocket(URL),
       })
     }
-    // console.log(this.props);
   };
 
   GetData = async () => {
@@ -65,16 +70,19 @@ export default class Chat extends Component {
 
   addMessage = message => {
     this.setState(state => ({
-      messages: [...state.messages, message]
+      messages: [...state.messages, message],
     }));
     this.updateScroll();
   }
 
   submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
+    let today = new Date();
+    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     const message = {
       name: this.state.userData.data.name,
-      message: messageString
+      message: messageString,
+      time: time
     };
     this.ws.send(JSON.stringify(message))
     this.addMessage(message)
@@ -87,7 +95,7 @@ export default class Chat extends Component {
   render() {
     return (
       <>
-        <Container id="chat" style={{ height: '500px', overflow: 'auto' }}>
+        <Container id="chat" style={{ height: '500px', overflow: 'auto', padding: '50px' }}>
           <List className={this.root}>
             {
               this.state.messages.map((message, index) =>
@@ -95,13 +103,14 @@ export default class Chat extends Component {
                   key={index}
                   message={message.message}
                   name={message.name}
-                  filename={this.state.userData.data.profileImage[0].filename}
+                  user={this.state.userData.data}
+                  time={message.time}
                 />,
               )
             }
           </List>
         </Container>
-        <br/><br/>
+        <br /><br />
         <ChatInput
           ws={this.ws}
           onSubmitMessage={messageString => this.submitMessage(messageString)}

@@ -18,12 +18,13 @@ export default function UpdateForm({ bio, location, onChange, handleSubmit, erro
         <TextField
           id="outlined-multiline-flexible"
           label="Bio"
+          // multiline
           rowsMax="6"
           margin="normal"
           helperText="Tell me about yourself! What are your goals?! Hobbies?!"
           variant="outlined"
           name="bio"
-          onChange={onChange}
+          // onChange={onChange}
           value={bio ? bio : ''}
           autofocus
           required
