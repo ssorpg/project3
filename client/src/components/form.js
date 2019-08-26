@@ -178,91 +178,91 @@ export class RegisterForm extends Component {
 }
 
 //UPDATE FORM
-export class UpdateForm extends Component {
-  constructor(props) {
-    super(props);
+// export class UpdateForm extends Component {
+//   constructor(props) {
+//     super(props);
 
-    this.state = {
-      userData: undefined,
-      errorAlert: undefined
-    };
-  }
+//     this.state = {
+//       userData: undefined,
+//       errorAlert: undefined
+//     };
+//   }
 
-  componentDidMount() {
-    this.GetData();
-  }
+//   componentDidMount() {
+//     this.GetData();
+//   }
 
-  GetData = async () => {
-    this.setState({ errorAlert: undefined });
+//   GetData = async () => {
+//     this.setState({ errorAlert: undefined });
 
-    try {
-      const userData = await ax.get(`/api/users/profile/`);
-      this.setState({ userData: userData });
-    }
-    catch (error) {
-      console.log(error.response);
-      this.setState({ errorAlert: error.response.data });
-    }
-  };
+//     try {
+//       const userData = await ax.get(`/api/users/profile/`);
+//       this.setState({ userData: userData });
+//     }
+//     catch (error) {
+//       console.log(error.response);
+//       this.setState({ errorAlert: error.response.data });
+//     }
+//   };
 
-  handleSubmit = event => {
-    event.preventDefault();
-    const formData = event.target;
-    const inputs = formData.getElementsByTagName('input');
-    const postData = {};
+//   handleSubmit = event => {
+//     event.preventDefault();
+//     const formData = event.target;
+//     const inputs = formData.getElementsByTagName('input');
+//     const postData = {};
 
-    for (let i = 0; i < inputs.length; i++) {
-      postData[inputs[i].name] = inputs[i].value;
-    }
+//     for (let i = 0; i < inputs.length; i++) {
+//       postData[inputs[i].name] = inputs[i].value;
+//     }
 
-    this.postToDB(postData);
-  }
+//     this.postToDB(postData);
+//   }
 
-  postToDB = async postData => {
-    this.setState({ errorAlert: undefined });
+//   postToDB = async postData => {
+//     this.setState({ errorAlert: undefined });
 
-    console.log(postData);
-    const { bio, location } = postData;
+//     console.log(postData);
+//     const { bio, location } = postData;
 
-    try {
-      await ax.put('/api/users/update',
-        {
-          bio: bio,
-          location: location,
-          id: this.state.userData.data.id
-        });
+//     try {
+//       await ax.put('/api/users/update',
+//         {
+//           bio: bio,
+//           location: location,
+//           id: this.state.userData.data.id
+//         });
 
-      window.location = `/profile`;
-    }
-    catch (error) {
-      console.log(error.response);
-      this.setState({ errorAlert: error.response.data });
-    }
-  }
+//       window.location = `/profile`;
+//     }
+//     catch (error) {
+//       console.log(error.response);
+//       this.setState({ errorAlert: error.response.data });
+//     }
+//   }
 
-  render() {
-    return (
-      <div style={{ position: 'relative' }}>
-        {
-          this.state.errorAlert ?
-            <Modal error={this.state.errorAlert} />
-            : <Modal success={this.state.success} />
-        }
-        <Form onSubmit={this.handleSubmit} style={{ position: 'relative' }}>
-          <Form.Group controlId="formGroupPhoto">
-          </Form.Group>
-          <Form.Group controlId="formGroupBio">
-            <Form.Label>Bio</Form.Label>
-            <Form.Control type="text" name="bio" placeholder="Tell us about yourself!" required {...this.props} />
-          </Form.Group>
-          <Form.Group controlId="formGroupText">
-            <Form.Label>Location</Form.Label>
-            <Form.Control type="text" name="location" placeholder="Westwood, LA" required {...this.props} />
-          </Form.Group>
-          {/* <ImageUpload /> */}
-          <LoginButton />
-        </Form>
-      </div>
-    )
-  }
-}
+//   render() {
+//     return (
+//       <div style={{ position: 'relative' }}>
+//         {
+//           this.state.errorAlert ?
+//             <Modal error={this.state.errorAlert} />
+//             : <Modal success={this.state.success} />
+//         }
+//         <Form onSubmit={this.handleSubmit} style={{ position: 'relative' }}>
+//           <Form.Group controlId="formGroupPhoto">
+//           </Form.Group>
+//           <Form.Group controlId="formGroupBio">
+//             <Form.Label>Bio</Form.Label>
+//             <Form.Control type="text" name="bio" placeholder="Tell us about yourself!" required {...this.props} />
+//           </Form.Group>
+//           <Form.Group controlId="formGroupText">
+//             <Form.Label>Location</Form.Label>
+//             <Form.Control type="text" name="location" placeholder="Westwood, LA" required {...this.props} />
+//           </Form.Group>
+//           {/* <ImageUpload /> */}
+//           <LoginButton />
+//         </Form>
+//       </div>
+//     )
+//   }
+// }

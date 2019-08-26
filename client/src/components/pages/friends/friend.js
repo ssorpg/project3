@@ -12,7 +12,7 @@ import GetProfileImage from '../../../utils/getprofileimage';
 
 const useStyles = makeStyles({
   media: {
-    paddingTop: '56.25%' // 16:9
+    paddingTop: '100%'
   }
 });
 
@@ -37,7 +37,7 @@ export default function MediaCard({ YourId, CommunityId, friend }) {
           image={GetProfileImage(friend)}
           title="Profile"
         />
-        <CardContent>
+        <CardContent id="hide">
           <Typography gutterBottom variant="h5" component="h2">
             {friend.name}
           </Typography>

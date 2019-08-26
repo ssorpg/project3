@@ -39,6 +39,10 @@ export default class TPN extends Component {
     }
   }
 
+  // componentDidMount() {
+  //   console.log(this.state);
+  // }
+
   render() {
     return (
       <>
@@ -56,7 +60,7 @@ export default class TPN extends Component {
                   }
                 />
                 <Route exact path="/profile" render={() => <Profile {...this.state} />} />
-                <Route exact path="/update-profile" render={() => <UpdateProfile {...this.state} />} />
+                <Route exact path="/update-profile" render={() => <UpdateProfile id={this.state.YourId} />} />
                 <Route exact path="/create-community" render={() => <CreateCommunity {...this.state} />} />
                 <Route exact path="/community/:CommunityId" render={() => <Feed {...this.state} />} />
                 {/* TODO: make friends tables/routes? */}

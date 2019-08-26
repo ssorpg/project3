@@ -1,7 +1,8 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import Header from '../../header';
 import Friends from './friends';
+import Megatron from '../../megatron';
+import { Container } from '@material-ui/core';
 
 // FUNCTIONS
 import ax from 'axios';
@@ -38,8 +39,17 @@ export default class FriendsController extends Component {
   render() {
     return (
       <>
-        <Header pageTitle={this.state.pageTitle} />
-        <Friends {...this.props} friends={this.state.friends} />
+        {/* <Header pageTitle={this.state.pageTitle} /> */}
+        <Container>
+          <Megatron
+            heading={this.state.pageTitle}
+            image="https://source.unsplash.com/random"
+            imagePosition="50%"
+            megaHeight='20vh'
+            megaMaxHeight='320px!important'
+          />
+          <Friends {...this.props} friends={this.state.friends} />
+        </Container>
       </>
     );
   }

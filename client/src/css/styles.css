@@ -114,9 +114,12 @@
   border: 1px solid #ddd;
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 414px) {
   #hide {
     display: none;
+  }
+  #banner {
+    height: 200px;
   }
 }
 
