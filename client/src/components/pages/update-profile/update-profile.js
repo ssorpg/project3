@@ -75,8 +75,12 @@ export default class UpdateProfile extends Component {
   }
 
   onChange = event => {
-    this.setState({ selectedFile: event.target.files[0] });
+    this.setState({ [event.target.name]: event.target.value });
     console.log(event.target.name, event.target.value);
+  }
+
+  onSelectFile = event => {
+    this.setState({ selectedFile: event.target.files[0] });
   }
 
   onSubmit = async event => {
@@ -131,7 +135,7 @@ export default class UpdateProfile extends Component {
               <h3>Update Photo</h3>
               <Imageupload
                 onSubmit={this.onSubmit}
-                onChange={this.onChange}
+                onSelectFile={this.onSelectFile}
                 errorAlert={this.state.errorAlert}
               />
 
