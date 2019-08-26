@@ -12,7 +12,7 @@ import List from '@material-ui/core/List';
 import ax from 'axios';
 import CheckError from '../../../utils/checkerror';
 
-const URL = 'ws://localhost:3001'
+const URL = 'wss://localhost:3001'
 
 export default class Chat extends Component {
   constructor(props) {
