@@ -2,9 +2,11 @@
 import React, { Component } from 'react';
 import ChatInput from './chatinput';
 import ChatMessage from './chatmessage';
+import { Container } from '@material-ui/core';
+import List from '@material-ui/core/List';
 
 // CSS
-import './chat.css';
+// import './chat.css';
 
 // FUNCTIONS
 import ax from 'axios';
@@ -15,11 +17,14 @@ const URL = 'ws://localhost:3001'
 export default class Chat extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       userData: undefined,
       messages: []
     };
+  }
+  root = {
+    width: '100%',
+    maxWidth: 360,
   }
 
   ws = new WebSocket(URL);
@@ -44,16 +49,14 @@ export default class Chat extends Component {
         ws: new WebSocket(URL),
       })
     }
-
-    console.log(this.state);
-    console.log(this.props);
+    // console.log(this.props);
   };
 
   GetData = async () => {
     try {
       const userData = await ax.get(`/api/users/profile/`);
-
       this.setState({ userData: userData });
+      console.log(this.state.userData.data);
     }
     catch (error) {
       CheckError(error);
@@ -62,8 +65,9 @@ export default class Chat extends Component {
 
   addMessage = message => {
     this.setState(state => ({
-      messages: [message, ...state.messages]
+      messages: [...state.messages, message]
     }));
+    this.updateScroll();
   }
 
   submitMessage = messageString => {
@@ -72,29 +76,37 @@ export default class Chat extends Component {
       name: this.state.userData.data.name,
       message: messageString
     };
-
     this.ws.send(JSON.stringify(message))
     this.addMessage(message)
   }
 
+  updateScroll = () => {
+    var element = document.getElementById("chat");
+    element.scrollTop = element.scrollHeight;
+  }
   render() {
     return (
-      <div className="chat">
+      <>
+        <Container id="chat" style={{ height: '500px', overflow: 'auto' }}>
+          <List className={this.root}>
+            {
+              this.state.messages.map((message, index) =>
+                <ChatMessage
+                  key={index}
+                  message={message.message}
+                  name={message.name}
+                  filename={this.state.userData.data.profileImage[0].filename}
+                />,
+              )
+            }
+          </List>
+        </Container>
+        <br/><br/>
         <ChatInput
           ws={this.ws}
           onSubmitMessage={messageString => this.submitMessage(messageString)}
         />
-        {
-          this.state.messages.map((message, index) =>
-            <ChatMessage
-              key={index}
-              message={message.message}
-              name={message.name}
-            />,
-          )
-        }
-
-      </div>
+      </>
     )
   }
 }
