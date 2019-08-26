@@ -75,7 +75,7 @@ export default class UpdateProfile extends Component {
   }
 
   onChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ selectedFile: event.target.files[0] });
     console.log(event.target.name, event.target.value);
   }
 

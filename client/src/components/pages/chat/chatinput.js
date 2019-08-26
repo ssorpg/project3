@@ -1,9 +1,11 @@
 // COMPONENTS
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import TextField from '@material-ui/core/TextField';
+import { Container } from '@material-ui/core';
 
 // CSS
-import './chat.css';
+// import './chat.css';
 
 export default class ChatInput extends Component {
   static propTypes = {
@@ -16,27 +18,35 @@ export default class ChatInput extends Component {
 
   render() {
     return (
-      <form
-        className="chat"
-        action="."
-        onSubmit={
-          e => {
-            e.preventDefault()
-            this.props.onSubmitMessage(this.state.message)
-            this.setState({ message: '' })
-          }
-        }
-      >
-        <input
+      <Container>
+        <form
           className="chat"
-          type="text"
-          placeholder={'Enter message...'}
-          value={this.state.message}
-          onChange={e => this.setState({ message: e.target.value })}
-          required
-        />
-        <button type="submit" value={'Send'}> Send </button>
-      </form>
+          action="."
+          onSubmit={
+            e => {
+              e.preventDefault()
+              this.props.onSubmitMessage(this.state.message)
+              this.setState({ message: '' })
+            }
+          }
+        >
+          <TextField
+            label="Chat with your community!"
+            style={{ margin: 8 }}
+            placeholder='Enter message...'
+            value={this.state.message}
+            fullWidth
+            onChange={e => this.setState({ message: e.target.value })}
+            required
+            margin="normal"
+            variant="outlined"
+          />
+          {/* <Button type="submit" value={'Send'} variant="contained" color="primary">
+            Send
+        <Icon>send</Icon>
+          </Button> */}
+        </form>
+      </Container>
     )
   }
 }
