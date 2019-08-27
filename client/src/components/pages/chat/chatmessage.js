@@ -6,7 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import findphoto from '../../../utils/getprofileimage';
+// import findphoto from '../../../utils/getprofileimage';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,7 +30,7 @@ export default function ChatMessage({ name, message, user, time }) {
     <>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="qtpie" src={findphoto(user)} />
+          <Avatar alt="qtpie" src={user.profileImage[0].filename? `/images/${user.profileImage[0].filename}`:'https://cdn2.iconfinder.com/data/icons/ui-1/60/05-512.png'} />
         </ListItemAvatar>
         <ListItemText
           primary={name}
