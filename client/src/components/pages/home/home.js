@@ -77,7 +77,7 @@ export default function Home({ handleSubmit, errorAlert }) {
         <Grid item xs={false} id="hide" className={classes.logo}>
           <img src="https://i.ibb.co/6WVS2GB/tpn2.png" alt="" />
           <span className={classes.name} >The Private Network</span>
-          <p className={classes.slogan} >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam eum cupiditate quaerat laudantium ullam aut rem deleniti obcaecati quas voluptates dolores iure modi, aliquam, illo quae. Hic dicta corrupti eos.</p>
+          <p className={classes.slogan}>This is a social network that you can control access to. Use it to keep in touch with your friends and family, hold events for your office, or to organize your child’s sports team. Hold events, send messages, and post your important news to only selected individuals in your network.</p>
         </Grid>
       </Grid>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
