@@ -100,10 +100,10 @@ export default function ProfileInfo({ user, deleteCommunity, leaveCommunity }) {
               <CardContent>
                 <Typography paragraph><h4>Profile</h4></Typography>
                 <Typography paragraph>
-                  <strong>Bio:</strong> {user.bio}
+                  <strong>Bio:</strong> {user.bio ? user.bio : 'This user has no bio yet.'}
                 </Typography>
                 <Typography paragraph>
-                  <strong>Location:</strong> {user.location}
+                  <strong>Location:</strong> {user.location ? user.location : 'Unknown'}
                 </Typography>
               </CardContent>
             </Collapse>

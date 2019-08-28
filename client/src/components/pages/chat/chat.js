@@ -11,57 +11,53 @@ import List from '@material-ui/core/List';
 // FUNCTIONS
 import ax from 'axios';
 import CheckError from '../../../utils/checkerror';
-
-let URL;
-
-if (window.location.origin.indexOf('https') === 0) {
-  URL = 'wss://localhost:3001'
-} else {
-  URL = 'ws://localhost:3001'
-}
+import GetWS from '../../../utils/getws';
 
 export default class Chat extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       userData: undefined,
-      messages: [],
+      ws: undefined,
+      messages: []
     };
   }
+
+  ws = GetWS(window.location);
+
   root = {
     width: '100%',
-    maxWidth: 360,
+    maxWidth: 360
   }
-
-  ws = new WebSocket(URL);
 
   componentDidMount() {
     this.GetData();
 
+    console.log(this.ws);
+
     this.ws.onopen = () => {
-      console.log('connected')
+      console.log('connected');
     }
 
-    this.ws.onmessage = evt => {
+    this.ws.onmessage = event => {
       // on receiving a message, add it to the list of messages
-      const message = JSON.parse(evt.data)
-      this.addMessage(message)
+      const message = JSON.parse(event.data);
+      this.addMessage(message);
     }
 
     this.ws.onclose = () => {
-      console.log('disconnected')
+      console.log('disconnected');
       // automatically try to reconnect on connection loss
-      this.setState({
-        ws: new WebSocket(URL),
-      })
+      this.setState({ ws: GetWS(window.location) });
     }
   };
 
   GetData = async () => {
     try {
       const userData = await ax.get(`/api/users/profile/`);
-      this.setState({ userData: userData });
-      console.log(this.state.userData.data);
+      await this.setState({ userData: userData.data });
+      console.log(this.state.userData);
     }
     catch (error) {
       CheckError(error);
@@ -69,45 +65,45 @@ export default class Chat extends Component {
   };
 
   addMessage = message => {
-    this.setState(state => ({
-      messages: [...state.messages, message],
-    }));
+    this.setState(state => ({ messages: [...state.messages, message] }));
+
     this.updateScroll();
-  }
+  };
 
   submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
-    let today = new Date();
-    let hours = today.getHours();
-    let minutes = ((today.getMinutes() < 10 ? '0' : '') + today.getMinutes());
-    let seconds = ((today.getSeconds() < 10 ? '0' : '') + today.getSeconds());
-    let time = hours + ":" + minutes + ":" + seconds;
+    const today = new Date();
+    const hours = today.getHours();
+    const minutes = ((today.getMinutes() < 10 ? '0' : '') + today.getMinutes());
+    const seconds = ((today.getSeconds() < 10 ? '0' : '') + today.getSeconds());
+    const time = hours + ":" + minutes + ":" + seconds;
 
     const message = {
-      name: this.state.userData.data.name,
+      user: this.state.userData,
       message: messageString,
       time: time
     };
-    this.ws.send(JSON.stringify(message))
-    this.addMessage(message)
-  }
+
+    this.ws.send(JSON.stringify(message));
+    this.addMessage(message);
+  };
 
   updateScroll = () => {
     var element = document.getElementById("chat");
     element.scrollTop = element.scrollHeight;
-  }
+  };
+
   render() {
     return (
       <>
-        <Container id="chat" style={{ height: '500px', overflow: 'auto', padding: '50px' }}>
+        <Container id="chat" style={{ height: '400px', overflow: 'auto', padding: '50px' }}>
           <List className={this.root}>
             {
               this.state.messages.map((message, index) =>
                 <ChatMessage
                   key={index}
+                  user={message.user}
                   message={message.message}
-                  name={message.name}
-                  user={this.state.userData.data}
                   time={message.time}
                 />,
               )

@@ -13,8 +13,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: '100vh'
+    minHeight: '100vh',
+    marginBottom: '-48px'
   },
+
   image: {
     // background: 'linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url(https://source.unsplash.com/random)',
     backgroundImage: 'url(https://picsum.photos/id/177/2515/1830)',
@@ -22,6 +24,7 @@ const useStyles = makeStyles(theme => ({
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
+
   logo: {
     postion: 'absolute',
     top: '0',
@@ -34,10 +37,12 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     padding: '24px 24px 72px',
   },
+
   name: {
     fontSize: '30px',
     color: '#1d1d1d'
   },
+
   slogan: {
     fontSize: '16px',
     // color: '#DBDADA',

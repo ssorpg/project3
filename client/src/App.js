@@ -45,45 +45,44 @@ export default class TPN extends Component {
 
   render() {
     return (
-      <>
-        <div>
-          <CssBaseline />
-          <Navbar isAuth={this.state.isAuth} CommunityId={this.state.CommunityId} />
-          <Router>
-            <div className="App" id="App">
-              <Switch>
-                <Route exact path="/register" render=
-                  {
-                    () => this.state.isAuth ?
-                      <Profile {...this.state} />
-                      : <RegisterController {...this.state} />
-                  }
-                />
-                <Route exact path="/profile" render={() => <Profile {...this.state} />} />
-                <Route exact path="/update-profile" render={() => <UpdateProfile id={this.state.YourId} />} />
-                <Route exact path="/create-community" render={() => <CreateCommunity {...this.state} />} />
-                <Route exact path="/community/:CommunityId" render={() => <Feed {...this.state} />} />
-                {/* TODO: make friends tables/routes? */}
-                <Route exact path="/community/:CommunityId/friends" render={() => <FriendsController {...this.state} />} />
-                <Route exact path="/community/:CommunityId/friends/:UserId" render={() => <Wall {...this.state} />} />
-                <Route exact path="/community/:CommunityId/chat" render={() => <Chat {...this.state} />} />
-                <Route path="/search" render={() => <SearchResults {...this.state} />} />
-                <Route path="/" render=
-                  {
-                    () => this.state.isAuth ?
-                      <Profile {...this.state} />
-                      : <HomeController {...this.state} />
-                  }
-                />
-              </Switch>
-            </div>
-          </Router>
-          <aside id="popover" className="card bg-danger text-center">
-            <h3 className="card-title"> </h3>
-          </aside>
-        </div>
+      <div style={{ minHeight: '100vh' }}>
+        <CssBaseline />
+        <Navbar isAuth={this.state.isAuth} CommunityId={this.state.CommunityId} />
+        <Router>
+          <div className="App" id="App" style={{ height: '100%' }}>
+            <Switch>
+              <Route exact path="/register" render=
+                {
+                  () => this.state.isAuth ?
+                    <Profile {...this.state} />
+                    : <RegisterController {...this.state} />
+                }
+              />
+              <Route exact path="/profile" render={() => <Profile {...this.state} />} />
+              <Route exact path="/update-profile" render={() => <UpdateProfile id={this.state.YourId} />} />
+              <Route exact path="/create-community" render={() => <CreateCommunity {...this.state} />} />
+              <Route exact path="/community/:CommunityId" render={() => <Feed {...this.state} />} />
+              {/* TODO: make friends tables/routes? */}
+              <Route exact path="/community/:CommunityId/friends" render={() => <FriendsController {...this.state} />} />
+              <Route exact path="/community/:CommunityId/friends/:UserId" render={() => <Wall {...this.state} />} />
+              {/* <Route exact path="/community/:CommunityId/chat" render={() => <Chat {...this.state} />} /> */}
+              <Route exact path="/chat" render={() => <Chat {...this.state} />} />
+              <Route path="/search" render={() => <SearchResults {...this.state} />} />
+              <Route path="/" render=
+                {
+                  () => this.state.isAuth ?
+                    <Profile {...this.state} />
+                    : <HomeController {...this.state} />
+                }
+              />
+            </Switch>
+          </div>
+        </Router>
+        <aside id="popover" className="card bg-danger text-center">
+          <h3 className="card-title"> </h3>
+        </aside>
         <Footer />
-      </>
+      </div>
     );
   };
 }

@@ -91,7 +91,7 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <a href="/profile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></a>
+      {/* <a href="/profile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></a> */}
       <a href="/update-profile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Edit Profile</MenuItem></a>
       <a href="/create-community" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Join/Create Community</MenuItem></a>
       <MenuItem className={classes.logout} onClick={logout}>Logout</MenuItem>
@@ -110,9 +110,16 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
       onClose={handleMenuClose}
     >
       <a href="/profile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></a>
-      <a href={`/community/${CommunityId}`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Community Feed</MenuItem></a>
-      <a href={`/community/${CommunityId}/friends`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Community Friends</MenuItem></a>
-      <a href={`/community/${CommunityId}/chat`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Chat</MenuItem></a>
+      {
+        CommunityId ?
+          <>
+            <a href={`/community/${CommunityId}`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Community Feed</MenuItem></a>
+            <a href={`/community/${CommunityId}/friends`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Community Friends</MenuItem></a>
+            {/* <a href={`/community/${CommunityId}/chat`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Chat</MenuItem></a> */}
+          </>
+          : ''
+      }
+      <a href={`/chat`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Chat</MenuItem></a>
     </Menu>
   );
 
@@ -122,21 +129,17 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
         isAuth ?
           <AppBar position="static" className={classes.siteNav}>
             <Toolbar>
-              {
-                CommunityId ?
-                  <IconButton
-                    edge="start"
-                    aria-label="open drawer"
-                    aria-controls={menuId}
-                    aria-haspopup="true"
-                    onClick={handleMenuOpen}
-                    className={classes.menuButton}
-                    color="inherit"
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                  : ''
-              }
+              <IconButton
+                edge="start"
+                aria-label="open drawer"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleMenuOpen}
+                className={classes.menuButton}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
               <Typography className={classes.title} variant="h6" noWrap>
                 The Private Network
               </Typography>
