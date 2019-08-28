@@ -28,7 +28,7 @@ export default class Chat extends Component {
 
   root = {
     width: '100%',
-    maxWidth: 360
+    maxWidth: '90%'
   }
 
   componentDidMount() {
@@ -96,7 +96,7 @@ export default class Chat extends Component {
   render() {
     return (
       <>
-        <Container id="chat" style={{ height: '400px', overflow: 'auto', padding: '50px' }}>
+        <Container id="chat" style={{ flex: '1 0 auto', height: '60vh', overflow: 'auto', padding: '50px' }}>
           <List className={this.root}>
             {
               this.state.messages.map((message, index) =>
@@ -112,6 +112,7 @@ export default class Chat extends Component {
         </Container>
         <br /><br />
         <ChatInput
+        style={{ flexShrink: 0 }}
           ws={this.ws}
           onSubmitMessage={messageString => this.submitMessage(messageString)}
         />

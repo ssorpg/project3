@@ -16,9 +16,11 @@ import ax from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  siteNav: {
-    marginBottom: '48px'
+  scrollNav: {
+    position: 'fixed',
+    zIndex: '99'
   },
+
   grow: {
     flexGrow: 1
   },
@@ -124,10 +126,10 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
   );
 
   return (
-    <div className={classes.grow}>
+    <div className={classes.scrollNav}>
       {
         isAuth ?
-          <AppBar position="static" className={classes.siteNav}>
+          <AppBar>
             <Toolbar>
               <IconButton
                 edge="start"

@@ -45,11 +45,11 @@ export default class TPN extends Component {
 
   render() {
     return (
-      <div style={{ minHeight: '100vh' }}>
+      <div style={{ minHeight: '88vh', display: 'flex', flexDirection:' column', marginTop: '12vh' }}>
         <CssBaseline />
         <Navbar isAuth={this.state.isAuth} CommunityId={this.state.CommunityId} />
         <Router>
-          <div className="App" id="App" style={{ height: '100%' }}>
+          <div className="App" id="App" style={{ flex: '1 0 auto', display: 'flex', flexDirection:' column' }}>
             <Switch>
               <Route exact path="/register" render=
                 {
@@ -81,7 +81,7 @@ export default class TPN extends Component {
         <aside id="popover" className="card bg-danger text-center">
           <h3 className="card-title"> </h3>
         </aside>
-        <Footer />
+        <Footer style={{ flexShrink: 0 }} />
       </div>
     );
   };
