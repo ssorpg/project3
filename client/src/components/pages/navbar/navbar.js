@@ -11,7 +11,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Searchbar from './searchbar';
 
 // FUNCTIONS
-import CheckError from '../../../utils/checkerror';
+import PageLoadError from '../../../utils/pageloaderror';
 import ax from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -78,7 +78,7 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
       window.location = '/';
     }
     catch (error) {
-      CheckError(error);
+      PageLoadError(error);
     }
   }
 

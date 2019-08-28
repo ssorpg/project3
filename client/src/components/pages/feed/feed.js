@@ -7,7 +7,7 @@ import { Container } from '@material-ui/core';
 
 // FUNCTIONS
 import ax from 'axios';
-import CheckError from '../../../utils/checkerror';
+import PageLoadError from '../../../utils/pageloaderror';
 
 export default class Feed extends Component {
   constructor() {
@@ -34,7 +34,7 @@ export default class Feed extends Component {
       });
     }
     catch (error) {
-      CheckError(error);
+      PageLoadError(error);
     }
   }
 

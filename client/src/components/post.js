@@ -11,7 +11,7 @@ import CommentOnPosts from './commentOnPosts';
 
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
-import GetProfileImage from '../utils/getprofileimage';
+import ExtractProfileImage from '../utils/extractprofileimage';
 
 const useStyles = makeStyles({
   media: {
@@ -42,7 +42,7 @@ export default function MediaCard({ YourId, CommunityId, post, vote, deletePost 
       <CardActionArea onClick={goToAuthor}>
         <CardMedia
           className={classes.media}
-          image={GetProfileImage(post.author)}
+          image={ExtractProfileImage(post.author)}
           title="Profile"
         />
         <CardContent>

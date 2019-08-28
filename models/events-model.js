@@ -1,54 +1,55 @@
 module.exports = function (sequelize, DataTypes) {
-    const Event = sequelize.define('Event', {
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            trim: true,
-            validate: {
-                notNull: {
-                    args: true,
-                    msg: 'Please enter a name.'
-                },
-                len: {
-                    args: [1, 255],
-                    msg: 'The name must be between 1 and 255 characters long.'
-                }
-            }
-        },
-        date: {
-            type: DataTypes.DATE,
-            allowNull: true,
-            trim: true,
-            validate: {
-                isDate: { msg: 'Please enter a valid date.' }
-            }
+  const Event = sequelize.define('Event',
+    {
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        trim: true,
+        validate: {
+          notNull: {
+            args: true,
+            msg: 'Please enter a name.'
+          },
+          len: {
+            args: [1, 255],
+            msg: 'The name must be between 1 and 255 characters long.'
+          }
         }
+      },
+      date: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        trim: true,
+        validate: {
+          isDate: { msg: 'Please enter a valid date.' }
+        }
+      }
     },
-        {
-            defaultScope: {
-                order: [['id', 'DESC']]
-            }
-        });
+    {
+      defaultScope: {
+        order: [['id', 'DESC']]
+      }
+    });
 
-    Event.associate = function (models) {
-        Event.belongsToMany(models.User, {
-            through: 'EventUser',
-            as: 'members'
-        });
+  Event.associate = function (models) {
+    Event.belongsToMany(models.User, {
+      through: 'EventUser',
+      as: 'members'
+    });
 
-        Event.belongsTo(models.User, {
-            foreignKey: {
-                allowNull: false
-            },
-            as: 'founder'
-        });
+    Event.belongsTo(models.User, {
+      foreignKey: {
+        allowNull: false
+      },
+      as: 'founder'
+    });
 
-        Event.hasMany(models.Post, {
-            foreignKey: {
-                allowNull: true
-            }
-        });
-    };
+    Event.hasMany(models.Post, {
+      foreignKey: {
+        allowNull: true
+      }
+    });
+  };
 
-    return Event;
+  return Event;
 };

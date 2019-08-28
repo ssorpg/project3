@@ -5,7 +5,7 @@ import { Container, Paper } from '@material-ui/core';
 
 // FUNCTIONS
 import ax from 'axios';
-import CheckError from '../../../utils/checkerror';
+import PageLoadError from '../../../utils/pageloaderror';
 
 // COMPONENT SPECIFIC IMPORTS
 import SearchItem from './search-item';
@@ -29,12 +29,10 @@ class SearchResults extends Component {
     try {
       const results = await ax.get(`/api/search${searchString}`);
 
-      this.setState({
-        searchResults: results.data
-      });
+      this.setState({ searchResults: results.data });
     }
     catch (error) {
-      CheckError(error);
+      PageLoadError(error);
     }
   }
 

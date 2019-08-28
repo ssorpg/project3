@@ -7,7 +7,7 @@ import PostDisplay from '../../postdisplay';
 
 // FUNCTIONS
 import ax from 'axios';
-import CheckError from '../../../utils/checkerror';
+import PageLoadError from '../../../utils/pageloaderror';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -34,7 +34,7 @@ export default class Profile extends Component {
       });
     }
     catch (error) {
-      CheckError(error);
+      PageLoadError(error);
     }
   }
 

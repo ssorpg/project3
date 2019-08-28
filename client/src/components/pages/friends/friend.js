@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
-import GetProfileImage from '../../../utils/getprofileimage';
+import ExtractProfileImage from '../../../utils/extractprofileimage';
 
 const useStyles = makeStyles({
   media: {
@@ -34,7 +34,7 @@ export default function MediaCard({ YourId, CommunityId, friend }) {
       <CardActionArea onClick={goToFriend}>
         <CardMedia
           className={classes.media}
-          image={GetProfileImage(friend)}
+          image={ExtractProfileImage(friend)}
           title="Profile"
         />
         <CardContent>

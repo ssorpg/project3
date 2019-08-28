@@ -10,7 +10,7 @@ import {
   CardMedia, Divider
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import GetProfileImage from '../utils/getprofileimage';
+import ExtractProfileImage from '../utils/extractprofileimage';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -80,7 +80,7 @@ export default function ProfileInfo({ user, deleteCommunity, leaveCommunity }) {
             <Card className={classes.card2}>
               <CardMedia
                 className={classes.media}
-                image={GetProfileImage(user)}
+                image={ExtractProfileImage(user)}
                 title="Profile"
               />
             </Card>

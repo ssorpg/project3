@@ -7,7 +7,7 @@ import Modal from './modal';
 // FUNCTIONS
 import ax from 'axios';
 //TODO CHANGE TO JUST RETURN ERROR OBJ
-// import CheckError from '../utils/checkerror';
+// import PageLoadError from '../utils/pageloaderror';
 
 // LOGIN FORM
 export class LoginForm extends Component {

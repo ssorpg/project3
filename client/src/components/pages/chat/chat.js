@@ -10,12 +10,12 @@ import List from '@material-ui/core/List';
 
 // FUNCTIONS
 import ax from 'axios';
-import CheckError from '../../../utils/checkerror';
-import GetWS from '../../../utils/getws';
+import PageLoadError from '../../../utils/pageloaderror';
+import NewWs from '../../../utils/newws';
 
 export default class Chat extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
       userData: undefined,
@@ -24,7 +24,7 @@ export default class Chat extends Component {
     };
   }
 
-  ws = GetWS(window.location);
+  ws = NewWs(window.location);
 
   root = {
     width: '100%',
@@ -49,7 +49,7 @@ export default class Chat extends Component {
     this.ws.onclose = () => {
       console.log('disconnected');
       // automatically try to reconnect on connection loss
-      this.setState({ ws: GetWS(window.location) });
+      this.setState({ ws: NewWs(window.location) });
     }
   };
 
@@ -60,7 +60,7 @@ export default class Chat extends Component {
       console.log(this.state.userData);
     }
     catch (error) {
-      CheckError(error);
+      PageLoadError(error);
     }
   };
 
