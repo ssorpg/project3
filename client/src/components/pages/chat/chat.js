@@ -19,7 +19,8 @@ export default class Chat extends Component {
 
     this.state = {
       userData: undefined,
-      messages: [],
+      ws: undefined,
+      messages: []
     };
   }
 
@@ -39,9 +40,9 @@ export default class Chat extends Component {
       console.log('connected');
     }
 
-    this.ws.onmessage = evt => {
+    this.ws.onmessage = event => {
       // on receiving a message, add it to the list of messages
-      const message = JSON.parse(evt.data);
+      const message = JSON.parse(event.data);
       this.addMessage(message);
     }
 
@@ -55,8 +56,8 @@ export default class Chat extends Component {
   GetData = async () => {
     try {
       const userData = await ax.get(`/api/users/profile/`);
-      this.setState({ userData: userData });
-      console.log(this.state.userData.data);
+      await this.setState({ userData: userData.data });
+      console.log(this.state.userData);
     }
     catch (error) {
       CheckError(error);
@@ -64,20 +65,21 @@ export default class Chat extends Component {
   };
 
   addMessage = message => {
-    this.setState(state => ({
-      messages: [...state.messages, message],
-    }));
+    this.setState(state => ({ messages: [...state.messages, message] }));
 
     this.updateScroll();
   };
 
   submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
-    let today = new Date();
-    let time = today.getHours() + ":" + ((today.getMinutes() < 10 ? '0' : '') + today.getMinutes()) + ":" + today.getSeconds();
+    const today = new Date();
+    const hours = today.getHours();
+    const minutes = ((today.getMinutes() < 10 ? '0' : '') + today.getMinutes());
+    const seconds = ((today.getSeconds() < 10 ? '0' : '') + today.getSeconds());
+    const time = hours + ":" + minutes + ":" + seconds;
 
     const message = {
-      name: this.state.userData.data.name,
+      user: this.state.userData,
       message: messageString,
       time: time
     };
@@ -100,9 +102,8 @@ export default class Chat extends Component {
               this.state.messages.map((message, index) =>
                 <ChatMessage
                   key={index}
+                  user={message.user}
                   message={message.message}
-                  name={message.name}
-                  user={this.state.userData.data}
                   time={message.time}
                 />,
               )
