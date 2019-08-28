@@ -6,14 +6,14 @@ require('dotenv').config();
 const cookieOptionsS = {
     expires: new Date(Date.now() + 43200000), // 12 hours
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production' ? true : false, // true on deployment for https
+    secure: process.env.NODE_ENV === 'production',
     signed: true
 };
 
 const cookieOptionsU = {
     expires: new Date(Date.now() + 43200000),
     httpOnly: false,
-    secure: process.env.NODE_ENV === 'production' ? true : false,
+    secure: process.env.NODE_ENV === 'production',
     signed: false
 };
 
@@ -45,8 +45,8 @@ module.exports = function (app) {
     }));
 
     app.post(route + '/register', wrap(async function (req, res, next) { // register user
-        if (req.body.password.length < 8 || req.body.password.length > 64 && process.env.NODE_ENV === 'production') {
-            throw { status: 400, msg: 'Your password must be between 8 and 64 characters long.' }
+        if ((req.body.password.length < 8 || req.body.password.length > 64) && process.env.NODE_ENV === 'production') {
+            throw { status: 400, msg: 'Your password must be between 8 and 64 characters long.' };
         }
 
         const password = await auth.hashPass(req);

@@ -3,7 +3,7 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/client/build'));
 
 const morgan = require('morgan');
 app.use(morgan('combined'));
@@ -45,7 +45,7 @@ require('./routes')(app);
 
 app.get('*', wrap(async function (req, res, next) {
     if (process.env.NODE_ENV === 'production') {
-        res.sendFile(__dirname + '/public/index.html');
+        res.sendFile(__dirname + '/client/build/index.html');
     }
     else {
         next();

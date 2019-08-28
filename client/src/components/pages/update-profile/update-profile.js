@@ -95,7 +95,7 @@ export default class UpdateProfile extends Component {
       formData.append('description', description);
       formData.append('selectedFile', selectedFile);
 
-      const res = await ax.post(`/api/images`, formData)
+      const res = await ax.post('/api/images', formData)
 
       console.log(res);
 
