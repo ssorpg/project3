@@ -24,7 +24,7 @@ export default function UpdateForm({ bio, location, onChange, handleSubmit, erro
           helperText="Tell me about yourself! What are your goals?! Hobbies?!"
           variant="outlined"
           name="bio"
-          // onChange={onChange}
+          onChange={onChange}
           value={bio ? bio : ''}
           autofocus
           required

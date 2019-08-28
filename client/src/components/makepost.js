@@ -22,7 +22,8 @@ const useStyles = makeStyles(theme => ({
   },
 
   textarea: {
-    minWidth: '350px',
+    width: '96vw',
+    maxWidth: '350px',
     minHeight: '100px',
     padding: '3px',
     resize: 'none',

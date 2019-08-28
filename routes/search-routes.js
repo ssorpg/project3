@@ -60,6 +60,7 @@ module.exports = function (app) {
         include: [{
           model: db.User,
           as: 'members',
+          required: false,
           where: {
             name: {
               [db.op.like]: query
@@ -68,6 +69,8 @@ module.exports = function (app) {
         }]
       }]
     });
+
+    // do js logic to sort comms
 
     data = user.dataValues.communities;
 

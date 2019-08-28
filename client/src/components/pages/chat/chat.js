@@ -11,49 +11,44 @@ import List from '@material-ui/core/List';
 // FUNCTIONS
 import ax from 'axios';
 import CheckError from '../../../utils/checkerror';
-
-let URL;
-
-if (window.location.origin.indexOf('https') === 0) {
-  URL = 'wss://localhost:3001'
-} else {
-  URL = 'ws://localhost:3001'
-}
+import GetWS from '../../../utils/getws';
 
 export default class Chat extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       userData: undefined,
       messages: [],
     };
   }
+
+  ws = GetWS(window.location);
+
   root = {
     width: '100%',
-    maxWidth: 360,
+    maxWidth: 360
   }
-
-  ws = new WebSocket(URL);
 
   componentDidMount() {
     this.GetData();
 
+    console.log(this.ws);
+
     this.ws.onopen = () => {
-      console.log('connected')
+      console.log('connected');
     }
 
     this.ws.onmessage = evt => {
       // on receiving a message, add it to the list of messages
-      const message = JSON.parse(evt.data)
-      this.addMessage(message)
+      const message = JSON.parse(evt.data);
+      this.addMessage(message);
     }
 
     this.ws.onclose = () => {
-      console.log('disconnected')
+      console.log('disconnected');
       // automatically try to reconnect on connection loss
-      this.setState({
-        ws: new WebSocket(URL),
-      })
+      this.setState({ ws: GetWS(window.location) });
     }
   };
 
@@ -72,8 +67,9 @@ export default class Chat extends Component {
     this.setState(state => ({
       messages: [...state.messages, message],
     }));
+
     this.updateScroll();
-  }
+  };
 
   submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
@@ -85,18 +81,20 @@ export default class Chat extends Component {
       message: messageString,
       time: time
     };
-    this.ws.send(JSON.stringify(message))
-    this.addMessage(message)
-  }
+
+    this.ws.send(JSON.stringify(message));
+    this.addMessage(message);
+  };
 
   updateScroll = () => {
     var element = document.getElementById("chat");
     element.scrollTop = element.scrollHeight;
-  }
+  };
+
   render() {
     return (
       <>
-        <Container id="chat" style={{ height: '500px', overflow: 'auto', padding: '50px' }}>
+        <Container id="chat" style={{ height: '400px', overflow: 'auto', padding: '50px' }}>
           <List className={this.root}>
             {
               this.state.messages.map((message, index) =>

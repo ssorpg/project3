@@ -32,7 +32,9 @@ app.use(wrap(async (req, res, next) => {
     }
     else if (req.path !== '/api/users'
         && req.path !== '/api/users/register'
-        && req.path !== '/api/users/logout') {
+        && req.path !== '/api/users/logout'
+        && req.path !== '/'
+        && req.path !== '/register') {
         throw { status: 401 };
     }
 
@@ -40,6 +42,19 @@ app.use(wrap(async (req, res, next) => {
 }));
 
 require('./routes')(app);
+
+app.get('*', wrap(async function (req, res, next) {
+    if (process.env.NODE_ENV === 'production') {
+        res.sendFile(__dirname + '/public/index.html');
+    }
+    else {
+        next();
+    }
+}));
+
+app.use(wrap(async function (req, res, next) { // 404 handler
+    throw { status: 404, msg: 'Page not found.' };
+}));
 
 app.use(function (err, req, res, next) { // error handler middleware, called with 'next' from routes
     console.log(err);

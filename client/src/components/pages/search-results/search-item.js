@@ -14,14 +14,18 @@ const useStyles = makeStyles(theme => ({
   listItem: {
     borderBottom: '1px solid #ddd',
     marginBottom: '48px'
+  },
+
+  minWidth: {
+    minWidth: '140px'
   }
 }));
 
-export default function SearchItem(props) {
+export default function SearchItem({ searchResults }) {
   const classes = useStyles();
 
   return (
-    Array.isArray(props.data.searchResults) ?
+    searchResults && searchResults.length ?
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <List
@@ -31,7 +35,7 @@ export default function SearchItem(props) {
             }}
           >
             {
-              props.data.searchResults.map(item => (
+              searchResults.map(item => (
                 <ListItem
                   key={item.id}
                   cols="2"
@@ -39,8 +43,8 @@ export default function SearchItem(props) {
                   className={classes.listItem}
                 >
                   <Grid container spacing={2}>
-                    <Grid item>
-                      <ListItemAvatar>
+                    <Grid item className={classes.minWidth}>
+                      <ListItemAvatar style={{ float: 'left' }}>
                         <Avatar>
                           <SvgIcon>
                             <path d="M0 0h24v24H0z" fill="none" /><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM8 17.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM9.5 8c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5S9.5 9.38 9.5 8zm6.5 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
@@ -87,7 +91,7 @@ export default function SearchItem(props) {
       :
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          {props.data.searchResults}
+          {searchResults}
         </Grid>
       </Grid>
   )

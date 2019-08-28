@@ -63,7 +63,7 @@ export default class CommentOnPosts extends Component {
         <Row>
           <Col className="col-12">
             <form className="form-group" onSubmit={this.handleSubmit}>
-              <input type="text" name="feed-comment" placeholder="Make a comment?" style={{ minWidth: '310px', padding: '3px' }} />
+              <input type="text" name="feed-comment" placeholder="Make a comment?" style={{ width: '90%', padding: '3px' }} />
               <button type="submit" value="submit" className="btn btn-primary" style={{ margin: '10px', marginTop: '5px' }}>Comment</button>
               {
                 this.state.errorAlert ?
