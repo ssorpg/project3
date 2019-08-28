@@ -14,7 +14,8 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
   root: {
     minHeight: '100vh',
-    marginBottom: '-48px'
+    marginBottom: '-36px',
+    marginTop: '-12vh'
   },
 
   image: {

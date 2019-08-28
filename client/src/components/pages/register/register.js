@@ -19,6 +19,10 @@ const useStyles = makeStyles(theme => ({
     }
   },
 
+  root: {
+    marginTop: '-12vh'
+  },
+
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -45,8 +49,7 @@ export default function SignUp({ handleSubmit, errorAlert }) {
   const classes = useStyles();
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
+    <Container className={classes.root} component="main" maxWidth="xs">
       <div className={classes.paper}>
         {/* <Avatar className={classes.avatar}>
           <LockOutlinedIcon />

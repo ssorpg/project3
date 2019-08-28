@@ -64,8 +64,8 @@ export default class Chat extends Component {
     }
   };
 
-  addMessage = message => {
-    this.setState(state => ({ messages: [...state.messages, message] }));
+  addMessage = async message => {
+    await this.setState(state => ({ messages: [...state.messages, message] }));
 
     this.updateScroll();
   };
@@ -89,7 +89,7 @@ export default class Chat extends Component {
   };
 
   updateScroll = () => {
-    var element = document.getElementById("chat");
+    const element = document.getElementById("chat");
     element.scrollTop = element.scrollHeight;
   };
 
