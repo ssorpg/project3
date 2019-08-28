@@ -1,5 +1,5 @@
 //this is here for now so i don't have to keep dealing with user authentication while testing the upload. also using multer package too so i don't wanna mess w/ ur routes
-const multer = require('multer')({ dest: 'public/images' });
+const multer = require('multer')({ dest: 'client/build/images' });
 const db = require('../models');
 
 const wrap = fn => (...args) => fn(...args).catch(args[2]);

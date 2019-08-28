@@ -30,7 +30,7 @@ export default function FriendDisplay({ YourId, CommunityId, friends }) {
             {
               friends ?
               friends.map(friend => (
-                  <Grid item xs={4} sm={3} md={2}>
+                  <Grid item xs={6} sm={3} md={2}>
                     <Friend
                       YourId={YourId}
                       CommunityId={CommunityId}

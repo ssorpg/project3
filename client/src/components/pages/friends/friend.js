@@ -37,7 +37,7 @@ export default function MediaCard({ YourId, CommunityId, friend }) {
           image={GetProfileImage(friend)}
           title="Profile"
         />
-        <CardContent id="hide">
+        <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {friend.name}
           </Typography>

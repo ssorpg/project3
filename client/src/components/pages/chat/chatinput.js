@@ -32,7 +32,6 @@ export default class ChatInput extends Component {
         >
           <TextField
             label="Chat with your community!"
-            style={{ margin: 8 }}
             placeholder='Enter message...'
             value={this.state.message}
             // multiline

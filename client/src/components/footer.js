@@ -9,10 +9,12 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   footer: {
-    height: '100px',
+    display: 'flex',
+    justifyContent:' center',
+    alignItems: 'center',
+    height: '8vh',
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6, 0),
-    marginTop: '48px'
+    marginTop: '36px'
   }
 }));
 
