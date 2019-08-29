@@ -42,7 +42,7 @@ export default class TPN extends Component {
     }
   }
 
-  // this line is where state is inherited as this.props even if not called in constructor
+  // this line is where state would be inherited as this.props even if not called in constructor
 
   // componentDidMount() {
   //   console.log(this.state);
