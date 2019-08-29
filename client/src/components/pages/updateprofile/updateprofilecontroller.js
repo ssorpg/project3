@@ -10,7 +10,7 @@ import Modal from '../../modal';
 import ax from 'axios';
 import PageLoadError from '../../../utils/pageloaderror';
 
-export default class UpdateProfile extends Component {
+export default class UpdateProfileController extends Component {
   constructor() {
     super();
 

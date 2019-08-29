@@ -15,7 +15,7 @@ import Wall from './components/pages/wall/wall';
 import FriendsController from './components/pages/friends/friendscontroller';
 import CreateCommunityController from './components/pages/createcommunity/createcommunitycontroller';
 import ChatController from './components/pages/chat/chatcontroller';
-import UpdateProfile from './components/pages/updateprofile/updateprofile';
+import UpdateProfileController from './components/pages/updateprofile/updateprofilecontroller';
 import SearchResultsController from './components/pages/searchresults/searchresultscontroller';
 import Footer from './components/footer';
 
@@ -64,7 +64,7 @@ export default class TPN extends Component {
                 }
               />
               <Route exact path="/profile" render={() => <Profile {...this.state} />} />
-              <Route exact path="/update-profile" render={() => <UpdateProfile id={this.state.YourId} />} />
+              <Route exact path="/update-profile" render={() => <UpdateProfileController id={this.state.YourId} />} />
               <Route exact path="/create-community" render={() => <CreateCommunityController {...this.state} />} />
               <Route exact path="/community/:CommunityId" render={() => <Feed {...this.state} />} />
               <Route exact path="/community/:CommunityId/friends" render={() => <FriendsController {...this.state} />} />
