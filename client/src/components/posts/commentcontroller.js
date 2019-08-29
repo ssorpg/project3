@@ -1,40 +1,42 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import { Row, Col, Container } from 'react-bootstrap';
-import CommentDisplay from './commentdisplay';
-import Modal from './modal';
+import { Container } from '@material-ui/core';
+import MakeComment from './makecomment';
+import Comment from './comment';
 
 // FUNCTIONS
 import ax from 'axios';
 
-export default class CommentOnPosts extends Component {
+export default class CommentController extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       comments: props.post.comments ?
         props.post.comments
-        : undefined,
+        : [],
       errorAlert: undefined
     }
   }
 
   handleSubmit = async event => {
     event.preventDefault();
-
     const form = event.target;
 
     const input = form.getElementsByTagName('input')[0];
+
     const post = {
       message: input.value
     };
+
+    input.value = '';
 
     const submit = form.getElementsByTagName('button')[0];
 
     submit.style.visibility = 'hidden';
     await this.postToDB(post);
     submit.style.visibility = 'visible';
-  }
+  };
 
   postToDB = async data => {
     this.setState({ errorAlert: undefined });
@@ -42,43 +44,49 @@ export default class CommentOnPosts extends Component {
     try {
       const res = await ax.post(`/api/posts/${this.props.post.id}/comments`, data);
 
-      this.setState({
-        comments: [...this.state.comments, res.data]
-      });
+      this.setState({ comments: [...this.state.comments, res.data] });
     }
     catch (error) {
-      console.log(error);
+      console.log(error.response);
       this.setState({ errorAlert: error.response.data });
     }
-  }
+  };
+
+  deleteComment = async event => {
+    event.preventDefault();
+    this.setState({ errorAlert: undefined });
+
+    const commentInfo = event.target.dataset.id ?
+      event.target.dataset
+      : event.target.parentNode.dataset;
+
+    try {
+      const removedComment = await ax.delete(`/api/posts/${commentInfo.postid}/comments/${commentInfo.id}`);
+
+      const newRemovedComments = this.state.comments.filter(comment => { return comment.id !== removedComment.data.id; });
+      this.setState({ comments: newRemovedComments });
+    }
+    catch (error) {
+      console.log(error.response);
+      this.setState({ errorAlert: error.response.data });
+    }
+  };
 
   render() {
     return (
       <Container style={{ textAlign: 'center' }}>
-        <Row>
-          <Col>
-            <h1>{this.state.pageTitle}</h1>
-          </Col>
-        </Row>
-        <Row>
-          <Col className="col-12">
-            <form className="form-group" onSubmit={this.handleSubmit}>
-              <input type="text" name="feed-comment" placeholder="Make a comment?" style={{ width: '90%', padding: '3px' }} />
-              <button type="submit" value="submit" className="btn btn-primary" style={{ margin: '10px', marginTop: '5px' }}>Comment</button>
-              {
-                this.state.errorAlert ?
-                  <Modal error={this.state.errorAlert} />
-                  : ''
-              }
-            </form>
-          </Col>
-        </Row>
+        <MakeComment
+          handleSubmit={this.handleSubmit}
+          errorAlert={this.state.errorAlert}
+        />
         {
           this.state.comments ?
             this.state.comments.map(comment => (
-              <CommentDisplay
+              <Comment
                 key={comment.id}
+                {...this.props}
                 comment={comment}
+                deleteComment={this.deleteComment}
               />
             ))
             : ''

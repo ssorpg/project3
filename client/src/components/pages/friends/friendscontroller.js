@@ -1,8 +1,8 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import Friends from './friends';
-import Megatron from '../../megatron';
 import { Container } from '@material-ui/core';
+import FriendDisplay from './frienddisplay';
+import Megatron from '../../megatron';
 
 // FUNCTIONS
 import ax from 'axios';
@@ -48,7 +48,7 @@ export default class FriendsController extends Component {
             megaHeight='20vh'
             megaMaxHeight='320px!important'
           />
-          <Friends {...this.props} friends={this.state.friends} />
+          <FriendDisplay {...this.props} friends={this.state.friends} />
         </Container>
       </>
     );

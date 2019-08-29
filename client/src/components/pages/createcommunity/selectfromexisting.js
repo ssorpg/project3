@@ -1,8 +1,27 @@
 // COMPONENTS
 import React from 'react';
-import CommunityRadio from './communityradio';
 import { Paper, FormGroup, RadioGroup, List, Button } from '@material-ui/core';
+import CommunityRadio from './communityradio';
+
+// FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+  communityList: {
+    padding: '24px'
+  },
+
+  fixedSizeList: {
+    maxHeight: '12vh',
+    overflow: 'scroll'
+  },
+  
+  button: {
+    display: 'inline-block',
+    verticalAlign: 'center',
+    margin: theme.spacing(1.5)
+  }
+}));
 
 export default function SelectFromExisting({
   communities,
@@ -11,21 +30,6 @@ export default function SelectFromExisting({
   handleRadioSelection,
   handleFormChange
 }) {
-
-  const useStyles = makeStyles(theme => ({
-    communityList: {
-      padding: '24px'
-    },
-    fixedSizeList: {
-      maxHeight: '12vh',
-      overflow: 'scroll'
-    },
-    button: {
-      display: 'inline-block',
-      verticalAlign: 'center',
-      margin: theme.spacing(1.5)
-    }
-  }));
   const classes = useStyles();
 
   return (

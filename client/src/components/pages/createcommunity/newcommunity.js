@@ -1,24 +1,28 @@
 // COMPONENTS
 import React from 'react';
-import { Paper, FormGroup, InputLabel,
-  Input, Button, Typography} from '@material-ui/core';
+import { Paper, FormGroup, InputLabel, Input, Button, Typography } from '@material-ui/core';
+
+// FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
 
-export default function NewCommunity({ handleCreateCommunitySubmit, toggleButtonClassName, handleFormChange }) {
-  const useStyles = makeStyles( theme => ({
-    root: {
-      padding: '24px'
-    },
-    button: {
-      display: 'block',
-      verticalAlign: 'middle',
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(1.5)
-    },
-    input: {
-      marginBottom: theme.spacing(5)
-    }
-  }));
+const useStyles = makeStyles(theme => ({
+  root: {
+    padding: '24px'
+  },
+
+  button: {
+    display: 'block',
+    verticalAlign: 'middle',
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(1.5)
+  },
+
+  input: {
+    marginBottom: theme.spacing(5)
+  }
+}));
+
+export default function NewCommunity({ handleCreateCommunitySubmit, handleFormChange }) {
   const classes = useStyles();
 
   return (
@@ -45,7 +49,7 @@ export default function NewCommunity({ handleCreateCommunitySubmit, toggleButton
             Submit
           </Button>
           <Button
-            className={classes.button + toggleButtonClassName}
+            className={classes.button}
             variant="outlined"
             color="primary"
             onClick={handleFormChange}

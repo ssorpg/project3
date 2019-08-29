@@ -1,15 +1,16 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {
   Card, List, ListItem,
   CardHeader, CardContent,
   CardActions, Collapse,
   Avatar, IconButton, Typography,
-  CardMedia, Divider
+  CardMedia, Divider, Button
 } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+// FUNCTIONS
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 import ExtractProfileImage from '../utils/extractprofileimage';
 
 const useStyles = makeStyles(theme => ({
@@ -55,8 +56,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ProfileInfo({ user, deleteCommunity, leaveCommunity }) {
-  console.log(user);
+export default function ProfileInfo({ user, removeCommunity }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(true);
 
@@ -123,8 +123,8 @@ export default function ProfileInfo({ user, deleteCommunity, leaveCommunity }) {
                             </a>
                             {
                               user.id === community.founderId ?
-                                <Button color="secondary" onClick={deleteCommunity} data-id={community.id}>Delete Community</Button>
-                                : <Button color="secondary" onClick={leaveCommunity} data-id={community.id}>Leave Community</Button>
+                                <Button color="secondary" onClick={removeCommunity} data-isfounder={true} data-id={community.id}>Delete Community</Button>
+                                : <Button color="secondary" onClick={removeCommunity} data-id={community.id}>Leave Community</Button>
                             }
                           </div>
                           <Divider />

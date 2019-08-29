@@ -2,14 +2,14 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Container, Paper } from '@material-ui/core';
+import SearchItem from './searchitem';
+
+// CSS
+import './styles.css';
 
 // FUNCTIONS
 import ax from 'axios';
 import PageLoadError from '../../../utils/pageloaderror';
-
-// COMPONENT SPECIFIC IMPORTS
-import SearchItem from './search-item';
-import './styles.css';
 
 class SearchResults extends Component {
   constructor() {
@@ -21,13 +21,12 @@ class SearchResults extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
-    this.getData(this.props.location.search);
+    this.getData();
   }
 
-  getData = async searchString => {
+  getData = async () => {
     try {
-      const results = await ax.get(`/api/search${searchString}`);
+      const results = await ax.get(`/api/search${this.props.location.search}`); // looks like: /api/search?q=something
 
       this.setState({ searchResults: results.data });
     }
@@ -37,7 +36,6 @@ class SearchResults extends Component {
   }
 
   render() {
-
     return (
       <Container maxWidth="md" id="search">
         <Paper style={{ padding: '24px' }}>

@@ -1,19 +1,13 @@
 // COMPONENTS
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import { AppBar, Toolbar, IconButton, Typography, MenuItem, Menu } from '@material-ui/core';
+import { Menu as MenuIcon, AccountCircle } from '@material-ui/icons';
 import Searchbar from './searchbar';
 
 // FUNCTIONS
-import PageLoadError from '../../../utils/pageloaderror';
-import ax from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
+import ax from 'axios';
+import PageLoadError from '../../../utils/pageloaderror';
 
 const useStyles = makeStyles(theme => ({
   scrollNav: {

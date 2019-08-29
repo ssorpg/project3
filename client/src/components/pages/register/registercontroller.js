@@ -16,16 +16,15 @@ export default class HomeController extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-
     const form = event.target;
+
     const inputs = form.getElementsByTagName('input');
     const postData = {};
 
     for (let i = 0; i < inputs.length; i++) {
       postData[inputs[i].name] = inputs[i].value;
+      inputs[i].value = '';
     }
-
-    // console.log(postData);
 
     const submit = form.getElementsByTagName('button')[0];
 
@@ -37,20 +36,10 @@ export default class HomeController extends Component {
   postToDB = async postData => {
     this.setState({ errorAlert: undefined });
 
-    // console.log(postData);
-
-    const { name, email, password } = postData;
-
     try {
-      await ax.post('/api/users/register',
-        {
-          name: name,
-          email: email,
-          password: password,
-        }
-      );
-
-      await this.login(email, password);
+      await ax.post('/api/users/register', postData);
+      
+      await this.login(postData);
     }
     catch (error) {
       console.log(error.response);
@@ -58,11 +47,11 @@ export default class HomeController extends Component {
     }
   }
 
-  login = async (email, password) => {
+  login = async postData => {
     try {
-      await ax.post('/api/users', { email: email, password: password });
+      await ax.post('/api/users', postData);
 
-      window.location = `/update-profile/`;
+      window.location = '/update-profile/';
     }
     catch (error) {
       console.log(error.response);

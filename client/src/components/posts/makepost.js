@@ -1,9 +1,7 @@
 // COMPONENTS
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
-import Modal from './modal';
-import Button from '@material-ui/core/Button';
+import { Grid, Container, Button } from '@material-ui/core';
+import Modal from '../modal';
 
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
@@ -32,16 +30,10 @@ const useStyles = makeStyles(theme => ({
 
   submit: {
     marginTop: '8px'
-  },
-
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    marginTop: theme.spacing(8),
-    padding: theme.spacing(6, 0)
   }
 }));
 
-export default function PostDisplay({ handleSubmit, errorAlert, postTo }) {
+export default function MakePost({ handleSubmit, errorAlert, postTo }) {
   const classes = useStyles();
 
   return (

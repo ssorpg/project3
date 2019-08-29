@@ -285,8 +285,6 @@ module.exports = function (app) {
       PostId: post.id
     });
 
-    console.log(req.body.message);
-
     await newComment.setAuthor(user);
     newComment.dataValues.author = user;
 
@@ -312,7 +310,7 @@ module.exports = function (app) {
 
     await comment.destroy();
 
-    res.status(200).send('Comment deleted.');
+    res.status(200).json(comment);
   }));
 
   app.put(route + '/:PostId/comments/:CommentId', wrap(async function (req, res, next) { // edit comment

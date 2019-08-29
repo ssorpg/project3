@@ -1,9 +1,10 @@
 // COMPONENTS
 import React, { Component } from 'react';
+import { Grid, Container } from '@material-ui/core';
 import Imageupload from './imageupload';
 import UpdateForm from './updateform';
 import Megatron from '../../megatron';
-import { Grid, Container } from '@material-ui/core';
+import Modal from '../../modal';
 
 // FUNCTIONS
 import ax from 'axios';
@@ -16,88 +17,58 @@ export default class UpdateProfile extends Component {
     this.state = {
       bio: undefined,
       location: undefined,
-      description: undefined,
       selectedFile: undefined,
       errorAlert: undefined
     };
-  }
+  };
 
   componentDidMount() {
     this.GetData();
     // console.log(this.state);
-  }
+  };
 
   GetData = async () => {
     try {
-      const userData = await ax.get(`/api/users/profile/`);
+      const userData = await ax.get('/api/users/profile/');
+
+      const { bio, location } = userData.data;
       this.setState({
-        bio: userData.data.bio,
-        location: userData.data.location,
+        bio: bio,
+        location: location,
       });
     }
     catch (error) {
       PageLoadError(error);
     }
-  }
+  };
 
-  handleSubmit = event => {
+  handleBioLocChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+    // console.log(event.target.name, event.target.value);
+  };
+
+  handleBioLocSubmit = async event => {
     event.preventDefault();
+    const form = event.target;
 
-    const formData = event.target;
-    const inputs = formData.getElementsByTagName('input');
-    const postData = {};
+    const { bio, location } = this.state;
+    const postData = {
+      bio: bio,
+      location: location
+    };
 
-    for (let i = 0; i < inputs.length; i++) {
-      postData[inputs[i].name] = inputs[i].value;
-    }
+    const submit = form.getElementsByTagName('button')[0];
 
-    this.postToDB(postData);
-  }
+    submit.style.visibility = 'hidden';
+    await this.postBioLocToDB(postData);
+    submit.style.visibility = 'visible';
+  };
 
-  postToDB = async postData => {
+  postBioLocToDB = async postData => {
     this.setState({ errorAlert: undefined });
 
-    console.log(postData);
-    const { bio, location } = postData;
-
     try {
-      await ax.put('/api/users/update', {
-        bio: bio,
-        location: location
-      });
-
-      window.location = `/profile`;
-    }
-    catch (error) {
-      console.log(error.response);
-      this.setState({ errorAlert: error.response.data });
-    }
-  }
-
-  onChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-    console.log(event.target.name, event.target.value);
-  }
-
-  onSelectFile = event => {
-    this.setState({ selectedFile: event.target.files[0] });
-  }
-
-  onSubmit = async event => {
-    this.setState({ errorAlert: undefined })
-
-    try {
-      event.preventDefault();
-
-      const { description, selectedFile } = this.state;
-      const formData = new FormData();
-
-      formData.append('description', description);
-      formData.append('selectedFile', selectedFile);
-
-      const res = await ax.post('/api/images', formData)
-
-      console.log(res);
+      await ax.put('/api/users/update', postData);
 
       window.location = '/profile';
     }
@@ -105,7 +76,38 @@ export default class UpdateProfile extends Component {
       console.log(error.response);
       this.setState({ errorAlert: error.response.data });
     }
-  }
+  };
+
+  handlePicChange = event => {
+    this.setState({ selectedFile: event.target.files[0] });
+  };
+
+  handlePicSubmit = async event => {
+    event.preventDefault();
+    const form = event.target;
+
+    const picData = new FormData(form);
+
+    const submit = form.getElementsByTagName('button')[0];
+
+    submit.style.visibility = 'hidden';
+    await this.postPicToDB(picData);
+    submit.style.visibility = 'visible';
+  };
+
+  postPicToDB = async picData => {
+    this.setState({ errorAlert: undefined });
+
+    try {
+      await ax.post('/api/images', picData);
+
+      window.location = '/profile';
+    }
+    catch (error) {
+      console.log(error.response);
+      this.setState({ errorAlert: error.response.data });
+    }
+  };
 
   render() {
     return (
@@ -119,29 +121,29 @@ export default class UpdateProfile extends Component {
             megaHeight='60vh'
             megaMaxHeight='320px!important'
           />
-          {/* <Paper> */}
+          {
+            this.state.errorAlert ?
+              <Modal error={this.state.errorAlert} />
+              : ''
+          }
           <Grid container alignContent="center">
-            <Grid item md={6} style={{marginBottom:'20px'}}>
+            <Grid item md={6} style={{ marginBottom: '20px' }}>
               <h3>Update Profile</h3>
               <UpdateForm
                 bio={this.state.bio}
                 location={this.state.location}
-                onChange={this.onChange}
-                handleSubmit={this.handleSubmit}
-                errorAlert={this.state.errorAlert}
+                handleBioLocChange={this.handleBioLocChange}
+                handleBioLocSubmit={this.handleBioLocSubmit}
               />
             </Grid>
             <Grid item md={6}>
               <h3>Update Photo</h3>
               <Imageupload
-                onSubmit={this.onSubmit}
-                onSelectFile={this.onSelectFile}
-                errorAlert={this.state.errorAlert}
+                handlePicChange={this.handlePicChange}
+                handlePicSubmit={this.handlePicSubmit}
               />
-
             </Grid>
           </Grid>
-          {/* </Paper> */}
         </Container>
       </>
     )

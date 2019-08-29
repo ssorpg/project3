@@ -1,20 +1,23 @@
 // COMPONENTS
 import React from 'react';
-import Modal from '../../modal';
-import TextField from '@material-ui/core/TextField';
-// import clsx from 'clsx';
-import Button from '@material-ui/core/Button';
+import { TextField, Button } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 
-export default function UpdateForm({ bio, location, onChange, handleSubmit, errorAlert }) {
+// FUNCTIONS
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+  relative: {
+    position: 'relative'
+  }
+}));
+
+export default function UpdateForm({ bio, location, handleBioLocChange, handleBioLocSubmit }) {
+  const classes = useStyles();
+
   return (
-    <div style={{ position: 'relative' }}>
-      {
-        errorAlert ?
-          <Modal error={errorAlert} />
-          : ''
-      }
-      <form onSubmit={handleSubmit} style={{ position: 'relative' }}>
+    <div className={classes.relative}>
+      <form onSubmit={handleBioLocSubmit} className={classes.relative}>
         <TextField
           id="outlined-multiline-flexible"
           label="Bio"
@@ -24,7 +27,7 @@ export default function UpdateForm({ bio, location, onChange, handleSubmit, erro
           helperText="Tell me about yourself! What are your goals?! Hobbies?!"
           variant="outlined"
           name="bio"
-          onChange={onChange}
+          onChange={handleBioLocChange}
           value={bio ? bio : ''}
           autofocus
           required
@@ -36,15 +39,14 @@ export default function UpdateForm({ bio, location, onChange, handleSubmit, erro
           helperText="Where do you live?"
           variant="outlined"
           name="location"
-          onChange={onChange}
+          onChange={handleBioLocChange}
           value={location ? location : ''}
           required
         /><br />
-        {/* <LoginButton /> */}
         <Button variant="contained" color="primary" size="small" type="submit">
           <SaveIcon />
           Save
-      </Button>
+        </Button>
       </form>
     </div>
   )

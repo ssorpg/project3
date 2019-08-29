@@ -21,7 +21,7 @@ export default function MediaCard({ YourId, CommunityId, friend }) {
 
   function goToFriend() {
     const goTo = YourId === friend.id ?
-      `/profile`
+      '/profile'
       : `/community/${CommunityId}/friends/${friend.id}`
 
     window.location = goTo;
