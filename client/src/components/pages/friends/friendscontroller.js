@@ -1,12 +1,12 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import Friends from './friends';
-import Megatron from '../../megatron';
 import { Container } from '@material-ui/core';
+import FriendDisplay from './frienddisplay';
+import Megatron from '../../megatron';
 
 // FUNCTIONS
 import ax from 'axios';
-import CheckError from '../../../utils/checkerror';
+import PageLoadError from '../../../utils/pageloaderror';
 
 export default class FriendsController extends Component {
   constructor() {
@@ -32,7 +32,7 @@ export default class FriendsController extends Component {
       });
     }
     catch (error) {
-      CheckError(error);
+      PageLoadError(error);
     }
   }
 
@@ -48,7 +48,7 @@ export default class FriendsController extends Component {
             megaHeight='20vh'
             megaMaxHeight='320px!important'
           />
-          <Friends {...this.props} friends={this.state.friends} />
+          <FriendDisplay {...this.props} friends={this.state.friends} />
         </Container>
       </>
     );

@@ -1,6 +1,11 @@
 // COMPONENTS
+  // the controller for each page contains all the page's logic, and as little styling and html as possible
+  // other files in each page folder contain the styling and html, and as little logic as possible
+  // this way we can keep state consistent between sibling components
+
 import React, { Component } from 'react';
-// import './App.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Navbar from './components/pages/navbar/navbar';
 import Profile from './components/pages/profile/profile';
 import HomeController from './components/pages/home/homecontroller';
@@ -8,12 +13,10 @@ import RegisterController from './components/pages/register/registercontroller';
 import Feed from './components/pages/feed/feed';
 import Wall from './components/pages/wall/wall';
 import FriendsController from './components/pages/friends/friendscontroller';
-import CreateCommunity from './components/pages/create-community/create-community';
-import Chat from './components/pages/chat/chat';
-import UpdateProfile from './components/pages/update-profile/update-profile';
-import SearchResults from './components/pages/search-results/search-results';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import CreateCommunityController from './components/pages/createcommunity/createcommunitycontroller';
+import ChatController from './components/pages/chat/chatcontroller';
+import UpdateProfileController from './components/pages/updateprofile/updateprofilecontroller';
+import SearchResultsController from './components/pages/searchresults/searchresultscontroller';
 import Footer from './components/footer';
 
 // CSS
@@ -24,8 +27,8 @@ import UserAuth from './utils/userauth';
 import GetYourId from './utils/getyourid';
 
 export default class TPN extends Component {
-  constructor(props) {
-    super(props);
+  constructor() { // it's only necessary to define props in constructor if you use them in this.state
+    super(); // they automatically inherit state as this.props from components that import them once the constructor completes anyway
 
     this.state = { // these cannot be changed once a page loads
       isAuth: UserAuth(),
@@ -38,6 +41,8 @@ export default class TPN extends Component {
         : undefined
     }
   }
+
+  // this line is where state would be inherited as this.props even if not called in constructor
 
   // componentDidMount() {
   //   console.log(this.state);
@@ -59,15 +64,14 @@ export default class TPN extends Component {
                 }
               />
               <Route exact path="/profile" render={() => <Profile {...this.state} />} />
-              <Route exact path="/update-profile" render={() => <UpdateProfile id={this.state.YourId} />} />
-              <Route exact path="/create-community" render={() => <CreateCommunity {...this.state} />} />
+              <Route exact path="/update-profile" render={() => <UpdateProfileController id={this.state.YourId} />} />
+              <Route exact path="/create-community" render={() => <CreateCommunityController {...this.state} />} />
               <Route exact path="/community/:CommunityId" render={() => <Feed {...this.state} />} />
-              {/* TODO: make friends tables/routes? */}
               <Route exact path="/community/:CommunityId/friends" render={() => <FriendsController {...this.state} />} />
               <Route exact path="/community/:CommunityId/friends/:UserId" render={() => <Wall {...this.state} />} />
               {/* <Route exact path="/community/:CommunityId/chat" render={() => <Chat {...this.state} />} /> */}
-              <Route exact path="/chat" render={() => <Chat {...this.state} />} />
-              <Route path="/search" render={() => <SearchResults {...this.state} />} />
+              <Route exact path="/chat" render={() => <ChatController {...this.state} />} />
+              <Route path="/search" render={() => <SearchResultsController {...this.state} />} />
               <Route path="/" render=
                 {
                   () => this.state.isAuth ?

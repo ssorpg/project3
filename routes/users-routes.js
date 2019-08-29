@@ -4,147 +4,147 @@ const auth = require('./auth/auth');
 require('dotenv').config();
 
 const cookieOptionsS = {
-    expires: new Date(Date.now() + 43200000), // 12 hours
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    signed: true
+  expires: new Date(Date.now() + 43200000), // 12 hours
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production' ? true : false,
+  signed: true
 };
 
 const cookieOptionsU = {
-    expires: new Date(Date.now() + 43200000),
-    httpOnly: false,
-    secure: process.env.NODE_ENV === 'production',
-    signed: false
+  expires: new Date(Date.now() + 43200000),
+  httpOnly: false,
+  secure: process.env.NODE_ENV === 'production' ? true : false,
+  signed: false
 };
 
 const route = '/api/users';
 const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 module.exports = function (app) {
-    app.post(route, wrap(async function (req, res, next) { // login
-        const user = await db.User.findOne({
-            where: {
-                email: req.body.email
-            },
-            attributes: ['id', 'password']
-        });
+  app.post(route, wrap(async function (req, res, next) { // login
+    const user = await db.User.findOne({
+      where: {
+        email: req.body.email
+      },
+      attributes: ['id', 'password']
+    });
 
-        if (!user) {
-            throw { status: 401, msg: 'That email is not registered.' };
+    if (!user) {
+      throw { status: 401, msg: 'That email is not registered.' };
+    }
+
+    const token = await auth.makeToken(req, user);
+
+    return res.status(200)
+      .cookie('token', token, cookieOptionsS)
+      .cookie('userId', user.id, cookieOptionsU)
+      .send({
+        message: 'Login successful.',
+        loggedIn: true
+      });
+  }));
+
+  app.post(route + '/register', wrap(async function (req, res, next) { // register user
+    if ((req.body.password.length < 8 || req.body.password.length > 64) && process.env.NODE_ENV === 'production') {
+      throw { status: 400, msg: 'Your password must be between 8 and 64 characters long.' };
+    }
+
+    const password = await auth.hashPass(req);
+
+    const newUser = await db.User.create({
+      name: req.body.name,
+      email: req.body.email,
+      password: password
+    });
+
+    const defaultCommunity = await db.Community.findOne({
+      where: {
+        name: 'TPN'
+      }
+    });
+
+    await defaultCommunity.addMember(newUser);
+    await newUser.addCommunity(defaultCommunity); // users join public community by default
+
+    res.status(200).send('Account created!');
+  }));
+
+  app.put(route + '/update', wrap(async function (req, res, next) { // update profile
+    await db.User.update(
+      {
+        name: req.body.name,
+        bio: req.body.bio,
+        location: req.body.location,
+      },
+      {
+        where: {
+          id: req.token.UserId
         }
+      });
 
-        const token = await auth.makeToken(req, user);
+    res.status(200).send('Profile updated!');
+  }));
 
-        return res.status(200)
-            .cookie('token', token, cookieOptionsS)
-            .cookie('userId', user.id, cookieOptionsU)
-            .send({
-                message: 'Login successful.',
-                loggedIn: true
-            });
-    }));
+  app.get(route + '/logout', wrap(async function (req, res, next) { // logout
+    res.status(200)
+      .clearCookie('token')
+      .clearCookie('userId')
+      .send('Logout successful.');
+  }));
 
-    app.post(route + '/register', wrap(async function (req, res, next) { // register user
-        if ((req.body.password.length < 8 || req.body.password.length > 64) && process.env.NODE_ENV === 'production') {
-            throw { status: 400, msg: 'Your password must be between 8 and 64 characters long.' };
-        }
+  app.get(route + '/profile', wrap(async function (req, res, next) { // user profile
+    const user = await db.User.findOne({
+      where: {
+        id: req.token.UserId
+      },
+      include: [{
+        model: db.Image,
+        as: 'profileImage',
+        limit: 1
+      },
+      {
+        model: db.Community,
+        as: 'communities'
+      },
+      {
+        model: db.Post,
+        as: 'wallPosts',
+        include: [{
+          model: db.User,
+          as: 'author',
+          include: [{
+            model: db.Image,
+            as: 'profileImage',
+            limit: 1
+          }]
+        }]
+      }]
+    });
 
-        const password = await auth.hashPass(req);
+    res.status(200).json(user);
+  }));
 
-        const newUser = await db.User.create({
-            name: req.body.name,
-            email: req.body.email,
-            password: password
-        });
+  // app.get(route + '/invites', wrap(async function (req, res, next) { // get your invites
+  //     const user = await db.User.findOne({
+  //         where: {
+  //             id: req.token.UserId
+  //         },
+  //         include: [{
+  //             model: db.Community,
+  //             as: 'invites'
+  //         }]
+  //     });
 
-        const defaultCommunity = await db.Community.findOne({
-            where: {
-                name: 'TPN'
-            }
-        });
+  //     res.status(200).json(user);
+  // }));
 
-        await defaultCommunity.addMember(newUser);
-        await newUser.addCommunity(defaultCommunity); // users join public community by default
+  app.delete(route, wrap(async function (req, res, next) { // delete user
+    await db.User.destroy({
+      where: {
+        id: req.token.UserId
+      }
+    });
 
-        res.status(200).send('Account created!');
-    }));
-
-    app.put(route + '/update', wrap(async function (req, res, next) { // update profile
-        await db.User.update(
-            {
-                name: req.body.name,
-                bio: req.body.bio,
-                location: req.body.location,
-            },
-            {
-                where: {
-                    id: req.token.UserId
-                }
-            });
-
-        res.status(200).send('Profile updated!');
-    }));
-
-    app.get(route + '/logout', wrap(async function (req, res, next) { // logout
-        res.status(200)
-            .clearCookie('token')
-            .clearCookie('userId')
-            .send('Logout successful.');
-    }));
-
-    app.get(route + '/profile', wrap(async function (req, res, next) { // user profile
-        const user = await db.User.findOne({
-            where: {
-                id: req.token.UserId
-            },
-            include: [{
-                model: db.Image,
-                as: 'profileImage',
-                limit: 1
-            },
-            {
-                model: db.Community,
-                as: 'communities'
-            },
-            {
-                model: db.Post,
-                as: 'wallPosts',
-                include: [{
-                    model: db.User,
-                    as: 'author',
-                    include: [{
-                        model: db.Image,
-                        as: 'profileImage',
-                        limit: 1
-                    }]
-                }]
-            }]
-        });
-
-        res.status(200).json(user);
-    }));
-
-    // app.get(route + '/invites', wrap(async function (req, res, next) { // get your invites
-    //     const user = await db.User.findOne({
-    //         where: {
-    //             id: req.token.UserId
-    //         },
-    //         include: [{
-    //             model: db.Community,
-    //             as: 'invites'
-    //         }]
-    //     });
-
-    //     res.status(200).json(user);
-    // }));
-
-    app.delete(route, wrap(async function (req, res, next) { // delete user
-        await db.User.destroy({
-            where: {
-                id: req.token.UserId
-            }
-        });
-
-        res.status(200).send('Account deleted.');
-    }));
+    res.status(200).send('Account deleted.');
+  }));
 };

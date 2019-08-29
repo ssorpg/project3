@@ -1,4 +1,4 @@
-export default function CheckError(error) {
+export default function PageLoadError(error) {
     if (error.response) {
         console.log(error.response);
 

@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-export default function getWS(loc) {
+export default function NewWS(loc) {
     const matches = loc.origin.match(/\/(.*)/);
     const url = process.env.NODE_ENV === 'production' ?
         matches[1]

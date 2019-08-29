@@ -1,11 +1,6 @@
 // COMPONENTS
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import { Button, TextField, Link, Paper, Grid, Typography } from '@material-ui/core';
 import Modal from '../../modal';
 
 // FUNCTIONS
