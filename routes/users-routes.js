@@ -6,14 +6,14 @@ require('dotenv').config();
 const cookieOptionsS = {
   expires: new Date(Date.now() + 43200000), // 12 hours
   httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
+  secure: process.env.NODE_ENV === 'production' ? true : false,
   signed: true
 };
 
 const cookieOptionsU = {
   expires: new Date(Date.now() + 43200000),
   httpOnly: false,
-  secure: process.env.NODE_ENV === 'production',
+  secure: process.env.NODE_ENV === 'production' ? true : false,
   signed: false
 };
 
