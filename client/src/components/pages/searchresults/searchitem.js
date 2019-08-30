@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SearchItem({ searchResults }) {
+export default function SearchItem({ YourId, searchResults }) {
   const classes = useStyles();
 
   return (
@@ -67,9 +67,15 @@ export default function SearchItem({ searchResults }) {
                           {
                             community.members.map(member => (
                               <ListItem key={member.id}>
-                                  <a href={`/community/${community.id}/friends/${member.id}/`}>
-                                    {member.name}
-                                  </a>
+                                <a
+                                href={
+                                  YourId === member.id ?
+                                    '/profile'
+                                    : `/community/${community.id}/friends/${member.id}`
+                                  }
+                                >
+                                {member.name}
+                                </a>
                               </ListItem>
                             ))
                           }

@@ -7,13 +7,14 @@ module.exports = function (sequelize, DataTypes) {
       filename: DataTypes.STRING,
       path: DataTypes.STRING,
       size: DataTypes.INTEGER
-    },
-    {
-      defaultScope: {
-        order: [['id', 'DESC']],
-        attributes: ['filename']
-      }
     });
+
+  Image.addScopes = function (models) {
+    Image.addScope('defaultScope', {
+      order: [['id', 'DESC']],
+      attributes: ['filename']
+    });
+  };
 
   return Image;
 };

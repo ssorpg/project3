@@ -17,11 +17,6 @@ module.exports = function (sequelize, DataTypes) {
           }
         }
       }
-    },
-    {
-      defaultScope: {
-        order: [['id', 'DESC']]
-      }
     });
 
   Community.associate = function (models) {
@@ -37,7 +32,7 @@ module.exports = function (sequelize, DataTypes) {
 
     Community.belongsTo(models.User, {
       foreignKey: {
-        allowNull: false
+        allowNull: true
       },
       as: 'founder'
     });
@@ -52,6 +47,16 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: {
         allowNull: true
       }
+    });
+  };
+
+  Community.addScopes = function (models) {
+    Community.addScope('defaultScope', {
+      order: [['id', 'DESC']],
+      include: [{
+        model: models.User,
+        as: 'founder'
+      }]
     });
   };
 

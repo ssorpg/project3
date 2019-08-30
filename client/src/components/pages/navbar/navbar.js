@@ -12,7 +12,7 @@ import PageLoadError from '../../../utils/pageloaderror';
 const useStyles = makeStyles(theme => ({
   scrollNav: {
     position: 'fixed',
-    zIndex: '99'
+    zIndex: '999'
   },
 
   grow: {

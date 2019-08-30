@@ -25,7 +25,7 @@ export default function Post(props) {
 
   function goToAuthor() {
     const goTo = YourId === post.author.id ?
-      `/profile`
+      '/profile'
       : `/community/${post.CommunityId}/friends/${post.author.id}`;
 
     window.location = goTo;

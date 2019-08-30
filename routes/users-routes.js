@@ -17,11 +17,10 @@ const cookieOptionsU = {
   signed: false
 };
 
-const route = '/api/users';
 const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 module.exports = function (app) {
-  app.post(route, wrap(async function (req, res, next) { // login
+  app.post('/api/users', wrap(async function (req, res, next) { // login
     const user = await db.User.findOne({
       where: {
         email: req.body.email
@@ -37,14 +36,11 @@ module.exports = function (app) {
 
     return res.status(200)
       .cookie('token', token, cookieOptionsS)
-      .cookie('userId', user.id, cookieOptionsU)
-      .send({
-        message: 'Login successful.',
-        loggedIn: true
-      });
+      .cookie('UserId', user.id, cookieOptionsU)
+      .send('Login successful.');
   }));
 
-  app.post(route + '/register', wrap(async function (req, res, next) { // register user
+  app.post('/api/users/register', wrap(async function (req, res, next) { // register user
     if ((req.body.password.length < 8 || req.body.password.length > 64) && process.env.NODE_ENV === 'production') {
       throw { status: 400, msg: 'Your password must be between 8 and 64 characters long.' };
     }
@@ -69,7 +65,7 @@ module.exports = function (app) {
     res.status(200).send('Account created!');
   }));
 
-  app.put(route + '/update', wrap(async function (req, res, next) { // update profile
+  app.put('/api/users/update', wrap(async function (req, res, next) { // update profile
     await db.User.update(
       {
         name: req.body.name,
@@ -85,46 +81,32 @@ module.exports = function (app) {
     res.status(200).send('Profile updated!');
   }));
 
-  app.get(route + '/logout', wrap(async function (req, res, next) { // logout
+  app.get('/api/users/logout', wrap(async function (req, res, next) { // logout
     res.status(200)
       .clearCookie('token')
-      .clearCookie('userId')
+      .clearCookie('UserId')
       .send('Logout successful.');
   }));
 
-  app.get(route + '/profile', wrap(async function (req, res, next) { // user profile
+  app.get('/api/users/profile', wrap(async function (req, res, next) { // user profile
     const user = await db.User.findOne({
       where: {
         id: req.token.UserId
       },
       include: [{
-        model: db.Image,
-        as: 'profileImage',
-        limit: 1
-      },
-      {
         model: db.Community,
         as: 'communities'
       },
       {
         model: db.Post,
-        as: 'wallPosts',
-        include: [{
-          model: db.User,
-          as: 'author',
-          include: [{
-            model: db.Image,
-            as: 'profileImage',
-            limit: 1
-          }]
-        }]
+        as: 'wallPosts'
       }]
     });
 
     res.status(200).json(user);
   }));
 
-  // app.get(route + '/invites', wrap(async function (req, res, next) { // get your invites
+  // app.get('/api/users/invites', wrap(async function (req, res, next) { // get your invites
   //     const user = await db.User.findOne({
   //         where: {
   //             id: req.token.UserId
@@ -138,13 +120,16 @@ module.exports = function (app) {
   //     res.status(200).json(user);
   // }));
 
-  app.delete(route, wrap(async function (req, res, next) { // delete user
+  app.delete('/api/users', wrap(async function (req, res, next) { // delete user
     await db.User.destroy({
       where: {
         id: req.token.UserId
       }
     });
 
-    res.status(200).send('Account deleted.');
+    res.status(200)
+      .clearCookie('token')
+      .clearCookie('UserId')
+      .send('Account deleted.');
   }));
 };
