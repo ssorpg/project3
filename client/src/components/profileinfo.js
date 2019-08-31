@@ -89,9 +89,7 @@ export default function ProfileInfo(props) {
             </Card>
             <CardActions disableSpacing>
               <IconButton
-                className={clsx(classes.expand, {
-                  [classes.expandOpen]: expanded,
-                })}
+                className={clsx(classes.expand, { [classes.expandOpen]: expanded })}
                 onClick={handleExpandClick}
                 aria-expanded={expanded}
                 aria-label="show more"
@@ -129,10 +127,10 @@ export default function ProfileInfo(props) {
                                 user.id === community.founderId ?
                                   <>
                                     <InviteAUser {...props} />
-                                    <Button color="primary" onClick={openInviteDialog} data-id={community.id}>Invite User</Button>
-                                    <Button color="secondary" onClick={removeCommunity} data-isfounder={true} data-id={community.id}>Delete Community</Button>
+                                    <Button color="primary" onClick={openInviteDialog} data-id={community.id}>Invite</Button>
+                                    <Button color="secondary" onClick={removeCommunity} data-isfounder={true} data-id={community.id}>Delete</Button>
                                   </>
-                                  : <Button color="secondary" onClick={removeCommunity} data-id={community.id}>Leave Community</Button>
+                                  : <Button color="secondary" onClick={removeCommunity} data-id={community.id}>Leave</Button>
                               }
                             </div>
                             <Divider />

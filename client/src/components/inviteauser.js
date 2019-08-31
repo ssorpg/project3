@@ -9,8 +9,8 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
   inviteForm: {
     padding: theme.spacing(2),
-    boxSizing: 'content-box',
-    minWidth: '450px'
+    width: '450px',
+    maxWidth: '74vw'
   },
 
   inviteButton: {
