@@ -73,7 +73,7 @@ export default class UpdateProfileController extends Component {
       window.location = '/profile';
     }
     catch (error) {
-      console.log(error.response);
+      console.log(error);
       this.setState({ errorAlert: error.response.data });
     }
   };
@@ -104,7 +104,7 @@ export default class UpdateProfileController extends Component {
       window.location = '/profile';
     }
     catch (error) {
-      console.log(error.response);
+      console.log(error);
       this.setState({ errorAlert: error.response.data });
     }
   };

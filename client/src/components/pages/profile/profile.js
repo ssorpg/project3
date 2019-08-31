@@ -61,7 +61,7 @@ export default class Profile extends Component {
       this.setState({ userData: newUserData });
     }
     catch (error) {
-      console.log(error.response);
+      console.log(error);
       this.setState({ errorAlert: error.response.data });
     }
   };
@@ -94,23 +94,22 @@ export default class Profile extends Component {
       email: input.value
     };
 
-    input.value = '';
-
     const submit = form.getElementsByTagName('button')[0];
 
     submit.style.visibility = 'hidden';
-    await this.postToDB(invite);
+    await this.postToDB(form, invite);
     submit.style.visibility = 'visible';
   };
 
-  postToDB = async invite => {
+  postToDB = async (form, invite) => {
     this.setState({ dialogErrorAlert: undefined });
 
     try {
       await ax.post(`/api/communities/${this.state.inviteCommId}/invited`, invite);
+      form.reset();
     }
     catch (error) {
-      console.log(error.response);
+      console.log(error);
       this.setState({ dialogErrorAlert: error.response.data });
     }
   };
@@ -140,7 +139,7 @@ export default class Profile extends Component {
       }
     }
     catch (error) {
-      console.log(error.response);
+      console.log(error);
       this.setState({ errorAlert: error.response.data });
     }
   };

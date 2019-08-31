@@ -1,6 +1,6 @@
 export default function PageLoadError(error) {
     if (error.response) {
-        console.log(error.response);
+        console.log(error);
 
         const page = document.getElementById('App');
         const footer = document.getElementsByTagName('footer');

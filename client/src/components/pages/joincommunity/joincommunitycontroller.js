@@ -60,8 +60,6 @@ export default class CreateCommunity extends Component {
       private: inputs[1].checked
     };
 
-    inputs[0].value = '';
-
     const submit = form.getElementsByTagName('button')[0];
 
     submit.style.visibility = 'hidden';
@@ -78,7 +76,7 @@ export default class CreateCommunity extends Component {
       window.location = `/community/${newCommunity.data.id}`;
     }
     catch (error) {
-      console.log(error.response);
+      console.log(error);
       this.setState({ errorAlert: error.response.data });
     }
   };
@@ -88,6 +86,7 @@ export default class CreateCommunity extends Component {
   };
 
   handleChosenCommunitySubmit = async event => {
+    event.preventDefault();
     this.setState({ errorAlert: undefined });
 
     try {
@@ -96,7 +95,7 @@ export default class CreateCommunity extends Component {
       window.location = `/community/${this.state.CommunityId}`;
     }
     catch (error) {
-      console.log(error.response);
+      console.log(error);
       this.setState({ errorAlert: error.response.data });
     }
   };

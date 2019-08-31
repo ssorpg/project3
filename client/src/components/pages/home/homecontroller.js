@@ -17,32 +17,31 @@ export default class HomeController extends Component {
   handleSubmit = async event => {
     event.preventDefault();
     const form = event.target;
-    
+
     const inputs = form.getElementsByTagName('input');
     const postData = {};
 
     for (let i = 0; i < inputs.length; i++) {
       postData[inputs[i].name] = inputs[i].value;
-      inputs[i].value = '';
     }
 
     const submit = form.getElementsByTagName('button')[0];
 
     submit.style.visibility = 'hidden';
-    await this.login(postData);
+    await this.login(inputs[1], postData);
     submit.style.visibility = 'visible';
   }
 
-  login = async postData => {
+  login = async (password, postData) => {
     this.setState({ errorAlert: undefined });
 
     try {
       await ax.post('/api/users', postData);
-
       window.location = '/profile';
     }
     catch (error) {
-      console.log(error.response);
+      console.log(error);
+      password.value = '';
       this.setState({ errorAlert: error.response.data });
     }
   }

@@ -25,29 +25,27 @@ export default class CommentController extends Component {
 
     const input = form.getElementsByTagName('input')[0];
 
-    const post = {
+    const comment = {
       message: input.value
     };
-
-    input.value = '';
 
     const submit = form.getElementsByTagName('button')[0];
 
     submit.style.visibility = 'hidden';
-    await this.postToDB(post);
+    await this.postToDB(form, comment);
     submit.style.visibility = 'visible';
   };
 
-  postToDB = async data => {
+  postToDB = async (form, comment) => {
     this.setState({ errorAlert: undefined });
 
     try {
-      const res = await ax.post(`/api/posts/${this.props.post.id}/comments`, data);
-
+      const res = await ax.post(`/api/posts/${this.props.post.id}/comments`, comment);
+      form.reset();
       this.setState({ comments: [...this.state.comments, res.data] });
     }
     catch (error) {
-      console.log(error.response);
+      console.log(error);
       this.setState({ errorAlert: error.response.data });
     }
   };
@@ -66,7 +64,7 @@ export default class CommentController extends Component {
       this.setState({ comments: newRemovedComments });
     }
     catch (error) {
-      console.log(error.response);
+      console.log(error);
       this.setState({ errorAlert: error.response.data });
     }
   };

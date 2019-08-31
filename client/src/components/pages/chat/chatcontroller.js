@@ -41,7 +41,7 @@ export default class Chat extends Component {
     }
   };
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
     event.preventDefault();
 
@@ -54,9 +54,8 @@ export default class Chat extends Component {
       time: this.getFormattedTime()
     };
 
-    input.value = '';
-
-    this.ws.send(JSON.stringify(message));
+    await this.ws.send(JSON.stringify(message));
+    form.reset();
     this.addMessage(message);
   };
 

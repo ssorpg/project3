@@ -23,7 +23,6 @@ export default class HomeController extends Component {
 
     for (let i = 0; i < inputs.length; i++) {
       postData[inputs[i].name] = inputs[i].value;
-      inputs[i].value = '';
     }
 
     const submit = form.getElementsByTagName('button')[0];
@@ -42,7 +41,7 @@ export default class HomeController extends Component {
       await this.login(postData);
     }
     catch (error) {
-      console.log(error.response);
+      console.log(error);
       this.setState({ errorAlert: error.response.data });
     }
   }
@@ -51,10 +50,10 @@ export default class HomeController extends Component {
     try {
       await ax.post('/api/users', postData);
 
-      window.location = '/update-profile/';
+      window.location = '/updateprofile/';
     }
     catch (error) {
-      console.log(error.response);
+      console.log(error);
       this.setState({ errorAlert: error.response.data });
     }
   }
