@@ -31,6 +31,14 @@ const useStyles = makeStyles(theme => ({
     }
   },
 
+  resetA: {
+    color: '#fff',
+    '&:hover': {
+      color: '#d9d9d9',
+      textDecoration: 'none'
+    }
+  },
+
   linkStyleReset: {
     color: 'initial',
     '&:hover': {
@@ -137,7 +145,9 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
                 <MenuIcon />
               </IconButton>
               <Typography className={classes.title} variant="h6" noWrap>
-                The Private Network
+                <a href="/" className={classes.resetA}>
+                  The Private Network
+                </a>
               </Typography>
               <Searchbar />
               <div className={classes.grow} />
