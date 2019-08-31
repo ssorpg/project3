@@ -13,6 +13,11 @@ const useStyles = makeStyles({
     justifyContent: 'space-between'
   },
 
+  commentText: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
+  },
+
   delete: {
     display: 'inline-block',
     marginLeft: '10px',
@@ -25,7 +30,7 @@ export default function Comment({ YourId, comment, deleteComment }) {
 
   return (
     <p className={classes.comment}>
-      <span>
+      <span className={classes.commentText}>
         <strong>{comment.author.name}</strong>: {comment.message}
       </span>
       {
@@ -38,7 +43,7 @@ export default function Comment({ YourId, comment, deleteComment }) {
             onClick={deleteComment}
             className={classes.delete}
           >
-            <DeleteIcon style={{ pointerEvents: 'none' }} /> {/* pointerEvents prevent being the target of event listeners */}
+            <DeleteIcon style={{ pointerEvents: 'none' }} /> {/* pointerEvents prevents being the target of event listeners */}
           </Button>
           : ''
       }

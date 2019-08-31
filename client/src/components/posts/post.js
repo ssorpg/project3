@@ -12,9 +12,14 @@ const useStyles = makeStyles({
     paddingTop: '100%'
   },
 
+  postText: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
+  },
+
   score: {
     position: 'absolute',
-    bottom: '10px',
+    bottom: '-25px',
     right: '10px'
   }
 });
@@ -44,11 +49,11 @@ export default function Post(props) {
             {post.author.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {post.message}
+            <span className={classes.postText}>{post.message}</span>
           </Typography>
-          <div className={classes.score}>
+          <Typography className={classes.score}>
             Likes: {post.score}
-          </div>
+          </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>

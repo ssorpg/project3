@@ -29,7 +29,7 @@ export default class Profile extends Component {
 
       this.setState({
         userData: userData.data,
-        posts: userData.data.wallPosts
+        posts: userData.data.posts
       });
     }
     catch (error) {

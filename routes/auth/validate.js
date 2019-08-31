@@ -11,8 +11,8 @@ module.exports = {
     if (!community) {
       throw { status: 404, msg: 'That community doesn\'t exist.' };
     }
-  
-    const [user] = await community.getMembers({
+
+    const user = await db.User.findOne({
       where: {
         id: UserId
       }
@@ -22,7 +22,8 @@ module.exports = {
       community: community,
       user: user,
       isFounder: user && user.id === community.founderId ? true : false,
-      isUser: user ? true : false
+      isMember: await community.hasMember(user),
+      isInvited: await community.hasInvited(user)
     };
   },
 

@@ -76,7 +76,7 @@ const PORT = process.env.PORT || 3001;
 const WebSocket = require('ws');
 
 //creating the constant connection between server and client
-db.sequelize.sync().then(function () {
+db.sequelize.sync({ force: JSON.parse(process.env.RESET_DB) }).then(function () { // all env variables are strings, so bools must be parsed
   require('./data/seeds')(db); // run seeds
 
   const server = app.listen(PORT, function () {

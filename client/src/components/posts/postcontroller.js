@@ -28,31 +28,28 @@ export default class PostController extends Component {
       message: input.value
     };
 
-    input.value = '';
-
     const submit = form.getElementsByTagName('button')[0];
 
     submit.style.visibility = 'hidden';
-    await this.postToDB(post);
+    await this.postToDB(form, post);
     submit.style.visibility = 'visible';
   };
 
-  postToDB = async data => {
+  postToDB = async (form, post) => {
     this.setState({ errorAlert: undefined });
 
     try {
-      const res = await ax.post(this.state.postURL, data);
-
+      const res = await ax.post(this.state.postURL, post);
+      form.reset();
       this.setState({ posts: [res.data, ...this.state.posts] });
     }
     catch (error) {
-      console.log(error.response);
+      console.log(error);
       this.setState({ errorAlert: error.response.data });
     }
   };
 
   vote = async event => {
-    event.preventDefault();
     this.setState({ errorAlert: undefined });
 
     const postInfo = event.target.dataset.id ?
@@ -72,13 +69,12 @@ export default class PostController extends Component {
       this.setState({ posts: newPostsScore });
     }
     catch (error) {
-      console.log(error.response);
+      console.log(error);
       this.setState({ errorAlert: error.response.data });
     }
   };
 
   deletePost = async event => {
-    event.preventDefault();
     this.setState({ errorAlert: undefined });
 
     const postInfo = event.target.dataset.id ?
@@ -92,7 +88,7 @@ export default class PostController extends Component {
       this.setState({ posts: newRemovedPosts });
     }
     catch (error) {
-      console.log(error.response);
+      console.log(error);
       this.setState({ errorAlert: error.response.data });
     }
   };

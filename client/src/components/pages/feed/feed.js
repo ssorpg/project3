@@ -28,7 +28,7 @@ export default class Feed extends Component {
 
       this.setState({
         pageTitle: res.data.name + ' Feed',
-        posts: res.data.feedPosts
+        posts: res.data.posts
       });
     }
     catch (error) {

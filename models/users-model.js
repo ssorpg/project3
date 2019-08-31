@@ -41,11 +41,23 @@ module.exports = function (sequelize, DataTypes) {
       },
       bio: {
         type: DataTypes.TEXT,
-        allowNull: true
+        trim: true,
+        validate: {
+          len: {
+            args: [1, 2000],
+            msg: 'Your bio must be between 1 and 2000 characters long.'
+          }
+        }
       },
       location: {
         type: DataTypes.STRING,
-        allowNull: true
+        trim: true,
+        validate: {
+          len: {
+            args: [1, 64],
+            msg: 'Your location must be between 1 and 64 characters long.'
+          }
+        }
       }
     });
 
@@ -66,16 +78,10 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     User.hasMany(models.Post, {
-      foreignKey: {
-        allowNull: true
-      },
-      as: 'wallPosts'
+      as: 'posts'
     });
 
     User.hasMany(models.Image, {
-      foreignKey: {
-        allowNull: true
-      },
       as: 'profileImage'
     });
   };

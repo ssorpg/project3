@@ -18,23 +18,16 @@ module.exports = function (sequelize, DataTypes) {
       },
       score: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         defaultValue: 0
       }
     });
 
   Post.associate = function (models) {
     Post.belongsTo(models.User, {
-      foreignKey: {
-        allowNull: true
-      },
       as: 'author'
     });
 
     Post.hasMany(models.Comment, {
-      foreignKey: {
-        allowNull: true
-      },
       as: 'comments'
     });
 

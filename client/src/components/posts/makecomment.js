@@ -14,8 +14,7 @@ const useStyles = makeStyles(theme => ({
   },
 
   submit: {
-    margin: theme.spacing(1),
-    marginBottom: theme.spacing(3)
+    margin: theme.spacing(1)
   }
 }));
 

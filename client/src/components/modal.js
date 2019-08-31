@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
 export default function Modal({ error }) {
   const classes = useStyles();
 
-  function removeErrors() { // remove error messages by clicking on them
+  function removeErrors() { // dismiss error messages by clicking on them
     const errors = document.getElementsByClassName('error');
 
     for (let i = 0; i < errors.length; i++) { // can't use foreach on a list :(
