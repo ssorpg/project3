@@ -10,10 +10,10 @@ import NewWs from '../../../utils/newws';
 export default class Chat extends Component {
   constructor() {
     super();
-
     this.state = {
       userData: undefined,
-      messages: []
+      messages: [],
+      connected: undefined,
     };
   };
 
@@ -21,17 +21,19 @@ export default class Chat extends Component {
 
   async componentDidMount() {
     this.setState({ userData: await GetYourProfile() });
+    //console.log(this.ws);
 
-    console.log(this.ws);
-
-    this.ws.onopen = () => {
-      console.log('connected');
+    this.ws.onopen = async (event) => {
+      //this does not happen everytime we connect. if you refresh, sometimes it happens sometimes it doesnt.
+      console.log('testing');
+      await this.setState({ connected: this.state.userData.name });
     }
 
     this.ws.onmessage = event => {
       // on receiving a message, add it to the list of messages
       const message = JSON.parse(event.data);
       this.addMessage(message);
+      //console.log(this.state.connected);
     }
 
     this.ws.onclose = () => {
@@ -83,6 +85,9 @@ export default class Chat extends Component {
   render() {
     return (
       <>
+        { //so the code below is to show the "user has connected" only if connected in state is defined. pretty self explanatory
+          this.state.connected ? <p>{this.state.connected} has connected</p>
+          : ''}
         <ChatMessageContainer messages={this.state.messages} />
         <br /><br />
         <ChatInput

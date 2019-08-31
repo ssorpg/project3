@@ -43,7 +43,7 @@ app.use(wrap(async (req, res, next) => {
 
 require('./routes')(app);
 
-app.get('*', wrap(async function (req, res, next) {
+app.get('*', wrap(async (req, res, next) => {
   if (process.env.NODE_ENV === 'production') {
     res.sendFile(__dirname + '/client/build/index.html');
   }
@@ -52,11 +52,11 @@ app.get('*', wrap(async function (req, res, next) {
   }
 }));
 
-app.use(wrap(async function (req, res, next) { // 404 handler
+app.use(wrap(async (req, res, next) => { // 404 handler
   throw { status: 404, msg: 'Page not found.' };
 }));
 
-app.use(function (err, req, res, next) { // error handler middleware, called with 'next' from routes
+app.use((err, req, res, next) => { // error handler middleware, called with 'next' from routes
   console.log(err);
 
   switch (err.status) {
@@ -76,17 +76,17 @@ const PORT = process.env.PORT || 3001;
 const WebSocket = require('ws');
 
 //creating the constant connection between server and client
-db.sequelize.sync({ force: JSON.parse(process.env.RESET_DB) }).then(function () { // all env variables are strings, so bools must be parsed
+db.sequelize.sync({ force: JSON.parse(process.env.RESET_DB) }).then(() => {
+  // all env variables are strings, so bools must be parsed
   require('./data/seeds')(db); // run seeds
 
-  const server = app.listen(PORT, function () {
+  const server = app.listen(PORT, () => {
     console.log('App listening on PORT ' + PORT);
 
     const wss = new WebSocket.Server({ server });
-
-    wss.on('connection', function connection(ws) {
-      ws.on('message', function incoming(data) {
-        wss.clients.forEach(function each(client) {
+    wss.on('connection', connection = (ws) => {
+      ws.on('message', incoming = (data) => {
+        wss.clients.forEach(each = (client) => {
           if (client !== ws && client.readyState === WebSocket.OPEN) {
             client.send(data);
           }
