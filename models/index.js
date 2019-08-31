@@ -33,6 +33,12 @@ Object.keys(db).forEach(function (modelName) {
   }
 });
 
+Object.keys(db).forEach(function (modelName) {
+  if (db[modelName].addScopes) {
+    db[modelName].addScopes(db);
+  }
+});
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 db.op = op;

@@ -47,14 +47,6 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING,
         allowNull: true
       }
-    },
-    {
-      defaultScope: {
-        attributes: {
-          exclude: ['password', 'email'] // can't query email or password
-        },
-        order: [['id', 'DESC']]
-      }
     });
 
   User.associate = function (models) {
@@ -85,6 +77,20 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: true
       },
       as: 'profileImage'
+    });
+  };
+
+  User.addScopes = function (models) {
+    User.addScope('defaultScope', {
+      attributes: {
+        exclude: ['password', 'email'] // can't query email or password
+      },
+      order: [['id', 'DESC']],
+      include: [{
+        model: models.Image,
+        as: 'profileImage',
+        limit: 1
+      }]
     });
   };
 

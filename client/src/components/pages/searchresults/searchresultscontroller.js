@@ -40,7 +40,7 @@ class SearchResults extends Component {
       <Container maxWidth="md" id="search">
         <Paper style={{ padding: '24px' }}>
           <h1>Search Results</h1>
-          <SearchItem searchResults={this.state.searchResults} />
+          <SearchItem {...this.props} searchResults={this.state.searchResults} />
         </Paper>
       </Container>
     )

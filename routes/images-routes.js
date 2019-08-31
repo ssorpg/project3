@@ -5,7 +5,7 @@ const db = require('../models');
 const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 module.exports = app => {
-  app.post('/api/images', multer.any(), wrap(async (req, res, next) => {
+  app.post('/api/users/images', multer.any(), wrap(async (req, res, next) => {
     const user = await db.User.findOne({
       where: {
         id: req.token.UserId
@@ -21,7 +21,7 @@ module.exports = app => {
     res.json(image);
   }));
 
-  // app.get('/api/:UserId/images', wrap(async (req, res, next) => {
+  // app.get('/api/users/:UserId/images', wrap(async (req, res, next) => {
   //   const image = await db.Image.findOne({
   //     where: { UserId: req.params.UserId },
   //     order: [['createdAt', 'DESC']],

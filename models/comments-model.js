@@ -21,17 +21,12 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         defaultValue: 0
       }
-    },
-    {
-      defaultScope: {
-        order: [['id', 'DESC']]
-      }
     });
 
   Comment.associate = function (models) {
     Comment.belongsTo(models.User, {
       foreignKey: {
-        allowNull: false
+        allowNull: true
       },
       as: 'author'
     });
@@ -39,6 +34,16 @@ module.exports = function (sequelize, DataTypes) {
     Comment.belongsToMany(models.User, {
       through: 'CommentVoter',
       as: 'voters'
+    });
+  };
+
+  Comment.addScopes = function (models) {
+    Comment.addScope('defaultScope', {
+      order: [['id', 'DESC']],
+      include: [{
+        model: models.User,
+        as: 'author'
+      }]
     });
   };
 

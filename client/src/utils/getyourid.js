@@ -1,12 +1,12 @@
 export default function GetYourId() {
     const cookies = document.cookie.split(';');
-    let userId;
+    let UserId;
 
     cookies.forEach(cookie => {
-        if (cookie.includes('userId')) {
-            userId = cookie.split('=')[1];
+        if (cookie.includes('UserId')) {
+            UserId = cookie.split('=')[1];
         }
     });
 
-    return parseInt(userId);
+    return parseInt(UserId);
 }

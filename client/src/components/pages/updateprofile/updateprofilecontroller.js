@@ -99,7 +99,7 @@ export default class UpdateProfileController extends Component {
     this.setState({ errorAlert: undefined });
 
     try {
-      await ax.post('/api/images', picData);
+      await ax.post('/api/users/images', picData);
 
       window.location = '/profile';
     }

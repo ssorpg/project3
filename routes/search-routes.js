@@ -1,11 +1,10 @@
 /* eslint-disable indent */
 const db = require('../models');
-const route = '/api/search';
 
 const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 module.exports = function (app) {
-  app.get(`${route}`, wrap(async function (req, res, next) {
+  app.get('/api/search', wrap(async function (req, res, next) {
     const query = `%${req.query.q}%`;
 
     // let communitiesArray = [];

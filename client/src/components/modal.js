@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   error: {
-    zIndex: '9999',
+    zIndex: '99',
     minWidth: '150px',
     margin: '10px'
   }

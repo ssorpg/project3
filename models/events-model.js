@@ -24,11 +24,6 @@ module.exports = function (sequelize, DataTypes) {
           isDate: { msg: 'Please enter a valid date.' }
         }
       }
-    },
-    {
-      defaultScope: {
-        order: [['id', 'DESC']]
-      }
     });
 
   Event.associate = function (models) {
@@ -39,7 +34,7 @@ module.exports = function (sequelize, DataTypes) {
 
     Event.belongsTo(models.User, {
       foreignKey: {
-        allowNull: false
+        allowNull: true
       },
       as: 'founder'
     });
@@ -48,6 +43,16 @@ module.exports = function (sequelize, DataTypes) {
       foreignKey: {
         allowNull: true
       }
+    });
+  };
+
+  Event.addScopes = function (models) {
+    Event.addScope('defaultScope', {
+      order: [['id', 'DESC']],
+      include: [{
+        model: models.User,
+        as: 'founder'
+      }]
     });
   };
 
