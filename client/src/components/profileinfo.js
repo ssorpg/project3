@@ -7,6 +7,7 @@ import {
   CardMedia, Divider, Button
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import InviteAUser from './inviteauser';
 
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
@@ -31,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 
   expand: {
     transform: 'rotate(0deg)',
-    marginLeft: 'auto',
+    marginRight: 'auto',
     transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.shortest
     })
@@ -53,10 +54,12 @@ const useStyles = makeStyles(theme => ({
   avatar: {
     backgroundColor: '#3f51b5',
     backgroundImage: 'url(https://i.ibb.co/6WVS2GB/tpn2.png)'
-  },
+  }
 }));
 
-export default function ProfileInfo({ user, removeCommunity }) {
+export default function ProfileInfo(props) {
+  const { user, openInviteDialog, removeCommunity, handleInvite } = props;
+
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(true);
 
@@ -110,22 +113,55 @@ export default function ProfileInfo({ user, removeCommunity }) {
             {
               user.communities ?
                 <div className="networks" style={{ margin: '30px' }}>
-                  <h5 className="card-title">Your Networks</h5>
+                  <h5 className="card-title">Your Communities</h5>
                   <List>
                     {
-                      user.communities.map(community => (
+                      user.communities.length ?
+                        user.communities.map(community => (
+                          <>
+                            <div className={classes.spaceBetween}>
+                              <a key={community.id} href={`/community/${community.id}`} className={classes.fillSpace}>
+                                <ListItem button component="a">
+                                  {community.name}
+                                </ListItem>
+                              </a>
+                              {
+                                user.id === community.founderId ?
+                                  <>
+                                    <InviteAUser {...props} />
+                                    <Button color="primary" onClick={openInviteDialog} data-id={community.id}>Invite User</Button>
+                                    <Button color="secondary" onClick={removeCommunity} data-isfounder={true} data-id={community.id}>Delete Community</Button>
+                                  </>
+                                  : <Button color="secondary" onClick={removeCommunity} data-id={community.id}>Leave Community</Button>
+                              }
+                            </div>
+                            <Divider />
+                          </>
+                        ))
+                        : <div className="networks" style={{ marginLeft: '30px' }}>
+                          <h5>None - Join or create one <a href="/joincommunity">here!</a></h5>
+                        </div>
+                    }
+                  </List>
+                </div>
+                : ''
+            }
+            {
+              user.invites && user.invites.length ?
+                <div className="invites" style={{ margin: '30px', marginTop: 0 }}>
+                  <h5 className="card-title">Your Community Invites</h5>
+                  <List>
+                    {
+                      user.invites.map(invite => (
                         <>
                           <div className={classes.spaceBetween}>
-                            <a className={classes.fillSpace} key={community.id} href={`/community/${community.id}`} >
-                              <ListItem button component="a">
-                                {community.name}
-                              </ListItem>
-                            </a>
-                            {
-                              user.id === community.founderId ?
-                                <Button color="secondary" onClick={removeCommunity} data-isfounder={true} data-id={community.id}>Delete Community</Button>
-                                : <Button color="secondary" onClick={removeCommunity} data-id={community.id}>Leave Community</Button>
-                            }
+                            <ListItem className={classes.fillSpace}>
+                              {invite.name}
+                            </ListItem>
+                            <>
+                              <Button color="primary" onClick={handleInvite} data-action={'accept'} data-id={invite.id}>Accept</Button>
+                              <Button color="secondary" onClick={handleInvite} data-action={'decline'} data-id={invite.id}>Decline</Button>
+                            </>
                           </div>
                           <Divider />
                         </>

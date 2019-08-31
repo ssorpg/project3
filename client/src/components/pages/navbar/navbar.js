@@ -88,8 +88,8 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
       onClose={handleMenuClose}
     >
       {/* <a href="/profile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></a> */}
-      <a href="/update-profile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Edit Profile</MenuItem></a>
-      <a href="/create-community" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Join/Create Community</MenuItem></a>
+      <a href="/updateprofile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Edit Profile</MenuItem></a>
+      <a href="/joincommunity" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Join/Create Community</MenuItem></a>
       <MenuItem className={classes.logout} onClick={logout}>Logout</MenuItem>
     </Menu>
   );

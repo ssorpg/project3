@@ -16,6 +16,10 @@ module.exports = function (sequelize, DataTypes) {
             msg: 'The name must be between 1 and 64 characters long.'
           }
         }
+      },
+      private: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
       }
     });
 
@@ -31,22 +35,15 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     Community.belongsTo(models.User, {
-      foreignKey: {
-        allowNull: true
-      },
       as: 'founder'
     });
 
     Community.hasMany(models.Event, {
-      foreignKey: {
-        allowNull: true
-      }
+      as: 'events'
     });
 
     Community.hasMany(models.Post, {
-      foreignKey: {
-        allowNull: true
-      }
+      as: 'posts'
     });
   };
 

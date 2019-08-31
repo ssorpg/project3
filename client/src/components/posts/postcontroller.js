@@ -52,7 +52,6 @@ export default class PostController extends Component {
   };
 
   vote = async event => {
-    event.preventDefault();
     this.setState({ errorAlert: undefined });
 
     const postInfo = event.target.dataset.id ?
@@ -78,7 +77,6 @@ export default class PostController extends Component {
   };
 
   deletePost = async event => {
-    event.preventDefault();
     this.setState({ errorAlert: undefined });
 
     const postInfo = event.target.dataset.id ?

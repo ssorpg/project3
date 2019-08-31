@@ -6,18 +6,21 @@ const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handl
 module.exports = function (app) {
   // COMMUNITY
 
-  app.post('/api/communities', wrap(async function (req, res, next) { // create community
+  app.post('/api/communities/create', wrap(async function (req, res, next) { // create community
     const user = await db.User.findOne({
       where: {
         id: req.token.UserId
       }
     });
 
-    const newCommunity = await db.Community.create({ name: req.body.name });
+    const newCommunity = await db.Community.create({
+      name: req.body.name,
+      private: req.body.private
+    });
+
     await newCommunity.addMember(user);
     newCommunity.setFounder(user);
     newCommunity.dataValues.founder = user;
-    user.addCommunity(newCommunity);
 
     res.status(200).json(newCommunity);
   }));
@@ -40,7 +43,8 @@ module.exports = function (app) {
       where: {
         id: {
           [db.op.notIn]: commIds
-        }
+        },
+        private: false
       },
       limit: 20
     });
@@ -49,13 +53,13 @@ module.exports = function (app) {
   }));
 
   app.get('/api/communities/:CommunityId', wrap(async function (req, res, next) { // get community info
-    const { community, isUser } = await getCommunity(req.token.UserId, req.params.CommunityId);
+    const { community, isMember } = await getCommunity(req.token.UserId, req.params.CommunityId);
 
-    if (!isUser) {
+    if (!isMember) {
       return res.status(200).json(community);
     }
 
-    community.dataValues.feedPosts = await community.getPosts({
+    community.dataValues.posts = await community.getPosts({
       limit: 20,
       where: {
         UserId: null,
@@ -81,9 +85,9 @@ module.exports = function (app) {
   // COMMUNITY USERS
 
   app.get('/api/communities/:CommunityId/users', wrap(async function (req, res, next) { // get community users
-    const { community, isUser } = await getCommunity(req.token.UserId, req.params.CommunityId);
+    const { community, isMember } = await getCommunity(req.token.UserId, req.params.CommunityId);
 
-    if (!isUser) {
+    if (!isMember) {
       throw { status: 401, msg: 'You\'re not in that community.' };
     }
 
@@ -92,123 +96,82 @@ module.exports = function (app) {
     res.status(200).json(community);
   }));
 
-  // app.post('/api/communities/:CommunityId/invited/:UserEmail', wrap(async function (req, res, next) { // invite user to community
-  //     const community = await db.Community.findOne({
-  //         where: {
-  //             id: req.params.CommunityId
-  //         }
-  //     });
+  app.post('/api/communities/:CommunityId/invited', wrap(async function (req, res, next) { // invite user to community
+    const { community, isFounder } = await getCommunity(req.token.UserId, req.params.CommunityId);
 
-  //     if (!community) {
-  //         throw { status: 404, msg: 'That community doesn\'t exist.' };
-  //     }
+    if (!isFounder) {
+      throw { status: 401, msg: 'You don\'t own that community.' };
+    }
 
-  //     if (req.token.UserId !== community.founderId) {
-  //         throw { status: 401, msg: 'You don\'t own that community.' };
-  //     }
+    const getUser = await db.User.findOne({
+      where: {
+        email: req.body.email
+      },
+      attributes: ['id', 'email']
+    });
 
-  //     let [user] = await community.getMembers({
-  //         where: {
-  //             email: req.params.UserEmail
-  //         }
-  //     });
+    if (!getUser) {
+      throw { status: 404, msg: 'That user doesn\'t exist.' };
+    }
 
-  //     if (user) {
-  //         throw { status: 400, msg: 'That user\'s already in that community.' };
-  //     }
+    if (await community.hasMember(getUser)) {
+      throw { status: 400, msg: 'That user\'s already in that community.' };
+    }
 
-  //     [user] = await community.getInvited({
-  //         where: {
-  //             email: req.params.UserEmail
-  //         }
-  //     });
+    if (await community.hasInvited(getUser)) {
+      throw { status: 400, msg: 'That user\'s already been invited to that community.' };
+    }
 
-  //     if (user) {
-  //         throw { status: 400, msg: 'That user\'s already been invited to that community.' };
-  //     }
+    community.addInvited(getUser);
 
-  //     user = await db.User.findOne({
-  //         where: {
-  //             email: req.params.UserEmail
-  //         }
-  //     });
-
-  //     if (!user) {
-  //         throw { status: 404, msg: 'That user doesn\'t exist.' };
-  //     }
-
-  //     await community.addInvited(user);
-  //     await user.addInvites(community);
-
-  //     res.status(200).send('You invited the user to the community!');
-  // }));
-
-  // app.get('/api/communities/:CommunityId/invited', wrap(async function (req, res, next) { // get community invites
-  //     const community = await db.Community.findOne({
-  //         where: {
-  //             id: req.params.CommunityId
-  //         }
-  //     });
-
-  //     if (!community) {
-  //         throw { status: 404, msg: 'That community doesn\'t exist.' };
-  //     }
-
-  //     if (req.token.UserId !== community.founderId) {
-  //         throw { status: 401, msg: 'You don\'t own that community.' };
-  //     }
-
-  //     community.dataValues.invited = await community.getInvited();
-
-  //     res.status(200).json(community);
-  // }));
+    res.status(200).send(`You invited ${getUser.email} to the community!`);
+  }));
 
   app.post('/api/communities/:CommunityId/users', wrap(async function (req, res, next) { // join community
-    const { community, isUser } = await getCommunity(req.token.UserId, req.params.CommunityId);
+    const { community, user, isMember, isInvited } = await getCommunity(req.token.UserId, req.params.CommunityId);
 
-    if (isUser) {
+    if (isMember) {
       throw { status: 400, msg: 'You\'re already in that community.' };
     }
 
-    // [user] = await community.getInvited({
-    //     where: {
-    //         id: req.token.UserId
-    //     }
-    // });
+    if (!isInvited && community.private) {
+      throw { status: 401, msg: 'You haven\'t been invited to that community.' };
+    }
 
-    // if (!user && community.id !== 1) { // first community is public
-    //     throw { status: 401, msg: 'You haven\'t been invited to that community.' };
-    // }
+    await community.addMember(user);
+    community.removeInvited(user);
 
-    const user = await db.User.findOne({
-      where: {
-        id: req.token.UserId
-      }
-    });
-
-    // await community.removeInvited(user);
-
-    const joinedCommunity = await community.addMember(user);
-    user.addCommunity(community);
-
-    res.status(200).json(joinedCommunity);
+    res.status(200).json(community);
   }));
 
   app.delete('/api/communities/:CommunityId/users', wrap(async function (req, res, next) { // leave community
-    const { community, user, isUser, isFounder } = await getCommunity(req.token.UserId, req.params.CommunityId);
+    const { community, user, isMember, isFounder } = await getCommunity(req.token.UserId, req.params.CommunityId);
 
     if (isFounder) {
       throw { status: 400, msg: 'You can\'t leave a community you own!' };
     }
 
-    if (!isUser) {
+    if (!isMember) {
       throw { status: 400, msg: 'You\'re not in that community.' };
     }
 
-    const leftCommunity = await community.removeMember(user);
+    community.removeMember(user);
     user.removeCommunity(community);
 
-    res.status(200).json(leftCommunity);
+    res.status(200).json(community);
+  }));
+
+  app.delete('/api/communities/:CommunityId/invited', wrap(async function (req, res, next) { // decline invitation
+    const { community, user, isInvited } = await getCommunity(req.token.UserId, req.params.CommunityId);
+
+    if (!isInvited) {
+      throw { status: 400, msg: 'You haven\'t been invited to that community.' };
+    }
+
+    community.removeInvited(user);
+    user.removeInvite(community);
+
+    res.status(200).json(community);
   }));
 
   app.get('/api/communities/:CommunityId/users/:UserId/wall', wrap(async function (req, res, next) { // another user's wall
@@ -216,7 +179,7 @@ module.exports = function (app) {
       throw { status: 400, msg: 'That\'s you.' };
     }
 
-    const { community, isUser } = await getCommunity(req.token.UserId, req.params.CommunityId);
+    const { community, isMember } = await getCommunity(req.token.UserId, req.params.CommunityId);
 
     const [getUser] = await community.getMembers({
       where: {
@@ -224,7 +187,7 @@ module.exports = function (app) {
       },
       include: [{
         model: db.Post,
-        as: 'wallPosts',
+        as: 'posts',
         where: {
           CommunityId: community.id
         },
@@ -232,7 +195,7 @@ module.exports = function (app) {
       }]
     });
 
-    if (!isUser || !getUser) {
+    if (!isMember || !getUser) {
       throw { status: 401, msg: 'You\'re not in a community with that user.' };
     }
 

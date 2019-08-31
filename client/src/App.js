@@ -13,7 +13,7 @@ import RegisterController from './components/pages/register/registercontroller';
 import Feed from './components/pages/feed/feed';
 import Wall from './components/pages/wall/wall';
 import FriendsController from './components/pages/friends/friendscontroller';
-import CreateCommunityController from './components/pages/createcommunity/createcommunitycontroller';
+import JoinCommunityController from './components/pages/joincommunity/joincommunitycontroller';
 import ChatController from './components/pages/chat/chatcontroller';
 import UpdateProfileController from './components/pages/updateprofile/updateprofilecontroller';
 import SearchResultsController from './components/pages/searchresults/searchresultscontroller';
@@ -64,8 +64,8 @@ export default class TPN extends Component {
                 }
               />
               <Route exact path="/profile" render={() => <Profile {...this.state} />} />
-              <Route exact path="/update-profile" render={() => <UpdateProfileController id={this.state.YourId} />} />
-              <Route exact path="/create-community" render={() => <CreateCommunityController {...this.state} />} />
+              <Route exact path="/updateprofile" render={() => <UpdateProfileController id={this.state.YourId} />} />
+              <Route exact path="/joincommunity" render={() => <JoinCommunityController {...this.state} />} />
               <Route exact path="/community/:CommunityId" render={() => <Feed {...this.state} />} />
               <Route exact path="/community/:CommunityId/friends" render={() => <FriendsController {...this.state} />} />
               <Route exact path="/community/:CommunityId/friends/:UserId" render={() => <Wall {...this.state} />} />

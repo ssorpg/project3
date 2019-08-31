@@ -59,8 +59,7 @@ module.exports = function (app) {
       }
     });
 
-    await defaultCommunity.addMember(newUser);
-    await newUser.addCommunity(defaultCommunity); // users join public community by default
+    await defaultCommunity.addMember(newUser); // users join public community by default
 
     res.status(200).send('Account created!');
   }));
@@ -99,7 +98,11 @@ module.exports = function (app) {
       },
       {
         model: db.Post,
-        as: 'wallPosts'
+        as: 'posts'
+      },
+      {
+        model: db.Community,
+        as: 'invites'
       }]
     });
 
@@ -107,29 +110,29 @@ module.exports = function (app) {
   }));
 
   // app.get('/api/users/invites', wrap(async function (req, res, next) { // get your invites
-  //     const user = await db.User.findOne({
-  //         where: {
-  //             id: req.token.UserId
-  //         },
-  //         include: [{
-  //             model: db.Community,
-  //             as: 'invites'
-  //         }]
-  //     });
+  //   const user = await db.User.findOne({
+  //     where: {
+  //       id: req.token.UserId
+  //     },
+  //     include: [{
+  //       model: db.Community,
+  //       as: 'invites'
+  //     }]
+  //   });
 
-  //     res.status(200).json(user);
+  //   res.status(200).json(user);
   // }));
 
-  app.delete('/api/users', wrap(async function (req, res, next) { // delete user
-    await db.User.destroy({
-      where: {
-        id: req.token.UserId
-      }
-    });
+  // app.delete('/api/users', wrap(async function (req, res, next) { // delete user
+  //   await db.User.destroy({
+  //     where: {
+  //       id: req.token.UserId
+  //     }
+  //   });
 
-    res.status(200)
-      .clearCookie('token')
-      .clearCookie('UserId')
-      .send('Account deleted.');
-  }));
+  //   res.status(200)
+  //     .clearCookie('token')
+  //     .clearCookie('UserId')
+  //     .send('Account deleted.');
+  // }));
 };

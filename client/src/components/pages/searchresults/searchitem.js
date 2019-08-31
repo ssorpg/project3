@@ -93,7 +93,7 @@ export default function SearchItem({ YourId, searchResults }) {
       </Grid>
       : <Grid container spacing={2}>
         <Grid item xs={12}>
-          {searchResults}
+          <h5>Nothing found.</h5>
         </Grid>
       </Grid>
   )

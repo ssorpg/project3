@@ -1,6 +1,6 @@
 // COMPONENTS
 import React from 'react';
-import { Paper, FormGroup, InputLabel, Input, Button, Typography } from '@material-ui/core';
+import { Paper, FormGroup, InputLabel, Input, Button, Typography, Checkbox, FormControlLabel } from '@material-ui/core';
 
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,11 +18,11 @@ const useStyles = makeStyles(theme => ({
   },
 
   input: {
-    marginBottom: theme.spacing(5)
+    marginBottom: theme.spacing(2)
   }
 }));
 
-export default function NewCommunity({ handleCreateCommunitySubmit, handleFormChange }) {
+export default function NewCommunity({ handleCreateCommunitySubmit, handleFormChange, makePrivate, handleMakePrivate }) {
   const classes = useStyles();
 
   return (
@@ -39,6 +39,10 @@ export default function NewCommunity({ handleCreateCommunitySubmit, handleFormCh
             type="text"
             name="community"
             placeholder="Awesome Community"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={makePrivate} onChange={handleMakePrivate} />}
+            label="Make Private"
           />
           <Button
             className={classes.button}

@@ -56,7 +56,6 @@ export default function Searchbar() {
     if (event.key !== 'Enter') {
       return;
     }
-
     event.preventDefault();
   
     window.location = `/search?q=${event.target.value}`;

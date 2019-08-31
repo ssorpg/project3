@@ -18,7 +18,6 @@ module.exports = function (sequelize, DataTypes) {
       },
       date: {
         type: DataTypes.DATE,
-        allowNull: true,
         trim: true,
         validate: {
           isDate: { msg: 'Please enter a valid date.' }
@@ -33,16 +32,11 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     Event.belongsTo(models.User, {
-      foreignKey: {
-        allowNull: true
-      },
       as: 'founder'
     });
 
     Event.hasMany(models.Post, {
-      foreignKey: {
-        allowNull: true
-      }
+      as: 'posts'
     });
   };
 

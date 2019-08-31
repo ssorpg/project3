@@ -20,7 +20,8 @@ module.exports = async function (db) {
 
     const tpn = await db.Community.create({
       name: 'TPN',
-      founderId: users[0].id
+      founderId: users[0].id,
+      private: false
     });
 
     await tpn.addMembers(users);

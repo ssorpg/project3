@@ -15,16 +15,17 @@ export default class CreateCommunity extends Component {
     super();
 
     this.state = {
-      communities: undefined,
-      selectFromExisting: false,
+      communities: [],
+      selectFromExisting: true,
       CommunityId: undefined,
+      makePrivate: true,
       errorAlert: undefined
     }
-  }
+  };
 
   async componentDidMount() {
     this.getData();
-  }
+  };
 
   getData = async () => {
     try {
@@ -35,39 +36,44 @@ export default class CreateCommunity extends Component {
     catch (error) {
       PageLoadError(error);
     }
-  }
+  };
 
   handleFormChange = () => {
     this.setState({
       errorAlert: undefined,
       selectFromExisting: !this.state.selectFromExisting // toggle
     });
-  }
+  };
+
+  handleMakePrivate = () => {
+    this.setState({ makePrivate: !this.state.makePrivate });
+  };
   
   handleCreateCommunitySubmit = async event => {
     event.preventDefault();
     const form = event.target;
 
-    const input = form.getElementsByTagName('input')[0];
+    const inputs = form.getElementsByTagName('input');
     
     const community = {
-      name: input.value
+      name: inputs[0].value,
+      private: inputs[1].checked
     };
 
-    input.value = '';
+    inputs[0].value = '';
 
     const submit = form.getElementsByTagName('button')[0];
 
     submit.style.visibility = 'hidden';
     await this.postToDB(community);
     submit.style.visibility = 'visible';
-  }
+  };
 
   postToDB = async community => {
     this.setState({ errorAlert: undefined });
 
     try {
-      const newCommunity = await ax.post('/api/communities', community);
+      const newCommunity = await ax.post('/api/communities/create', community);
 
       window.location = `/community/${newCommunity.data.id}`;
     }
@@ -75,14 +81,13 @@ export default class CreateCommunity extends Component {
       console.log(error.response);
       this.setState({ errorAlert: error.response.data });
     }
-  }
+  };
 
   handleRadioSelection = event => {
     this.setState({ CommunityId: parseInt(event.target.value) });
-  }
+  };
 
   handleChosenCommunitySubmit = async event => {
-    event.preventDefault();
     this.setState({ errorAlert: undefined });
 
     try {
@@ -94,15 +99,14 @@ export default class CreateCommunity extends Component {
       console.log(error.response);
       this.setState({ errorAlert: error.response.data });
     }
-  }
+  };
 
   render() {
     return (
       <Container id="create-community-form" maxWidth="md">
         <Megatron
-          heading="Create A Community"
-          subheading="Select a community from the dropdown or fill in a name below to create
-            your own!"
+          heading="Join A Community"
+          subheading="Select a community from the dropdown or fill in a name below to create your own!"
           image="https://picsum.photos/id/469/1000/1100"
           imagePosition="77% 5%"
           megaHeight="65vh"
@@ -113,13 +117,15 @@ export default class CreateCommunity extends Component {
               <SelectFromExisting
                 communities={this.state.communities}
                 CommunityId={this.state.CommunityId}
-                handleChosenCommunitySubmit={this.handleChosenCommunitySubmit}
-                handleRadioSelection={this.handleRadioSelection}
                 handleFormChange={this.handleFormChange}
+                handleRadioSelection={this.handleRadioSelection}
+                handleChosenCommunitySubmit={this.handleChosenCommunitySubmit}
               />
             : <NewCommunity
                 handleCreateCommunitySubmit={this.handleCreateCommunitySubmit}
                 handleFormChange={this.handleFormChange}
+                makePrivate={this.state.makePrivate}
+                handleMakePrivate={this.handleMakePrivate}
               />
         }
         {
@@ -128,6 +134,6 @@ export default class CreateCommunity extends Component {
             : ''
         }
       </Container>
-    )
+    );
   }
 }

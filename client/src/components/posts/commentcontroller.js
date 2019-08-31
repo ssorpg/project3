@@ -53,7 +53,6 @@ export default class CommentController extends Component {
   };
 
   deleteComment = async event => {
-    event.preventDefault();
     this.setState({ errorAlert: undefined });
 
     const commentInfo = event.target.dataset.id ?

@@ -11,9 +11,9 @@ module.exports = function (app) {
     const UserId = req.query.UserId;
     const EventId = req.query.EventId;
 
-    const { community, user, isUser } = await getCommunity(req.token.UserId, CommunityId);
+    const { community, user, isMember } = await getCommunity(req.token.UserId, CommunityId);
 
-    if (!isUser) {
+    if (!isMember) {
       throw { status: 401, msg: 'You\'re not in that community.' };
     }
 
@@ -65,14 +65,13 @@ module.exports = function (app) {
 
       newPost = await makeNewPost(req);
       community.addPost(newPost);
-      getUser.addWallPost(newPost);
+      getUser.addPost(newPost);
     }
     else {
       newPost = await makeNewPost(req);
       community.addPost(newPost);
     }
 
-    console.log(newPost);
     res.status(200).json(newPost);
   }));
 
@@ -90,9 +89,9 @@ module.exports = function (app) {
 
   app.put('/api/posts/:PostId', wrap(async function (req, res, next) { // edit post
     const { post, isAuthor } = await getPost(req.token.UserId, req.params.PostId);
-    const { isUser } = await getCommunity(req.token.UserId, post.CommunityId);
+    const { isMember } = await getCommunity(req.token.UserId, post.CommunityId);
 
-    if (!isUser) {
+    if (!isMember) {
       throw { status: 401, msg: 'You\'re not in that community.' }; // can't edit posts to send messages to communities you're no longer in
     }
 
@@ -107,9 +106,9 @@ module.exports = function (app) {
 
   app.put('/api/posts/:PostId/:vote', wrap(async function (req, res, next) { // like/dislike post
     const { post } = await getPost(req.token.UserId, req.params.PostId);
-    const { user, isUser } = await getCommunity(req.token.UserId, post.CommunityId);
+    const { user, isMember } = await getCommunity(req.token.UserId, post.CommunityId);
 
-    if (!isUser) {
+    if (!isMember) {
       throw { status: 401, msg: 'You\'re not in that community.' };
     }
 
@@ -138,9 +137,9 @@ module.exports = function (app) {
 
   app.post('/api/posts/:PostId/comments', wrap(async function (req, res, next) { // make comment on post
     const { post } = await getPost(req.token.UserId, req.params.PostId);
-    const { user, isUser } = await getCommunity(req.token.UserId, post.CommunityId);
+    const { user, isMember } = await getCommunity(req.token.UserId, post.CommunityId);
 
-    if (!isUser) {
+    if (!isMember) {
       throw { status: 401, msg: 'You\'re not in that community.' };
     }
 
@@ -172,9 +171,9 @@ module.exports = function (app) {
     }
 
     const { post } = await getPost(req.token.UserId, req.params.PostId);
-    const { isUser } = await getCommunity(req.token.UserId, post.CommunityId);
+    const { isMember } = await getCommunity(req.token.UserId, post.CommunityId);
 
-    if (!isUser) {
+    if (!isMember) {
       throw { status: 401, msg: 'You\'re not in that community.' };
     }
 
