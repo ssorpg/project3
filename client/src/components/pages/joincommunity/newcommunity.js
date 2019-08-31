@@ -11,10 +11,9 @@ const useStyles = makeStyles(theme => ({
   },
 
   button: {
-    display: 'block',
-    verticalAlign: 'middle',
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(1.5)
+    display: 'inline-block',
+    verticalAlign: 'center',
+    margin: theme.spacing(1.5)
   },
 
   input: {
@@ -44,24 +43,23 @@ export default function NewCommunity({ handleCreateCommunitySubmit, handleFormCh
             control={<Checkbox checked={makePrivate} onChange={handleMakePrivate} />}
             label="Make Private"
           />
-          <Button
-            className={classes.button}
-            variant="contained"
-            color="primary"
-            type="submit"
-          >
-            Submit
-          </Button>
-          <Button
-            className={classes.button}
-            variant="outlined"
-            color="primary"
-            onClick={handleFormChange}
-            type="button"
-          >
-            Or Choose An Existing One!
-          </Button>
         </FormGroup>
+        <Button
+          className={classes.button}
+          variant="contained"
+          color="primary"
+          type="submit"
+        >
+          Submit
+        </Button>
+        <Button
+          className={classes.button}
+          variant="outlined"
+          color="primary"
+          onClick={handleFormChange}
+        >
+          Or Choose An Existing One!
+        </Button>
       </form>
     </Paper>
   );
