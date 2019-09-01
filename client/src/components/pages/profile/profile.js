@@ -13,9 +13,9 @@ import PageLoadError from '../../../utils/pageloaderror';
 export default class Profile extends Component {
   constructor() {
     super();
-
     this.state = {
       userData: undefined,
+      status: undefined,
       posts: undefined,
       errorAlert: undefined,
       dialogErrorAlert: undefined,
@@ -32,10 +32,12 @@ export default class Profile extends Component {
     try {
       const userData = await ax.get('/api/users/profile/');
 
-      this.setState({
+      await this.setState({
         userData: userData.data,
+        status: userData.data.status,
         posts: userData.data.posts
       });
+      console.log(this.state.userData);
     }
     catch (error) {
       PageLoadError(error);

@@ -86,7 +86,8 @@ export default function ProfileInfo(props) {
                     </Avatar>
                   }
                   title={<h3>{user.name}</h3>}
-                  subheader={<i>{user.location}</i>}
+                  subheader={<><i>{user.location}</i> <br />
+                    Status: <i>{user.status}</i></>}
                 />
                 <Card className={classes.card2}>
                   <CardMedia
@@ -95,7 +96,10 @@ export default function ProfileInfo(props) {
                     title="Profile"
                   />
                 </Card>
-                <Status />
+                <Status user={user} />
+                {/* <Typography paragraph>
+                  <strong>Status:</strong> {user.status ? user.status : 'This user has no status yet.'}
+                </Typography> */}
               </Grid>
               <Grid item md={6}>
                 {/* <CardActions disableSpacing>

@@ -41,7 +41,8 @@ app.use(wrap(async (req, res, next) => {
   next();
 }));
 
-require('./routes')(app);
+const expressWs = require('express-ws')(app);
+require('./routes')(app, expressWs);
 
 app.get('*', wrap(async (req, res, next) => {
   if (process.env.NODE_ENV === 'production') {
@@ -73,25 +74,13 @@ app.use((err, req, res, next) => { // error handler middleware, called with 'nex
 
 const db = require('./models');
 const PORT = process.env.PORT || 3001;
-const WebSocket = require('ws');
 
-//creating the constant connection between server and client
-db.sequelize.sync({ force: JSON.parse(process.env.RESET_DB) }).then(() => {
-  // all env variables are strings, so bools must be parsed
-  require('./data/seeds')(db); // run seeds
+// creating the constant connection between server and client
+db.sequelize.sync({ force: JSON.parse(process.env.RESET_DB) }) // all env variables are strings, so bools must be parsed
+  .then(function () {
+    require('./data/seeds')(db); // run seeds
 
-  const server = app.listen(PORT, () => {
-    console.log('App listening on PORT ' + PORT);
-
-    const wss = new WebSocket.Server({ server });
-    wss.on('connection', connection = (ws) => {
-      ws.on('message', incoming = (data) => {
-        wss.clients.forEach(each = (client) => {
-          if (client !== ws && client.readyState === WebSocket.OPEN) {
-            client.send(data);
-          }
-        });
-      });
+    app.listen(PORT, function () {
+      console.log('App listening on PORT ' + PORT);
     });
   });
-});

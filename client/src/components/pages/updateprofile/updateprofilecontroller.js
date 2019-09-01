@@ -18,7 +18,7 @@ export default class UpdateProfileController extends Component {
       bio: undefined,
       location: undefined,
       selectedFile: undefined,
-      errorAlert: undefined
+      alert: undefined
     };
   };
 
@@ -65,16 +65,16 @@ export default class UpdateProfileController extends Component {
   };
 
   postBioLocToDB = async postData => {
-    this.setState({ errorAlert: undefined });
+    this.setState({ alert: undefined });
 
     try {
       await ax.put('/api/users/update', postData);
 
-      window.location = '/profile';
+      this.setState({ alert: { isError: false, message: 'Profile information updated.' } });
     }
     catch (error) {
       console.log(error);
-      this.setState({ errorAlert: error.response.data });
+      this.setState({ alert: { isError: true, message: error.response.data } });
     }
   };
 
@@ -96,16 +96,16 @@ export default class UpdateProfileController extends Component {
   };
 
   postPicToDB = async picData => {
-    this.setState({ errorAlert: undefined });
+    this.setState({ alert: undefined });
 
     try {
       await ax.post('/api/users/images', picData);
 
-      window.location = '/profile';
+      this.setState({ alert: { isError: false, message: 'Profile picture updated.' } });
     }
     catch (error) {
       console.log(error);
-      this.setState({ errorAlert: error.response.data });
+      this.setState({ alert: { isError: true, error: error.response.data } });
     }
   };
 
