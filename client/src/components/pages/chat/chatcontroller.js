@@ -48,25 +48,8 @@ export default class Chat extends Component {
     const form = event.target;
     const input = form.getElementsByTagName('input')[0];
 
-    const message = {
-      user: this.state.userData,
-      text: input.value,
-      time: this.getFormattedTime()
-    };
-
-    await this.ws.send(JSON.stringify(message));
+    await this.ws.send(input.value);
     form.reset();
-    this.addMessage(message);
-  };
-
-  getFormattedTime = () => {
-    const today = new Date();
-    const hours = today.getHours();
-    const minutes = ((today.getMinutes() < 10 ? '0' : '') + today.getMinutes());
-    const seconds = ((today.getSeconds() < 10 ? '0' : '') + today.getSeconds());
-    const time = hours + ":" + minutes + ":" + seconds;
-
-    return time;
   };
 
   addMessage = async message => {

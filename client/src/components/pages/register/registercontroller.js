@@ -50,7 +50,7 @@ export default class HomeController extends Component {
     try {
       await ax.post('/api/users', postData);
 
-      window.location = '/updateprofile/';
+      window.location = '/community/1';
     }
     catch (error) {
       console.log(error);

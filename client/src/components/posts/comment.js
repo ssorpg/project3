@@ -14,14 +14,16 @@ const useStyles = makeStyles({
   },
 
   commentText: {
-    overflow: 'hidden',
-    textOverflow: 'ellipsis'
+    wordWrap: 'break-word',
+    overflowWrap: 'break-word',
+    maxWidth: '80%'
   },
 
   delete: {
-    display: 'inline-block',
-    marginLeft: '10px',
-    padding: 0
+    padding: 0,
+    height: '24px',
+    minWidth: '48px',
+    width: '20%'
   }
 });
 

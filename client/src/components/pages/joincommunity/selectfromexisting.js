@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     maxHeight: '12vh',
     overflow: 'scroll'
   },
-  
+
   button: {
     display: 'inline-block',
     verticalAlign: 'center',
@@ -51,11 +51,18 @@ export default function SelectFromExisting({
             }
           </List>
         </FormGroup>
-        <Button className={classes.button}
-          variant="contained" color="primary"
-          type="submit">Submit</Button>
-        <Button className={classes.button}
-          variant="outlined" color="primary"
+        <Button
+          className={classes.button}
+          variant="contained"
+          color="primary"
+          type="submit"
+        >
+          Submit
+        </Button>
+        <Button
+          className={classes.button}
+          variant="outlined"
+          color="primary"
           onClick={handleFormChange}
         >
           Or Create Your Own!

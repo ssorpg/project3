@@ -13,8 +13,8 @@ const useStyles = makeStyles({
   },
 
   postText: {
-    overflow: 'hidden',
-    textOverflow: 'ellipsis'
+    wordWrap: 'break-word',
+    overflowWrap: 'break-word'
   },
 
   score: {
