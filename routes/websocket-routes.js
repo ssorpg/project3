@@ -29,9 +29,15 @@ module.exports = function (app, expressWs) {
     return expressWs.getWss().clients;
   }
 
-  app.ws('/chat', wrap(async function (ws, req, next) {
-    console.log('/chat');
+  function makeMessage(ws, text) {
+    return {
+      user: ws.user,
+      text: text,
+      time: getFormattedTime()
+    };
+  }
 
+  app.ws('/chat', wrap(async function (ws, req, next) {
     const user = await db.User.findOne({
       where: {
         id: req.token.UserId
@@ -42,28 +48,16 @@ module.exports = function (app, expressWs) {
 
     console.log(ws.user.id + ' open');
 
-    await messageAllClients({
-      user: ws.user,
-      text: `${ws.user.name} joined the chat.`,
-      time: getFormattedTime()
-    }, getClients());
+    await messageAllClients(makeMessage(ws, `${ws.user.name} joined the chat.`), getClients());
 
     ws.on('message', async function (text) {
-      await messageAllClients({
-        user: ws.user,
-        text: text,
-        time: getFormattedTime()
-      }, getClients());
+      await messageAllClients(makeMessage(ws, text), getClients());
     });
 
     ws.on('close', async function () {
       console.log(ws.user.id + ' close');
 
-      await messageAllClients({
-        user: ws.user,
-        text: `${ws.user.name} disconnected from the chat.`,
-        time: getFormattedTime()
-      }, getClients());
+      await messageAllClients(makeMessage(ws, `${ws.user.name} left the chat.`), getClients());
     });
   }));
 };
