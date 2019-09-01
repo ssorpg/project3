@@ -2,18 +2,15 @@ import React from 'react';
 import {
   Card, List, ListItem,
   CardHeader, CardContent,
-  CardActions, Collapse,
-  Avatar, IconButton, Typography,
+  Avatar, Typography,
   CardMedia, Divider, Button,
   Grid
 } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import InviteAUser from './inviteauser';
 import Status from './status';
 
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import ExtractProfileImage from '../utils/extractprofileimage';
 
 const useStyles = makeStyles(theme => ({
@@ -65,13 +62,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function ProfileInfo(props) {
   const { user, openInviteDialog, removeCommunity, handleInvite } = props;
-
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(true);
-
-  function handleExpandClick() {
-    setExpanded(!expanded);
-  }
 
   return (
     <>

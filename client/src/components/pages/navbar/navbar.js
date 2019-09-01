@@ -52,7 +52,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
+export default function PrimarySearchAppBar(props) {
+  const { YourProfile, CommunityId } = props;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [sidebarAnchorEl, setSidebarAnchorEl] = React.useState(null);
@@ -113,7 +114,7 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
       open={isSidebarMenuOpen}
       onClose={handleMenuClose}
     >
-      <a href="/profile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></a>
+      <a href="/profile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Your Profile</MenuItem></a>
       {
         CommunityId ?
           <>
@@ -121,52 +122,52 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
             <a href={`/community/${CommunityId}/friends`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Community Friends</MenuItem></a>
             {/* <a href={`/community/${CommunityId}/chat`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Chat</MenuItem></a> */}
           </>
-          : ''
+          : YourProfile.communities && YourProfile.communities.length ?
+            YourProfile.communities.map(community => {
+              return (<a href={`/community/${community.id}`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>{community.name} Feed</MenuItem></a>);
+            })
+            : ''
       }
-      <a href={`/chat`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Chat</MenuItem></a>
+      <a href={`/chat`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Global Chat</MenuItem></a>
     </Menu>
   );
 
   return (
     <div className={classes.scrollNav}>
-      {
-        isAuth ?
-          <AppBar>
-            <Toolbar>
-              <IconButton
-                edge="start"
-                aria-label="open drawer"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleMenuOpen}
-                className={classes.menuButton}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography className={classes.title} variant="h6" noWrap>
-                <a href="/" className={classes.resetA}>
-                  The Private Network
+      <AppBar>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            aria-label="open drawer"
+            aria-controls={menuId}
+            aria-haspopup="true"
+            onClick={handleMenuOpen}
+            className={classes.menuButton}
+            color="inherit"
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography className={classes.title} variant="h6" noWrap>
+            <a href="/" className={classes.resetA}>
+              The Private Network
                 </a>
-              </Typography>
-              <Searchbar />
-              <div className={classes.grow} />
-              <div className={classes.sectionDesktop}>
-                <IconButton
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={accountMenuId}
-                  aria-haspopup="true"
-                  onClick={handleProfileMenuOpen}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-              </div>
-            </Toolbar>
-          </AppBar>
-          : ''
-      }
+          </Typography>
+          <Searchbar />
+          <div className={classes.grow} />
+          <div className={classes.sectionDesktop}>
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={accountMenuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </div>
+        </Toolbar>
+      </AppBar>
       {renderAccountMenu}
       {renderMenu}
     </div>

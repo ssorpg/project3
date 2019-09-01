@@ -12,10 +12,10 @@ export default class CommentController extends Component {
     super(props)
 
     this.state = {
-      comments: props.post.comments ?
-        props.post.comments
+      comments: props.thisPost.comments ?
+        props.thisPost.comments
         : [],
-      errorAlert: undefined
+      alert: undefined
     }
   }
 
@@ -37,21 +37,21 @@ export default class CommentController extends Component {
   };
 
   postToDB = async (form, comment) => {
-    this.setState({ errorAlert: undefined });
+    this.setState({ alert: undefined });
 
     try {
-      const res = await ax.post(`/api/posts/${this.props.post.id}/comments`, comment);
+      const res = await ax.post(`/api/posts/${this.props.thisPost.id}/comments`, comment);
       form.reset();
       this.setState({ comments: [...this.state.comments, res.data] });
     }
     catch (error) {
       console.log(error);
-      this.setState({ errorAlert: error.response.data });
+      this.setState({ alert: error.response.data });
     }
   };
 
   deleteComment = async event => {
-    this.setState({ errorAlert: undefined });
+    this.setState({ alert: undefined });
 
     const commentInfo = event.target.dataset.id ?
       event.target.dataset
@@ -60,12 +60,12 @@ export default class CommentController extends Component {
     try {
       const removedComment = await ax.delete(`/api/posts/${commentInfo.postid}/comments/${commentInfo.id}`);
 
-      const newRemovedComments = this.state.comments.filter(comment => { return comment.id !== removedComment.data.id; });
-      this.setState({ comments: newRemovedComments });
+      const newComments = this.state.comments.filter(comment => { return comment.id !== removedComment.data.id; });
+      this.setState({ comments: newComments });
     }
     catch (error) {
       console.log(error);
-      this.setState({ errorAlert: error.response.data });
+      this.setState({ alert: error.response.data });
     }
   };
 
@@ -74,7 +74,7 @@ export default class CommentController extends Component {
       <Container style={{ textAlign: 'center' }}>
         <MakeComment
           handleSubmit={this.handleSubmit}
-          errorAlert={this.state.errorAlert}
+          alert={this.state.alert}
         />
         {
           this.state.comments ?
@@ -82,7 +82,7 @@ export default class CommentController extends Component {
               <Comment
                 key={comment.id}
                 {...this.props}
-                comment={comment}
+                thisComment={comment}
                 deleteComment={this.deleteComment}
               />
             ))

@@ -23,8 +23,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function PostDisplay(props) {
-  const classes = useStyles();
   const { posts, cantPost } = props;
+  const classes = useStyles();
 
   return (
     <Container maxWidth="lg">
@@ -43,7 +43,7 @@ export default function PostDisplay(props) {
                   <Post
                     key={post.id}
                     {...props}
-                    post={post}
+                    thisPost={post}
                   />
                 </Grid>
               ))

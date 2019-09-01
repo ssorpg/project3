@@ -13,7 +13,7 @@ export default class Profile extends Component {
     super();
 
     this.state = {
-      userData: undefined,
+      friendProfile: undefined,
       posts: undefined,
       errorAlert: undefined
     };
@@ -25,10 +25,10 @@ export default class Profile extends Component {
 
   GetData = async () => {
     try {
-      const userData = await ax.get(`/api/communities/${this.props.CommunityId}/users/${this.props.UserId}/wall`);
+      const userData = await ax.get(`/api/communities/${this.props.CommunityId}/users/${this.props.FriendId}/wall`);
 
       this.setState({
-        userData: userData.data,
+        friendProfile: userData.data,
         posts: userData.data.posts
       });
     }
@@ -42,8 +42,8 @@ export default class Profile extends Component {
       <div>
         <Container maxWidth="lg">
           {
-            this.state.userData ?
-              <ProfileInfo user={this.state.userData} />
+            this.state.friendProfile ?
+              <ProfileInfo user={this.state.friendProfile} />
               : ''
           }
           {
@@ -51,8 +51,8 @@ export default class Profile extends Component {
               <PostController
                 {...this.props}
                 posts={this.state.posts}
-                postURL={`/api/posts?CommunityId=${this.props.CommunityId}&UserId=${this.props.UserId}`}
-                postTo='Wall'
+                postURL={`/api/posts?CommunityId=${this.props.CommunityId}&UserId=${this.props.FriendId}`}
+                postType='Wall'
               />
               : ''
           }

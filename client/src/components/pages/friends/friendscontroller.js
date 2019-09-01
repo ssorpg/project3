@@ -48,7 +48,10 @@ export default class FriendsController extends Component {
             megaHeight='20vh'
             megaMaxHeight='320px!important'
           />
-          <FriendDisplay {...this.props} friends={this.state.friends} />
+          <FriendDisplay
+            {...this.props}
+            friends={this.state.friends}
+          />
         </Container>
       </>
     );

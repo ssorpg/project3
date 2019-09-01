@@ -12,7 +12,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Modal({ error, success }) {
+export default function Modal(props) {
+  const { error, success } = props;
   const classes = useStyles();
 
   function dismissAlerts() { // dismiss error messages by clicking on them

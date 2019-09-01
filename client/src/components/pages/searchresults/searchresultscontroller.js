@@ -16,35 +16,38 @@ class SearchResults extends Component {
     super();
 
     this.state = {
-      searchResults: undefined,
-    }
-  }
+      searchResults: undefined
+    };
+  };
 
   componentDidMount() {
     this.getData();
-  }
+  };
 
   getData = async () => {
     try {
-      const results = await ax.get(`/api/search${this.props.location.search}`); // looks like: /api/search?q=something
+      const res = await ax.get(`/api/search${this.props.location.search}`); // looks like: /api/search?q=something
 
-      this.setState({ searchResults: results.data });
+      this.setState({ searchResults: res.data });
     }
     catch (error) {
       PageLoadError(error);
     }
-  }
+  };
 
   render() {
     return (
       <Container maxWidth="md" id="search">
         <Paper style={{ padding: '24px' }}>
           <h1>Search Results</h1>
-          <SearchItem {...this.props} searchResults={this.state.searchResults} />
+          <SearchItem
+            {...this.props}
+            searchResults={this.state.searchResults}
+          />
         </Paper>
       </Container>
-    )
-  }
+    );
+  };
 }
 
 

@@ -1,7 +1,6 @@
 // COMPONENTS
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
+import { Container, Grid } from '@material-ui/core';
 import Friend from './friend'
 
 // FUNCTIONS
@@ -13,7 +12,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function FriendDisplay({ YourId, CommunityId, friends }) {
+export default function FriendDisplay(props) {
+  const { friends } = props;
   const classes = useStyles();
 
   return (
@@ -32,9 +32,8 @@ export default function FriendDisplay({ YourId, CommunityId, friends }) {
               friends.map(friend => (
                   <Grid item xs={6} sm={3} md={2}>
                     <Friend
-                      YourId={YourId}
-                      CommunityId={CommunityId}
-                      friend={friend}
+                      {...props}
+                      thisFriend={friend}
                     />
                   </Grid>
                 ))

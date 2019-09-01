@@ -10,7 +10,7 @@ export default class HomeController extends Component {
     super();
 
     this.state = {
-      errorAlert: undefined
+      alert: undefined
     };
   }
 
@@ -33,7 +33,7 @@ export default class HomeController extends Component {
   }
 
   postToDB = async postData => {
-    this.setState({ errorAlert: undefined });
+    this.setState({ alert: undefined });
 
     try {
       await ax.post('/api/users/register', postData);
@@ -42,7 +42,7 @@ export default class HomeController extends Component {
     }
     catch (error) {
       console.log(error);
-      this.setState({ errorAlert: error.response.data });
+      this.setState({ alert: error.response.data });
     }
   }
 
@@ -54,13 +54,13 @@ export default class HomeController extends Component {
     }
     catch (error) {
       console.log(error);
-      this.setState({ errorAlert: error.response.data });
+      this.setState({ alert: error.response.data });
     }
   }
 
   render() {
     return (
-      <Register handleSubmit={this.handleSubmit} errorAlert={this.state.errorAlert} />
+      <Register handleSubmit={this.handleSubmit} alert={this.state.alert} />
     );
   }
 }

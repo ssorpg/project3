@@ -39,7 +39,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignUp({ handleSubmit, errorAlert }) {
+export default function SignUp(props) {
+  const { handleSubmit, alert } = props;
   const classes = useStyles();
 
   return (
@@ -105,8 +106,8 @@ export default function SignUp({ handleSubmit, errorAlert }) {
             </Grid> */}
           </Grid>
           {
-            errorAlert ?
-              <Modal error={errorAlert} />
+            alert ?
+              <Modal error={alert} />
               : ''
           }
           <Button

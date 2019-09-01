@@ -1,8 +1,6 @@
 // COMPONENTS
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
-import Container from '@material-ui/core/Container';
+import { Container, Typography, Link } from '@material-ui/core';
 
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Copyright() {
+export default function Footer() {
   const classes = useStyles();
 
   return (

@@ -1,6 +1,6 @@
 // COMPONENTS
 import React from 'react';
-import InputBase from '@material-ui/core/InputBase';
+import { InputBase } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
 // FUNCTIONS

@@ -17,7 +17,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SearchItem({ YourId, searchResults }) {
+export default function SearchItem(props) {
+  const { YourProfile, searchResults } = props;
   const classes = useStyles();
 
   return (
@@ -69,7 +70,7 @@ export default function SearchItem({ YourId, searchResults }) {
                               <ListItem key={member.id}>
                                 <a
                                 href={
-                                  YourId === member.id ?
+                                  YourProfile.id === member.id ?
                                     '/profile'
                                     : `/community/${community.id}/friends/${member.id}`
                                   }

@@ -33,7 +33,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function MakePost({ handleSubmit, errorAlert, postTo }) {
+export default function MakePost(props) {
+  const { handleSubmit, alert, postType } = props;
   const classes = useStyles();
 
   return (
@@ -51,12 +52,12 @@ export default function MakePost({ handleSubmit, errorAlert, postTo }) {
               <textarea type="text" name="feed-comment" placeholder="What's on your mind?" className={classes.textarea} />
               <Button type="submit" value="submit" variant="contained" color="primary" className={classes.submit}>
                 {
-                  postTo ? `Post To ${postTo}` : 'Post'
+                  postType ? `Post To ${postType}` : 'Post'
                 }
               </Button>
               {
-                errorAlert ?
-                  <Modal error={errorAlert} />
+                alert ?
+                  <Modal error={alert} />
                   : ''
               }
             </form>

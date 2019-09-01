@@ -10,7 +10,8 @@ const useStyles = makeStyles(theme => ({
   inviteForm: {
     padding: theme.spacing(2),
     width: '450px',
-    maxWidth: '74vw'
+    maxWidth: '74vw',
+    borderTop: '1px solid #f3f3f3'
   },
 
   inviteButton: {
@@ -18,7 +19,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function InviteAUser({ handleInviteUser, dialogErrorAlert, inviteUserDialog, closeInviteDialog }) {
+export default function InviteAUser(props) {
+  const { handleInviteUser, dialogAlert, inviteUserDialog, closeInviteDialog } = props;
   const classes = useStyles();
 
   return (
@@ -48,8 +50,8 @@ export default function InviteAUser({ handleInviteUser, dialogErrorAlert, invite
           Invite
         </Button>
         {
-          dialogErrorAlert ?
-            <Modal error={dialogErrorAlert} />
+          dialogAlert ?
+            <Modal error={dialogAlert} />
             : ''
         }
       </form>

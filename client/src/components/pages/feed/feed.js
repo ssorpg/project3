@@ -55,7 +55,7 @@ export default class Feed extends Component {
               {...this.props}
               posts={this.state.posts}
               postURL={`/api/posts?CommunityId=${this.props.CommunityId}`}
-              postTo='Feed'
+              postType='Feed'
             />
             : ''
         }

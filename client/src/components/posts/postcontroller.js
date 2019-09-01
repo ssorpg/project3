@@ -13,8 +13,9 @@ export default class PostController extends Component {
     this.state = {
       posts: props.posts,
       postURL: props.postURL,
-      postTo: props.postTo,
-      errorAlert: undefined
+      postType: props.postType,
+      cantPost: props.cantPost,
+      alert: undefined
     }
   };
 
@@ -36,7 +37,7 @@ export default class PostController extends Component {
   };
 
   postToDB = async (form, post) => {
-    this.setState({ errorAlert: undefined });
+    this.setState({ alert: undefined });
 
     try {
       const res = await ax.post(this.state.postURL, post);
@@ -45,12 +46,12 @@ export default class PostController extends Component {
     }
     catch (error) {
       console.log(error);
-      this.setState({ errorAlert: error.response.data });
+      this.setState({ alert: error.response.data });
     }
   };
 
   vote = async event => {
-    this.setState({ errorAlert: undefined });
+    this.setState({ alert: undefined });
 
     const postInfo = event.target.dataset.id ?
       event.target.dataset
@@ -70,12 +71,12 @@ export default class PostController extends Component {
     }
     catch (error) {
       console.log(error);
-      this.setState({ errorAlert: error.response.data });
+      this.setState({ alert: error.response.data });
     }
   };
 
   deletePost = async event => {
-    this.setState({ errorAlert: undefined });
+    this.setState({ alert: undefined });
 
     const postInfo = event.target.dataset.id ?
       event.target.dataset
@@ -89,7 +90,7 @@ export default class PostController extends Component {
     }
     catch (error) {
       console.log(error);
-      this.setState({ errorAlert: error.response.data });
+      this.setState({ alert: error.response.data });
     }
   };
 
@@ -97,11 +98,11 @@ export default class PostController extends Component {
     return (
       <>
         {
-          this.state.postURL ?
+          !this.props.cantPost ?
             <MakePost
               handleSubmit={this.handleSubmit}
-              errorAlert={this.state.errorAlert}
-              postTo={this.state.postTo}
+              alert={this.state.alert}
+              postType={this.state.postType}
             />
             : ''
         }

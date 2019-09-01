@@ -18,7 +18,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function MakeComment({ handleSubmit, errorAlert }) {
+export default function MakeComment(props) {
+  const { handleSubmit, alert } = props;
   const classes = useStyles();
 
   return (
@@ -41,8 +42,8 @@ export default function MakeComment({ handleSubmit, errorAlert }) {
           Comment
         </Button>
         {
-          errorAlert ?
-            <Modal error={errorAlert} />
+          alert ?
+            <Modal error={alert} />
             : ''
         }
       </form>

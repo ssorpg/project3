@@ -1,6 +1,6 @@
 // COMPONENTS
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import { Button } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 // FUNCTIONS
@@ -27,21 +27,22 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Comment({ YourId, comment, deleteComment }) {
+export default function Comment(props) {
+  const { YourProfile, thisComment, deleteComment } = props;
   const classes = useStyles();
 
   return (
     <p className={classes.comment}>
       <span className={classes.commentText}>
-        <strong>{comment.author.name}</strong>: {comment.message}
+        <strong>{thisComment.author.name}</strong>: {thisComment.message}
       </span>
       {
-        YourId === comment.author.id ?
+        YourProfile.id === thisComment.author.id ?
           <Button
             type="submit"
             title="Delete Comment"
-            data-id={comment.id}
-            data-postid={comment.PostId}
+            data-id={thisComment.id}
+            data-postid={thisComment.PostId}
             onClick={deleteComment}
             className={classes.delete}
           >

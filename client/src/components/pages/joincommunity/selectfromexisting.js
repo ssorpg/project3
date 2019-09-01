@@ -23,13 +23,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SelectFromExisting({
-  communities,
-  CommunityId,
-  handleChosenCommunitySubmit,
-  handleRadioSelection,
-  handleFormChange
-}) {
+export default function SelectFromExisting(props) {
+  const { communities, handleFormChange, handleChosenCommunitySubmit } = props;
   const classes = useStyles();
 
   return (
@@ -42,9 +37,8 @@ export default function SelectFromExisting({
               communities.map(community => (
                 <RadioGroup key={community.id}>
                   <CommunityRadio
-                    CommunityId={CommunityId}
-                    community={community}
-                    handleRadioSelection={handleRadioSelection}
+                    {...props}
+                    thisComm={community}
                   />
                 </RadioGroup>
               ))
