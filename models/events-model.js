@@ -16,11 +16,40 @@ module.exports = function (sequelize, DataTypes) {
           }
         }
       },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        trim: true,
+        validate: {
+          notNull: {
+            args: true,
+            msg: 'Please enter a description for the event.'
+          },
+          len: {
+            args: [1, 255],
+            msg: 'The description must be between 1 and 255 characters long.'
+          }
+        }
+      },
       date: {
         type: DataTypes.DATE,
         trim: true,
         validate: {
-          isDate: { msg: 'Please enter a valid date.' }
+          isDate: { msg: 'Please enter a valid date.' },
+        }
+      },
+      start_time: {
+        type: DataTypes.DATE,
+        trim: true,
+        validate: {
+          isDate: { msg: 'Please enter a valid date.' },
+        }
+      },
+      end_time: {
+        type: DataTypes.DATE,
+        trim: true,
+        validate: {
+          isDate: { msg: 'Please enter a valid date.' },
         }
       }
     });
