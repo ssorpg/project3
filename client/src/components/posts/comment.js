@@ -29,6 +29,7 @@ const useStyles = makeStyles({
 
 export default function Comment(props) {
   const { YourProfile, thisComment, deleteComment } = props;
+  
   const classes = useStyles();
 
   return (

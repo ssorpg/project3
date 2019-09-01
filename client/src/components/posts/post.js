@@ -26,6 +26,7 @@ const useStyles = makeStyles({
 
 export default function Post(props) {
   const { YourProfile, thisPost, vote, deletePost } = props;
+
   const classes = useStyles();
 
   function goToAuthor() {
@@ -34,7 +35,7 @@ export default function Post(props) {
       : `/community/${thisPost.CommunityId}/friends/${thisPost.author.id}`;
 
     window.location = goTo;
-  }
+  };
 
   return (
     <Card>
@@ -74,4 +75,4 @@ export default function Post(props) {
       <CommentController {...props} thisPost={thisPost} />
     </Card>
   );
-}
+};

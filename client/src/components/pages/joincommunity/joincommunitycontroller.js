@@ -20,7 +20,7 @@ export default class CreateCommunity extends Component {
       selectedCommId: undefined,
       makePrivate: true,
       alert: undefined
-    }
+    };
   };
 
   async componentDidMount() {
@@ -135,5 +135,5 @@ export default class CreateCommunity extends Component {
         }
       </Container>
     );
-  }
+  };
 }

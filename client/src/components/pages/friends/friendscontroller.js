@@ -14,7 +14,7 @@ export default class FriendsController extends Component {
 
     this.state = {
       pageTitle: undefined,
-      friends: undefined
+      friends: []
     };
   }
 

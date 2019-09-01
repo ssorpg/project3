@@ -5,6 +5,7 @@ import PostDisplay from './postdisplay';
 
 // FUNCTIONS
 import ax from 'axios';
+import GetEventTargetDataset from '../../utils/geteventtargetdataset';
 
 export default class PostController extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ export default class PostController extends Component {
     }
   };
 
-  handleSubmit = async event => {
+  handleMakePost = async event => {
     event.preventDefault();
     const form = event.target;
 
@@ -53,21 +54,19 @@ export default class PostController extends Component {
   vote = async event => {
     this.setState({ alert: undefined });
 
-    const postInfo = event.target.dataset.id ?
-      event.target.dataset
-      : event.target.parentNode.dataset;
+    const postInfo = GetEventTargetDataset(event);
 
     try {
       const res = await ax.put(`/api/posts/${postInfo.id}/${postInfo.vote}`);
 
-      const newPostsScore = this.state.posts.map(post => {
+      const newPostScore = this.state.posts.map(post => {
         if (post.id === res.data.id) {
           post.score = res.data.score;
         }
         return post;
       });
 
-      this.setState({ posts: newPostsScore });
+      this.setState({ posts: newPostScore });
     }
     catch (error) {
       console.log(error);
@@ -78,15 +77,13 @@ export default class PostController extends Component {
   deletePost = async event => {
     this.setState({ alert: undefined });
 
-    const postInfo = event.target.dataset.id ?
-      event.target.dataset
-      : event.target.parentNode.dataset;
+    const postInfo = GetEventTargetDataset(event);
 
     try {
       const res = await ax.delete(`/api/posts/${postInfo.id}`);
 
-      const newRemovedPosts = this.state.posts.filter(post => { return post.id !== res.data.id; });
-      this.setState({ posts: newRemovedPosts });
+      const newPosts = this.state.posts.filter(post => { return post.id !== res.data.id; });
+      this.setState({ posts: newPosts });
     }
     catch (error) {
       console.log(error);
@@ -100,7 +97,7 @@ export default class PostController extends Component {
         {
           !this.props.cantPost ?
             <MakePost
-              handleSubmit={this.handleSubmit}
+              handleMakePost={this.handleMakePost}
               alert={this.state.alert}
               postType={this.state.postType}
             />

@@ -6,18 +6,17 @@ import Comment from './comment';
 
 // FUNCTIONS
 import ax from 'axios';
+import GetEventTargetDataset from '../../utils/geteventtargetdataset';
 
 export default class CommentController extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      comments: props.thisPost.comments ?
-        props.thisPost.comments
-        : [],
+      comments: props.thisPost.comments || [],
       alert: undefined
-    }
-  }
+    };
+  };
 
   handleSubmit = async event => {
     event.preventDefault();
@@ -53,9 +52,7 @@ export default class CommentController extends Component {
   deleteComment = async event => {
     this.setState({ alert: undefined });
 
-    const commentInfo = event.target.dataset.id ?
-      event.target.dataset
-      : event.target.parentNode.dataset;
+    const commentInfo = GetEventTargetDataset(event);
 
     try {
       const removedComment = await ax.delete(`/api/posts/${commentInfo.postid}/comments/${commentInfo.id}`);
@@ -77,7 +74,7 @@ export default class CommentController extends Component {
           alert={this.state.alert}
         />
         {
-          this.state.comments ?
+          this.state.comments.length ?
             this.state.comments.map(comment => (
               <Comment
                 key={comment.id}

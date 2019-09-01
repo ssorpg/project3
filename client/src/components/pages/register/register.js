@@ -41,6 +41,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignUp(props) {
   const { handleSubmit, alert } = props;
+
   const classes = useStyles();
 
   return (
@@ -130,4 +131,4 @@ export default function SignUp(props) {
       </div>
     </Container>
   );
-}
+};

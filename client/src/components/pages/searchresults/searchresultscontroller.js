@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Container, Paper } from '@material-ui/core';
-import SearchItem from './searchitem';
+import CommunityResults from './communityresults';
 
 // CSS
 import './styles.css';
@@ -11,12 +11,12 @@ import './styles.css';
 import ax from 'axios';
 import PageLoadError from '../../../utils/pageloaderror';
 
-class SearchResults extends Component {
+class SearchResultsController extends Component {
   constructor() {
     super();
 
     this.state = {
-      searchResults: undefined
+      searchResults: []
     };
   };
 
@@ -40,7 +40,7 @@ class SearchResults extends Component {
       <Container maxWidth="md" id="search">
         <Paper style={{ padding: '24px' }}>
           <h1>Search Results</h1>
-          <SearchItem
+          <CommunityResults
             {...this.props}
             searchResults={this.state.searchResults}
           />
@@ -51,4 +51,4 @@ class SearchResults extends Component {
 }
 
 
-export default withRouter(SearchResults);
+export default withRouter(SearchResultsController);

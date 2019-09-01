@@ -23,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function NewCommunity(props) {
   const { handleCreateCommunitySubmit, handleFormChange, makePrivate, handleMakePrivate } = props;
+  
   const classes = useStyles();
 
   return (

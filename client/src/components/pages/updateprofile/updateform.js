@@ -14,6 +14,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function UpdateForm(props) {
   const { bio, location, handleBioLocChange, handleBioLocSubmit } = props;
+  
   const classes = useStyles();
 
   return (

@@ -52,8 +52,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function PrimarySearchAppBar(props) {
+export default function Navbar(props) {
   const { YourProfile, CommunityId } = props;
+
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [sidebarAnchorEl, setSidebarAnchorEl] = React.useState(null);
@@ -122,11 +123,9 @@ export default function PrimarySearchAppBar(props) {
             <a href={`/community/${CommunityId}/friends`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Community Friends</MenuItem></a>
             {/* <a href={`/community/${CommunityId}/chat`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Chat</MenuItem></a> */}
           </>
-          : YourProfile.communities && YourProfile.communities.length ?
-            YourProfile.communities.map(community => {
-              return (<a href={`/community/${community.id}`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>{community.name} Feed</MenuItem></a>);
-            })
-            : ''
+          : YourProfile.communities.map(community => {
+            return (<a href={`/community/${community.id}`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>{community.name} Feed</MenuItem></a>);
+          })
       }
       <a href={`/chat`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Global Chat</MenuItem></a>
     </Menu>
@@ -150,7 +149,7 @@ export default function PrimarySearchAppBar(props) {
           <Typography className={classes.title} variant="h6" noWrap>
             <a href="/" className={classes.resetA}>
               The Private Network
-                </a>
+            </a>
           </Typography>
           <Searchbar />
           <div className={classes.grow} />

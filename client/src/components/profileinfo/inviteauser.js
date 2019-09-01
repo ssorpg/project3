@@ -1,7 +1,7 @@
 // COMPONENTS
 import React from 'react';
 import { Dialog, DialogTitle, TextField, Button } from '@material-ui/core';
-import Modal from './modal';
+import Modal from '../modal';
 
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     width: '450px',
     maxWidth: '74vw',
-    borderTop: '1px solid #f3f3f3'
+    borderTop: '1px solid #dedede'
   },
 
   inviteButton: {
@@ -21,6 +21,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function InviteAUser(props) {
   const { handleInviteUser, dialogAlert, inviteUserDialog, closeInviteDialog } = props;
+
   const classes = useStyles();
 
   return (
@@ -33,7 +34,7 @@ export default function InviteAUser(props) {
       <form onSubmit={handleInviteUser} className={classes.inviteForm}>
         <TextField
           label="Email"
-          placeholder='someone@gmail.com'
+          placeholder="email@address.com"
           fullWidth
           required
           variant="outlined"
@@ -51,7 +52,9 @@ export default function InviteAUser(props) {
         </Button>
         {
           dialogAlert ?
-            <Modal error={dialogAlert} />
+            dialogAlert.success ?
+              <Modal success={dialogAlert.message} />
+              : <Modal error={dialogAlert.message} />
             : ''
         }
       </form>

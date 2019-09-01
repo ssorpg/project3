@@ -17,31 +17,27 @@ export default function FriendDisplay(props) {
   const classes = useStyles();
 
   return (
-    <>
-      <Container maxWidth="lg">
-        <main>
-          <Grid
-            container
-            direction="row"
-            justify="center"
-            spacing={4}
-            className={classes.mainGrid}
-          >
-            {
-              friends ?
-              friends.map(friend => (
-                  <Grid item xs={6} sm={3} md={2}>
-                    <Friend
-                      {...props}
-                      thisFriend={friend}
-                    />
-                  </Grid>
-                ))
-                : ''
-            }
-          </Grid>
-        </main>
-      </Container>
-    </>
+    <Container maxWidth="lg">
+      <main>
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          spacing={4}
+          className={classes.mainGrid}
+        >
+          {
+            friends.map(friend => (
+              <Grid item xs={6} sm={3} md={2}>
+                <Friend
+                  {...props}
+                  thisFriend={friend}
+                />
+              </Grid>
+            ))
+          }
+        </Grid>
+      </main>
+    </Container>
   );
 }

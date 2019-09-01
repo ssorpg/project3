@@ -24,6 +24,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function PostDisplay(props) {
   const { posts, cantPost } = props;
+  
   const classes = useStyles();
 
   return (

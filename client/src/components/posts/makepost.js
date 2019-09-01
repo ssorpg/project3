@@ -34,36 +34,33 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function MakePost(props) {
-  const { handleSubmit, alert, postType } = props;
+  const { handleMakePost, alert, postType } = props;
+  
   const classes = useStyles();
 
   return (
-    <>
-      <Container maxWidth="lg">
-        <main>
-          <Grid
-            container
-            direction="row"
-            justify="center"
-            spacing={4}
-            className={classes.mainGrid}
-          >
-            <form className={classes.form} onSubmit={handleSubmit}>
-              <textarea type="text" name="feed-comment" placeholder="What's on your mind?" className={classes.textarea} />
-              <Button type="submit" value="submit" variant="contained" color="primary" className={classes.submit}>
-                {
-                  postType ? `Post To ${postType}` : 'Post'
-                }
-              </Button>
-              {
-                alert ?
-                  <Modal error={alert} />
-                  : ''
-              }
-            </form>
-          </Grid>
-        </main>
-      </Container>
-    </>
+    <Container maxWidth="lg">
+      <main>
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          spacing={4}
+          className={classes.mainGrid}
+        >
+          <form className={classes.form} onSubmit={handleMakePost}>
+            <textarea type="text" name="feed-comment" placeholder="What's on your mind?" className={classes.textarea} />
+            <Button type="submit" value="submit" variant="contained" color="primary" className={classes.submit}>
+              {postType ? `Post To ${postType}` : 'Post'}
+            </Button>
+            {
+              alert ?
+                <Modal error={alert} />
+                : ''
+            }
+          </form>
+        </Grid>
+      </main>
+    </Container>
   );
 }

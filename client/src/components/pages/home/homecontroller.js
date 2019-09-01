@@ -37,6 +37,7 @@ export default class HomeController extends Component {
 
     try {
       await ax.post('/api/users', postData);
+      
       window.location = '/profile';
     }
     catch (error) {

@@ -52,8 +52,8 @@ export default class TPN extends Component {
 
   render() {
     if (!this.state.YourProfile && this.state.isAuth) { // && this.state.isAuth so people who haven't logged in can still see the home page
-      return <div /> // but it might create a bug where if you nuke the DB and then start the server it might just say unauthorized
-    } // so we also need to clear our cookies when we nuke the db i think
+      return <div />
+    }
 
     return (
       <div style={{ minHeight: '88vh', display: 'flex', flexDirection: 'column', marginTop: '12vh' }}>

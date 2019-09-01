@@ -14,7 +14,7 @@ export default class Feed extends Component {
 
     this.state = {
       pageTitle: undefined,
-      posts: undefined
+      posts: []
     };
   };
 
@@ -39,7 +39,6 @@ export default class Feed extends Component {
   render() {
     return (
       <>
-        {/* <Header pageTitle={this.state.pageTitle} /> */}
         <Container>
           <Megatron
             heading={this.state.pageTitle}
@@ -49,16 +48,12 @@ export default class Feed extends Component {
             megaMaxHeight='320px!important'
           />
         </Container>
-        {
-          this.state.posts ?
-            <PostController
-              {...this.props}
-              posts={this.state.posts}
-              postURL={`/api/posts?CommunityId=${this.props.CommunityId}`}
-              postType='Feed'
-            />
-            : ''
-        }
+        <PostController
+          {...this.props}
+          posts={this.state.posts}
+          postURL={`/api/posts?CommunityId=${this.props.CommunityId}`}
+          postType='Feed'
+        />
       </>
     );
   }

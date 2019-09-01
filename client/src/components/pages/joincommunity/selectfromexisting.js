@@ -25,6 +25,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function SelectFromExisting(props) {
   const { communities, handleFormChange, handleChosenCommunitySubmit } = props;
+
   const classes = useStyles();
 
   return (

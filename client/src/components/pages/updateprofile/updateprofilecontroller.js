@@ -90,7 +90,6 @@ export default class UpdateProfileController extends Component {
 
   render() {
     return (
-      <>
         <Container maxWidth="md">
           <Megatron
             heading="Profile Settings"
@@ -128,7 +127,6 @@ export default class UpdateProfileController extends Component {
             </Grid>
           </Paper>
         </Container>
-      </>
-    )
-  }
-};
+    );
+  };
+}

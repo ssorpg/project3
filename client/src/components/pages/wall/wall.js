@@ -1,7 +1,7 @@
 // COMPONENTS
 import React, { Component } from 'react';
 import { Container } from '@material-ui/core';
-import ProfileInfo from '../../profileinfo';
+import ProfileInfo from '../../profileinfo/profileinfo';
 import PostController from '../../posts/postcontroller';
 
 // FUNCTIONS
@@ -14,7 +14,7 @@ export default class Profile extends Component {
 
     this.state = {
       friendProfile: undefined,
-      posts: undefined,
+      posts: [],
       errorAlert: undefined
     };
   }
@@ -46,16 +46,12 @@ export default class Profile extends Component {
               <ProfileInfo user={this.state.friendProfile} />
               : ''
           }
-          {
-            this.state.posts ?
-              <PostController
-                {...this.props}
-                posts={this.state.posts}
-                postURL={`/api/posts?CommunityId=${this.props.CommunityId}&UserId=${this.props.FriendId}`}
-                postType='Wall'
-              />
-              : ''
-          }
+          <PostController
+            {...this.props}
+            posts={this.state.posts}
+            postURL={`/api/posts?CommunityId=${this.props.CommunityId}&UserId=${this.props.FriendId}`}
+            postType='Wall'
+          />
         </Container>
       </div>
     )

@@ -69,6 +69,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Home(props) {
   const { handleSubmit, alert } = props;
+  
   const classes = useStyles();
 
   console.log(handleSubmit);

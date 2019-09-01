@@ -13,7 +13,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ImageUpload({ handlePicChange, handlePicSubmit }) {
+export default function ImageUpload(props) {
+  const { handlePicChange, handlePicSubmit } = props;
+
   const classes = useStyles();
 
   return (
@@ -31,4 +33,4 @@ export default function ImageUpload({ handlePicChange, handlePicSubmit }) {
       </Button>
     </form>
   );
-}
+};
