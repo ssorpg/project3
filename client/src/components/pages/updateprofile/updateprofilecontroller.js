@@ -1,6 +1,6 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import { Grid, Container } from '@material-ui/core';
+import { Grid, Container, Paper } from '@material-ui/core';
 import Imageupload from './imageupload';
 import UpdateForm from './updateform';
 import Megatron from '../../megatron';
@@ -121,31 +121,31 @@ export default class UpdateProfileController extends Component {
             megaHeight='60vh'
             megaMaxHeight='320px!important'
           />
-          <Grid container alignContent="center">
-            <Grid item md={6} style={{ marginBottom: '20px' }}>
-              <h3>Update Profile</h3>
-              <UpdateForm
-                bio={this.state.bio}
-                location={this.state.location}
-                handleBioLocChange={this.handleBioLocChange}
-                handleBioLocSubmit={this.handleBioLocSubmit}
-              />
-            </Grid>
-            <Grid item md={6}>
-              <h3>Update Photo</h3>
-              <Imageupload
-                handlePicChange={this.handlePicChange}
-                handlePicSubmit={this.handlePicSubmit}
-              />
-            </Grid>
-          </Grid>
           {
-            this.state.alert ?
-              this.state.alert.isError ?
-                <Modal error={this.state.alert.message} />
-                : <Modal success={this.state.alert.message} />
+            this.state.errorAlert ?
+              <Modal error={this.state.errorAlert} />
               : ''
           }
+          <Paper style={{padding:'24px'}}>
+            <Grid container alignContent="center">
+              <Grid item md={6} style={{ marginBottom: '20px' }}>
+                <h3>Update Profile</h3>
+                <UpdateForm
+                  bio={this.state.bio}
+                  location={this.state.location}
+                  handleBioLocChange={this.handleBioLocChange}
+                  handleBioLocSubmit={this.handleBioLocSubmit}
+                />
+              </Grid>
+              <Grid item md={6}>
+                <h3>Update Photo</h3>
+                <Imageupload
+                  handlePicChange={this.handlePicChange}
+                  handlePicSubmit={this.handlePicSubmit}
+                />
+              </Grid>
+            </Grid>
+          </Paper>
         </Container>
       </>
     )

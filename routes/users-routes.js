@@ -70,6 +70,7 @@ module.exports = function (app) {
         name: req.body.name,
         bio: req.body.bio,
         location: req.body.location,
+        status: req.body.status
       },
       {
         where: {

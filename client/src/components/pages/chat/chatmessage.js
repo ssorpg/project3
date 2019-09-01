@@ -39,9 +39,9 @@ export default function ChatMessage({ user, text, time }) {
               className={classes.inline}
               color="textSecondary"
             >
-              <p className={classes.msg}>
+              <span className={classes.msg}>
               {time + ': '}<span className={classes.blackText}>{text}</span>
-              </p>
+              </span>
             </Typography>
           </>
         }

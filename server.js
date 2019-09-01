@@ -44,7 +44,7 @@ app.use(wrap(async (req, res, next) => {
 const expressWs = require('express-ws')(app);
 require('./routes')(app, expressWs);
 
-app.get('*', wrap(async function (req, res, next) {
+app.get('*', wrap(async (req, res, next) => {
   if (process.env.NODE_ENV === 'production') {
     res.sendFile(__dirname + '/client/build/index.html');
   }
@@ -53,11 +53,11 @@ app.get('*', wrap(async function (req, res, next) {
   }
 }));
 
-app.use(wrap(async function (req, res, next) { // 404 handler
+app.use(wrap(async (req, res, next) => { // 404 handler
   throw { status: 404, msg: 'Page not found.' };
 }));
 
-app.use(function (err, req, res, next) { // error handler middleware, called with 'next' from routes
+app.use((err, req, res, next) => { // error handler middleware, called with 'next' from routes
   console.log(err);
 
   switch (err.status) {
