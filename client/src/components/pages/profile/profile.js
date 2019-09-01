@@ -1,129 +1,150 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import ProfileInfo from '../../profileinfo';
-import PostDisplay from '../../postdisplay';
 import { Container } from '@material-ui/core';
+import ProfileInfo from '../../profileinfo';
+import PostController from '../../posts/postcontroller';
 import Megatron from '../../megatron';
 import Modal from '../../modal';
 
 // FUNCTIONS
 import ax from 'axios';
-import CheckError from '../../../utils/checkerror';
+import PageLoadError from '../../../utils/pageloaderror';
 
 export default class Profile extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       userData: undefined,
+      status: undefined,
       posts: undefined,
-      errorAlert: undefined
+      errorAlert: undefined,
+      dialogErrorAlert: undefined,
+      inviteUserDialog: false,
+      inviteCommId: undefined
     };
-  }
+  };
 
   componentDidMount() {
     this.GetData();
-  }
+  };
 
   GetData = async () => {
     try {
-      const userData = await ax.get(`/api/users/profile/`);
+      const userData = await ax.get('/api/users/profile/');
 
-      this.setState({
-        userData: userData,
-        posts: userData.data.wallPosts
+      await this.setState({
+        userData: userData.data,
+        status: userData.data.status,
+        posts: userData.data.posts
       });
+      console.log(this.state.userData);
     }
     catch (error) {
-      CheckError(error);
+      PageLoadError(error);
     }
-  }
-  
-  deleteCommunity = async event => {
-    event.preventDefault();
+  };
+
+  removeCommunity = async event => {
     this.setState({ errorAlert: undefined });
 
-    const commInfo = event.target.dataset.id ?
-      event.target
-      : event.target.parentNode;
+    const commInfo = event.target.dataset.id ? // sometimes the child element receives the event
+      event.target.dataset
+      : event.target.parentNode.dataset;
+
+    const URL = commInfo.isfounder ?
+      `/api/communities/${commInfo.id}` // delete comm
+      : `/api/communities/${commInfo.id}/users` // leave comm
 
     try {
-      const res = await ax.delete(`/api/communities/${commInfo.dataset.id}`);
+      const removedComm = await ax.delete(URL);
 
       const newUserData = this.state.userData;
-      newUserData.data.communities = newUserData.data.communities.filter(comm => { return comm.id !== res.data.id; });
+      newUserData.communities = newUserData.communities.filter(comm => { return comm.id !== removedComm.data.id; });
       this.setState({ userData: newUserData });
     }
     catch (error) {
-      console.log(error.response);
+      console.log(error);
       this.setState({ errorAlert: error.response.data });
     }
-  }
+  };
 
-  leaveCommunity = async event => {
+  openInviteDialog = event => {
+    const commInfo = event.target.dataset.id ?
+      event.target.dataset
+      : event.target.parentNode.dataset;
+
+    this.setState({
+      inviteUserDialog: true,
+      inviteCommId: commInfo.id
+    });
+  };
+
+  closeInviteDialog = () => {
+    this.setState({
+      inviteUserDialog: false,
+      inviteCommId: undefined
+    });
+  };
+
+  handleInviteUser = async event => {
     event.preventDefault();
+    const form = event.target;
+
+    const input = form.getElementsByTagName('input')[0];
+
+    const invite = {
+      email: input.value
+    };
+
+    const submit = form.getElementsByTagName('button')[0];
+
+    submit.style.visibility = 'hidden';
+    await this.postToDB(form, invite);
+    submit.style.visibility = 'visible';
+  };
+
+  postToDB = async (form, invite) => {
+    this.setState({ dialogErrorAlert: undefined });
+
+    try {
+      await ax.post(`/api/communities/${this.state.inviteCommId}/invited`, invite);
+      form.reset();
+    }
+    catch (error) {
+      console.log(error);
+      this.setState({ dialogErrorAlert: error.response.data });
+    }
+  };
+
+  handleInvite = async event => {
     this.setState({ errorAlert: undefined });
 
     const commInfo = event.target.dataset.id ?
-      event.target
-      : event.target.parentNode;
+      event.target.dataset
+      : event.target.parentNode.dataset;
 
     try {
-      const res = await ax.delete(`/api/communities/${commInfo.dataset.id}/users`);
+      switch (commInfo.action) {
+        case 'accept':
+          await ax.post(`/api/communities/${commInfo.id}/users`);
+          window.location = `/community/${commInfo.id}`;
+          break;
+        case 'decline':
+          const removedInvite = await ax.delete(`/api/communities/${commInfo.id}/invited`);
 
-      const newUserData = this.state.userData;
-      newUserData.data.communities = newUserData.data.communities.filter(comm => { return comm.id !== res.data.id; });
-      this.setState({ userData: newUserData });
+          const newUserData = this.state.userData;
+          newUserData.invites = newUserData.invites.filter(invite => { return invite.id !== removedInvite.data.id; });
+          this.setState({ userData: newUserData });
+          break;
+        default:
+          console.log('something bad happened');
+      }
     }
     catch (error) {
-      console.log(error.response);
+      console.log(error);
       this.setState({ errorAlert: error.response.data });
     }
-  }
-
-  vote = async event => {
-    event.preventDefault();
-    this.setState({ errorAlert: undefined });
-
-    const postInfo = event.target.dataset.id ?
-      event.target
-      : event.target.parentNode;
-
-    try {
-      const res = await ax.put(`/api/posts/${postInfo.dataset.id}/${postInfo.dataset.vote}`);
-
-      const newPostsScore = this.state.posts.map(post => {
-        if (post.id === res.data.id) {
-          post.score = res.data.score;
-        }
-        return post;
-      });
-      this.setState({ posts: newPostsScore });
-    }
-    catch (error) {
-      console.log(error.response);
-      this.setState({ errorAlert: error.response.data });
-    }
-  }
-
-  deletePost = async event => {
-    event.preventDefault();
-    this.setState({ errorAlert: undefined });
-
-    const postInfo = event.target.dataset.id ?
-      event.target
-      : event.target.parentNode;
-
-    try {
-      const res = await ax.delete(`/api/posts/${postInfo.dataset.id}`);
-
-      const newRemovedPosts = this.state.posts.filter(post => { return post.id !== res.data.id; });
-      this.setState({ posts: newRemovedPosts });
-    }
-    catch (error) {
-      console.log(error.response);
-      this.setState({ errorAlert: error.response.data });
-    }
-  }
+  };
 
   render() {
     return (
@@ -135,10 +156,20 @@ export default class Profile extends Component {
           megaHeight='20vh'
           megaMaxHeight='320px!important'
         />
-        {/* <Paper > */} {/* makes the footer margin bug out but can always add back if needed */}
         {
           this.state.userData ?
-            <ProfileInfo user={this.state.userData.data} deleteCommunity={this.deleteCommunity} leaveCommunity={this.leaveCommunity} />
+            <>
+              <ProfileInfo
+                user={this.state.userData}
+                handleInviteUser={this.handleInviteUser}
+                inviteUserDialog={this.state.inviteUserDialog}
+                dialogErrorAlert={this.state.dialogErrorAlert}
+                openInviteDialog={this.openInviteDialog}
+                closeInviteDialog={this.closeInviteDialog}
+                removeCommunity={this.removeCommunity}
+                handleInvite={this.handleInvite}
+              />
+            </>
             : ''
         }
         {
@@ -148,11 +179,13 @@ export default class Profile extends Component {
         }
         {
           this.state.posts ?
-            <PostDisplay {...this.props} posts={this.state.posts} cantPost={true} vote={this.vote} deletePost={this.deletePost} />
+            <PostController
+              posts={this.state.posts}
+              cantPost={true}
+            />
             : ''
         }
-        {/* </Paper> */}
       </Container>
-    )
-  }
+    );
+  };
 }

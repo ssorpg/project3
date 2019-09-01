@@ -5,17 +5,17 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  error: {
-    zIndex: '9999',
+  alert: {
+    zIndex: '99',
     minWidth: '150px',
-    margin: '10px'
+    margin: 0
   }
 }));
 
-export default function Modal({ error }) {
+export default function Modal({ error, success }) {
   const classes = useStyles();
 
-  function removeErrors() { // remove error messages by clicking on them
+  function dismissAlerts() { // dismiss error messages by clicking on them
     const errors = document.getElementsByClassName('error');
 
     for (let i = 0; i < errors.length; i++) { // can't use foreach on a list :(
@@ -24,12 +24,20 @@ export default function Modal({ error }) {
   }
 
   return (
-    <div onClick={removeErrors} className={classes.error + " error"}>
+    <div onClick={dismissAlerts} className={classes.alert + " alert"}>
       {
         error ?
           <div className="alert alert-danger">
             <strong>Error: </strong>
             {error}
+          </div>
+          : ''
+      }
+      {
+        success ?
+          <div className="alert alert-success">
+            <strong>Success: </strong>
+            {success}
           </div>
           : ''
       }

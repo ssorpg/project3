@@ -1,52 +1,36 @@
 // COMPONENTS
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import TextField from '@material-ui/core/TextField';
-import { Container } from '@material-ui/core';
+import React from 'react';
+import { Container, TextField } from '@material-ui/core';
 
-// CSS
-// import './chat.css';
+// FUNCTIONS
+import { makeStyles } from '@material-ui/core/styles';
 
-export default class ChatInput extends Component {
-  static propTypes = {
-    onSubmitMessage: PropTypes.func.isRequired,
+const useStyles = makeStyles(theme => ({
+  toBottom: {
+    flexShrink: 0
   }
+}));
 
-  state = {
-    message: '',
-  }
+export default function ChatInput({ handleSubmit }) {
+  const classes = useStyles();
 
-  render() {
-    return (
-      <Container>
-        <form
-          className="chat"
-          action="."
-          onSubmit={
-            e => {
-              e.preventDefault()
-              this.props.onSubmitMessage(this.state.message)
-              this.setState({ message: '' })
-            }
-          }
-        >
-          <TextField
-            label="Chat with your community!"
-            style={{ margin: 8 }}
-            placeholder='Enter message...'
-            value={this.state.message}
-            fullWidth
-            onChange={e => this.setState({ message: e.target.value })}
-            required
-            margin="normal"
-            variant="outlined"
-          />
-          {/* <Button type="submit" value={'Send'} variant="contained" color="primary">
+  return (
+    <Container className={classes.toBottom}>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          label="Chat with your community!"
+          placeholder="Enter message..."
+          // multiline // kinda breaks post to db
+          fullWidth
+          required
+          margin="normal"
+          variant="outlined"
+        />
+        {/* <Button type="submit" value={'Send'} variant="contained" color="primary">
             Send
         <Icon>send</Icon>
           </Button> */}
-        </form>
-      </Container>
-    )
-  }
+      </form>
+    </Container>
+  )
 }

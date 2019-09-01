@@ -1,48 +1,47 @@
 // COMPONENTS
 import React from 'react';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import CommentOnPosts from './commentOnPosts';
+import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
+import CommentController from './commentcontroller';
 
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
-import GetProfileImage from '../utils/getprofileimage';
+import ExtractProfileImage from '../../utils/extractprofileimage';
 
 const useStyles = makeStyles({
   media: {
     paddingTop: '100%'
   },
 
+  postText: {
+    wordWrap: 'break-word',
+    overflowWrap: 'break-word'
+  },
+
   score: {
     position: 'absolute',
-    bottom: '10px',
+    bottom: '-25px',
     right: '10px'
   }
 });
 
-export default function MediaCard({ YourId, CommunityId, post, vote, deletePost }) {
+export default function Post(props) {
   const classes = useStyles();
+  const { YourId, post, vote, deletePost } = props;
 
   function goToAuthor() {
     const goTo = YourId === post.author.id ?
-      `/profile`
-      : `/community/${CommunityId}/friends/${post.author.id}`
+      '/profile'
+      : `/community/${post.CommunityId}/friends/${post.author.id}`;
 
     window.location = goTo;
   }
-  // console.log(post.author);
 
   return (
     <Card>
       <CardActionArea onClick={goToAuthor}>
         <CardMedia
           className={classes.media}
-          image={GetProfileImage(post.author)}
+          image={ExtractProfileImage(post.author)}
           title="Profile"
         />
         <CardContent>
@@ -50,11 +49,11 @@ export default function MediaCard({ YourId, CommunityId, post, vote, deletePost 
             {post.author.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {post.message}
+            <span className={classes.postText}>{post.message}</span>
           </Typography>
-          <div className={classes.score}>
+          <Typography className={classes.score}>
             Likes: {post.score}
-          </div>
+          </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
@@ -72,7 +71,7 @@ export default function MediaCard({ YourId, CommunityId, post, vote, deletePost 
             : ''
         }
       </CardActions>
-      <CommentOnPosts post={post} />
+      <CommentController {...props} post={post} />
     </Card>
   );
 }

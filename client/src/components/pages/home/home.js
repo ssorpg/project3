@@ -1,11 +1,6 @@
 // COMPONENTS
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import { Button, TextField, Link, Paper, Grid, Typography } from '@material-ui/core';
 import Modal from '../../modal';
 
 // FUNCTIONS
@@ -13,8 +8,11 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: '100vh'
+    minHeight: '100vh',
+    marginBottom: '-36px',
+    marginTop: '-12vh'
   },
+
   image: {
     // background: 'linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url(https://source.unsplash.com/random)',
     backgroundImage: 'url(https://picsum.photos/id/177/2515/1830)',
@@ -22,6 +20,7 @@ const useStyles = makeStyles(theme => ({
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
+
   logo: {
     postion: 'absolute',
     top: '0',
@@ -34,10 +33,12 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     padding: '24px 24px 72px',
   },
+
   name: {
     fontSize: '30px',
     color: '#1d1d1d'
   },
+
   slogan: {
     fontSize: '16px',
     // color: '#DBDADA',
@@ -77,7 +78,7 @@ export default function Home({ handleSubmit, errorAlert }) {
         <Grid item xs={false} id="hide" className={classes.logo}>
           <img src="https://i.ibb.co/6WVS2GB/tpn2.png" alt="" />
           <span className={classes.name} >The Private Network</span>
-          <p className={classes.slogan} >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam eum cupiditate quaerat laudantium ullam aut rem deleniti obcaecati quas voluptates dolores iure modi, aliquam, illo quae. Hic dicta corrupti eos.</p>
+          <p className={classes.slogan}>This is a social network that you can control access to. Use it to keep in touch with your friends and family, hold events for your office, or to organize your child’s sports team. Hold events, send messages, and post your important news to only selected individuals in your network.</p>
         </Grid>
       </Grid>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>

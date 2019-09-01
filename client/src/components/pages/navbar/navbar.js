@@ -1,24 +1,20 @@
 // COMPONENTS
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import { AppBar, Toolbar, IconButton, Typography, MenuItem, Menu } from '@material-ui/core';
+import { Menu as MenuIcon, AccountCircle } from '@material-ui/icons';
 import Searchbar from './searchbar';
 
 // FUNCTIONS
-import CheckError from '../../../utils/checkerror';
-import ax from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
+import ax from 'axios';
+import PageLoadError from '../../../utils/pageloaderror';
 
 const useStyles = makeStyles(theme => ({
-  siteNav: {
-    marginBottom: '48px'
+  scrollNav: {
+    position: 'fixed',
+    zIndex: '999'
   },
+
   grow: {
     flexGrow: 1
   },
@@ -32,6 +28,14 @@ const useStyles = makeStyles(theme => ({
     color: '#fff',
     [theme.breakpoints.up('sm')]: {
       display: 'block'
+    }
+  },
+
+  resetA: {
+    color: '#fff',
+    '&:hover': {
+      color: '#d9d9d9',
+      textDecoration: 'none'
     }
   },
 
@@ -76,7 +80,7 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
       window.location = '/';
     }
     catch (error) {
-      CheckError(error);
+      PageLoadError(error);
     }
   }
 
@@ -91,9 +95,9 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <a href="/profile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></a>
-      <a href="/update-profile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Edit Profile</MenuItem></a>
-      <a href="/create-community" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Join/Create Community</MenuItem></a>
+      {/* <a href="/profile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></a> */}
+      <a href="/updateprofile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Edit Profile</MenuItem></a>
+      <a href="/joincommunity" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Join/Create Community</MenuItem></a>
       <MenuItem className={classes.logout} onClick={logout}>Logout</MenuItem>
     </Menu>
   );
@@ -110,35 +114,40 @@ export default function PrimarySearchAppBar({ isAuth, CommunityId }) {
       onClose={handleMenuClose}
     >
       <a href="/profile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></a>
-      <a href={`/community/${CommunityId}`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Community Feed</MenuItem></a>
-      <a href={`/community/${CommunityId}/friends`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Community Friends</MenuItem></a>
-      <a href={`/community/${CommunityId}/chat`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Chat</MenuItem></a>
+      {
+        CommunityId ?
+          <>
+            <a href={`/community/${CommunityId}`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Community Feed</MenuItem></a>
+            <a href={`/community/${CommunityId}/friends`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Community Friends</MenuItem></a>
+            {/* <a href={`/community/${CommunityId}/chat`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Chat</MenuItem></a> */}
+          </>
+          : ''
+      }
+      <a href={`/chat`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Chat</MenuItem></a>
     </Menu>
   );
 
   return (
-    <div className={classes.grow}>
+    <div className={classes.scrollNav}>
       {
         isAuth ?
-          <AppBar position="static" className={classes.siteNav}>
+          <AppBar>
             <Toolbar>
-              {
-                CommunityId ?
-                  <IconButton
-                    edge="start"
-                    aria-label="open drawer"
-                    aria-controls={menuId}
-                    aria-haspopup="true"
-                    onClick={handleMenuOpen}
-                    className={classes.menuButton}
-                    color="inherit"
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                  : ''
-              }
+              <IconButton
+                edge="start"
+                aria-label="open drawer"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleMenuOpen}
+                className={classes.menuButton}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
               <Typography className={classes.title} variant="h6" noWrap>
-                The Private Network
+                <a href="/" className={classes.resetA}>
+                  The Private Network
+                </a>
               </Typography>
               <Searchbar />
               <div className={classes.grow} />

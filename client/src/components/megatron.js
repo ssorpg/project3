@@ -27,7 +27,7 @@ export default function Megatron(props) {
     megatron: {
       position: 'relative',
       padding: "24px",
-      marginBottom: "36px",
+      //marginBottom: "36px",
       backgroundColor: "#3f51b5",
       backgroundImage: `url(${imgSrc})`,
       backgroundPosition: `${imgPos}`,

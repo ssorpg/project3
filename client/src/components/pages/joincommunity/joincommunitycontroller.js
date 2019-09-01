@@ -1,0 +1,138 @@
+// COMPONENTS
+import React, { Component } from 'react';
+import { Container } from '@material-ui/core';
+import SelectFromExisting from './selectfromexisting';
+import NewCommunity from './newcommunity';
+import Megatron from '../../megatron';
+
+// FUNCTIONS
+import ax from 'axios';
+import Modal from '../../modal';
+import PageLoadError from '../../../utils/pageloaderror';
+
+export default class CreateCommunity extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      communities: [],
+      selectFromExisting: true,
+      CommunityId: undefined,
+      makePrivate: true,
+      errorAlert: undefined
+    }
+  };
+
+  async componentDidMount() {
+    this.getData();
+  };
+
+  getData = async () => {
+    try {
+      const res = await ax.get('/api/communities');
+
+      this.setState({ communities: res.data });
+    }
+    catch (error) {
+      PageLoadError(error);
+    }
+  };
+
+  handleFormChange = () => {
+    this.setState({
+      errorAlert: undefined,
+      selectFromExisting: !this.state.selectFromExisting // toggle
+    });
+  };
+
+  handleMakePrivate = () => {
+    this.setState({ makePrivate: !this.state.makePrivate });
+  };
+  
+  handleCreateCommunitySubmit = async event => {
+    event.preventDefault();
+    const form = event.target;
+
+    const inputs = form.getElementsByTagName('input');
+    
+    const community = {
+      name: inputs[0].value,
+      private: inputs[1].checked
+    };
+
+    const submit = form.getElementsByTagName('button')[0];
+
+    submit.style.visibility = 'hidden';
+    await this.postToDB(community);
+    submit.style.visibility = 'visible';
+  };
+
+  postToDB = async community => {
+    this.setState({ errorAlert: undefined });
+
+    try {
+      const newCommunity = await ax.post('/api/communities/create', community);
+
+      window.location = `/community/${newCommunity.data.id}`;
+    }
+    catch (error) {
+      console.log(error);
+      this.setState({ errorAlert: error.response.data });
+    }
+  };
+
+  handleRadioSelection = event => {
+    this.setState({ CommunityId: parseInt(event.target.value) });
+  };
+
+  handleChosenCommunitySubmit = async event => {
+    event.preventDefault();
+    this.setState({ errorAlert: undefined });
+
+    try {
+      await ax.post(`/api/communities/${this.state.CommunityId}/users`)
+
+      window.location = `/community/${this.state.CommunityId}`;
+    }
+    catch (error) {
+      console.log(error);
+      this.setState({ errorAlert: error.response.data });
+    }
+  };
+
+  render() {
+    return (
+      <Container id="create-community-form" maxWidth="md">
+        <Megatron
+          heading="Join A Community"
+          subheading="Select a community from the dropdown or fill in a name below to create your own!"
+          image="https://picsum.photos/id/469/1000/1100"
+          imagePosition="77% 5%"
+          megaHeight="65vh"
+          megaMaxHeight="380px"
+        />
+        {
+          this.state.selectFromExisting ?
+              <SelectFromExisting
+                communities={this.state.communities}
+                CommunityId={this.state.CommunityId}
+                handleFormChange={this.handleFormChange}
+                handleRadioSelection={this.handleRadioSelection}
+                handleChosenCommunitySubmit={this.handleChosenCommunitySubmit}
+              />
+            : <NewCommunity
+                handleCreateCommunitySubmit={this.handleCreateCommunitySubmit}
+                handleFormChange={this.handleFormChange}
+                makePrivate={this.state.makePrivate}
+                handleMakePrivate={this.handleMakePrivate}
+              />
+        }
+        {
+          this.state.errorAlert ?
+            <Modal error={this.state.errorAlert} />
+            : ''
+        }
+      </Container>
+    );
+  }
+}

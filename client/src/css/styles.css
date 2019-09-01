@@ -1,3 +1,6 @@
+#App {
+  min-height: 65vh;
+}
 #site-nav .user-state-button {
   margin: 10px;
 }
@@ -122,7 +125,10 @@
     height: 200px;
   }
 }
-
+#search .members li {
+  display: inline-block;
+  width: auto;
+}
 /* @media (prefers-color-scheme: dark) {
   html {
     content: 'dark'

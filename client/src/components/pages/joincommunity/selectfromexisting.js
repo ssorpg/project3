@@ -1,8 +1,27 @@
 // COMPONENTS
 import React from 'react';
-import CommunityRadio from './communityradio';
 import { Paper, FormGroup, RadioGroup, List, Button } from '@material-ui/core';
+import CommunityRadio from './communityradio';
+
+// FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+  communityList: {
+    padding: '24px'
+  },
+
+  fixedSizeList: {
+    maxHeight: '12vh',
+    overflow: 'scroll'
+  },
+
+  button: {
+    display: 'inline-block',
+    verticalAlign: 'center',
+    margin: theme.spacing(1.5)
+  }
+}));
 
 export default function SelectFromExisting({
   communities,
@@ -11,21 +30,6 @@ export default function SelectFromExisting({
   handleRadioSelection,
   handleFormChange
 }) {
-
-  const useStyles = makeStyles(theme => ({
-    communityList: {
-      padding: '24px'
-    },
-    fixedSizeList: {
-      maxHeight: '12vh',
-      overflow: 'scroll'
-    },
-    button: {
-      display: 'inline-block',
-      verticalAlign: 'center',
-      margin: theme.spacing(1.5)
-    }
-  }));
   const classes = useStyles();
 
   return (
@@ -47,15 +51,22 @@ export default function SelectFromExisting({
             }
           </List>
         </FormGroup>
-        <Button className={classes.button}
-          variant="contained" color="primary"
-          type="submit">Submit</Button>
-        <Button className={classes.button}
-          variant="outlined" color="primary"
+        <Button
+          className={classes.button}
+          variant="contained"
+          color="primary"
+          type="submit"
+        >
+          Submit
+        </Button>
+        <Button
+          className={classes.button}
+          variant="outlined"
+          color="primary"
           onClick={handleFormChange}
         >
           Or Create Your Own!
-          </Button>
+        </Button>
       </form>
     </Paper>
   );
