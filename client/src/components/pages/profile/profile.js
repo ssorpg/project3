@@ -156,16 +156,18 @@ export default class Profile extends Component {
         />
         {
           this.state.userData ?
-            <ProfileInfo
-              user={this.state.userData}
-              handleInviteUser={this.handleInviteUser}
-              inviteUserDialog={this.state.inviteUserDialog}
-              dialogErrorAlert={this.state.dialogErrorAlert}
-              openInviteDialog={this.openInviteDialog}
-              closeInviteDialog={this.closeInviteDialog}
-              removeCommunity={this.removeCommunity}
-              handleInvite={this.handleInvite}
-            />
+            <>
+              <ProfileInfo
+                user={this.state.userData}
+                handleInviteUser={this.handleInviteUser}
+                inviteUserDialog={this.state.inviteUserDialog}
+                dialogErrorAlert={this.state.dialogErrorAlert}
+                openInviteDialog={this.openInviteDialog}
+                closeInviteDialog={this.closeInviteDialog}
+                removeCommunity={this.removeCommunity}
+                handleInvite={this.handleInvite}
+              />
+            </>
             : ''
         }
         {

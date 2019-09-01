@@ -25,7 +25,7 @@ export default class Chat extends Component {
 
     this.ws.onopen = async (event) => {
       //this does not happen everytime we connect. if you refresh, sometimes it happens sometimes it doesnt.
-      console.log('testing');
+      console.log('testing',event);
       await this.setState({ connected: this.state.userData.name });
     }
 

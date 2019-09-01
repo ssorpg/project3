@@ -58,6 +58,16 @@ module.exports = function (sequelize, DataTypes) {
             msg: 'Your location must be between 1 and 64 characters long.'
           }
         }
+      },
+      status: {
+        type: DataTypes.STRING,
+        trim: true,
+        validate: {
+          len: {
+            args: [1, 255],
+            msg: 'Your status must be between 1 and 255 characters long.'
+          }
+        }
       }
     });
 

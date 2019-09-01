@@ -1,6 +1,6 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import { Grid, Container } from '@material-ui/core';
+import { Grid, Container, Paper } from '@material-ui/core';
 import Imageupload from './imageupload';
 import UpdateForm from './updateform';
 import Megatron from '../../megatron';
@@ -126,24 +126,26 @@ export default class UpdateProfileController extends Component {
               <Modal error={this.state.errorAlert} />
               : ''
           }
-          <Grid container alignContent="center">
-            <Grid item md={6} style={{ marginBottom: '20px' }}>
-              <h3>Update Profile</h3>
-              <UpdateForm
-                bio={this.state.bio}
-                location={this.state.location}
-                handleBioLocChange={this.handleBioLocChange}
-                handleBioLocSubmit={this.handleBioLocSubmit}
-              />
+          <Paper style={{padding:'24px'}}>
+            <Grid container alignContent="center">
+              <Grid item md={6} style={{ marginBottom: '20px' }}>
+                <h3>Update Profile</h3>
+                <UpdateForm
+                  bio={this.state.bio}
+                  location={this.state.location}
+                  handleBioLocChange={this.handleBioLocChange}
+                  handleBioLocSubmit={this.handleBioLocSubmit}
+                />
+              </Grid>
+              <Grid item md={6}>
+                <h3>Update Photo</h3>
+                <Imageupload
+                  handlePicChange={this.handlePicChange}
+                  handlePicSubmit={this.handlePicSubmit}
+                />
+              </Grid>
             </Grid>
-            <Grid item md={6}>
-              <h3>Update Photo</h3>
-              <Imageupload
-                handlePicChange={this.handlePicChange}
-                handlePicSubmit={this.handlePicSubmit}
-              />
-            </Grid>
-          </Grid>
+          </Paper>
         </Container>
       </>
     )
