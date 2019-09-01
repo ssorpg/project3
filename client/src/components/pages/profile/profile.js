@@ -144,7 +144,8 @@ export default class Profile extends Component {
           user={this.state.YourProfile} // used one component deep
           openInviteDialog={this.openInviteDialog}
           removeCommunity={this.removeCommunity}
-          handleInvite={this.handleInvite}
+          handleAcceptInvite={this.handleAcceptInvite}
+          handleDeclineInvite={this.handleDeclineInvite}
 
           handleInviteUser={this.handleInviteUser} // used two components deep
           dialogAlert={this.state.dialogAlert}

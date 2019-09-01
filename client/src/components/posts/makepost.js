@@ -34,8 +34,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function MakePost(props) {
-  const { handleMakePost, alert, postType } = props;
-  
+  const { handleMakePost, postType, cantPost, alert } = props;
+
   const classes = useStyles();
 
   return (
@@ -49,10 +49,16 @@ export default function MakePost(props) {
           className={classes.mainGrid}
         >
           <form className={classes.form} onSubmit={handleMakePost}>
-            <textarea type="text" name="feed-comment" placeholder="What's on your mind?" className={classes.textarea} />
-            <Button type="submit" value="submit" variant="contained" color="primary" className={classes.submit}>
-              {postType ? `Post To ${postType}` : 'Post'}
-            </Button>
+            {
+              !cantPost ?
+                <>
+                  <textarea type="text" name="feed-comment" placeholder="What's on your mind?" className={classes.textarea} />
+                  <Button type="submit" value="submit" variant="contained" color="primary" className={classes.submit}>
+                    {postType ? `Post To ${postType}` : 'Post'}
+                  </Button>
+                </>
+                : ''
+            }
             {
               alert ?
                 <Modal error={alert} />

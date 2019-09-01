@@ -94,15 +94,12 @@ export default class PostController extends Component {
   render() {
     return (
       <>
-        {
-          !this.props.cantPost ?
-            <MakePost
-              handleMakePost={this.handleMakePost}
-              alert={this.state.alert}
-              postType={this.state.postType}
-            />
-            : ''
-        }
+        <MakePost
+          handleMakePost={this.handleMakePost}
+          postType={this.state.postType}
+          cantPost={this.state.cantPost}
+          alert={this.state.alert}
+        />
         <PostDisplay
           {...this.props}
           posts={this.state.posts}

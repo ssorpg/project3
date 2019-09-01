@@ -9,7 +9,10 @@ import ExtractProfileImage from '../../utils/extractprofileimage';
 
 const useStyles = makeStyles({
   media: {
-    paddingTop: '100%'
+    paddingTop: '25%',
+    margin: '15px',
+    width: '25%',
+    float: 'left'
   },
 
   postText: {

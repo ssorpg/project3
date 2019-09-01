@@ -14,7 +14,7 @@ export default class Feed extends Component {
 
     this.state = {
       pageTitle: undefined,
-      posts: []
+      posts: undefined
     };
   };
 
@@ -48,12 +48,16 @@ export default class Feed extends Component {
             megaMaxHeight='320px!important'
           />
         </Container>
-        <PostController
-          {...this.props}
-          posts={this.state.posts}
-          postURL={`/api/posts?CommunityId=${this.props.CommunityId}`}
-          postType='Feed'
-        />
+        {
+          this.state.posts ?
+            <PostController
+              {...this.props}
+              posts={this.state.posts}
+              postURL={`/api/posts?CommunityId=${this.props.CommunityId}`}
+              postType='Feed'
+            />
+            : ''
+        }
       </>
     );
   }

@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Invites(props) {
-  const { user, acceptInvite, declineInvite } = props;
+  const { user, handleAcceptInvite, handleDeclineInvite } = props;
 
   const classes = useStyles();
 
@@ -34,8 +34,8 @@ export default function Invites(props) {
                     {invite.name}
                   </ListItem>
                   <>
-                    <Button color="primary" onClick={acceptInvite} data-id={invite.id}>Accept</Button>
-                    <Button color="secondary" onClick={declineInvite} data-id={invite.id}>Decline</Button>
+                    <Button color="primary" onClick={handleAcceptInvite} data-id={invite.id}>Accept</Button>
+                    <Button color="secondary" onClick={handleDeclineInvite} data-id={invite.id}>Decline</Button>
                   </>
                 </div>
                 <Divider />

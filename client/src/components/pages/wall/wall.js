@@ -14,10 +14,9 @@ export default class Profile extends Component {
 
     this.state = {
       friendProfile: undefined,
-      posts: [],
-      errorAlert: undefined
+      posts: undefined
     };
-  }
+  };
 
   componentDidMount() {
     this.GetData();
@@ -46,12 +45,16 @@ export default class Profile extends Component {
               <ProfileInfo user={this.state.friendProfile} />
               : ''
           }
-          <PostController
-            {...this.props}
-            posts={this.state.posts}
-            postURL={`/api/posts?CommunityId=${this.props.CommunityId}&UserId=${this.props.FriendId}`}
-            postType='Wall'
-          />
+          {
+            this.state.posts ?
+              <PostController
+                {...this.props}
+                posts={this.state.posts}
+                postURL={`/api/posts?CommunityId=${this.props.CommunityId}&UserId=${this.props.FriendId}`}
+                postType='Wall'
+              />
+              : ''
+          }
         </Container>
       </div>
     )
