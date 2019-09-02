@@ -41,7 +41,7 @@ export default class Events extends Component {
         });
       }
     } catch (error) {
-      console.log('error;', error.message);
+      console.log('error;', error);
     }
   }
 
