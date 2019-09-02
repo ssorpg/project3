@@ -5,4 +5,5 @@ module.exports = function (app, expressWs) {
   require('./images-routes')(app);
   require('./search-routes')(app);
   require('./websocket-routes')(app, expressWs);
+  require('./events-routes')(app);
 };
