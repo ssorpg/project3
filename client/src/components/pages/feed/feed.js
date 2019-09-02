@@ -39,7 +39,6 @@ export default class Feed extends Component {
   render() {
     return (
       <>
-        {/* <Header pageTitle={this.state.pageTitle} /> */}
         <Container>
           <Megatron
             heading={this.state.pageTitle}
@@ -55,7 +54,7 @@ export default class Feed extends Component {
               {...this.props}
               posts={this.state.posts}
               postURL={`/api/posts?CommunityId=${this.props.CommunityId}`}
-              postTo='Feed'
+              postType='Feed'
             />
             : ''
         }

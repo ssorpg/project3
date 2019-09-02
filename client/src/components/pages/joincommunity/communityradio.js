@@ -2,17 +2,19 @@
 import React from 'react';
 import { FormControlLabel, Radio, ListItem } from '@material-ui/core';
 
-export default function CommunityRadio({ CommunityId, community, handleRadioSelection }) {
+export default function CommunityRadio(props) {
+  const { selectedCommId, handleRadioSelection, thisComm } = props;
+  
   return (
     <ListItem className="radio">
       <FormControlLabel
         control={<Radio />}
         name="community"
-        id={community.id}
-        value={community.id}
-        label={community.name}
+        id={thisComm.id}
+        value={thisComm.id}
+        label={thisComm.name}
         onChange={handleRadioSelection}
-        checked={CommunityId === community.id}
+        checked={selectedCommId === thisComm.id}
       />
     </ListItem>
   )

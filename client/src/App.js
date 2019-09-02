@@ -1,7 +1,7 @@
 // COMPONENTS
-  // the controller for each page contains all the page's logic, and as little styling and html as possible
-  // other files in each page folder contain the styling and html, and as little logic as possible
-  // this way we can keep state consistent between sibling components
+// the controller for each page contains all the page's logic, and as little styling and html as possible
+// other files in each page folder contain the styling and html, and as little logic as possible
+// this way we can keep state consistent between sibling components
 
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -25,37 +25,47 @@ import './css/styles.css';
 
 // FUNCTIONS
 import UserAuth from './utils/userauth';
-import GetYourId from './utils/getyourid';
+import GetYourProfile from './utils/getyourprofile';
 
 export default class TPN extends Component {
   constructor() { // it's only necessary to define props in constructor if you use them in this.state
-    super(); // they automatically inherit state as this.props from components that import them once the constructor completes anyway
+    super(); // class components automatically inherit props as this.props from components that import them once the constructor completes anyway
 
     this.state = { // these cannot be changed once a page loads
       isAuth: UserAuth(),
-      YourId: GetYourId(),
+      YourProfile: undefined,
       CommunityId: window.location.pathname.match(/\/community\/([0-9]*)/) ?
         parseInt(window.location.pathname.match(/\/community\/([0-9]*)/)[1])
         : undefined,
-      UserId: window.location.pathname.match(/\/friends\/([0-9]*)/) ?
+      FriendId: window.location.pathname.match(/\/friends\/([0-9]*)/) ?
         parseInt(window.location.pathname.match(/\/friends\/([0-9]*)/)[1])
         : undefined
     }
   }
 
-  // this line is where state would be inherited as this.props even if not called in constructor
+  // this line is where props are inherited as this.props in a class component even if not called in constructor
 
-  // componentDidMount() {
-  //   console.log(this.state);
-  // }
+  componentDidMount = async () => {
+    if (this.state.isAuth) {
+      this.setState({ YourProfile: await GetYourProfile() });
+    }
+  }
 
   render() {
+    if (!this.state.YourProfile && this.state.isAuth) { // && this.state.isAuth so people who haven't logged in can still see the home page
+      return <div />
+    }
+
     return (
-      <div style={{ minHeight: '88vh', display: 'flex', flexDirection:' column', marginTop: '12vh' }}>
+      <div style={{ minHeight: '88vh', display: 'flex', flexDirection: 'column', marginTop: '12vh' }}>
         <CssBaseline />
-        <Navbar isAuth={this.state.isAuth} CommunityId={this.state.CommunityId} />
+        {
+          this.state.isAuth ?
+            <Navbar {...this.state} />
+            : ''
+        }
         <Router>
-          <div className="App" id="App" style={{ flex: '1 0 auto', display: 'flex', flexDirection:' column' }}>
+          <div className="App" id="App" style={{ flex: '1 0 auto', display: 'flex', flexDirection: 'column' }}>
             <Switch>
               <Route exact path="/register" render=
                 {
@@ -65,7 +75,7 @@ export default class TPN extends Component {
                 }
               />
               <Route exact path="/profile" render={() => <Profile {...this.state} />} />
-              <Route exact path="/updateprofile" render={() => <UpdateProfileController id={this.state.YourId} />} />
+              <Route exact path="/updateprofile" render={() => <UpdateProfileController {...this.state} />} />
               <Route exact path="/joincommunity" render={() => <JoinCommunityController {...this.state} />} />
               <Route exact path="/community/:CommunityId" render={() => <Feed {...this.state} />} />
               <Route exact path="/community/:CommunityId/friends" render={() => <FriendsController {...this.state} />} />

@@ -1,7 +1,9 @@
+// COMPONENTS
 import React from "react";
 import { Paper, Typography } from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
 
+// FUNCTIONS
+import { makeStyles } from '@material-ui/core/styles';
 
 export default function Megatron(props) {
   const titles = {
@@ -9,25 +11,29 @@ export default function Megatron(props) {
       tag: 'h3',
       text: props.heading !== undefined ? props.heading : ''
     },
+
     subheading: {
       tag: 'subtitle2',
       text: props.subheading !== undefined ? props.subheading : ''
     },
+
     image: {
       src: props.image !== undefined ? props.image : '',
       position: props.imagePosition !== undefined ? 
         props.imagePosition : 'no'
     }
   };
+
   const imgSrc = titles.image.src;
   const imgPos = titles.image.position;
   const megaHeight = props.megaHeight;
   const megaMaxHeight = props.megaMaxHeight;
+
   const useStyles = makeStyles( (theme) => ({
     megatron: {
       position: 'relative',
       padding: "24px",
-      //marginBottom: "36px",
+      // marginBottom: "36px",
       backgroundColor: "#3f51b5",
       backgroundImage: `url(${imgSrc})`,
       backgroundPosition: `${imgPos}`,
@@ -37,16 +43,18 @@ export default function Megatron(props) {
       maxHeight: `${megaMaxHeight}`,
       overflow: 'hidden'
     },
+
     title: {
       fontWeight: 'bold',
       zIndex: '2'
     },
+
     subtitle: {
       fontWeight: 'bold',
       zIndex: '2'
-    },
-  
+    }
   }));
+
   const classes = useStyles();
   
   return (
@@ -61,4 +69,4 @@ export default function Megatron(props) {
       </Typography>
     </Paper>
   );
-}
+};

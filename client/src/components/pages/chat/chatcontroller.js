@@ -4,36 +4,35 @@ import ChatInput from './chatinput';
 import ChatMessageContainer from './chatmessagecontainer';
 
 // FUNCTIONS
-import GetYourProfile from '../../../utils/getyourprofile';
 import NewWs from '../../../utils/newws';
 
 export default class Chat extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
     this.state = {
-      userData: undefined,
+      YourProfile: props.YourProfile,
       messages: [],
-      connected: undefined,
+      connected: undefined
     };
   };
 
   ws = NewWs(window.location);
 
   async componentDidMount() {
-    this.setState({ userData: await GetYourProfile() });
     //console.log(this.ws);
 
-    this.ws.onopen = async (event) => {
-      //this does not happen everytime we connect. if you refresh, sometimes it happens sometimes it doesnt.
-      console.log('testing',event);
-      await this.setState({ connected: this.state.userData.name });
+    this.ws.onopen = async event => {
+      // this does not happen everytime we connect. if you refresh, sometimes it happens sometimes it doesnt.
+      console.log('testing', event);
+      await this.setState({ connected: this.state.YourProfile.name });
     }
 
     this.ws.onmessage = event => {
       // on receiving a message, add it to the list of messages
       const message = JSON.parse(event.data);
       this.addMessage(message);
-      //console.log(this.state.connected);
+      // console.log(this.state.connected);
     }
 
     this.ws.onclose = () => {
@@ -70,10 +69,7 @@ export default class Chat extends Component {
       <>
         <ChatMessageContainer messages={this.state.messages} />
         <br /><br />
-        <ChatInput
-          ws={this.ws}
-          handleSubmit={this.handleSubmit}
-        />
+        <ChatInput handleSubmit={this.handleSubmit} />
       </>
     )
   }

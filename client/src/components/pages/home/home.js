@@ -67,7 +67,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Home({ handleSubmit, errorAlert }) {
+export default function Home(props) {
+  const { handleSubmit, alert } = props;
+  
   const classes = useStyles();
 
   console.log(handleSubmit);
@@ -127,8 +129,8 @@ export default function Home({ handleSubmit, errorAlert }) {
               Sign In
             </Button>
             {
-              errorAlert ?
-                <Modal error={errorAlert} />
+              alert ?
+                <Modal error={alert} />
                 : ''
             }
             <Grid container>

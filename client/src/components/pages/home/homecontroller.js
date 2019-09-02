@@ -10,9 +10,9 @@ export default class HomeController extends Component {
     super();
 
     this.state = {
-      errorAlert: undefined
+      alert: undefined
     };
-  }
+  };
 
   handleSubmit = async event => {
     event.preventDefault();
@@ -30,25 +30,29 @@ export default class HomeController extends Component {
     submit.style.visibility = 'hidden';
     await this.login(inputs[1], postData);
     submit.style.visibility = 'visible';
-  }
+  };
 
   login = async (password, postData) => {
-    this.setState({ errorAlert: undefined });
+    this.setState({ alert: undefined });
 
     try {
       await ax.post('/api/users', postData);
+      
       window.location = '/profile';
     }
     catch (error) {
       console.log(error);
       password.value = '';
-      this.setState({ errorAlert: error.response.data });
+      this.setState({ alert: error.response.data });
     }
-  }
+  };
 
   render() {
     return (
-      <Home handleSubmit={this.handleSubmit} errorAlert={this.state.errorAlert} />
+      <Home
+        handleSubmit={this.handleSubmit}
+        alert={this.state.alert}
+      />
     );
-  }
+  };
 }

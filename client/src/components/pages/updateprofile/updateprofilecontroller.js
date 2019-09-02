@@ -8,38 +8,17 @@ import Modal from '../../modal';
 
 // FUNCTIONS
 import ax from 'axios';
-import PageLoadError from '../../../utils/pageloaderror';
 
 export default class UpdateProfileController extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      bio: undefined,
-      location: undefined,
+      bio: props.YourProfile.bio,
+      location: props.YourProfile.location,
       selectedFile: undefined,
       alert: undefined
     };
-  };
-
-  componentDidMount() {
-    this.GetData();
-    // console.log(this.state);
-  };
-
-  GetData = async () => {
-    try {
-      const userData = await ax.get('/api/users/profile/');
-
-      const { bio, location } = userData.data;
-      this.setState({
-        bio: bio,
-        location: location,
-      });
-    }
-    catch (error) {
-      PageLoadError(error);
-    }
   };
 
   handleBioLocChange = event => {
@@ -70,11 +49,11 @@ export default class UpdateProfileController extends Component {
     try {
       await ax.put('/api/users/update', postData);
 
-      this.setState({ alert: { isError: false, message: 'Profile information updated.' } });
+      this.setState({ alert: { success: true, message: 'Profile information updated.' } });
     }
     catch (error) {
       console.log(error);
-      this.setState({ alert: { isError: true, message: error.response.data } });
+      this.setState({ alert: { success: false, error: error.response.data } });
     }
   };
 
@@ -101,17 +80,16 @@ export default class UpdateProfileController extends Component {
     try {
       await ax.post('/api/users/images', picData);
 
-      this.setState({ alert: { isError: false, message: 'Profile picture updated.' } });
+      this.setState({ alert: { success: true, message: 'Profile picture updated.' } });
     }
     catch (error) {
       console.log(error);
-      this.setState({ alert: { isError: true, error: error.response.data } });
+      this.setState({ alert: { success: false, error: error.response.data } });
     }
   };
 
   render() {
     return (
-      <>
         <Container maxWidth="md">
           <Megatron
             heading="Profile Settings"
@@ -122,11 +100,13 @@ export default class UpdateProfileController extends Component {
             megaMaxHeight='320px!important'
           />
           {
-            this.state.errorAlert ?
-              <Modal error={this.state.errorAlert} />
+            this.state.alert ?
+              this.state.alert.success ?
+                <Modal success={this.state.alert.message} />
+                : <Modal error={this.state.alert.message} />
               : ''
           }
-          <Paper style={{padding:'24px'}}>
+          <Paper style={{ padding: '24px' }}>
             <Grid container alignContent="center">
               <Grid item md={6} style={{ marginBottom: '20px' }}>
                 <h3>Update Profile</h3>
@@ -147,7 +127,6 @@ export default class UpdateProfileController extends Component {
             </Grid>
           </Paper>
         </Container>
-      </>
-    )
-  }
-};
+    );
+  };
+}

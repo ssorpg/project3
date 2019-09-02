@@ -99,7 +99,8 @@ module.exports = function (app) {
       },
       {
         model: db.Post,
-        as: 'posts'
+        as: 'posts',
+        limit: 20
       },
       {
         model: db.Community,

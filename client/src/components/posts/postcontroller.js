@@ -5,6 +5,7 @@ import PostDisplay from './postdisplay';
 
 // FUNCTIONS
 import ax from 'axios';
+import GetEventTargetDataset from '../../utils/geteventtargetdataset';
 
 export default class PostController extends Component {
   constructor(props) {
@@ -13,12 +14,13 @@ export default class PostController extends Component {
     this.state = {
       posts: props.posts,
       postURL: props.postURL,
-      postTo: props.postTo,
-      errorAlert: undefined
+      postType: props.postType,
+      cantPost: props.cantPost,
+      alert: undefined
     }
   };
 
-  handleSubmit = async event => {
+  handleMakePost = async event => {
     event.preventDefault();
     const form = event.target;
 
@@ -36,7 +38,7 @@ export default class PostController extends Component {
   };
 
   postToDB = async (form, post) => {
-    this.setState({ errorAlert: undefined });
+    this.setState({ alert: undefined });
 
     try {
       const res = await ax.post(this.state.postURL, post);
@@ -45,66 +47,59 @@ export default class PostController extends Component {
     }
     catch (error) {
       console.log(error);
-      this.setState({ errorAlert: error.response.data });
+      this.setState({ alert: error.response.data });
     }
   };
 
   vote = async event => {
-    this.setState({ errorAlert: undefined });
+    this.setState({ alert: undefined });
 
-    const postInfo = event.target.dataset.id ?
-      event.target.dataset
-      : event.target.parentNode.dataset;
+    const postInfo = GetEventTargetDataset(event);
 
     try {
       const res = await ax.put(`/api/posts/${postInfo.id}/${postInfo.vote}`);
 
-      const newPostsScore = this.state.posts.map(post => {
+      const newPostScore = this.state.posts.map(post => {
         if (post.id === res.data.id) {
           post.score = res.data.score;
         }
         return post;
       });
 
-      this.setState({ posts: newPostsScore });
+      this.setState({ posts: newPostScore });
     }
     catch (error) {
       console.log(error);
-      this.setState({ errorAlert: error.response.data });
+      this.setState({ alert: error.response.data });
     }
   };
 
   deletePost = async event => {
-    this.setState({ errorAlert: undefined });
+    this.setState({ alert: undefined });
 
-    const postInfo = event.target.dataset.id ?
-      event.target.dataset
-      : event.target.parentNode.dataset;
+    const postInfo = GetEventTargetDataset(event);
 
     try {
       const res = await ax.delete(`/api/posts/${postInfo.id}`);
 
-      const newRemovedPosts = this.state.posts.filter(post => { return post.id !== res.data.id; });
-      this.setState({ posts: newRemovedPosts });
+      const newPosts = this.state.posts.filter(post => { return post.id !== res.data.id; });
+      this.setState({ posts: newPosts });
     }
     catch (error) {
       console.log(error);
-      this.setState({ errorAlert: error.response.data });
+      this.setState({ alert: error.response.data });
     }
   };
 
   render() {
     return (
       <>
-        {
-          this.state.postURL ?
-            <MakePost
-              handleSubmit={this.handleSubmit}
-              errorAlert={this.state.errorAlert}
-              postTo={this.state.postTo}
-            />
-            : ''
-        }
+        <MakePost
+          handleMakePost={this.handleMakePost}
+          postType={this.state.postType}
+          cantPost={this.state.cantPost}
+          alert={this.state.alert}
+        />
         <PostDisplay
           {...this.props}
           posts={this.state.posts}
