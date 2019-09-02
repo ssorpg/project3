@@ -4,14 +4,19 @@ import Megatron from '../../megatron';
 import Modal from '../../modal';
 import ax from 'axios';
 import PageLoadError from '../../../utils/pageloaderror';
+import PostEvent from './postevent';
+import EventsList from './events';
 
 export default class Events extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: undefined,
+      events: [],
       errorAlert: undefined,
       dialogErrorAlert: undefined,
+      fomrData: {},
+      showEventsList: false,
+      toggleButtonText: 'Create Event'
     }
   }
 
@@ -22,14 +27,49 @@ export default class Events extends Component {
   getData = async () => {
     try {
       const eventsData = await ax.get('/api/events/');
-      console.log('eventsdata', eventsData);
+      
+      if(eventsData.data.length !== 0) {
+        this.setState({
+          events: eventsData.data,
+        });
+      } else {
+        this.setState({
+          showEventsList: true
+        });
+      }
     } catch (error) {
       console.log('ereorer;', error.message);
     }
   }
 
-  postToDB = async () => {
-    //do it
+  handleInputChange = event => {
+    this.state.fomrData[event.target.name] =
+      event.target.value;
+  }
+  
+  handleSubmit = async event => {
+    event.preventDefault();
+
+    try {
+      const postedEvent = await ax.post('/api/events/create', this.state.fomrData);
+      console.log(postedEvent);
+    } catch (error) {
+      console.log('er', error.message);
+    }
+  }
+
+  toggleDisplay = () => {
+    if(this.state.showEventsList) {
+      this.setState({
+        showEventsList: false,
+        toggleButtonText: 'Create Event'
+      });
+    } else {
+      this.setState({
+        showEventsList: true,
+        toggleButtonText: 'Show Events'
+      });
+    }
   }
 
   render() {
@@ -40,10 +80,23 @@ export default class Events extends Component {
           megaHeight='20vh'
           megaMaxHeight='320px!important'
         />
-        {this.state.events === undefined ? 
-          <h1>Show form to update</h1>
+        <nav>
+          <button onClick={this.toggleDisplay}>
+            {this.state.toggleButtonText}
+          </button>
+        </nav>
+
+        {this.state.showEventsList ? 
+          <PostEvent
+            handleInputChange =
+              {this.handleInputChange}
+            handleSubmit =
+              {this.handleSubmit}
+          />
         :
-          <h1>Show events list</h1>
+          <EventsList
+            events = {this.state.events}
+          />
         }
       </Container>
     )
