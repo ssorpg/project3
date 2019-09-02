@@ -6,7 +6,8 @@ export default class PostEvent extends Component {
     super(props);
 
     this.state = {
-      fomrData: undefined
+      fomrData: undefined,
+      communities: props.communities
     }
   }
 
@@ -34,6 +35,18 @@ export default class PostEvent extends Component {
           <label for="end_time">Event Start Time</label>
           <input name="end_time" type="time" />
           <br /><br />
+          <h5>Select a community for the event:</h5>
+          <ul>
+            {this.state.communities.map( item => (
+              <li key={item.id}>
+                <label for='communityId'>
+                  <input type="radio" name='communityId' value={item.id} />
+                  {item.name}
+                </label>
+              </li>
+            ))}
+          </ul>
+
           <button name="submit" type="submit">Submit</button>
           <button name="reset" type="reset">Reset</button>
         </form>
