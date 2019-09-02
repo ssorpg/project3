@@ -4,7 +4,7 @@ import {Container, Paper} from '@material-ui/core';
 export default class PostEvent extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
+
     this.state = {
       fomrData: undefined
     }
