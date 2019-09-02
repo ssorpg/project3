@@ -15,7 +15,7 @@ export default class Events extends Component {
       errorAlert: undefined,
       dialogErrorAlert: undefined,
       fomrData: {},
-      showEventsList: false,
+      showEventsList: true,
       toggleButtonText: 'Create Event'
     }
   }
@@ -31,10 +31,11 @@ export default class Events extends Component {
       if(eventsData.data.length !== 0) {
         this.setState({
           events: eventsData.data,
+          showEventsList: true
         });
       } else {
         this.setState({
-          showEventsList: true
+          showEventsList: false
         });
       }
     } catch (error) {
@@ -52,7 +53,8 @@ export default class Events extends Component {
 
     try {
       const postedEvent = await ax.post('/api/events/create', this.state.fomrData);
-      console.log(postedEvent);
+      setTimeout(this.getData, 1000);
+      // this.getData();
     } catch (error) {
       console.log('er', error.message);
     }
@@ -86,7 +88,7 @@ export default class Events extends Component {
           </button>
         </nav>
 
-        {this.state.showEventsList ? 
+        {this.state.showEventsList === false ? 
           <PostEvent
             handleInputChange =
               {this.handleInputChange}
