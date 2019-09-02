@@ -32,25 +32,19 @@ module.exports = function (sequelize, DataTypes) {
         }
       },
       date: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         trim: true,
         validate: {
           isDate: { msg: 'Please enter a valid date.' },
         }
       },
       start_time: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         trim: true,
-        validate: {
-          isDate: { msg: 'Please enter a valid date.' },
-        }
       },
       end_time: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         trim: true,
-        validate: {
-          isDate: { msg: 'Please enter a valid date.' },
-        }
       }
     });
 
