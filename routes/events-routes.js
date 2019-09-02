@@ -9,10 +9,9 @@ module.exports = function(app) {
 
     if(events.length === 0) {
       console.log('no results');
-      res.status(501).send('No Events Here.\nMake One!');
+      res.status(204).send('No Events Here.\nMake One!');
     } else {
       res.status(200).json(events);
-      console.log(events);
     }
   }));
 
