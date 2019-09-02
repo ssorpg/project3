@@ -10,13 +10,15 @@ import EventsList from './events';
 export default class Events extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       events: [],
       errorAlert: undefined,
       dialogErrorAlert: undefined,
       fomrData: {},
       showEventsList: true,
-      toggleButtonText: 'Create Event'
+      toggleButtonText: 'Create Event',
+      communities: props.YourProfile.communities
     }
   }
 
@@ -39,7 +41,7 @@ export default class Events extends Component {
         });
       }
     } catch (error) {
-      console.log('ereorer;', error.message);
+      console.log('error;', error.message);
     }
   }
 
@@ -50,7 +52,7 @@ export default class Events extends Component {
   
   handleSubmit = async event => {
     event.preventDefault();
-
+    
     try {
       const postedEvent = await ax.post('/api/events/create', this.state.fomrData);
       setTimeout(this.getData, 1000);
@@ -94,6 +96,7 @@ export default class Events extends Component {
               {this.handleInputChange}
             handleSubmit =
               {this.handleSubmit}
+              communities = {this.state.communities}
           />
         :
           <EventsList
