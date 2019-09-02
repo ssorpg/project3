@@ -17,10 +17,10 @@ export default class CreateCommunity extends Component {
     this.state = {
       communities: [],
       selectFromExisting: true,
-      CommunityId: undefined,
+      selectedCommId: undefined,
       makePrivate: true,
-      errorAlert: undefined
-    }
+      alert: undefined
+    };
   };
 
   async componentDidMount() {
@@ -40,7 +40,7 @@ export default class CreateCommunity extends Component {
 
   handleFormChange = () => {
     this.setState({
-      errorAlert: undefined,
+      alert: undefined,
       selectFromExisting: !this.state.selectFromExisting // toggle
     });
   };
@@ -68,7 +68,7 @@ export default class CreateCommunity extends Component {
   };
 
   postToDB = async community => {
-    this.setState({ errorAlert: undefined });
+    this.setState({ alert: undefined });
 
     try {
       const newCommunity = await ax.post('/api/communities/create', community);
@@ -77,26 +77,26 @@ export default class CreateCommunity extends Component {
     }
     catch (error) {
       console.log(error);
-      this.setState({ errorAlert: error.response.data });
+      this.setState({ alert: error.response.data });
     }
   };
 
   handleRadioSelection = event => {
-    this.setState({ CommunityId: parseInt(event.target.value) });
+    this.setState({ selectedCommId: parseInt(event.target.value) });
   };
 
   handleChosenCommunitySubmit = async event => {
     event.preventDefault();
-    this.setState({ errorAlert: undefined });
+    this.setState({ alert: undefined });
 
     try {
-      await ax.post(`/api/communities/${this.state.CommunityId}/users`)
+      await ax.post(`/api/communities/${this.state.selectedCommId}/users`)
 
-      window.location = `/community/${this.state.CommunityId}`;
+      window.location = `/community/${this.state.selectedCommId}`;
     }
     catch (error) {
       console.log(error);
-      this.setState({ errorAlert: error.response.data });
+      this.setState({ alert: error.response.data });
     }
   };
 
@@ -114,11 +114,12 @@ export default class CreateCommunity extends Component {
         {
           this.state.selectFromExisting ?
               <SelectFromExisting
-                communities={this.state.communities}
-                CommunityId={this.state.CommunityId}
+                communities={this.state.communities} // used one component deep
                 handleFormChange={this.handleFormChange}
-                handleRadioSelection={this.handleRadioSelection}
                 handleChosenCommunitySubmit={this.handleChosenCommunitySubmit}
+
+                selectedCommId={this.state.selectedCommId} // used two components deep
+                handleRadioSelection={this.handleRadioSelection}
               />
             : <NewCommunity
                 handleCreateCommunitySubmit={this.handleCreateCommunitySubmit}
@@ -128,11 +129,11 @@ export default class CreateCommunity extends Component {
               />
         }
         {
-          this.state.errorAlert ?
-            <Modal error={this.state.errorAlert} />
+          this.state.alert ?
+            <Modal error={this.state.alert} />
             : ''
         }
       </Container>
     );
-  }
+  };
 }

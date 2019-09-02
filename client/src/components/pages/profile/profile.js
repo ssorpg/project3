@@ -1,55 +1,38 @@
 // COMPONENTS
 import React, { Component } from 'react';
 import { Container } from '@material-ui/core';
-import ProfileInfo from '../../profileinfo';
+import ProfileInfo from '../../profileinfo/profileinfo';
 import PostController from '../../posts/postcontroller';
 import Megatron from '../../megatron';
 import Modal from '../../modal';
 
 // FUNCTIONS
 import ax from 'axios';
-import PageLoadError from '../../../utils/pageloaderror';
+import GetEventTargetDataset from '../../../utils/geteventtargetdataset';
 
 export default class Profile extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
     this.state = {
-      userData: undefined,
-      status: undefined,
-      posts: undefined,
-      errorAlert: undefined,
-      dialogErrorAlert: undefined,
+      YourProfile: props.YourProfile,
+      status: props.YourProfile.status,
+      posts: props.YourProfile.posts,
       inviteUserDialog: false,
-      inviteCommId: undefined
+      dialogAlert: undefined,
+      inviteCommId: undefined,
+      alert: undefined
     };
   };
 
   componentDidMount() {
-    this.GetData();
-  };
-
-  GetData = async () => {
-    try {
-      const userData = await ax.get('/api/users/profile/');
-
-      await this.setState({
-        userData: userData.data,
-        status: userData.data.status,
-        posts: userData.data.posts
-      });
-      console.log(this.state.userData);
-    }
-    catch (error) {
-      PageLoadError(error);
-    }
+    console.log(this.state);
   };
 
   removeCommunity = async event => {
-    this.setState({ errorAlert: undefined });
+    this.setState({ alert: undefined });
 
-    const commInfo = event.target.dataset.id ? // sometimes the child element receives the event
-      event.target.dataset
-      : event.target.parentNode.dataset;
+    const commInfo = GetEventTargetDataset(event);
 
     const URL = commInfo.isfounder ?
       `/api/communities/${commInfo.id}` // delete comm
@@ -58,20 +41,17 @@ export default class Profile extends Component {
     try {
       const removedComm = await ax.delete(URL);
 
-      const newUserData = this.state.userData;
-      newUserData.communities = newUserData.communities.filter(comm => { return comm.id !== removedComm.data.id; });
-      this.setState({ userData: newUserData });
+      const newProfile = this.state.YourProfile.communities.filter(comm => { return comm.id !== removedComm.data.id; });
+      this.setState({ YourProfile: newProfile });
     }
     catch (error) {
       console.log(error);
-      this.setState({ errorAlert: error.response.data });
+      this.setState({ alert: error.response.data });
     }
   };
 
   openInviteDialog = event => {
-    const commInfo = event.target.dataset.id ?
-      event.target.dataset
-      : event.target.parentNode.dataset;
+    const commInfo = GetEventTargetDataset(event);
 
     this.setState({
       inviteUserDialog: true,
@@ -104,45 +84,49 @@ export default class Profile extends Component {
   };
 
   postToDB = async (form, invite) => {
-    this.setState({ dialogErrorAlert: undefined });
+    this.setState({ dialogAlert: undefined });
 
     try {
       await ax.post(`/api/communities/${this.state.inviteCommId}/invited`, invite);
       form.reset();
+      this.setState({ dialogAlert: { success: true, message: `Invited ${invite.email} to your community.` } });
     }
     catch (error) {
       console.log(error);
-      this.setState({ dialogErrorAlert: error.response.data });
+      this.setState({ dialogAlert: { success: false, message: error.response.data } });
     }
   };
 
-  handleInvite = async event => {
-    this.setState({ errorAlert: undefined });
+  handleAcceptInvite = async event => {
+    this.setState({ alert: undefined });
 
-    const commInfo = event.target.dataset.id ?
-      event.target.dataset
-      : event.target.parentNode.dataset;
+    const commInfo = GetEventTargetDataset(event);
 
     try {
-      switch (commInfo.action) {
-        case 'accept':
-          await ax.post(`/api/communities/${commInfo.id}/users`);
-          window.location = `/community/${commInfo.id}`;
-          break;
-        case 'decline':
-          const removedInvite = await ax.delete(`/api/communities/${commInfo.id}/invited`);
+      await ax.post(`/api/communities/${commInfo.id}/users`);
 
-          const newUserData = this.state.userData;
-          newUserData.invites = newUserData.invites.filter(invite => { return invite.id !== removedInvite.data.id; });
-          this.setState({ userData: newUserData });
-          break;
-        default:
-          console.log('something bad happened');
-      }
+      window.location = `/community/${commInfo.id}`;
     }
     catch (error) {
       console.log(error);
-      this.setState({ errorAlert: error.response.data });
+      this.setState({ alert: error.response.data });
+    }
+  };
+
+  handleDeclineInvite = async event => {
+    this.setState({ alert: undefined });
+
+    const commInfo = GetEventTargetDataset(event);
+
+    try {
+      const removedInvite = await ax.delete(`/api/communities/${commInfo.id}/invited`);
+
+      const newProfile = this.state.YourProfile.invites.filter(invite => { return invite.id !== removedInvite.data.id; });
+      this.setState({ YourProfile: newProfile });
+    }
+    catch (error) {
+      console.log(error);
+      this.setState({ alert: error.response.data });
     }
   };
 
@@ -156,35 +140,28 @@ export default class Profile extends Component {
           megaHeight='20vh'
           megaMaxHeight='320px!important'
         />
+        <ProfileInfo
+          user={this.state.YourProfile} // used one component deep
+          openInviteDialog={this.openInviteDialog}
+          removeCommunity={this.removeCommunity}
+          handleAcceptInvite={this.handleAcceptInvite}
+          handleDeclineInvite={this.handleDeclineInvite}
+
+          handleInviteUser={this.handleInviteUser} // used two components deep
+          dialogAlert={this.state.dialogAlert}
+          inviteUserDialog={this.state.inviteUserDialog}
+          closeInviteDialog={this.closeInviteDialog}
+        />
         {
-          this.state.userData ?
-            <>
-              <ProfileInfo
-                user={this.state.userData}
-                handleInviteUser={this.handleInviteUser}
-                inviteUserDialog={this.state.inviteUserDialog}
-                dialogErrorAlert={this.state.dialogErrorAlert}
-                openInviteDialog={this.openInviteDialog}
-                closeInviteDialog={this.closeInviteDialog}
-                removeCommunity={this.removeCommunity}
-                handleInvite={this.handleInvite}
-              />
-            </>
+          this.state.alert ?
+            <Modal error={this.state.alert} />
             : ''
         }
-        {
-          this.state.errorAlert ?
-            <Modal error={this.state.errorAlert} />
-            : ''
-        }
-        {
-          this.state.posts ?
-            <PostController
-              posts={this.state.posts}
-              cantPost={true}
-            />
-            : ''
-        }
+        <PostController
+          {...this.props}
+          posts={this.state.posts}
+          cantPost={true}
+        />
       </Container>
     );
   };

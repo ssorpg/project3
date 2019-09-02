@@ -8,15 +8,18 @@ const useStyles = makeStyles(theme => ({
   alert: {
     zIndex: '99',
     minWidth: '150px',
-    margin: 0
+    margin: 0,
+    cursor: 'pointer'
   }
 }));
 
-export default function Modal({ error, success }) {
+export default function Modal(props) {
+  const { error, success } = props;
+  
   const classes = useStyles();
 
   function dismissAlerts() { // dismiss error messages by clicking on them
-    const errors = document.getElementsByClassName('error');
+    const errors = document.getElementsByClassName('alert');
 
     for (let i = 0; i < errors.length; i++) { // can't use foreach on a list :(
       errors[i].style.display = 'none';

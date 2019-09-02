@@ -16,16 +16,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ChatMessageContainer({ messages }) {
+export default function ChatMessageContainer(props) {
+  const { messages } = props;
   const classes = useStyles();
 
   return (
     <Container id="chat" className={classes.root}>
       <List>
         {
-          messages.map((message, index) =>
+          messages.map((message, id) =>
             <ChatMessage
-              key={index}
+              key={id}
               user={message.user}
               text={message.text}
               time={message.time}

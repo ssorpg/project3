@@ -11,7 +11,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ChatInput({ handleSubmit }) {
+export default function ChatInput(props) {
+  const { handleSubmit } = props;
   const classes = useStyles();
 
   return (

@@ -21,7 +21,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ChatMessage({ user, text, time }) {
+export default function ChatMessage(props) {
+  const { user, text, time } = props;
   const classes = useStyles();
   
   return (

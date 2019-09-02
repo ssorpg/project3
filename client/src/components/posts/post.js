@@ -9,7 +9,10 @@ import ExtractProfileImage from '../../utils/extractprofileimage';
 
 const useStyles = makeStyles({
   media: {
-    paddingTop: '100%'
+    paddingTop: '25%',
+    margin: '15px',
+    width: '25%',
+    float: 'left'
   },
 
   postText: {
@@ -25,53 +28,54 @@ const useStyles = makeStyles({
 });
 
 export default function Post(props) {
+  const { YourProfile, thisPost, vote, deletePost } = props;
+
   const classes = useStyles();
-  const { YourId, post, vote, deletePost } = props;
 
   function goToAuthor() {
-    const goTo = YourId === post.author.id ?
+    const goTo = YourProfile.id === thisPost.author.id ?
       '/profile'
-      : `/community/${post.CommunityId}/friends/${post.author.id}`;
+      : `/community/${thisPost.CommunityId}/friends/${thisPost.author.id}`;
 
     window.location = goTo;
-  }
+  };
 
   return (
     <Card>
       <CardActionArea onClick={goToAuthor}>
         <CardMedia
           className={classes.media}
-          image={ExtractProfileImage(post.author)}
+          image={ExtractProfileImage(thisPost.author)}
           title="Profile"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {post.author.name}
+            {thisPost.author.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            <span className={classes.postText}>{post.message}</span>
+            <span className={classes.postText}>{thisPost.message}</span>
           </Typography>
           <Typography className={classes.score}>
-            Likes: {post.score}
+            Likes: {thisPost.score}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary" onClick={vote} data-id={post.id} data-vote={"like"}>
+        <Button size="small" color="primary" onClick={vote} data-id={thisPost.id} data-vote={"like"}>
           Like
         </Button>
-        <Button size="small" color="secondary" onClick={vote} data-id={post.id} data-vote={"dislike"}>
+        <Button size="small" color="secondary" onClick={vote} data-id={thisPost.id} data-vote={"dislike"}>
           Dislike
         </Button>
         {
-          YourId === post.author.id ?
-            <Button size="small" color="secondary" onClick={deletePost} data-id={post.id}>
+          YourProfile.id === thisPost.author.id ?
+            <Button size="small" color="secondary" onClick={deletePost} data-id={thisPost.id}>
               Delete
             </Button>
             : ''
         }
       </CardActions>
-      <CommentController {...props} post={post} />
+      <CommentController {...props} thisPost={thisPost} />
     </Card>
   );
-}
+};
