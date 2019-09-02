@@ -3,7 +3,6 @@ const { getCommunity } = require('./auth/validate');
 const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 module.exports = function(app) {
-  //TODO add a route for looking at a specific event
   app.get('/api/events/', wrap( async function(req, res, next) {
     console.log('gettin events')
     const events = await db.Event.findAll();
@@ -23,7 +22,8 @@ module.exports = function(app) {
       date: req.body.date,
       start_time: req.body.start_time,
       end_time: req.body.end_time,
-      founderId: req.token.UserId
+      CommunityId: req.body.communityId,
+      founderId: req.token.UserId,
     });
     
     res.status(200).json(newEvent);
