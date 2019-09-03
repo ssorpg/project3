@@ -170,8 +170,8 @@ export default function Navbar(props) {
               The Private Network
             </a>
           </Typography>
-          <Searchbar />
           <div className={classes.grow} />
+
           <div className={classes.sectionDesktop}>
             <IconButton
               edge="end"
@@ -183,6 +183,21 @@ export default function Navbar(props) {
               <AccountCircle />
             </IconButton>
           </div>
+
+         /* This was causing a merge conflict but I didn't want to remove it, just in case?
+<Searchbar />
+          <IconButton
+            edge="end"
+            aria-label="account of current user"
+            aria-controls={accountMenuId}
+            aria-haspopup="true"
+            onClick={handleProfileMenuOpen}
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton> 
+*/
+
         </Toolbar>
       </AppBar>
       <Drawer open={state.left} onClose={toggleDrawer('left', false)}>
