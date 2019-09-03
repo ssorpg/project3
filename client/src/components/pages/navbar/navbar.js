@@ -98,13 +98,13 @@ export default function Navbar(props) {
         {
           CommunityId ?
             YourProfile.communities.map(community => {
-              return(CommunityId === community.id ? // this is just ugly from lines 98 to 113 - TODO make this not gross to look at
-              <>
-                <a href={`/community/${community.id}`} className={classes.linkStyleReset}><MenuItem><ListItemText primary={`${community.name} Feed`} /></MenuItem></a>
-                <a href={`/community/${community.id}/friends`} className={classes.linkStyleReset}><MenuItem><ListItemText primary={`${community.name} Friends`} /></MenuItem></a>
-                <a href={`/community/${community.id}/events`} className={classes.linkStyleReset}><MenuItem><ListItemText primary={`${community.name} Events`} /></MenuItem></a>
-                {/* <a href={`/community/${community.id}/chat`} className={classes.linkStyleReset}><MenuItem><ListItemText primary={`${community.name} Chat`} /></MenuItem></a> */}
-              </>
+              return (CommunityId === community.id ? // this is just ugly from lines 98 to 113 - TODO make this not gross to look at
+                <>
+                  <a href={`/community/${community.id}`} className={classes.linkStyleReset}><MenuItem><ListItemText primary={`${community.name} Feed`} /></MenuItem></a>
+                  <a href={`/community/${community.id}/friends`} className={classes.linkStyleReset}><MenuItem><ListItemText primary={`${community.name} Friends`} /></MenuItem></a>
+                  <a href={`/community/${community.id}/events`} className={classes.linkStyleReset}><MenuItem><ListItemText primary={`${community.name} Events`} /></MenuItem></a>
+                  {/* <a href={`/community/${community.id}/chat`} className={classes.linkStyleReset}><MenuItem><ListItemText primary={`${community.name} Chat`} /></MenuItem></a> */}
+                </>
                 : '')
             })
             : YourProfile.communities.map(community => {
@@ -171,7 +171,7 @@ export default function Navbar(props) {
             </a>
           </Typography>
           <div className={classes.grow} />
-
+          <Searchbar />
           <div className={classes.sectionDesktop}>
             <IconButton
               edge="end"
@@ -183,21 +183,6 @@ export default function Navbar(props) {
               <AccountCircle />
             </IconButton>
           </div>
-
-         /* This was causing a merge conflict but I didn't want to remove it, just in case?
-<Searchbar />
-          <IconButton
-            edge="end"
-            aria-label="account of current user"
-            aria-controls={accountMenuId}
-            aria-haspopup="true"
-            onClick={handleProfileMenuOpen}
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton> 
-*/
-
         </Toolbar>
       </AppBar>
       <Drawer open={state.left} onClose={toggleDrawer('left', false)}>
