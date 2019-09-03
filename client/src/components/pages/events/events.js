@@ -6,6 +6,7 @@ export default class EventsList extends Component {
     super(props);
   }
 
+
   render() {
     return (
       <ul>
@@ -24,6 +25,8 @@ export default class EventsList extends Component {
               <dd>{event.start_time}</dd>
               <dt>End Time:</dt>
               <dd>{event.end_time}</dd>
+              <dt>In Community:</dt>
+              <dd>{event.Community.name}</dd>
             </dl>
             <ul>
               <li>
