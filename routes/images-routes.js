@@ -11,11 +11,9 @@ module.exports = app => {
       }
     });
 
-    const fileinfo = req.files[0];
+    const image = await db.Image.create(req.files[0]);
 
-    const image = await db.Image.create(fileinfo);
-
-    await user.addProfileImage(image);
+    user.addProfileImage(image);
 
     res.json(image);
   }));

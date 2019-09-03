@@ -78,7 +78,7 @@ export default class UpdateProfileController extends Component {
     this.setState({ alert: undefined });
 
     try {
-      await ax.post('/api/users/images', picData);
+      await ax.post('/api/users/profile/images', picData);
 
       this.setState({ alert: { success: true, message: 'Profile picture updated.' } });
     }

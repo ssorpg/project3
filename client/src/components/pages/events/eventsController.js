@@ -1,86 +1,119 @@
+// COMPONENTS
 import React, { Component } from 'react';
 import { Container } from '@material-ui/core';
 import Megatron from '../../megatron';
-import Modal from '../../modal';
-import ax from 'axios';
-import PageLoadError from '../../../utils/pageloaderror';
-import PostEvent from './postevent';
+import MakeEvent from './makeevent';
 import EventsList from './events';
 
-export default class Events extends Component {
-  constructor(props) {
-    super(props);
+// FUNCTIONS
+import ax from 'axios';
+import PageLoadError from '../../../utils/pageloaderror';
+
+export default class EventsController extends Component {
+  constructor() {
+    super();
 
     this.state = {
+      pageTitle: undefined,
       events: [],
-      errorAlert: undefined,
-      dialogErrorAlert: undefined,
-      fomrData: {},
+      formData: {},
       showEventsList: true,
       toggleButtonText: 'Create Event',
-      communities: props.YourProfile.communities
-    }
-  }
+      alert: undefined
+    };
+  };
 
   componentDidMount() {
     this.getData();
-  }
+  };
 
   getData = async () => {
     try {
-      const eventsData = await ax.get('/api/events/');
-      
-      if(eventsData.data.length !== 0) {
+      const res = await ax.get(`/api/communities/${this.props.CommunityId}/events`);
+
+      if (res.data.events.length) {
         this.setState({
-          events: eventsData.data,
-          showEventsList: true
-        });
-      } else {
-        this.setState({
-          showEventsList: false
+          pageTitle: res.data.name + ' Events',
+          events: res.data.events,
+          showEventsList: true,
+          toggleButtonText: 'Show Events'
         });
       }
-    } catch (error) {
-      console.log('error;', error);
+      else {
+        this.setState({
+          pageTitle: res.data.name + ' Events',
+          showEventsList: false,
+          toggleButtonText: 'Create Event'
+        });
+      }
     }
-  }
+    catch (error) {
+      PageLoadError(error);
+    }
+  };
 
   handleInputChange = event => {
-    this.state.fomrData[event.target.name] =
-      event.target.value;
-  }
-  
+    let formData = this.state.formData;
+    formData[event.target.name] = event.target.value;
+
+    this.setState({ formData: formData });
+  };
+
   handleSubmit = async event => {
     event.preventDefault();
-    
+    this.setState({ alert: undefined });
+
     try {
-      const postedEvent = await ax.post('/api/events/create', this.state.fomrData);
-      setTimeout(this.getData, 1000);
-      // this.getData();
-    } catch (error) {
-      console.log('er', error.message);
+      const newEvent = await ax.post(`/api/communities/${this.props.CommunityId}/events`, this.state.formData);
+
+      this.setState({ events: [newEvent.data, ...this.state.events] });
     }
-  }
+    catch (error) {
+      console.log(error);
+      this.setState({ alert: error.response.data });
+    }
+  };
 
   toggleDisplay = () => {
-    if(this.state.showEventsList) {
+    if (this.state.showEventsList) {
       this.setState({
         showEventsList: false,
         toggleButtonText: 'Create Event'
       });
-    } else {
+    }
+    else {
       this.setState({
         showEventsList: true,
         toggleButtonText: 'Show Events'
       });
     }
-  }
+  };
+
+  getFormattedTime = militaryTime => {
+    if (!militaryTime) {
+      return;
+    }
+
+    const hours24 = parseInt(militaryTime.substring(0, 2));
+    const hours = ((hours24 + 11) % 12) + 1;
+    const amPm = hours24 > 11 ? 'pm' : 'am';
+    const minutes = militaryTime.substring(2);
+
+    return hours + minutes + amPm;
+  };
+
+  getFormattedDate = unformattedDate => {
+    const date = new Date(unformattedDate);
+
+    return date.toLocaleString('default', { month: 'long' });
+  };
 
   render() {
     return (
       <Container maxWidth="lg">
         <Megatron
-          heading="Events"
+          heading={this.state.pageTitle}
+          image="https://source.unsplash.com/random"
           megaHeight='20vh'
           megaMaxHeight='320px!important'
         />
@@ -89,21 +122,21 @@ export default class Events extends Component {
             {this.state.toggleButtonText}
           </button>
         </nav>
-
-        {this.state.showEventsList === false ? 
-          <PostEvent
-            handleInputChange =
-              {this.handleInputChange}
-            handleSubmit =
-              {this.handleSubmit}
-              communities = {this.state.communities}
-          />
-        :
-          <EventsList
-            events = {this.state.events}
-          />
+        {
+          this.state.showEventsList === false ?
+            <MakeEvent
+              handleInputChange={this.handleInputChange}
+              handleSubmit={this.handleSubmit}
+              alert={this.state.alert}
+            />
+            :
+            <EventsList
+              {...this.props}
+              getFormattedTime={this.getFormattedTime}
+              events={this.state.events}
+            />
         }
       </Container>
-    )
-  }
+    );
+  };
 }
