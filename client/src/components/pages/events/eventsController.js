@@ -4,7 +4,7 @@ import { Container } from '@material-ui/core';
 import Megatron from '../../megatron';
 import MakeEvent from './makeevent';
 import EventsList from './events';
-
+import YourProfile from '../../../utils/getyourprofile';
 // FUNCTIONS
 import ax from 'axios';
 import PageLoadError from '../../../utils/pageloaderror';
@@ -19,29 +19,42 @@ export default class EventsController extends Component {
       formData: {},
       showEventsList: true,
       toggleButtonText: 'Create Event',
-      alert: undefined
+      alert: undefined,
+      communities: []
     };
   };
 
   componentDidMount() {
+    this.getUserCommunities();
     this.getData();
   };
 
+  getUserCommunities = async () => {
+    try {
+      let {communities} = await YourProfile();
+      this.setState({
+        communities: communities
+      });
+    } catch (error) {
+      console.log('there was a problem: ', error)
+    }
+  }
+
   getData = async () => {
     try {
-      const res = await ax.get(`/api/communities/${this.props.CommunityId}/events`);
+      const res = await ax.get(`/api/events`);
 
-      if (res.data.events.length) {
+      if (res.data.events) {
         this.setState({
-          pageTitle: res.data.name + ' Events',
+          pageTitle: 'Events',
           events: res.data.events,
           showEventsList: true,
-          toggleButtonText: 'Show Events'
+          toggleButtonText: 'Show Events',
         });
       }
       else {
         this.setState({
-          pageTitle: res.data.name + ' Events',
+          pageTitle: 'Events',
           showEventsList: false,
           toggleButtonText: 'Create Event'
         });
@@ -64,7 +77,7 @@ export default class EventsController extends Component {
     this.setState({ alert: undefined });
 
     try {
-      const newEvent = await ax.post(`/api/communities/${this.props.CommunityId}/events`, this.state.formData);
+      const newEvent = await ax.post(`/api/events/create`, this.state.formData);
 
       this.setState({ events: [newEvent.data, ...this.state.events] });
     }
@@ -128,6 +141,7 @@ export default class EventsController extends Component {
               handleInputChange={this.handleInputChange}
               handleSubmit={this.handleSubmit}
               alert={this.state.alert}
+              communities={this.state.communities}
             />
             :
             <EventsList
