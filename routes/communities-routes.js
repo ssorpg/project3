@@ -15,6 +15,7 @@ module.exports = function (app) {
 
     const newCommunity = await db.Community.create({
       name: req.body.name,
+      bio: req.body.bio,
       private: req.body.private
     });
 

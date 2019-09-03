@@ -17,6 +17,17 @@ module.exports = function (sequelize, DataTypes) {
           }
         }
       },
+      bio: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        trim: true,
+        validate: {
+          notNull: {
+            args: true,
+            msg: 'Please enter a community bio.'
+          }
+        }
+      },
       private: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
@@ -36,6 +47,10 @@ module.exports = function (sequelize, DataTypes) {
 
     Community.belongsTo(models.User, {
       as: 'founder'
+    });
+
+    Community.belongsTo(models.User, {
+      as: 'moderator'
     });
 
     Community.hasMany(models.Event, {

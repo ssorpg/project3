@@ -57,7 +57,8 @@ export default class CreateCommunity extends Component {
     
     const community = {
       name: inputs[0].value,
-      private: inputs[1].checked
+      bio: inputs[1].value,
+      private: inputs[2].checked
     };
 
     const submit = form.getElementsByTagName('button')[0];

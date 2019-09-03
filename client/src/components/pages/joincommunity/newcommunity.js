@@ -41,6 +41,12 @@ export default function NewCommunity(props) {
             name="community"
             placeholder="Awesome Community"
           />
+          <Input
+            className={classes.input}
+            type="text"
+            name="bio"
+            placeholder="Community bio"
+          />
           <FormControlLabel
             control={<Checkbox checked={makePrivate} onChange={handleMakePrivate} />}
             label="Make Private"
