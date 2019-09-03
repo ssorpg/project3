@@ -4,7 +4,7 @@ import { Container, Paper } from '@material-ui/core';
 import Modal from '../../modal';
 
 export default function MakeEvent(props) {
-  const { handleInputChange, handleSubmit, alert } = props;
+  const { handleInputChange, handleSubmit, alert, communities } = props;
 
   return (
     <Container>
@@ -31,7 +31,7 @@ export default function MakeEvent(props) {
           <br /><br />
           <h5>Select a community for the event:</h5>
           <ul>
-            {this.state.communities.map(item => (
+            {communities.map(item => (
               <li key={item.id}>
                 <label for='communityId'>
                   <input type="radio" name='communityId' value={item.id} />
