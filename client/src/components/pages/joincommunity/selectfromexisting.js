@@ -1,6 +1,6 @@
 // COMPONENTS
 import React from 'react';
-import { Paper, FormGroup, RadioGroup, List, Button } from '@material-ui/core';
+import { Paper, FormGroup, RadioGroup, List, Button, InputLabel, Typography } from '@material-ui/core';
 import CommunityRadio from './communityradio';
 
 // FUNCTIONS
@@ -30,9 +30,13 @@ export default function SelectFromExisting(props) {
   //console.log(communities);
   return (
     <Paper className={classes.communityList}>
-      <h3>Choose A Community</h3>
       <form onSubmit={handleChosenCommunitySubmit}>
         <FormGroup>
+          <InputLabel>
+            <Typography variant="h5" gutterBottom>
+              Choose a Community
+            </Typography>
+          </InputLabel>
           <List className={classes.fixedSizeList + 'list-unstyled text-left'} id="community-list">
             {
               communities.map(community => (

@@ -137,7 +137,7 @@ export default function Navbar(props) {
         <a href="/updateprofile" className={classes.linkStyleReset}><MenuItem><ListItemText primary={'Update Profile'} /></MenuItem></a>
         <a href="/joincommunity" className={classes.linkStyleReset}><MenuItem><ListItemText primary={'Join/Create Community'} /></MenuItem></a>
         <MenuItem className={classes.logout} onClick={logout}><ListItemText primary={'Logout'} /></MenuItem>
-        <a href="/chat" className={classes.linkStyleReset}><MenuItem><ListItemText primary={'Global Chat'} /></MenuItem></a>
+        {/* <a href="/chat" className={classes.linkStyleReset}><MenuItem><ListItemText primary={'Global Chat'} /></MenuItem></a> */}
       </List>
       {/* <Divider />
       <List>

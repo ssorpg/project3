@@ -77,6 +77,13 @@ export default function ProfileInfo(props) {
               </>
             }
           />
+          <div style={{ marginLeft: '30px' }}>
+            {
+              user.id === YourProfile.id ?
+                <Status {...props} />
+                : ''
+            }
+          </div>
           <Card className={classes.card2}>
             <CardMedia
               className={classes.media}
@@ -84,11 +91,6 @@ export default function ProfileInfo(props) {
               title="Profile"
             />
           </Card>
-          {
-            user.id === YourProfile.id ?
-              <Status {...props} />
-              : ''
-          }
           {/* <Typography paragraph>
                   <strong>Status:</strong> {user.status ? user.status : 'This user has no status yet.'}
                 </Typography> */}
