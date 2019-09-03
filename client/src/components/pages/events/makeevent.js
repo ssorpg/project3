@@ -1,23 +1,17 @@
-import React, {Component} from 'react';
-import {Container, Paper} from '@material-ui/core';
+// COMPONENTS
+import React from 'react';
+import { Container, Paper } from '@material-ui/core';
+import Modal from '../../modal';
 
-export default class PostEvent extends Component {
-  constructor(props) {
-    super(props);
+export default function MakeEvent(props) {
+  const { handleInputChange, handleSubmit, alert } = props;
 
-    this.state = {
-      fomrData: undefined,
-      communities: props.communities
-    }
-  }
-
-  render() {
-    return (
-      <Container>
-        <Paper>
+  return (
+    <Container>
+      <Paper>
         <form
-          onChange={this.props.handleInputChange}
-          onSubmit={this.props.handleSubmit}
+          onChange={handleInputChange}
+          onSubmit={handleSubmit}
         >
           <label for="name">Event Name</label>
           <input name="name" type="text" />
@@ -37,7 +31,7 @@ export default class PostEvent extends Component {
           <br /><br />
           <h5>Select a community for the event:</h5>
           <ul>
-            {this.state.communities.map( item => (
+            {this.state.communities.map(item => (
               <li key={item.id}>
                 <label for='communityId'>
                   <input type="radio" name='communityId' value={item.id} />
@@ -49,9 +43,13 @@ export default class PostEvent extends Component {
 
           <button name="submit" type="submit">Submit</button>
           <button name="reset" type="reset">Reset</button>
+          {
+            alert ?
+              <Modal error={alert} />
+              : ''
+          }
         </form>
       </Paper>
-      </Container>
-    )
-  }
-}
+    </Container>
+  );
+};

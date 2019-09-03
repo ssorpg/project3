@@ -1,6 +1,8 @@
 const db = require('../models');
 const auth = require('./auth/auth');
 
+const multer = require('multer')({ dest: 'client/build/images' });
+
 require('dotenv').config();
 
 const cookieOptionsS = {
@@ -111,19 +113,19 @@ module.exports = function (app) {
     res.status(200).json(user);
   }));
 
-  // app.get('/api/users/invites', wrap(async function (req, res, next) { // get your invites
-  //   const user = await db.User.findOne({
-  //     where: {
-  //       id: req.token.UserId
-  //     },
-  //     include: [{
-  //       model: db.Community,
-  //       as: 'invites'
-  //     }]
-  //   });
+  app.post('/api/users/profile/images', multer.any(), wrap(async (req, res, next) => { // update user profile image
+    const user = await db.User.findOne({
+      where: {
+        id: req.token.UserId
+      }
+    });
 
-  //   res.status(200).json(user);
-  // }));
+    const image = await db.Image.create(req.files[0]);
+
+    user.addProfileImage(image);
+
+    res.json(image);
+  }));
 
   // app.delete('/api/users', wrap(async function (req, res, next) { // delete user
   //   await db.User.destroy({

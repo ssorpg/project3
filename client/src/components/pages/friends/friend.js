@@ -14,6 +14,7 @@ const useStyles = makeStyles({
 
 export default function Friend(props) {
   const { YourProfile, CommunityId, thisFriend } = props;
+  
   const classes = useStyles();
 
   function goToFriend() {

@@ -8,7 +8,7 @@ module.exports = function (sequelize, DataTypes) {
         validate: {
           notNull: {
             args: true,
-            msg: 'Please enter a name.'
+            msg: 'Please enter a name for the event.'
           },
           len: {
             args: [1, 255],

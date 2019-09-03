@@ -1,42 +1,45 @@
-import React, { Component } from 'react';
-import { Container } from '@material-ui/core';
+// COMPONENTS
+import React from 'react';
 
-export default class EventsList extends Component {
-  constructor(props) {
-    super(props);
+// FUNCTIONS
+import { makeStyles } from '@material-ui/core/styles'
+
+const useStyles = makeStyles({
+  resetListStyle: {
+    listStyle: 'none'
   }
+});
 
+export default function EventsList(props) {
+  const { CommunityId, getFormattedTime, events } = props;
 
-  render() {
-    return (
-      <ul>
-        {this.props.events.map(event => (
+  const classes = useStyles();
+
+  return (
+    <ul className={classes.resetListStyle}>
+      {
+        events.map(event => (
           <li key={event.id}>
             <h5>
-              <a href={`/events/${event.id}`}>
+              <a href={`/community/${CommunityId}/events/${event.id}`}>
                 {event.name}
               </a>
             </h5>
-            <h6>{event.description}</h6>
             <dl>
-              <dt>Date:</dt>
-              <dd>{event.date}</dd>
-              <dt>Start Time:</dt>
-              <dd>{event.start_time}</dd>
-              <dt>End Time:</dt>
-              <dd>{event.end_time}</dd>
-              <dt>In Community:</dt>
-              <dd>{event.Community.name}</dd>
+              <dd>{event.description}</dd>
+              <dd><strong>Date: </strong>{event.date}</dd>
+              <dd><strong>Start Time: </strong>{getFormattedTime(event.start_time)}</dd>
+              <dd><strong>End Time: </strong>{getFormattedTime(event.end_time)}</dd>
             </dl>
-            <ul>
+            <ul className={classes.resetListStyle}>
               <li>
                 <button>Attend</button>
                 <button>Delete</button>
               </li>
             </ul>
           </li>
-        ))}
-      </ul>
-    )
-  }
-}
+        ))
+      }
+    </ul>
+  );
+};

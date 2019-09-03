@@ -121,6 +121,7 @@ export default function Navbar(props) {
           <>
             <a href={`/community/${CommunityId}`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Community Feed</MenuItem></a>
             <a href={`/community/${CommunityId}/friends`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Community Friends</MenuItem></a>
+            <a href={`/community/${CommunityId}/events`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Community Events</MenuItem></a>
             {/* <a href={`/community/${CommunityId}/chat`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Chat</MenuItem></a> */}
           </>
           : YourProfile.communities.map(community => {

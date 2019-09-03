@@ -49,7 +49,7 @@ export default class TPN extends Component {
     if (this.state.isAuth) {
       this.setState({ YourProfile: await GetYourProfile() });
     }
-  }
+  };
 
   render() {
     if (!this.state.YourProfile && this.state.isAuth) { // && this.state.isAuth so people who haven't logged in can still see the home page
@@ -80,10 +80,10 @@ export default class TPN extends Component {
               <Route exact path="/community/:CommunityId" render={() => <Feed {...this.state} />} />
               <Route exact path="/community/:CommunityId/friends" render={() => <FriendsController {...this.state} />} />
               <Route exact path="/community/:CommunityId/friends/:UserId" render={() => <Wall {...this.state} />} />
+              <Route exact path="/community/:CommunityId/events" render={() => <EventsController {...this.state} />} />
               {/* <Route exact path="/community/:CommunityId/chat" render={() => <Chat {...this.state} />} /> */}
               <Route exact path="/chat" render={() => <ChatController {...this.state} />} />
               <Route path="/search" render={() => <SearchResultsController {...this.state} />} />
-              <Route exact path="/events" render={() => <EventsController {...this.state} />} />
               <Route path="/" render=
                 {
                   () => this.state.isAuth ?
