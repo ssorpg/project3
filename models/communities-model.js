@@ -49,6 +49,10 @@ module.exports = function (sequelize, DataTypes) {
       as: 'founder'
     });
 
+    Community.belongsTo(models.User, {
+      as: 'moderator'
+    });
+
     Community.hasMany(models.Event, {
       as: 'events'
     });
