@@ -32,8 +32,8 @@ export default function Megatron(props) {
   const useStyles = makeStyles( (theme) => ({
     megatron: {
       position: 'relative',
-      padding: "24px",
-      // marginBottom: "36px",
+      padding: '24px',
+      marginBottom: '24px',
       backgroundColor: "#3f51b5",
       backgroundImage: `url(${imgSrc})`,
       backgroundPosition: `${imgPos}`,

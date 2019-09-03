@@ -87,22 +87,22 @@ module.exports = function (app) {
     res.status(200).json(delPost);
   }));
 
-  app.put('/api/posts/:PostId', wrap(async function (req, res, next) { // edit post
-    const { post, isAuthor } = await getPost(req.token.UserId, req.params.PostId);
-    const { isMember } = await getCommunity(req.token.UserId, post.CommunityId);
+  // app.put('/api/posts/:PostId', wrap(async function (req, res, next) { // edit post
+  //   const { post, isAuthor } = await getPost(req.token.UserId, req.params.PostId);
+  //   const { isMember } = await getCommunity(req.token.UserId, post.CommunityId);
 
-    if (!isMember) {
-      throw { status: 401, msg: 'You\'re not in that community.' }; // can't edit posts to send messages to communities you're no longer in
-    }
+  //   if (!isMember) {
+  //     throw { status: 401, msg: 'You\'re not in that community.' }; // can't edit posts to send messages to communities you're no longer in
+  //   }
 
-    if (!isAuthor) {
-      throw { status: 401, msg: 'You didn\'t make that post.' };
-    }
+  //   if (!isAuthor) {
+  //     throw { status: 401, msg: 'You didn\'t make that post.' };
+  //   }
 
-    const upPost = await post.update({ message: req.body.message });
+  //   const upPost = await post.update({ message: req.body.message });
 
-    res.status(200).json(upPost);
-  }));
+  //   res.status(200).json(upPost);
+  // }));
 
   app.put('/api/posts/:PostId/:vote', wrap(async function (req, res, next) { // like/dislike post
     const { post } = await getPost(req.token.UserId, req.params.PostId);

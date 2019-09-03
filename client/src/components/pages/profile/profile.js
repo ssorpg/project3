@@ -16,7 +16,6 @@ export default class Profile extends Component {
 
     this.state = {
       YourProfile: props.YourProfile,
-      status: props.YourProfile.status,
       posts: props.YourProfile.posts,
       inviteUserDialog: false,
       dialogAlert: undefined,
@@ -79,11 +78,11 @@ export default class Profile extends Component {
     const submit = form.getElementsByTagName('button')[0];
 
     submit.style.visibility = 'hidden';
-    await this.postToDB(form, invite);
+    await this.postInvite(form, invite);
     submit.style.visibility = 'visible';
   };
 
-  postToDB = async (form, invite) => {
+  postInvite = async (form, invite) => {
     this.setState({ dialogAlert: undefined });
 
     try {
@@ -130,6 +129,37 @@ export default class Profile extends Component {
     }
   };
 
+  handleStatusSubmit = async event => {
+    event.preventDefault();
+    const form = event.target;
+
+    const input = form.getElementsByTagName('input')[0];
+
+    const status = {
+      status: input.value
+    };
+
+    await this.postStatus(form, status);
+  };
+
+  postStatus = async (form, status) => {
+    this.setState({ alert: undefined });
+
+    try {
+      await ax.put('/api/users/update', status);
+
+      const newProfile = this.state.YourProfile;
+      newProfile.status = status.status;
+      this.setState({ YourProfile: newProfile });
+      
+      form.reset();
+    }
+    catch (error) {
+      console.log(error);
+      this.setState({ alert: error.response.data });
+    }
+  };
+
   render() {
     return (
       <Container maxWidth="lg">
@@ -151,6 +181,8 @@ export default class Profile extends Component {
           dialogAlert={this.state.dialogAlert}
           inviteUserDialog={this.state.inviteUserDialog}
           closeInviteDialog={this.closeInviteDialog}
+
+          handleStatusSubmit={this.handleStatusSubmit} // used three components deep
         />
         {
           this.state.alert ?

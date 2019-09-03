@@ -34,22 +34,22 @@ module.exports = function(app) {
     res.status(200).json(delComment);
   }));
 
-  app.put('/api/posts/:PostId/comments/:CommentId', wrap(async function (req, res, next) { // edit comment
-    const { comment, isAuthor } = await getComment(req.token.UserId, req.params.CommentId);
+  // app.put('/api/posts/:PostId/comments/:CommentId', wrap(async function (req, res, next) { // edit comment
+  //   const { comment, isAuthor } = await getComment(req.token.UserId, req.params.CommentId);
 
-    if (!isAuthor) {
-      throw { status: 401, msg: 'You didn\'t make that comment.' };
-    }
+  //   if (!isAuthor) {
+  //     throw { status: 401, msg: 'You didn\'t make that comment.' };
+  //   }
 
-    const { post } = await getPost(req.token.UserId, req.params.PostId);
-    const { isMember } = await getCommunity(req.token.UserId, post.CommunityId);
+  //   const { post } = await getPost(req.token.UserId, req.params.PostId);
+  //   const { isMember } = await getCommunity(req.token.UserId, post.CommunityId);
 
-    if (!isMember) {
-      throw { status: 401, msg: 'You\'re not in that community.' };
-    }
+  //   if (!isMember) {
+  //     throw { status: 401, msg: 'You\'re not in that community.' };
+  //   }
 
-    const upComment = await comment.update({ message: req.body.message });
+  //   const upComment = await comment.update({ message: req.body.message });
 
-    res.status(200).json(upComment);
-  }));
+  //   res.status(200).json(upComment);
+  // }));
 };

@@ -12,7 +12,7 @@ import ExtractProfileImage from '../../utils/extractprofileimage';
 const useStyles = makeStyles(theme => ({
   card: {
     maxWidth: 'auto',
-    //marginTop: '20px'
+    // marginTop: '20px'
   },
 
   card2: {
@@ -67,12 +67,15 @@ export default function ProfileInfo(props) {
         <Grid item md={6}>
           <CardHeader
             avatar={
-              <Avatar aria-label="friend" className={classes.avatar}>
-              </Avatar>
+              <Avatar aria-label="friend" className={classes.avatar} />
             }
             title={<h3>{user.name}</h3>}
-            subheader={<><i>{user.location}</i> <br />
-              Status: <i>{user.status}</i></>}
+            subheader={
+              <>
+                <i>{user.location}</i><br />
+                Status: <i>{user.status}</i>
+              </>
+            }
           />
           <Card className={classes.card2}>
             <CardMedia
@@ -81,7 +84,7 @@ export default function ProfileInfo(props) {
               title="Profile"
             />
           </Card>
-          <Status user={user} />
+          <Status {...props} />
           {/* <Typography paragraph>
                   <strong>Status:</strong> {user.status ? user.status : 'This user has no status yet.'}
                 </Typography> */}
