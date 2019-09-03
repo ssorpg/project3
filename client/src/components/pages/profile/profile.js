@@ -171,7 +171,8 @@ export default class Profile extends Component {
           megaMaxHeight='320px!important'
         />
         <ProfileInfo
-          user={this.state.YourProfile} // used one component deep
+          {...this.props} // used one component deep
+          user={this.state.YourProfile}
           openInviteDialog={this.openInviteDialog}
           removeCommunity={this.removeCommunity}
           handleAcceptInvite={this.handleAcceptInvite}
