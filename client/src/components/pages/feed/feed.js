@@ -1,12 +1,20 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import { Container } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import PostController from '../../posts/postcontroller';
 import Megatron from '../../megatron';
 
 // FUNCTIONS
 import ax from 'axios';
+import FeedEvents from './feedevents';
+import { makeStyles } from '@material-ui/core/styles';
 import PageLoadError from '../../../utils/pageloaderror';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  }
+}));
 
 export default class Feed extends Component {
   constructor() {
@@ -15,7 +23,8 @@ export default class Feed extends Component {
     this.state = {
       pageTitle: undefined,
       bio: undefined,
-      posts: undefined
+      posts: undefined,
+      events: undefined
     };
   };
 
@@ -26,11 +35,12 @@ export default class Feed extends Component {
   getData = async () => {
     try {
       const res = await ax.get(`/api/communities/${this.props.CommunityId}`);
-
+      
       this.setState({
         pageTitle: res.data.name + ' Feed',
         bio: res.data.bio,
-        posts: res.data.posts
+        posts: res.data.posts,
+        events: res.data.events
       });
     }
     catch (error) {
@@ -50,17 +60,30 @@ export default class Feed extends Component {
             megaHeight='30vh'
             megaMaxHeight='320px!important'
           />
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={7}>
+              {
+                this.state.posts ?
+                  <PostController
+                    {...this.props}
+                    posts={this.state.posts}
+                    postURL={`/api/posts?CommunityId=${this.props.CommunityId}`}
+                    postType='Feed'
+                  />
+                  : ''
+              }
+            </Grid>
+            
+            {
+              this.state.events ?
+              <Grid item xs={12} sm={5}>
+                <FeedEvents events={this.state.events} />
+              </Grid>
+            :
+                ''
+            }
+          </Grid>
         </Container>
-        {
-          this.state.posts ?
-            <PostController
-              {...this.props}
-              posts={this.state.posts}
-              postURL={`/api/posts?CommunityId=${this.props.CommunityId}`}
-              postType='Feed'
-            />
-            : ''
-        }
       </>
     );
   }
