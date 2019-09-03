@@ -27,7 +27,7 @@ export default function SelectFromExisting(props) {
   const { communities, handleFormChange, handleChosenCommunitySubmit } = props;
 
   const classes = useStyles();
-
+  //console.log(communities);
   return (
     <Paper className={classes.communityList}>
       <h3>Choose A Community</h3>
