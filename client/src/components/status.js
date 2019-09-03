@@ -25,8 +25,7 @@ export default function Status(props) {
         <Input
           name="status"
           id="input-with-icon-adornment"
-          // onChange={this.handleStatusChange}
-          autoFocus
+          // autoFocus
           required
           startAdornment={
             <InputAdornment position="start">

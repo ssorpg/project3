@@ -24,10 +24,6 @@ export default class Profile extends Component {
     };
   };
 
-  componentDidMount() {
-    console.log(this.state);
-  };
-
   removeCommunity = async event => {
     this.setState({ alert: undefined });
 
@@ -40,7 +36,9 @@ export default class Profile extends Component {
     try {
       const removedComm = await ax.delete(URL);
 
-      const newProfile = this.state.YourProfile.communities.filter(comm => { return comm.id !== removedComm.data.id; });
+      const newComms = this.state.YourProfile.communities.filter(comm => { return comm.id !== removedComm.data.id; });
+      const newProfile = this.state.YourProfile;
+      newProfile.communities = newComms;
       this.setState({ YourProfile: newProfile });
     }
     catch (error) {
@@ -120,7 +118,9 @@ export default class Profile extends Component {
     try {
       const removedInvite = await ax.delete(`/api/communities/${commInfo.id}/invited`);
 
-      const newProfile = this.state.YourProfile.invites.filter(invite => { return invite.id !== removedInvite.data.id; });
+      const newInvites = this.state.YourProfile.invites.filter(invite => { return invite.id !== removedInvite.data.id; });
+      const newProfile = this.state.YourProfile;
+      newProfile.invites = newInvites;
       this.setState({ YourProfile: newProfile });
     }
     catch (error) {
