@@ -44,7 +44,6 @@ export default function MakePost(props) {
         <Grid
           container
           direction="row"
-          justify="center"
           spacing={4}
           className={classes.mainGrid}
         >
