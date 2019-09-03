@@ -6,41 +6,33 @@ const wrap = fn => (...args) => fn(...args).catch(args[2]);
 module.exports = function (app) {
   // COMMUNITY EVENTS
 
-  app.get('/api/communities/:CommunityId/events', wrap(async function (req, res, next) { // get community events
-    const { community, isMember } = await getCommunity(req.token.UserId, req.params.CommunityId);
+  app.post('/api/events', wrap(async function (req, res, next) { // create event
+    console.log('gettin events')
+    const events = await db.Event.findAll();
 
-    if (!isMember) {
-      throw { status: 401, msg: 'You\'re not in that community.' };
+    if(events.length === 0) {
+      console.log('no results');
+      res.status(204).send('No Events Here.\nMake One!');
+    } else {
+      res.status(200).json(events);
     }
-
-    community.dataValues.events = await community.getEvents();
-
-    res.status(200).json(community);
   }));
-
-  app.post('/api/communities/:CommunityId/events', wrap(async function (req, res, next) { // create event
-    const { community, user, isMember } = await getCommunity(req.token.UserId, req.params.CommunityId);
-
-    if (!isMember) {
-      throw { status: 401, msg: 'You\'re not in that community.' };
-    }
-
+  
+  app.post('/api/events/create', wrap( async function(req, res, next) {
     const newEvent = await db.Event.create({
       name: req.body.name,
       description: req.body.description,
       date: req.body.date,
       start_time: req.body.start_time,
-      end_time: req.body.end_time
+      end_time: req.body.end_time,
+      CommunityId: req.body.communityId,
+      founderId: req.token.UserId,
     });
-
-    newEvent.addMember(user);
-    newEvent.setFounder(user);
-    community.addEvent(newEvent);
-
+    
     res.status(200).json(newEvent);
   }));
 
-  app.get('/api/communities/:CommunityId/events/:EventId', wrap(async function (req, res, next) { // get specific event
+  app.get('/api/events/:EventId', wrap(async function (req, res, next) { // get specific event
     const { community, isMember } = await getCommunity(req.token.UserId, req.params.CommunityId);
 
     if (!isMember) {
@@ -62,7 +54,7 @@ module.exports = function (app) {
     res.status(200).json(event);
   }));
 
-  app.delete('/api/communities/:CommunityId/events/:EventId', wrap(async function (req, res, next) { // delete event
+  app.delete('/api/communities/:EventId', wrap(async function (req, res, next) { // delete event
     const event = await db.Event.findOne({
       where: {
         id: req.params.EventId
