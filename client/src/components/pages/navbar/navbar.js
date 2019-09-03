@@ -152,20 +152,18 @@ export default function Navbar(props) {
               The Private Network
             </a>
           </Typography>
-          <Searchbar />
           <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={accountMenuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </div>
+          <Searchbar />
+          <IconButton
+            edge="end"
+            aria-label="account of current user"
+            aria-controls={accountMenuId}
+            aria-haspopup="true"
+            onClick={handleProfileMenuOpen}
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
         </Toolbar>
       </AppBar>
       {renderAccountMenu}
