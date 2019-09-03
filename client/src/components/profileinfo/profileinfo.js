@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ProfileInfo(props) {
-  const { user } = props;
+  const { YourProfile, user } = props;
 
   const classes = useStyles();
 
@@ -84,7 +84,11 @@ export default function ProfileInfo(props) {
               title="Profile"
             />
           </Card>
-          <Status {...props} />
+          {
+            user.id === YourProfile.id ?
+              <Status {...props} />
+              : ''
+          }
           {/* <Typography paragraph>
                   <strong>Status:</strong> {user.status ? user.status : 'This user has no status yet.'}
                 </Typography> */}

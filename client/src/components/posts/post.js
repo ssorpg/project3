@@ -49,10 +49,10 @@ export default function Post(props) {
           title="Profile"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h6" component="h2">
             {thisPost.author.name}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant="body" component="p">
             <span className={classes.postText}>{thisPost.message}</span>
           </Typography>
           <Typography className={classes.score}>

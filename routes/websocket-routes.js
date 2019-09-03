@@ -15,11 +15,17 @@ async function messageAllClients(message, clients, exclude) {
 }
 
 function getFormattedTime() {
-  const today = new Date();
-  const hours = today.getHours();
-  const minutes = ((today.getMinutes() < 10 ? '0' : '') + today.getMinutes());
-  const seconds = ((today.getSeconds() < 10 ? '0' : '') + today.getSeconds());
-  const time = hours + ':' + minutes + ':' + seconds;
+  const today = new Date(); // 24 hour time
+  const hours24 = today.getHours();
+  const minutes24 = today.getMinutes();
+  const seconds24 = today.getSeconds();
+
+  const hours12 = ((hours24 + 11) % 12) + 1; // 12 hour time
+  const minutes12 = ((minutes24 < 10 ? '0' : '') + minutes24);
+  const seconds12 = ((seconds24 < 10 ? '0' : '') + seconds24);
+  const amPm = today.getHours() > 11 ? 'PM' : 'AM';
+  
+  const time = hours12 + ':' + minutes12 + ':' + seconds12 + ' ' + amPm;
 
   return time;
 }
