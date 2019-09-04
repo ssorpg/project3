@@ -17,11 +17,12 @@ export default function EventsList(props) {
 
   return (
     <ul className={classes.resetListStyle}>
+      {console.log(events)}
       {
         events.map(event => (
           <li key={event.id}>
             <h5>
-              <a href={`/community/${CommunityId}/events/${event.id}`}>
+              <a href={`/community/${event.CommunityId}/events/${event.id}`}>
                 {event.name}
               </a>
             </h5>
