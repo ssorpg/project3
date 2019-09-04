@@ -24,7 +24,7 @@ export default function ImageUpload(props) {
         className={classes.inputSpacing}
         type="file"
         name="selectedFile"
-        accept="images/*"
+        accept="image/*"
         required
         onChange={handlePicChange}
       />
