@@ -6,7 +6,7 @@ const wrap = fn => (...args) => fn(...args).catch(args[2]);
 module.exports = function (app) {
   // COMMUNITY EVENTS
 
-  app.post('/api/events', wrap(async function (req, res, next) { // create event
+  app.get('/api/events', wrap(async function (req, res, next) { // create event
     console.log('gettin events')
     const events = await db.Event.findAll();
 
