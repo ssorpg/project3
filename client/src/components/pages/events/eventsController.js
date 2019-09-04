@@ -4,14 +4,13 @@ import { Container } from '@material-ui/core';
 import Megatron from '../../megatron';
 import MakeEvent from './makeevent';
 import EventsList from './events';
-import YourProfile from '../../../utils/getyourprofile';
 // FUNCTIONS
 import ax from 'axios';
 import PageLoadError from '../../../utils/pageloaderror';
 
 export default class EventsController extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       pageTitle: undefined,
@@ -29,15 +28,11 @@ export default class EventsController extends Component {
     this.getData();
   };
 
-  getUserCommunities = async () => {
-    try {
-      let {communities} = await YourProfile();
-      this.setState({
-        communities: communities
-      });
-    } catch (error) {
-      console.log('there was a problem: ', error)
-    }
+  getUserCommunities = () => {
+    let {communities} = this.props.YourProfile;
+    this.setState({
+      communities: communities
+    });
   }
 
   getData = async () => {
