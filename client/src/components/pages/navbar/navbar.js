@@ -95,10 +95,10 @@ export default function Navbar(props) {
     >
       <List>
         <a href="/profile" className={classes.linkStyleReset}><MenuItem><ListItemText primary={'Your Profile'} /></MenuItem></a>
-        {
+        { // this is just ugly from lines 98 to 113 - TODO make this not gross to look at
           CommunityId ?
             YourProfile.communities.map(community => {
-              return (CommunityId === community.id ? // this is just ugly from lines 98 to 113 - TODO make this not gross to look at
+              return (CommunityId === community.id ?
                 <>
                   <a href={`/community/${community.id}`} className={classes.linkStyleReset}><MenuItem><ListItemText primary={`${community.name} Feed`} /></MenuItem></a>
                   <a href={`/community/${community.id}/friends`} className={classes.linkStyleReset}><MenuItem><ListItemText primary={`${community.name} Friends`} /></MenuItem></a>

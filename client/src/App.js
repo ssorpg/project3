@@ -52,7 +52,7 @@ export default class TPN extends Component {
   };
 
   render() {
-    if (!this.state.YourProfile && this.state.isAuth) { // && this.state.isAuth so people who haven't logged in can still see the home page
+    if (!this.state.YourProfile && this.state.isAuth) { // '&& this.state.isAuth' so people who haven't logged in can still see the home page
       return <div />
     }
 

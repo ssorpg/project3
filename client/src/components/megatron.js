@@ -19,7 +19,7 @@ export default function Megatron(props) {
 
     image: {
       src: props.image !== undefined ? props.image : '',
-      position: props.imagePosition !== undefined ? 
+      position: props.imagePosition !== undefined ?
         props.imagePosition : 'no'
     }
   };
@@ -29,7 +29,7 @@ export default function Megatron(props) {
   const megaHeight = props.megaHeight;
   const megaMaxHeight = props.megaMaxHeight;
 
-  const useStyles = makeStyles( (theme) => ({
+  const useStyles = makeStyles((theme) => ({
     megatron: {
       position: 'relative',
       padding: '24px',
@@ -56,16 +56,22 @@ export default function Megatron(props) {
   }));
 
   const classes = useStyles();
-  
+
   return (
     <Paper className={classes.megatron} id='banner'>
-      <Typography className={classes.title}
-        variant="h3" gutterBottom>
-          {titles.heading.text} 
+      <Typography
+        className={classes.title}
+        variant="h3"
+        gutterBottom
+      >
+        {titles.heading.text}
       </Typography>
-      <Typography className={classes.subtitle}
-        variant="subtitle1" gutterBottom>
-          {titles.subheading.text}
+      <Typography
+        className={classes.subtitle}
+        variant="subtitle1"
+        gutterBottom
+      >
+        {titles.subheading.text}
       </Typography>
     </Paper>
   );

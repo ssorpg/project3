@@ -1,6 +1,8 @@
 const db = require('../models');
 const { getCommunity } = require('./auth/validate');
 
+const multer = require('multer')({ dest: 'client/build/images' });
+
 const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handling
 
 module.exports = function (app) {
@@ -54,21 +56,48 @@ module.exports = function (app) {
   }));
 
   app.get('/api/communities/:CommunityId', wrap(async function (req, res, next) { // get community info
-    const { community, isMember } = await getCommunity(req.token.UserId, req.params.CommunityId);
+    let { community, isMember } = await getCommunity(req.token.UserId, req.params.CommunityId);
 
     if (!isMember) {
       return res.status(200).json(community);
     }
 
-    community.dataValues.posts = await community.getPosts({
-      limit: 20,
+    community = await db.Community.findOne({
       where: {
-        UserId: null,
-        EventId: null
-      }
+        id: community.id
+      },
+      include: [{
+        model: db.Post,
+        as: 'posts',
+        limit: 20,
+        where: {
+          UserId: null,
+          EventId: null
+        },
+        required: false
+      },
+      {
+        model: db.Image,
+        as: 'bannerImage',
+        limit: 1
+      }]
     });
 
     res.status(200).json(community);
+  }));
+
+  app.post('/api/communities/:CommunityId/images', multer.any(), wrap(async (req, res, next) => { // update community banner image
+    const { community, isFounder } = await getCommunity(req.token.UserId, req.params.CommunityId);
+
+    if (!isFounder) {
+      throw { status: 401, msg: 'You don\'t own that community.' };
+    }
+
+    const image = await db.Image.create(req.files[0]);
+
+    community.addBannerImage(image);
+
+    res.json(image);
   }));
 
   app.delete('/api/communities/:CommunityId', wrap(async function (req, res, next) { // delete community

@@ -43,7 +43,7 @@ export default class FriendsController extends Component {
         <Container>
           <Megatron
             heading={this.state.pageTitle}
-            image="https://source.unsplash.com/random"
+            image={this.state.bannerImage ? `/images/${this.state.bannerImage}` : '/images/community.jpg'}
             imagePosition="50%"
             megaHeight='20vh'
             megaMaxHeight='320px!important'

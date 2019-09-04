@@ -94,7 +94,7 @@ export default class UpdateProfileController extends Component {
           <Megatron
             heading="Profile Settings"
             subheading="Edit bio and profile picture"
-            image="https://source.unsplash.com/random"
+            image="/images/updateprofile.jpg"
             imagePosition="50%"
             megaHeight='60vh'
             megaMaxHeight='320px!important'

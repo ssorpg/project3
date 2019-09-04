@@ -15,6 +15,7 @@ export default class EventsController extends Component {
 
     this.state = {
       pageTitle: undefined,
+      bannerImage: undefined,
       events: [],
       formData: {},
       showEventsList: true,
@@ -34,6 +35,7 @@ export default class EventsController extends Component {
       if (res.data.events.length) {
         this.setState({
           pageTitle: res.data.name + ' Events',
+          bannerImage: res.data.bannerImage,
           events: res.data.events,
           showEventsList: true,
           toggleButtonText: 'Show Events'
@@ -42,6 +44,7 @@ export default class EventsController extends Component {
       else {
         this.setState({
           pageTitle: res.data.name + ' Events',
+          bannerImage: res.data.bannerImage,
           showEventsList: false,
           toggleButtonText: 'Create Event'
         });
@@ -113,7 +116,7 @@ export default class EventsController extends Component {
       <Container maxWidth="lg">
         <Megatron
           heading={this.state.pageTitle}
-          image="https://source.unsplash.com/random"
+          image={this.state.bannerImage ? `/images/${this.state.bannerImage}` : '/images/community.jpg'}
           megaHeight='20vh'
           megaMaxHeight='320px!important'
         />
