@@ -60,6 +60,10 @@ module.exports = function (sequelize, DataTypes) {
     Community.hasMany(models.Post, {
       as: 'posts'
     });
+
+    Community.hasMany(models.Image, {
+      as: 'bannerImage'
+    });
   };
 
   Community.addScopes = function (models) {

@@ -39,14 +39,16 @@ export default function SelectFromExisting(props) {
           </InputLabel>
           <List className={classes.fixedSizeList + 'list-unstyled text-left'} id="community-list">
             {
-              communities.map(community => (
-                <RadioGroup key={community.id}>
-                  <CommunityRadio
-                    {...props}
-                    thisComm={community}
-                  />
-                </RadioGroup>
-              ))
+              communities.length ?
+                communities.map(community => (
+                  <RadioGroup key={community.id}>
+                    <CommunityRadio
+                      {...props}
+                      thisComm={community}
+                    />
+                  </RadioGroup>
+                ))
+                : <h6>No public communities found.</h6>
             }
           </List>
         </FormGroup>

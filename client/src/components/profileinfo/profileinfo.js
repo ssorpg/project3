@@ -73,7 +73,13 @@ export default function ProfileInfo(props) {
             subheader={
               <>
                 <i>{user.location}</i><br />
-                Status: <i>{user.status}</i>
+                {
+                  user.status ?
+                    <>
+                      Status: <i>{user.status}</i>
+                    </>
+                    : ''
+                }
               </>
             }
           />

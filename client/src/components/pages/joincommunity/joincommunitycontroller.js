@@ -107,7 +107,7 @@ export default class CreateCommunity extends Component {
         <Megatron
           heading="Join A Community"
           subheading="Select a community from the dropdown or fill in a name below to create your own!"
-          image="https://picsum.photos/id/469/1000/1100"
+          image="/images/joincommunity.jpg"
           imagePosition="77% 5%"
           megaHeight="65vh"
           megaMaxHeight="380px"

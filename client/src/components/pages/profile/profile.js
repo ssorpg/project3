@@ -9,6 +9,7 @@ import Modal from '../../modal';
 // FUNCTIONS
 import ax from 'axios';
 import GetEventTargetDataset from '../../../utils/geteventtargetdataset';
+import ExtractProfileImage from '../../../utils/extractprofileimage';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -165,7 +166,7 @@ export default class Profile extends Component {
       <Container maxWidth="lg">
         <Megatron
           heading="Profile"
-          image="https://source.unsplash.com/random"
+          image={ExtractProfileImage(this.state.YourProfile)} // for some reason this doesn't work with the placeholder?
           imagePosition="50%"
           megaHeight='20vh'
           megaMaxHeight='320px!important'
