@@ -14,7 +14,7 @@ export default class Feed extends Component {
 
     this.state = {
       pageTitle: undefined,
-      bannerImg: undefined,
+      bannerImage: undefined,
       bio: undefined,
       posts: undefined
     };
@@ -30,7 +30,7 @@ export default class Feed extends Component {
 
       this.setState({
         pageTitle: res.data.name + ' Feed',
-        bannerImg: res.data.image,
+        bannerImage: res.data.image,
         bio: res.data.bio,
         posts: res.data.posts
       });
@@ -47,7 +47,7 @@ export default class Feed extends Component {
           <Megatron
             heading={this.state.pageTitle}
             subheading={this.state.bio}
-            image={this.state.bannerImg ? `/images/${this.state.bannerImg}` : '/images/community.jpg'}
+            image={this.state.bannerImage ? `/images/${this.state.bannerImage}` : '/images/community.jpg'}
             imagePosition="5%"
             megaHeight='30vh'
             megaMaxHeight='320px!important'
