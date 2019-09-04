@@ -44,12 +44,12 @@ export default class EventsController extends Component {
     try {
       const res = await ax.get(`/api/events`);
 
-      if (res.data.events) {
+      if (res.data) {
         this.setState({
           pageTitle: 'Events',
-          events: res.data.events,
+          events: res.data,
           showEventsList: true,
-          toggleButtonText: 'Show Events',
+          toggleButtonText: 'Create Event',
         });
       }
       else {
@@ -79,7 +79,10 @@ export default class EventsController extends Component {
     try {
       const newEvent = await ax.post(`/api/events/create`, this.state.formData);
 
-      this.setState({ events: [newEvent.data, ...this.state.events] });
+      this.setState({
+        events: [newEvent.data, ...this.state.events],
+        showEventsList: true
+      });
     }
     catch (error) {
       console.log(error);
