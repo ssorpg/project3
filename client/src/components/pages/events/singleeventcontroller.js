@@ -10,11 +10,37 @@ import { getFormattedTime } from '../../../utils/formatTime';
 export default class SingleEventController extends Component {
   constructor(props) {
     super(props);
-    console.log('propdsid/;m', props);
+
     this.state = {
-      events: [1,2,3,4]
+      events: undefined,
+      communityId: this.props.urlPath.CommunityId,
+      eventId: this.props.urlPath.EventId
     }
   }
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = async () => {
+    try {
+      const res = await ax.get(`/api/events/${this.state.communityId}/${this.state.eventId}`);
+      
+      if (res.data) {
+        this.setState({
+          pageTitle: 'Events',
+          events: [res.data],
+          showEventsList: true,
+          toggleButtonText: 'Create Event',
+        });
+      } else {
+        //todo redired or something
+      }
+    }
+    catch (error) {
+      PageLoadError(error);
+    }
+  };
 
   render() {
     return (
