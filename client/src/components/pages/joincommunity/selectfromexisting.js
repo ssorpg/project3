@@ -34,7 +34,7 @@ export default function SelectFromExisting(props) {
         <FormGroup>
           <InputLabel>
             <Typography variant="h5" gutterBottom>
-              Choose a Community
+              Choose a Public Community
             </Typography>
           </InputLabel>
           <List className={classes.fixedSizeList + 'list-unstyled text-left'} id="community-list">
