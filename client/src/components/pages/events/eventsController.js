@@ -13,7 +13,7 @@ export default class EventsController extends Component {
     super(props);
 
     this.state = {
-      pageTitle: undefined,
+      pageTitle: 'Create an Event',
       events: [],
       formData: {},
       showEventsList: true,
