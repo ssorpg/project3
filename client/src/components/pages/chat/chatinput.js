@@ -1,37 +1,39 @@
 // COMPONENTS
 import React from 'react';
-import { Container, TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  toBottom: {
-    flexShrink: 0
+  formSize: {
+    width: '100%',
+    flexShrink: 0,
+    margin: 0,
+    marginTop: '-4px', // just to get it to work on mobile
+    marginLeft: 'auto'
   }
 }));
 
 export default function ChatInput(props) {
   const { handleSubmit } = props;
+
   const classes = useStyles();
 
   return (
-    <Container className={classes.toBottom}>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label="Chat with your community!"
-          placeholder="Enter message..."
-          // multiline // kinda breaks post to db
-          fullWidth
-          required
-          margin="normal"
-          variant="outlined"
-        />
-        {/* <Button type="submit" value={'Send'} variant="contained" color="primary">
+    <form onSubmit={handleSubmit} className={classes.formSize}>
+      <TextField
+        label="Chat with your community!"
+        placeholder="Enter message..."
+        // multiline // kinda breaks post to db
+        fullWidth
+        required
+        variant="outlined"
+      />
+      {/* <Button type="submit" value={'Send'} variant="contained" color="primary">
             Send
         <Icon>send</Icon>
           </Button> */}
-      </form>
-    </Container>
-  )
-}
+    </form>
+  );
+};
