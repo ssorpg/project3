@@ -6,7 +6,8 @@ import EventsList from './events';
 import ax from 'axios';
 import PageLoadError from '../../../utils/pageloaderror';
 import { getFormattedTime } from '../../../utils/formatTime';
-
+//TODO show event invited guests and bio and as much more info as you can get on this empty page - allow commenting
+//TODO MATERIALIZE
 export default class SingleEventController extends Component {
   constructor(props) {
     super(props);

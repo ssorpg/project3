@@ -15,8 +15,10 @@ export default function FeedEvents(props) {
         <h5>Events</h5>
       </header>
       <ul>
+      {/* //TODO MATERIALZE */}
         {props.events.map(event => (
           <li>
+            {/* //todo maybe we show event in a popover box? */}
             <a href={`/community/${event.CommunityId}/events/${event.id}`}>
             {event.name}
             </a>

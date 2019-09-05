@@ -5,7 +5,7 @@ const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 module.exports = function (app) {
   // COMMUNITY EVENTS
-//TODO MAKE EVENTS ORDERED BY DATE THEN TIME
+  //TODO MAKE ROUTE FOR http://localhost:3000/community/1/events to show all community events in a list
   app.get('/api/events/:communityId?/:eventId?', wrap(async function (req, res, next) { // create event
     if(req.params.communityId && req.params.eventId) {
       var events = await db.Event.findOne({

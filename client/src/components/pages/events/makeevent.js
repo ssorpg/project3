@@ -6,7 +6,7 @@ import Modal from '../../modal';
 export default function MakeEvent(props) {
   const { handleInputChange, handleSubmit, alert, communities } = props;
   //TODO 1 : add google maps and use that to add locations to events
-  //TODO 2 : make event page to show one event - should it go through communities?
+  //TODO MATERIALIZE
   return (
     <Container>
       <Paper>

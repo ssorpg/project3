@@ -16,6 +16,7 @@ export default function EventsList(props) {
   const classes = useStyles();
 
   return (
+    // TODO materialize
     <ul className={classes.resetListStyle}>
       {
         props.events === undefined ? '' : (
