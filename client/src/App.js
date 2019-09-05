@@ -18,6 +18,7 @@ import ChatController from './components/pages/chat/chatcontroller';
 import UpdateProfileController from './components/pages/updateprofile/updateprofilecontroller';
 import SearchResultsController from './components/pages/searchresults/searchresultscontroller';
 import EventsController from './components/pages/events/eventsController';
+import SingleEventController from './components/pages/events/singleeventcontroller';
 import Footer from './components/footer';
 
 // CSS
@@ -81,7 +82,7 @@ export default class TPN extends Component {
               <Route exact path="/community/:CommunityId/friends" render={() => <FriendsController {...this.state} />} />
               <Route exact path="/community/:CommunityId/friends/:UserId" render={() => <Wall {...this.state} />} />
               <Route exact path="/events" render={() => <EventsController {...this.state} />} />
-              <Route exact path="/community/:CommunityId/events/:EventId" render={() => <EventsController {...this.state} />} />
+              <Route exact path="/community/:CommunityId/events/:EventId" render={() =>  <SingleEventController {...this.state} />} />
               {/* <Route exact path="/community/:CommunityId/chat" render={() => <Chat {...this.state} />} /> */}
               <Route exact path="/chat" render={() => <ChatController {...this.state} />} />
               <Route path="/search" render={() => <SearchResultsController {...this.state} />} />

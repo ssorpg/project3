@@ -7,6 +7,7 @@ import EventsList from './events';
 // FUNCTIONS
 import ax from 'axios';
 import PageLoadError from '../../../utils/pageloaderror';
+import { getFormattedTime } from '../../../utils/formatTime';
 
 export default class EventsController extends Component {
   constructor(props) {
@@ -92,25 +93,6 @@ export default class EventsController extends Component {
     }
   };
 
-  getFormattedTime = militaryTime => {
-    if (!militaryTime) {
-      return;
-    }
-
-    const hours24 = parseInt(militaryTime.substring(0, 2));
-    const hours = ((hours24 + 11) % 12) + 1;
-    const amPm = hours24 > 11 ? 'pm' : 'am';
-    const minutes = militaryTime.substring(2);
-
-    return hours + minutes + amPm;
-  };
-
-  getFormattedDate = unformattedDate => {
-    const date = new Date(unformattedDate);
-
-    return date.toLocaleString('default', { month: 'long' });
-  };
-
   render() {
     return (
       <Container maxWidth="lg">
@@ -136,7 +118,7 @@ export default class EventsController extends Component {
             :
             <EventsList
               {...this.props}
-              getFormattedTime={this.getFormattedTime}
+              getFormattedTime={getFormattedTime}
               events={this.state.events}
             />
         }
