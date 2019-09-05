@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Container } from '@material-ui/core';
 import Megatron from '../../megatron';
 import MakeEvent from './makeevent';
-import EventsList from './events';
 // FUNCTIONS
 import ax from 'axios';
 import PageLoadError from '../../../utils/pageloaderror';
@@ -22,35 +21,6 @@ export default class EventsController extends Component {
       alert: undefined,
       communities: this.props.YourProfile.communities
     };
-  };
-
-  componentDidMount() {
-    this.getData();
-  };
-
-  getData = async () => {
-    try {
-      const res = await ax.get(`/api/events`);
-
-      if (res.data) {
-        this.setState({
-          pageTitle: 'Events',
-          events: res.data,
-          showEventsList: true,
-          toggleButtonText: 'Create Event',
-        });
-      }
-      else {
-        this.setState({
-          pageTitle: 'Events',
-          showEventsList: false,
-          toggleButtonText: 'Create Event'
-        });
-      }
-    }
-    catch (error) {
-      PageLoadError(error);
-    }
   };
 
   handleInputChange = event => {
@@ -78,21 +48,6 @@ export default class EventsController extends Component {
     }
   };
 
-  toggleDisplay = () => {
-    if (this.state.showEventsList) {
-      this.setState({
-        showEventsList: false,
-        toggleButtonText: 'Create Event'
-      });
-    }
-    else {
-      this.setState({
-        showEventsList: true,
-        toggleButtonText: 'Show Events'
-      });
-    }
-  };
-
   render() {
     return (
       <Container maxWidth="lg">
@@ -102,25 +57,13 @@ export default class EventsController extends Component {
           megaHeight='20vh'
           megaMaxHeight='320px!important'
         />
-        <nav>
-          <button onClick={this.toggleDisplay}>
-            {this.state.toggleButtonText}
-          </button>
-        </nav>
         {
-          this.state.showEventsList === false ?
-            <MakeEvent
-              handleInputChange={this.handleInputChange}
-              handleSubmit={this.handleSubmit}
-              alert={this.state.alert}
-              communities={this.state.communities}
-            />
-            :
-            <EventsList
-              {...this.props}
-              getFormattedTime={getFormattedTime}
-              events={this.state.events}
-            />
+          <MakeEvent
+            handleInputChange={this.handleInputChange}
+            handleSubmit={this.handleSubmit}
+            alert={this.state.alert}
+            communities={this.state.communities}
+          />
         }
       </Container>
     );
