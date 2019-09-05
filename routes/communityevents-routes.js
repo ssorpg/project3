@@ -6,15 +6,23 @@ const wrap = fn => (...args) => fn(...args).catch(args[2]);
 module.exports = function (app) {
   // COMMUNITY EVENTS
 //TODO MAKE EVENTS ORDERED BY DATE THEN TIME
-  app.get('/api/events', wrap(async function (req, res, next) { // create event
-    console.log('gettin events')
-    const events = await db.Event.findAll();
+  app.get('/api/events/:communityId?/:eventId?', wrap(async function (req, res, next) { // create event
+    if(req.params.communityId) {
+      var events = await db.Event.findOne({
+        where: {
+          id: req.params.eventId,
+          CommunityId: req.params.communityId,
+        }
+      });
+    } else {
+      var events = await db.Event.findAll();
+    }
 
     if(events.length === 0) {
       console.log('no results');
       res.status(204).send('No Events Here.\nMake One!');
     } else {
-      res.status(200).json(events);
+      res.status(200).json(events.dataValues);
     }
   }));
   
