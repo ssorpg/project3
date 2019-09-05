@@ -35,12 +35,19 @@ export default class Feed extends Component {
   getData = async () => {
     try {
       const res = await ax.get(`/api/communities/${this.props.CommunityId}`);
+      //cutting out future events because sequelize wont allow limiting an included model
+      //TODO make this better
+      if(res.data.events.length > 3) {
+        var events = res.data.events.slice(0,3);
+      } else {
+        var events = res.data.events;
+      }
       
       this.setState({
         pageTitle: res.data.name + ' Feed',
         bio: res.data.bio,
         posts: res.data.posts,
-        events: res.data.events
+        events: events
       });
     }
     catch (error) {
