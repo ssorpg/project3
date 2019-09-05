@@ -17,7 +17,8 @@ const useStyles = makeStyles(theme => ({
 
   card2: {
     maxWidth: '500px',
-    marginTop: '20px'
+    marginTop: '20px',
+    marginLeft: '20px'
   },
 
   profile: {

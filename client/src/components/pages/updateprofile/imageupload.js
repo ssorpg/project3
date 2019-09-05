@@ -24,6 +24,8 @@ export default function ImageUpload(props) {
         className={classes.inputSpacing}
         type="file"
         name="selectedFile"
+        accept="image/*"
+        required
       />
       <br /><br />
       <Button variant="contained" color="primary" type="submit" >
