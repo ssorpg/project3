@@ -22,7 +22,7 @@ export default function Confirmation(props) {
   }
 
   return (
-    <div>
+    <>
       <Button size="small" color={color ? color : "secondary"} onClick={handleClickOpen}>
         {buttonText}
       </Button>
@@ -51,6 +51,6 @@ export default function Confirmation(props) {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }
