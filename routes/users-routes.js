@@ -59,13 +59,13 @@ module.exports = function (app) {
       password: password
     });
 
-    const defaultCommunity = await db.Community.findOne({
-      where: {
-        name: 'TPN'
-      }
-    });
+    // const defaultCommunity = await db.Community.findOne({
+    //   where: {
+    //     name: 'TPN'
+    //   }
+    // });
 
-    await defaultCommunity.addMember(newUser); // users join public community by default
+    // await defaultCommunity.addMember(newUser); // users join public community by default
 
     res.status(200).send('Account created!');
   }));
