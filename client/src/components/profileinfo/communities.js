@@ -2,6 +2,7 @@
 import React from 'react';
 import { List, ListItem, Divider, Button, } from '@material-ui/core';
 import InviteAUser from './inviteauser';
+import Confirmation from '../confirmation';
 
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
@@ -40,10 +41,20 @@ export default function Communities(props) {
                     user.id === community.founderId ?
                       <>
                         <InviteAUser {...props} />
-                        <Button color="primary" onClick={openInviteDialog} data-id={community.id}>Invite</Button>
-                        <Button color="secondary" onClick={removeCommunity} data-isfounder={true} data-id={community.id}>Delete</Button>
+                        <Button color="primary" onClick={() => openInviteDialog(community.id)}>Invite</Button>
+                        <Confirmation
+                          buttonText='Delete'
+                          title='Delete this community?'
+                          question='Clicking confirm will permanently remove the community.'
+                          action={() => removeCommunity(community.id, true)}
+                        />
                       </>
-                      : <Button color="secondary" onClick={removeCommunity} data-id={community.id}>Leave</Button>
+                      : <Confirmation
+                        buttonText='Leave'
+                        title='Leave this community?'
+                        question='Clicking confirm will remove you from the community.'
+                        action={() => removeCommunity(community.id)}
+                      />
                   }
                 </div>
                 <Divider />

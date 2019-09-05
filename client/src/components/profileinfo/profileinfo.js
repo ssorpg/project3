@@ -71,7 +71,7 @@ export default function ProfileInfo(props) {
             }
             title={<h3>{user.name}</h3>}
             subheader={
-              <>
+              <> {/* this looks ugly from lines 74 to 83 - TODO make less ugly */}
                 <i>{user.location}</i><br />
                 {
                   user.status ?

@@ -64,11 +64,11 @@ export default class CreateCommunity extends Component {
     const submit = form.getElementsByTagName('button')[0];
 
     submit.style.visibility = 'hidden';
-    await this.postToDB(community);
+    await this.createCommunity(community);
     submit.style.visibility = 'visible';
   };
 
-  postToDB = async community => {
+  createCommunity = async community => {
     this.setState({ alert: undefined });
 
     try {

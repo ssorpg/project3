@@ -5,7 +5,6 @@ import PostDisplay from './postdisplay';
 
 // FUNCTIONS
 import ax from 'axios';
-import GetEventTargetDataset from '../../utils/geteventtargetdataset';
 
 export default class PostController extends Component {
   constructor(props) {
@@ -33,11 +32,11 @@ export default class PostController extends Component {
     const submit = form.getElementsByTagName('button')[0];
 
     submit.style.visibility = 'hidden';
-    await this.postToDB(form, post);
+    await this.makePost(form, post);
     submit.style.visibility = 'visible';
   };
 
-  postToDB = async (form, post) => {
+  makePost = async (form, post) => {
     this.setState({ alert: undefined });
 
     try {
@@ -51,13 +50,11 @@ export default class PostController extends Component {
     }
   };
 
-  vote = async event => {
+  vote = async (PostId, voteType) => {
     this.setState({ alert: undefined });
 
-    const postInfo = GetEventTargetDataset(event);
-
     try {
-      const res = await ax.put(`/api/posts/${postInfo.id}/${postInfo.vote}`);
+      const res = await ax.put(`/api/posts/${PostId}/${voteType}`);
 
       const newPostScore = this.state.posts.map(post => {
         if (post.id === res.data.id) {
@@ -74,13 +71,11 @@ export default class PostController extends Component {
     }
   };
 
-  deletePost = async event => {
+  deletePost = async PostId => {
     this.setState({ alert: undefined });
 
-    const postInfo = GetEventTargetDataset(event);
-
     try {
-      const res = await ax.delete(`/api/posts/${postInfo.id}`);
+      const res = await ax.delete(`/api/posts/${PostId}`);
 
       const newPosts = this.state.posts.filter(post => { return post.id !== res.data.id; });
       this.setState({ posts: newPosts });

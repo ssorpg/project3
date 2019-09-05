@@ -34,8 +34,8 @@ export default function Invites(props) {
                     {invite.name}
                   </ListItem>
                   <>
-                    <Button color="primary" onClick={handleAcceptInvite} data-id={invite.id}>Accept</Button>
-                    <Button color="secondary" onClick={handleDeclineInvite} data-id={invite.id}>Decline</Button>
+                    <Button color="primary" onClick={() => handleAcceptInvite(invite.id)}>Accept</Button>
+                    <Button color="secondary" onClick={() => handleDeclineInvite(invite.id)}>Decline</Button>
                   </>
                 </div>
                 <Divider />

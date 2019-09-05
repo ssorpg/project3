@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
 import CommentController from './commentcontroller';
+import Confirmation from '../confirmation';
 
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
@@ -61,17 +62,20 @@ export default function Post(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary" onClick={vote} data-id={thisPost.id} data-vote={"like"}>
+        <Button size="small" color="primary" onClick={() => vote(thisPost.id, 'like')}>
           Like
         </Button>
-        <Button size="small" color="secondary" onClick={vote} data-id={thisPost.id} data-vote={"dislike"}>
+        <Button size="small" color="secondary" onClick={() => vote(thisPost.id, 'dislike')}>
           Dislike
         </Button>
         {
           YourProfile.id === thisPost.author.id ?
-            <Button size="small" color="secondary" onClick={deletePost} data-id={thisPost.id}>
-              Delete
-            </Button>
+            <Confirmation
+              buttonText='Delete'
+              title='Delete this post?'
+              question='Clicking confirm will permanently remove the post.'
+              action={() => deletePost(thisPost.id)}
+            />
             : ''
         }
       </CardActions>

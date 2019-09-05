@@ -17,7 +17,7 @@ export default class EventsController extends Component {
       pageTitle: undefined,
       bannerImage: undefined,
       events: [],
-      formData: {},
+      eventData: {},
       showEventsList: true,
       toggleButtonText: 'Create Event',
       alert: undefined
@@ -56,10 +56,10 @@ export default class EventsController extends Component {
   };
 
   handleInputChange = event => {
-    let formData = this.state.formData;
-    formData[event.target.name] = event.target.value;
+    let eventData = this.state.eventData;
+    eventData[event.target.name] = event.target.value;
 
-    this.setState({ formData: formData });
+    this.setState({ eventData: eventData });
   };
 
   handleSubmit = async event => {
@@ -67,7 +67,7 @@ export default class EventsController extends Component {
     this.setState({ alert: undefined });
 
     try {
-      const newEvent = await ax.post(`/api/communities/${this.props.CommunityId}/events`, this.state.formData);
+      const newEvent = await ax.post(`/api/communities/${this.props.CommunityId}/events`, this.state.eventData);
 
       this.setState({ events: [newEvent.data, ...this.state.events] });
     }

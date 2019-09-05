@@ -21,9 +21,9 @@ export default function UpdateForm(props) {
       <div className={classes.relative}>
         <form onSubmit={handleBioLocSubmit} className={classes.relative}>
           <TextField
-            id="outlined-multiline-flexible"
+            id="outlined-multiline-flexible-bio"
             label="Bio"
-            // multiline
+            multiline
             rowsMax="6"
             margin="normal"
             helperText="Tell me about yourself! What are your goals?! Hobbies?!"
@@ -35,7 +35,7 @@ export default function UpdateForm(props) {
             required
           />
           <TextField
-            id="outlined-name"
+            id="outlined-location"
             label="Location"
             margin="normal"
             helperText="Where do you live?"
