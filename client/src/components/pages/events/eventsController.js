@@ -19,21 +19,13 @@ export default class EventsController extends Component {
       showEventsList: true,
       toggleButtonText: 'Create Event',
       alert: undefined,
-      communities: []
+      communities: this.props.YourProfile.communities
     };
   };
 
   componentDidMount() {
-    this.getUserCommunities();
     this.getData();
   };
-
-  getUserCommunities = () => {
-    let {communities} = this.props.YourProfile;
-    this.setState({
-      communities: communities
-    });
-  }
 
   getData = async () => {
     try {
