@@ -1,36 +1,40 @@
 import React, { Fragment } from 'react';
-import { Container, Paper, makeStyles } from '@material-ui/core';
+import { List, ListItem, Typography, colors  } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
+  submoduleHeader: {
+    backgroundColor: '#3f51b5',
+    padding: '15px',
+    color: '#fdfdfd',
+    textShadow: '0 0 3px #3f3f3f'
   }
 }));
 
 export default function FeedEvents(props) {
-  console.log(props.events);
+  const classes = useStyles();
   return(
     <Fragment>
-      <header>
+      <header className={classes.submoduleHeader}>
         <h5>Events</h5>
       </header>
-      <ul>
-      {/* //TODO MATERIALZE */}
+      <List component="ul">
         {props.events.map(event => (
-          <li>
+          <ListItem divider="true">
             {/* //todo maybe we show event in a popover box? */}
-            <a href={`/community/${event.CommunityId}/events/${event.id}`}>
-            {event.name}
-            </a>
-            <dl>
-              <dt>Time: </dt>
-              <dd>{event.date}</dd>
-              <dd>{event.start_time}</dd>
-              <dd>{event.end_time}</dd>
-            </dl>
-          </li>
+            <List component='dl'>
+                <ListItem component="dt" disableGutters="true">
+                  <a href={`/community/${event.CommunityId}/events/${event.id}`}>
+                    {event.name}
+                  </a>
+                </ListItem>
+                <ListItem component="dd" disableGutters="true">
+                  {event.date} : {event.start_time} - {event.end_time}
+                </ListItem>
+            </List>
+          </ListItem>
         ))}
-      </ul>
+      </List>
     </Fragment>
   )
 }
