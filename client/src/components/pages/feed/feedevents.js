@@ -17,7 +17,7 @@ export default function FeedEvents(props) {
       <ul>
         {props.events.map(event => (
           <li>
-            <a href="#">
+            <a href={`/community/${event.CommunityId}/events/${event.id}`}>
             {event.name}
             </a>
             <dl>
