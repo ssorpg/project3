@@ -7,7 +7,7 @@ module.exports = function (app) {
   // COMMUNITY EVENTS
 //TODO MAKE EVENTS ORDERED BY DATE THEN TIME
   app.get('/api/events/:communityId?/:eventId?', wrap(async function (req, res, next) { // create event
-    if(req.params.communityId) {
+    if(req.params.communityId && req.params.eventId) {
       var events = await db.Event.findOne({
         where: {
           id: req.params.eventId,
