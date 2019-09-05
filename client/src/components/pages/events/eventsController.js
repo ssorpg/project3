@@ -24,10 +24,10 @@ export default class EventsController extends Component {
   };
 
   handleInputChange = event => {
-    let formData = this.state.formData;
-    formData[event.target.name] = event.target.value;
+    let newFormData = {...this.state.formData};
+    newFormData[event.target.id] = event.target.value;
 
-    this.setState({ formData: formData });
+    this.setState({ formData: newFormData });
   };
 
   handleSubmit = async event => {
@@ -37,10 +37,11 @@ export default class EventsController extends Component {
     try {
       const newEvent = await ax.post(`/api/events/create`, this.state.formData);
 
-      this.setState({
-        events: [newEvent.data, ...this.state.events],
-        showEventsList: true
-      });
+      if( newEvent.status === 200) {
+        window.location = `/community/${newEvent.data.CommunityId}/events/${newEvent.data.id}`;
+      } else {
+        throw 'There was an unexepcted error. Please try again.'
+      }
     }
     catch (error) {
       console.log(error);

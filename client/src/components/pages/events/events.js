@@ -1,6 +1,5 @@
 // COMPONENTS
 import React from 'react';
-
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles'
 
