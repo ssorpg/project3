@@ -1,6 +1,6 @@
 // COMPONENTS
 import React from 'react';
-import { Dialog, DialogTitle, TextField, Button } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, TextField, Button } from '@material-ui/core';
 import Modal from '../modal';
 
 // FUNCTIONS
@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
   inviteForm: {
     padding: theme.spacing(2),
+    paddingTop: 0,
     width: '450px',
     maxWidth: '74vw',
     borderTop: '1px solid #dedede'
@@ -32,6 +33,11 @@ export default function InviteAUser(props) {
     >
       <DialogTitle id="simple-dialog-title">Invite A User</DialogTitle>
       <form onSubmit={handleInviteUser} className={classes.inviteForm}>
+        <DialogContent>
+          <DialogContentText id="simple-dialog-description">
+            Enter the email address of someone you know to invite them to your community!
+          </DialogContentText>
+        </DialogContent>
         <TextField
           label="Email"
           placeholder="email@address.com"
