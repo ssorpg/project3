@@ -82,7 +82,7 @@ export default class TPN extends Component {
               <Route exact path="/community/:CommunityId/friends" render={() => <FriendsController {...this.state} />} />
               <Route exact path="/community/:CommunityId/friends/:UserId" render={() => <Wall {...this.state} />} />
               <Route exact path="/events" render={() => <EventsController {...this.state} />} />
-              <Route exact path="/community/:CommunityId/events/:EventId" render={() =>  <SingleEventController {...this.state} />} />
+              <Route exact path="/community/:CommunityId/events/:EventId" render={ props => <SingleEventController {...this.state} urlPath={props.match.params} />} />
               {/* <Route exact path="/community/:CommunityId/chat" render={() => <Chat {...this.state} />} /> */}
               <Route exact path="/chat" render={() => <ChatController {...this.state} />} />
               <Route path="/search" render={() => <SearchResultsController {...this.state} />} />
