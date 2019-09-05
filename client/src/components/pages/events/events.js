@@ -17,29 +17,30 @@ export default function EventsList(props) {
 
   return (
     <ul className={classes.resetListStyle}>
-      {console.log(events)}
       {
-        events.map(event => (
-          <li key={event.id}>
-            <h5>
-              <a href={`/community/${event.CommunityId}/events/${event.id}`}>
-                {event.name}
-              </a>
-            </h5>
-            <dl>
-              <dd>{event.description}</dd>
-              <dd><strong>Date: </strong>{event.date}</dd>
-              <dd><strong>Start Time: </strong>{getFormattedTime(event.start_time)}</dd>
-              <dd><strong>End Time: </strong>{getFormattedTime(event.end_time)}</dd>
-            </dl>
-            <ul className={classes.resetListStyle}>
-              <li>
-                <button>Attend</button>
-                <button>Delete</button>
-              </li>
-            </ul>
-          </li>
-        ))
+        props.events === undefined ? '' : (
+          props.events.map(event => (
+            <li key={event.id}>
+              <h5>
+                <a href={`/community/${event.CommunityId}/events/${event.id}`}>
+                  {event.name}
+                </a>
+              </h5>
+              <dl>
+                <dd>{event.description}</dd>
+                <dd><strong>Date: </strong>{event.date}</dd>
+                <dd><strong>Start Time: </strong>{getFormattedTime(event.start_time)}</dd>
+                <dd><strong>End Time: </strong>{getFormattedTime(event.end_time)}</dd>
+              </dl>
+              <ul className={classes.resetListStyle}>
+                <li>
+                  <button>Attend</button>
+                  <button>Delete</button>
+                </li>
+              </ul>
+            </li>
+          ))
+        )
       }
     </ul>
   );
