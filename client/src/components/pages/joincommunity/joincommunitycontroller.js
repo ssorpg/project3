@@ -5,9 +5,6 @@ import SelectFromExisting from './selectfromexisting';
 import NewCommunity from './newcommunity';
 import Megatron from '../../megatron';
 
-// CSS
-import './joincommunity.css';
-
 // FUNCTIONS
 import ax from 'axios';
 import Modal from '../../modal';

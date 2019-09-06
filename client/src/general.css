@@ -90,3 +90,8 @@
 .full-width {
   width: 100% !important;
 }
+
+.inline-button {
+  display: inline-block;
+  margin: 12px !important;
+}
