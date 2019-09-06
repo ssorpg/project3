@@ -2,7 +2,7 @@
 import React, { Fragment } from "react";
 import { Typography, Grid, Divider,
   Link, List, ListItemAvatar,
-  ListItem, ListItemText, Avatar }
+  ListItem, ListItemText, Avatar, Box }
 from "@material-ui/core";
 import { AccountCircle } from '@material-ui/icons';
 import Megatron from "../../megatron";
@@ -30,7 +30,7 @@ export default function SingleEvent(props) {
   return (
     <Fragment>
       <Megatron heading={event.name} image={image} imagePosition="0 76%" />
-      <Grid container className={classes.padding} spacing={6}>
+      <Grid container className={classes.padding} spacing={1}>
         <Grid item xs={6}>
           <Typography variant="body1">
             <strong>
@@ -45,18 +45,21 @@ export default function SingleEvent(props) {
         </Grid>
         <Grid item xs={6}>
           <Typography variant="body1">
-            <strong>{event.date}</strong> : {start_time} : {end_time}
+            <strong>{event.date}</strong> : {start_time} - {end_time}
           </Typography>
         </Grid>
-        <Grid item xs={12}>
-          <br />
-          <Divider />
-          <br />
-        </Grid>
       </Grid>
-      <Grid container className={classes.padding} spacing={6}>
+      <Grid container className={classes.padding} spacing={1}>
         <Grid item xs={12} sm={8}>
-          <Typography variant="h5">{event.description}</Typography>
+          <Box>
+          <Typography variant="h6">Location:</Typography>
+          {/* //TODO ADD MAP SHOW EVENT LOCATION AND ADDRESS HERE */}
+          Da Map Goes Here
+          </Box>
+          <Box>
+            <Typography variant="h6">About:</Typography>
+            <Typography variant="body1">{event.description}</Typography>
+          </Box>
         </Grid>
         {
           event.members.length > 0 ? 
