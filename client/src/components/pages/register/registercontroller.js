@@ -50,7 +50,7 @@ export default class HomeController extends Component {
     try {
       await ax.post('/api/users', postData);
 
-      window.location = '/community/1';
+      window.location = '/profile'; // TPN isn't always community 1 when we reset the DB
     }
     catch (error) {
       console.log(error);
