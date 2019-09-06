@@ -1,6 +1,7 @@
 // COMPONENTS
 import React from 'react';
 // FUNCTIONS
+import { List, ListItem, Buttons  } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
@@ -15,12 +16,13 @@ export default function EventsList(props) {
   const classes = useStyles();
 
   return (
-    // TODO materialize
-    <ul className={classes.resetListStyle}>
+    // TODO page isnt being used?
+    <List className={classes.resetListStyle}>
+    <H1>THIS PAGE IS USED!</H1>
       {
         props.events === undefined ? '' : (
           props.events.map(event => (
-            <li key={event.id}>
+            <ListItem key={event.id} divider="true">
               <h5>
                 <a href={`/community/${event.CommunityId}/events/${event.id}`}>
                   {event.name}
@@ -34,14 +36,14 @@ export default function EventsList(props) {
               </dl>
               <ul className={classes.resetListStyle}>
                 <li>
-                  <button>Attend</button>
-                  <button>Delete</button>
+                  <Button color="primary">Attend</Button>
+                  <Button variant="outline" color="secondary">Delete</Button>
                 </li>
               </ul>
-            </li>
+            </ListItem>
           ))
         )
       }
-    </ul>
+    </List>
   );
 };
