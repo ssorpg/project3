@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Container, Paper, Grid } from '@material-ui/core';
-import Megatron from '../../megatron';
-import EventsList from './events';
+import { Container, Paper } from '@material-ui/core';
+import SingleEvent from './singleevent';
 // FUNCTIONS
 import ax from 'axios';
 import PageLoadError from '../../../utils/pageloaderror';
 import { getFormattedTime } from '../../../utils/formatTime';
-//TODO show event invited guests and bio and as much more info as you can get on this empty page - allow commenting
+//TODO add map showing location of event
 //TODO MATERIALIZE
 export default class SingleEventController extends Component {
   constructor(props) {
@@ -26,13 +25,11 @@ export default class SingleEventController extends Component {
   getData = async () => {
     try {
       const res = await ax.get(`/api/events/${this.state.communityId}/${this.state.eventId}`);
-      
+      console.log(res.data);
       if (res.data) {
         this.setState({
           pageTitle: 'Events',
-          events: [res.data],
-          showEventsList: true,
-          toggleButtonText: 'Create Event',
+          event: res.data
         });
       } else {
         //todo redired or something
@@ -47,10 +44,16 @@ export default class SingleEventController extends Component {
     return (
       <Container>
         <Paper>
-          <EventsList
-            events={this.state.events}
-            getFormattedTime={getFormattedTime}
-          />
+          {
+            this.state.event !== undefined ? 
+            <SingleEvent
+              event={this.state.event}
+              eventMembers={this.state.eventMembers}
+              getFormattedTime={getFormattedTime}
+            />
+          :
+            ''
+          }
         </Paper>
       </Container>
     )
