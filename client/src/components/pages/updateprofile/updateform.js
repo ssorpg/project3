@@ -20,7 +20,7 @@ export default function UpdateForm(props) {
             name="bio"
             onChange={handleBioLocChange}
             value={bio ? bio : ''}
-            autofocus
+            autoFocus
             required
           />
           <TextField

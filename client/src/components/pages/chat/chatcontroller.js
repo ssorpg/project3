@@ -7,7 +7,7 @@ import NewWs from '../../../utils/newws';
 import PageLoadError from '../../../utils/pageloaderror';
 import ax from 'axios';
 
-export default class Chat extends Component {
+export default class ChatController extends Component {
   constructor(props) {
     super(props);
 
