@@ -20,14 +20,14 @@ export default function Megatron(props) {
     image: {
       src: props.image !== undefined ? props.image : '',
       position: props.imagePosition !== undefined ? 
-        props.imagePosition : 'no'
+        props.imagePosition : '0 0'
     }
   };
 
   const imgSrc = titles.image.src;
   const imgPos = titles.image.position;
-  const megaHeight = props.megaHeight;
-  const megaMaxHeight = props.megaMaxHeight;
+  const megaHeight = props.megaHeight || '20vh';
+  const megaMaxHeight = props.megaMaxHeight || '350px';
 
   const useStyles = makeStyles( (theme) => ({
     megatron: {
