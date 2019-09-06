@@ -15,6 +15,9 @@ import image from "./images/adam-whitlock-I9j8Rk-JYFM-unsplash.jpg";
 const useStyles = makeStyles({
   resetListStyle: {
     listStyle: "none"
+  },
+  padding: {
+    padding: '25px'
   }
 });
 
@@ -24,11 +27,10 @@ export default function SingleEvent(props) {
   const start_time = getFormattedTime(event.start_time);
   const end_time = getFormattedTime(event.end_time);
 
-  console.log(event);
   return (
     <Fragment>
       <Megatron heading={event.name} image={image} imagePosition="0 76%" />
-      <Grid container className={classes.body} spacing={6}>
+      <Grid container className={classes.padding} spacing={6}>
         <Grid item xs={6}>
           <Typography variant="body1">
             <strong>
@@ -46,13 +48,13 @@ export default function SingleEvent(props) {
             <strong>{event.date}</strong> : {start_time} : {end_time}
           </Typography>
         </Grid>
+        <Grid item xs={12}>
+          <br />
+          <Divider />
+          <br />
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <br />
-        <Divider />
-        <br />
-      </Grid>
-      <Grid container spacing={6}>
+      <Grid container className={classes.padding} spacing={6}>
         <Grid item xs={12} sm={8}>
           <Typography variant="h5">{event.description}</Typography>
         </Grid>
@@ -61,7 +63,7 @@ export default function SingleEvent(props) {
           <Grid item xs={12} sm={4}>
             <Typography variant="h6">Attendees: </Typography>
             <Divider />
-            
+
             <List>
             {
               event.members.map( member => (

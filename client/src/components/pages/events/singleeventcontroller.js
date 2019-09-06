@@ -6,7 +6,8 @@ import ax from 'axios';
 import PageLoadError from '../../../utils/pageloaderror';
 import { getFormattedTime } from '../../../utils/formatTime';
 //TODO add map showing location of event
-//TODO MATERIALIZE
+
+
 export default class SingleEventController extends Component {
   constructor(props) {
     super(props);
