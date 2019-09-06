@@ -77,6 +77,10 @@ module.exports = function (sequelize, DataTypes) {
         },
         {
           model: models.Community,
+        },
+        {
+          model: models.User,
+          as: 'members'
         }
       ]
     });
