@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { List, ListItem, Typography, colors  } from '@material-ui/core';
+import { List, ListItem, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -16,7 +16,7 @@ export default function FeedEvents(props) {
   return(
     <Fragment>
       <header className={classes.submoduleHeader}>
-        <h5>Events</h5>
+        <Typography variant="h6">Events</Typography>
       </header>
       <List component="ul">
         {props.events.map(event => (
