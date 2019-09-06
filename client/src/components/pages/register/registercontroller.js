@@ -5,7 +5,7 @@ import Register from './register';
 // FUNCTIONS
 import ax from 'axios';
 
-export default class HomeController extends Component {
+export default class RegisterController extends Component {
   constructor() {
     super();
 

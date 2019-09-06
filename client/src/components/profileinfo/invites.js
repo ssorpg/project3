@@ -6,13 +6,13 @@ import { List, ListItem, Divider, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  spaceBetween: {
-    display: 'flex',
-    justifyContent: 'space-between'
+  invitesSpacing: {
+    margin: '30px',
+    marginTop: 0
   },
 
-  fillSpace: {
-    flex: 1
+  noInvitesSpacing: {
+    marginLeft: '30px'
   }
 }));
 
@@ -22,15 +22,15 @@ export default function Invites(props) {
   const classes = useStyles();
 
   return (
-    <div className="invites" style={{ margin: '30px', marginTop: 0 }}>
+    <div className={classes.invitesSpacing}>
       <h5 className="card-title">Your Community Invites</h5>
       <List>
         {
           user.invites.length ?
             user.invites.map(invite => (
-              <>
-                <div className={classes.spaceBetween}>
-                  <ListItem className={classes.fillSpace}>
+              <span key={invite.id}>
+                <div className="flex-between">
+                  <ListItem className="flex-fill">
                     {invite.name}
                   </ListItem>
                   <>
@@ -39,9 +39,9 @@ export default function Invites(props) {
                   </>
                 </div>
                 <Divider />
-              </>
+              </span>
             ))
-            : <div style={{ marginLeft: '30px' }}>
+            : <div className={classes.noInvitesSpacing}>
               <h5>None</h5>
             </div>
         }

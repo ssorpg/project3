@@ -5,22 +5,15 @@ import ChatMessage from './chatmessage';
 import ChatInput from './chatinput';
 
 // FUNCTIONS
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flex: '1 0 auto',
+const useStyles = makeStyles({
+  chatContainer: {
     display: 'flex',
     flexWrap: 'wrap',
-    height: '60vh',
-    overflow: 'auto',
-    padding: '2%',
-    paddingTop: '1%',
+    height: '74vh',
+    padding: '1% 2%',
     maxWidth: '100%'
-  },
-
-  divider: {
-    borderBottom: '1px solid #d4d4d4'
   },
 
   usersDisplay: {
@@ -29,15 +22,14 @@ const useStyles = makeStyles(theme => ({
   },
 
   messageDisplay: {
-    width: '90%',
+    height: '90%',
+    width: '92%',
     maxWidth: 'calc(100% - 100px)',
     overflow: 'auto',
-    height: '90%',
     margin: 0,
-    marginTop: '-10px',
     marginLeft: 'auto'
   }
-}));
+});
 
 export default function ChatMessageContainer(props) {
   const { users, messages, handleSubmit } = props;
@@ -45,11 +37,11 @@ export default function ChatMessageContainer(props) {
   const classes = useStyles();
 
   return (
-    <Container className={classes.root}>
+    <Container className={classes.chatContainer}>
       <List className={classes.usersDisplay}>
-        <h3 className={classes.divider}>
+        <h3 className="gray-divider">
           Users
-          </h3>
+        </h3>
         {
           users.map(user =>
             <ListItem>

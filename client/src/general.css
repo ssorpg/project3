@@ -1,0 +1,92 @@
+/* FLEX */
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-middle {
+  display: flex;
+  justify-content: center;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-default {
+  flex: 1 0 auto;
+}
+
+.flex-fill {
+  flex: 1;
+}
+
+.stick-to-bottom {
+  flex-shrink: 0
+}
+
+/* THEME SPACING */
+.theme-mt {
+  margin-top: 12px !important;
+}
+
+.theme-mtx3 {
+  margin-top: 36px !important;
+}
+
+.theme-paddingx2 {
+  padding: 24px !important;
+}
+
+/* FONT STYLING */
+.black-text {
+  color: #000;
+}
+
+.reset-a {
+  color: initial;
+  text-decoration: none;
+}
+
+.reset-a:hover {
+  color: initial;
+  text-decoration: none;
+}
+
+.h4 { /* so we don't get errors when using h4 inside of <p> etc */
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* MISC */
+.full-image {
+  height: 0;
+  padding-top: 100%;
+}
+
+.gray-divider {
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.message-wrap {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.full-width {
+  width: 100% !important;
+}

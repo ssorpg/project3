@@ -8,15 +8,14 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   inviteForm: {
-    padding: theme.spacing(2),
+    padding: '24px',
     paddingTop: 0,
     width: '450px',
-    maxWidth: '74vw',
-    borderTop: '1px solid #dedede'
+    maxWidth: '70vw'
   },
 
   inviteButton: {
-    marginTop: theme.spacing(1)
+    marginTop: '12px'
   }
 }));
 
@@ -31,7 +30,7 @@ export default function InviteAUser(props) {
       open={inviteUserDialog}
       onClose={closeInviteDialog}
     >
-      <DialogTitle id="simple-dialog-title">Invite A User</DialogTitle>
+      <DialogTitle id="simple-dialog-title" className="gray-divider">Invite A User</DialogTitle>
       <form onSubmit={handleInviteUser} className={classes.inviteForm}>
         <DialogContent>
           <DialogContentText id="simple-dialog-description">
@@ -39,11 +38,11 @@ export default function InviteAUser(props) {
           </DialogContentText>
         </DialogContent>
         <TextField
-          label="Email"
-          placeholder="email@address.com"
-          fullWidth
-          required
           variant="outlined"
+          required
+          fullWidth
+          id="email"
+          label="Email Address"
           name="email"
           autoComplete="email"
         />

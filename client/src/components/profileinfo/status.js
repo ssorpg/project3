@@ -5,12 +5,12 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
-// import ax from 'axios';
 
 const useStyles = makeStyles(theme => ({
-  margin: {
-    margin: theme.spacing(1),
-  },
+  statusForm: {
+    margin: '10px',
+    marginBottom :'20px'
+  }
 }));
 
 export default function Status(props) {
@@ -19,14 +19,15 @@ export default function Status(props) {
   const classes = useStyles();
 
   return (
-    <form onSubmit={handleStatusSubmit} className={classes.margin}>
-      <FormControl>
+    <form onSubmit={handleStatusSubmit} className={classes.statusForm}>
+      <FormControl className="full-width">
         <InputLabel htmlFor="input-with-icon-adornment">How are you feeling?</InputLabel>
         <Input
           name="status"
           id="input-with-icon-adornment"
           // autoFocus
           required
+          fullWidth
           startAdornment={
             <InputAdornment position="start">
               <AccountCircle />

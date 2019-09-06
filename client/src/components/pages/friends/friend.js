@@ -3,19 +3,10 @@ import React from 'react';
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@material-ui/core';
 
 // FUNCTIONS
-import { makeStyles } from '@material-ui/core/styles';
 import ExtractProfileImage from '../../../utils/extractprofileimage';
-
-const useStyles = makeStyles({
-  media: {
-    paddingTop: '100%'
-  }
-});
 
 export default function Friend(props) {
   const { YourProfile, CommunityId, thisFriend } = props;
-  
-  const classes = useStyles();
 
   function goToFriend() {
     const goTo = YourProfile.id === thisFriend.id ?
@@ -31,7 +22,7 @@ export default function Friend(props) {
     <Card>
       <CardActionArea onClick={goToFriend}>
         <CardMedia
-          className={classes.media}
+          className="full-image"
           image={ExtractProfileImage(thisFriend)}
           title="Profile"
         />

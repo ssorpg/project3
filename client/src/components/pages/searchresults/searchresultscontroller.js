@@ -1,13 +1,10 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Container, Paper } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import CommunityResults from './communityresults';
 
-// CSS
-import './styles.css';
-
 // FUNCTIONS
+import { withRouter } from 'react-router-dom';
 import ax from 'axios';
 import PageLoadError from '../../../utils/pageloaderror';
 
@@ -38,13 +35,10 @@ class SearchResultsController extends Component {
   render() {
     return (
       <Container maxWidth="md" id="search">
-        <Paper style={{ padding: '24px' }}>
-          <h1>Search Results</h1>
-          <CommunityResults
-            {...this.props}
-            searchResults={this.state.searchResults}
-          />
-        </Paper>
+        <CommunityResults
+          {...this.props}
+          searchResults={this.state.searchResults}
+        />
       </Container>
     );
   };

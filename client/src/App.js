@@ -8,20 +8,21 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Navbar from './components/pages/navbar/navbar';
 import Profile from './components/pages/profile/profile';
-import HomeController from './components/pages/home/homecontroller';
 import RegisterController from './components/pages/register/registercontroller';
-import Feed from './components/pages/feed/feed';
-import Wall from './components/pages/wall/wall';
-import FriendsController from './components/pages/friends/friendscontroller';
-import JoinCommunityController from './components/pages/joincommunity/joincommunitycontroller';
-import ChatController from './components/pages/chat/chatcontroller';
 import UpdateProfileController from './components/pages/updateprofile/updateprofilecontroller';
-import SearchResultsController from './components/pages/searchresults/searchresultscontroller';
+import JoinCommunityController from './components/pages/joincommunity/joincommunitycontroller';
+import Feed from './components/pages/feed/feed';
+import FriendsController from './components/pages/friends/friendscontroller';
+import Wall from './components/pages/wall/wall';
 import EventsController from './components/pages/events/eventsController';
+import ChatController from './components/pages/chat/chatcontroller';
+import SearchResultsController from './components/pages/searchresults/searchresultscontroller';
+import HomeController from './components/pages/home/homecontroller';
 import Footer from './components/footer';
 
 // CSS
-import './css/styles.css';
+import './general.css';
+import './App.css';
 
 // FUNCTIONS
 import UserAuth from './utils/userauth';
@@ -57,7 +58,7 @@ export default class TPN extends Component {
     }
 
     return (
-      <div style={{ minHeight: '88vh', display: 'flex', flexDirection: 'column', marginTop: '12vh' }}>
+      <div className="App flex-col">
         <CssBaseline />
         {
           this.state.isAuth ?
@@ -65,7 +66,7 @@ export default class TPN extends Component {
             : ''
         }
         <Router>
-          <div className="App" id="App" style={{ flex: '1 0 auto', display: 'flex', flexDirection: 'column' }}>
+          <div className="flex-default">
             <Switch>
               <Route exact path="/register" render=
                 {
@@ -95,9 +96,10 @@ export default class TPN extends Component {
           </div>
         </Router>
         <aside id="popover" className="card bg-danger text-center">
+          {/* we actually need the single space in the h3 or the div is not rendered */}
           <h3 className="card-title"> </h3>
         </aside>
-        <Footer style={{ flexShrink: 0 }} />
+        <Footer className="stick-to-bottom" />
       </div>
     );
   };

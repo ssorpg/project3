@@ -7,12 +7,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   footer: {
-    display: 'flex',
-    justifyContent:' center',
-    alignItems: 'center',
     height: '8vh',
-    backgroundColor: theme.palette.background.paper,
-    marginTop: '36px'
+    backgroundColor: theme.palette.background.paper
   }
 }));
 
@@ -20,7 +16,7 @@ export default function Footer() {
   const classes = useStyles();
 
   return (
-    <footer className={classes.footer}>
+    <footer className={classes.footer + " theme-mt flex-middle flex-center"}>
       <Container maxWidth="lg">
         <Typography variant="body2" color="textSecondary" align="center">
           {'Copyright © '}
