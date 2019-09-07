@@ -5,7 +5,6 @@ const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 module.exports = function (app) {
   // COMMUNITY EVENTS
-  //TODO MAKE ROUTE FOR http://localhost:3000/community/1/events to show all community events in a list
   app.get('/api/events/:communityId?/:eventId?', wrap(async function (req, res, next) { // get event
     if(req.params.communityId && req.params.eventId) {
       var events = await db.Event.findOne({
@@ -14,6 +13,10 @@ module.exports = function (app) {
           CommunityId: req.params.communityId,
         }
       });
+
+      let eventPosts = await events.getPosts({ limit: 20 });
+
+      events.dataValues.posts = eventPosts;
     } else {
       var events = await db.Event.findAll();
     }
@@ -52,13 +55,13 @@ module.exports = function (app) {
         id: req.params.EventId
       }
     });
-
+  
     if (!event) {
       throw { status: 404, msg: 'That event doesn\'t exist.' };
     }
 
     event.dataValues.posts = await event.getPosts({ limit: 20 });
-
+  
     res.status(200).json(event);
   }));
 
