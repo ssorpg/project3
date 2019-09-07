@@ -26,7 +26,7 @@ export default function SingleEvent(props) {
   const { getFormattedTime, event } = props;
   const start_time = getFormattedTime(event.start_time);
   const end_time = getFormattedTime(event.end_time);
-
+  
   return (
     <Fragment>
       <Megatron heading={event.name} image={image} imagePosition="0 76%" />

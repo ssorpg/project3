@@ -5,6 +5,7 @@ import SingleEvent from './singleevent';
 import ax from 'axios';
 import PageLoadError from '../../../utils/pageloaderror';
 import { getFormattedTime } from '../../../utils/formatTime';
+import PostController from '../../posts/postcontroller';
 //TODO add map showing location of event
 
 
@@ -26,11 +27,13 @@ export default class SingleEventController extends Component {
   getData = async () => {
     try {
       const res = await ax.get(`/api/events/${this.state.communityId}/${this.state.eventId}`);
-      console.log(res.data);
+      console.log('trd',res.data.posts);
+
       if (res.data) {
         this.setState({
           pageTitle: 'Events',
-          event: res.data
+          event: res.data,
+          posts: res.data.posts
         });
       } else {
         //todo redired or something
@@ -50,13 +53,24 @@ export default class SingleEventController extends Component {
             <SingleEvent
               event={this.state.event}
               eventMembers={this.state.eventMembers}
+              posts={this.state.posts}
               getFormattedTime={getFormattedTime}
             />
           :
             ''
           }
         </Paper>
-        {/* //TODO ADD COMMENT FUNCTIONALITY */}
+        {console.log(this.state)}
+        { this.state.posts ? 
+          <PostController
+            {...this.props}
+            posts={this.state.posts}
+            postURL={`/api/posts?CommunityId=${this.state.communityId}&EventId=${this.state.eventId}`}
+            postType='Event'
+          />
+        :
+          ''
+        }
       </Container>
     )
   }
