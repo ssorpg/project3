@@ -32,7 +32,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function ChatMessageContainer(props) {
+export default function ChatContainer(props) {
   const { users, messages, handleSubmit } = props;
 
   const classes = useStyles();
@@ -45,9 +45,9 @@ export default function ChatMessageContainer(props) {
         </h3>
         {
           users.map(user =>
-            <ListItem>
+            <ListItem key={user.id}>
               <Typography variant="body1" color="textSecondary" align="center">
-                {user}
+                {user.name}
               </Typography>
             </ListItem>
           )

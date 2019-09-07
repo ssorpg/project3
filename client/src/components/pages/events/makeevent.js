@@ -32,11 +32,11 @@ export default function MakeEvent(props) {
           <h5>Select a community for the event:</h5>
           <ul>
             {
-              this.state.communities.map(item => (
-                <li key={item.id}>
+              this.state.communities.map(community => (
+                <li key={community.id}>
                   <label for='communityId'>
-                    <input type="radio" name='communityId' value={item.id} />
-                    {item.name}
+                    <input type="radio" name='communityId' value={community.id} />
+                    {community.name}
                   </label>
                 </li>
               ))

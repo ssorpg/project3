@@ -19,6 +19,12 @@ const useStyles = makeStyles(theme => ({
     zIndex: '999'
   },
 
+  max1280: {
+    width: '100%',
+    maxWidth: '1280px',
+    margin: 'auto'
+  },
+
   leftButtonMargin: {
     marginRight: '10px'
   },
@@ -126,7 +132,7 @@ export default function Navbar(props) {
   return (
     <div className={classes.navZIndex}>
       <AppBar>
-        <Toolbar>
+        <Toolbar className={classes.max1280}>
           <IconButton
             edge="start"
             aria-label="open drawer"

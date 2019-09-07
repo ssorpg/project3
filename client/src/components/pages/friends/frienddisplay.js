@@ -18,7 +18,7 @@ export default function FriendDisplay(props) {
         >
           {
             friends.map(friend => (
-              <Grid item xs={6} sm={3} md={2}>
+              <Grid key={friend.id} item xs={6} sm={3} md={2}>
                 <Friend
                   {...props}
                   thisFriend={friend}

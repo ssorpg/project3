@@ -46,10 +46,17 @@ module.exports = function (app, expressWs) {
     return expressWs.getWss().clients;
   }
 
-  function getClientNames() {
-    let clientNames = [];
-    getClients().forEach(client => { clientNames.push(client.user.name); });
-    return clientNames;
+  function getUsers() {
+    const users = [];
+    getClients().forEach(client => {
+      const newUser = {
+        id: client.user.id,
+        name: client.user.name
+      };
+
+      users.push(newUser);
+    });
+    return users;
   }
 
   app.ws('/chat', wrap(async function (ws, req, next) {
@@ -63,10 +70,13 @@ module.exports = function (app, expressWs) {
 
     console.log(ws.user.id + ' open');
 
-    messageAllClients({ action: 'addUser', payload: ws.user.name }, getClients(), ws);
-
-    // im concerned that with a large number of users the "left chat" and "joined chat" will flood the chat
-    // messageAllClients(makeMessage(ws, `${ws.user.name} joined the chat.`), getClients());
+    messageAllClients({
+      action: 'addUser',
+      payload: {
+        id: ws.user.id,
+        name: ws.user.name
+      }
+    }, getClients(), ws);
 
     ws.on('message', async function (text) {
       messageAllClients(makeMessage(ws, text), getClients());
@@ -75,13 +85,17 @@ module.exports = function (app, expressWs) {
     ws.on('close', async function () {
       console.log(ws.user.id + ' close');
 
-      messageAllClients({ action: 'removeUser', payload: ws.user.name }, getClients(), ws);
-
-      // messageAllClients(makeMessage(ws, `${ws.user.name} left the chat.`), getClients(), ws);
+      messageAllClients({
+        action: 'removeUser',
+        payload: {
+          id: ws.user.id,
+          name: ws.user.name
+        }
+      }, getClients(), ws);
     });
   }));
 
   app.get('/chat/users', wrap(async function (req, res, next) {
-    res.status(200).json(getClientNames());
+    res.status(200).json(getUsers());
   }));
 };
