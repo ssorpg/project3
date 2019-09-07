@@ -5,7 +5,7 @@ import Post from './post'
 
 export default function PostDisplay(props) {
   const { posts, cantPost } = props;
-
+  console.log('p',posts);
   return (
     <Container maxWidth="lg">
       <main>
