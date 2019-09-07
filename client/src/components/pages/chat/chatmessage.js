@@ -3,27 +3,10 @@ import React from 'react';
 import { ListItem, ListItemText, ListItemAvatar, Avatar, Typography } from '@material-ui/core';
 
 // FUNCTIONS
-import { makeStyles } from '@material-ui/core/styles';
 import ExtractProfileImage from '../../../utils/extractprofileimage';
-
-const useStyles = makeStyles(theme => ({
-  inline: {
-    display: 'inline'
-  },
-
-  msg: {
-    wordBreak: 'break-all',
-    maxWidth: '95vw'
-  },
-
-  blackText: {
-    color: '#000'
-  }
-}));
 
 export default function ChatMessage(props) {
   const { user, text, time } = props;
-  const classes = useStyles();
   
   return (
     <ListItem alignItems="flex-start">
@@ -37,11 +20,10 @@ export default function ChatMessage(props) {
             <Typography
               component="span"
               variant="body2"
-              className={classes.inline}
               color="textSecondary"
             >
-              <span className={classes.msg}>
-              {time + ': '}<span className={classes.blackText}>{text}</span>
+              <span className="message-wrap">
+              {time + ': '}<span className="black-text">{text}</span>
               </span>
             </Typography>
           </>

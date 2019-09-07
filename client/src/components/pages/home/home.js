@@ -7,34 +7,35 @@ import Modal from '../../modal';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  totalSizeFix: {
     minHeight: '100vh',
-    marginBottom: '-36px',
+    marginBottom: '-12px',
     marginTop: '-12vh'
   },
 
-  image: {
-    // background: 'linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url(https://source.unsplash.com/random)',
-    backgroundImage: 'url(https://picsum.photos/id/177/2515/1830)',
+  leftImage: {
+    backgroundImage: 'url(/images/home.jpg)',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'initial'
+    }
   },
 
-  logo: {
+  imageLogo: {
     postion: 'absolute',
     top: '0',
     left: '0',
     right: '0',
     width: '100%',
     alignItems: 'center',
-    // background: 'rgba(124,124,124,0.5)',
     background: 'linear-gradient(180deg, rgba(255,255,255,1) 70%, rgba(255,255,255,0) 100%)',
-    textAlign: 'center',
-    padding: '24px 24px 72px',
+    padding: '24px 24px 72px'
   },
 
-  name: {
+  websiteTitle: {
     fontSize: '30px',
     color: '#1d1d1d'
   },
@@ -45,54 +46,45 @@ const useStyles = makeStyles(theme => ({
     color: '#3d3d3d'
   },
 
-  paper: {
-    margin: theme.spacing(8, 4),
+  rightLogin: {
+    margin: '96px 48px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
   },
 
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
-  },
-
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1)
-  },
-
-  submit: {
-    margin: theme.spacing(3, 0, 2)
+  loginForm: {
+    width: '100%' // Fix IE 11 issue.
   }
 }));
 
 export default function Home(props) {
   const { handleSubmit, alert } = props;
-  
+
   const classes = useStyles();
 
   console.log(handleSubmit);
 
   return (
-    <Grid container component="main" className={classes.root}>
-      <Grid item xs={false} sm={4} md={7} className={classes.image} >
-        <Grid item xs={false} id="hide" className={classes.logo}>
+    <Grid container component="main" className={classes.totalSizeFix}>
+      <Grid item xs={false} sm={4} md={7} className={classes.leftImage} >
+        <Grid item xs={false} className={classes.imageLogo + " text-center"}>
           <img src="https://i.ibb.co/6WVS2GB/tpn2.png" alt="" />
-          <span className={classes.name} >The Private Network</span>
-          <p className={classes.slogan}>This is a social network that you can control access to. Use it to keep in touch with your friends and family, hold events for your office, or to organize your child’s sports team. Hold events, send messages, and post your important news to only selected individuals in your network.</p>
+          <span className={classes.websiteTitle} >The Private Network</span>
+          <p className={classes.slogan}>
+            This is a social network that you can control access to.
+            Use it to keep in touch with your friends and family, hold events for your office, or to organize your child’s sports team.
+            Hold events, send messages, and post your important news to only selected individuals in your network.
+          </p>
         </Grid>
       </Grid>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-          {/* <Avatar className={classes.avatar}> */}
-          {/* <LockOutlinedIcon /> */}
+        <div className={classes.rightLogin}>
           <img src="https://i.ibb.co/6WVS2GB/tpn2.png" xs={false} alt="" />
-          {/* </Avatar> */}
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} onSubmit={handleSubmit}>
+          <form className={classes.loginForm + " theme-mt"} onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -124,27 +116,27 @@ export default function Home(props) {
               fullWidth
               variant="contained"
               color="primary"
-              className={classes.submit}
+              className="theme-mt"
             >
               Sign In
             </Button>
-            {
-              alert ?
-                <Modal error={alert} />
-                : ''
-            }
             <Grid container>
               <Grid item xs>
                 {/* <Link href="#" variant="body2">
                   Forgot password?
                 </Link> */}
               </Grid>
-              <Grid item>
+              <Grid item className="theme-mt">
                 <Link href="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
+            {
+              alert ?
+                <Modal error={alert} />
+                : ''
+            }
           </form>
         </div>
       </Grid>

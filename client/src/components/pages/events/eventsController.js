@@ -15,7 +15,7 @@ export default class EventsController extends Component {
     this.state = {
       pageTitle: 'Create an Event',
       events: [],
-      formData: {},
+      eventData: {},
       showEventsList: true,
       toggleButtonText: 'Create Event',
       alert: undefined,
@@ -54,7 +54,7 @@ export default class EventsController extends Component {
       <Container maxWidth="lg">
         <Megatron
           heading={this.state.pageTitle}
-          image="https://source.unsplash.com/random"
+          image={this.state.bannerImage ? `/images/${this.state.bannerImage}` : '/images/community.jpg'}
           megaHeight='20vh'
           megaMaxHeight='320px!important'
         />

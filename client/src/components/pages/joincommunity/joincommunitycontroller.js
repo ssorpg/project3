@@ -64,11 +64,11 @@ export default class CreateCommunity extends Component {
     const submit = form.getElementsByTagName('button')[0];
 
     submit.style.visibility = 'hidden';
-    await this.postToDB(community);
+    await this.createCommunity(community);
     submit.style.visibility = 'visible';
   };
 
-  postToDB = async community => {
+  createCommunity = async community => {
     this.setState({ alert: undefined });
 
     try {
@@ -107,7 +107,7 @@ export default class CreateCommunity extends Component {
         <Megatron
           heading="Join A Community"
           subheading="Select a community from the dropdown or fill in a name below to create your own!"
-          image="https://picsum.photos/id/469/1000/1100"
+          image="/images/joincommunity.jpg"
           imagePosition="77% 5%"
           megaHeight="65vh"
           megaMaxHeight="380px"
@@ -115,12 +115,11 @@ export default class CreateCommunity extends Component {
         {
           this.state.selectFromExisting ?
               <SelectFromExisting
-                communities={this.state.communities} // used one component deep
+                communities={this.state.communities}
                 handleFormChange={this.handleFormChange}
                 handleChosenCommunitySubmit={this.handleChosenCommunitySubmit}
-
-                selectedCommId={this.state.selectedCommId} // used two components deep
                 handleRadioSelection={this.handleRadioSelection}
+                selectedCommId={this.state.selectedCommId}
               />
             : <NewCommunity
                 handleCreateCommunitySubmit={this.handleCreateCommunitySubmit}

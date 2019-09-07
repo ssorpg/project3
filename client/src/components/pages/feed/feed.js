@@ -22,6 +22,7 @@ export default class Feed extends Component {
 
     this.state = {
       pageTitle: undefined,
+      bannerImage: undefined,
       bio: undefined,
       posts: undefined,
       events: undefined
@@ -45,6 +46,7 @@ export default class Feed extends Component {
       
       this.setState({
         pageTitle: res.data.name + ' Feed',
+        bannerImage: res.data.image,
         bio: res.data.bio,
         posts: res.data.posts,
         events: events
@@ -62,7 +64,7 @@ export default class Feed extends Component {
           <Megatron
             heading={this.state.pageTitle}
             subheading={this.state.bio}
-            image="https://source.unsplash.com/random"
+            image={this.state.bannerImage ? `/images/${this.state.bannerImage}` : '/images/community.jpg'}
             imagePosition="5%"
             megaHeight='30vh'
             megaMaxHeight='320px!important'

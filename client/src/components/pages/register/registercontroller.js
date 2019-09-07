@@ -5,7 +5,7 @@ import Register from './register';
 // FUNCTIONS
 import ax from 'axios';
 
-export default class HomeController extends Component {
+export default class RegisterController extends Component {
   constructor() {
     super();
 
@@ -19,26 +19,26 @@ export default class HomeController extends Component {
     const form = event.target;
 
     const inputs = form.getElementsByTagName('input');
-    const postData = {};
+    const registerData = {};
 
     for (let i = 0; i < inputs.length; i++) {
-      postData[inputs[i].name] = inputs[i].value;
+      registerData[inputs[i].name] = inputs[i].value;
     }
 
     const submit = form.getElementsByTagName('button')[0];
 
     submit.style.visibility = 'hidden';
-    await this.postToDB(postData);
+    await this.register(registerData);
     submit.style.visibility = 'visible';
   };
 
-  postToDB = async postData => {
+  register = async registerData => {
     this.setState({ alert: undefined });
 
     try {
-      await ax.post('/api/users/register', postData);
+      await ax.post('/api/users/register', registerData);
       
-      this.login(postData);
+      this.login(registerData);
     }
     catch (error) {
       console.log(error);
@@ -46,11 +46,13 @@ export default class HomeController extends Component {
     }
   };
 
-  login = async postData => {
+  login = async loginData => {
+    this.setState({ alert: undefined });
+    
     try {
-      await ax.post('/api/users', postData);
+      await ax.post('/api/users', loginData);
 
-      window.location = '/community/1';
+      window.location = '/profile';
     }
     catch (error) {
       console.log(error);

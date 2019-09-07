@@ -1,6 +1,6 @@
 // COMPONENTS
 import React from 'react';
-import { AppBar, Toolbar, IconButton, Typography, MenuItem, Menu } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, MenuItem, Drawer, List, ListItemText } from '@material-ui/core';
 import { Menu as MenuIcon, AccountCircle } from '@material-ui/icons';
 import Searchbar from './searchbar';
 
@@ -10,70 +10,66 @@ import ax from 'axios';
 import PageLoadError from '../../../utils/pageloaderror';
 
 const useStyles = makeStyles(theme => ({
-  scrollNav: {
+  minDrawerWidth: {
+    minWidth: '250px'
+  },
+
+  navZIndex: {
     position: 'fixed',
     zIndex: '999'
   },
 
-  grow: {
-    flexGrow: 1
+  max1280: {
+    width: '100%',
+    maxWidth: '1280px',
+    margin: 'auto'
   },
 
-  menuButton: {
-    marginRight: theme.spacing(2)
+  leftButtonMargin: {
+    marginRight: '10px'
   },
 
-  title: {
+  navTitle: {
     display: 'none',
-    color: '#fff',
     [theme.breakpoints.up('sm')]: {
       display: 'block'
     }
   },
 
-  resetA: {
+  navTitleText: {
     color: '#fff',
+    textDecoration: 'none',
     '&:hover': {
-      color: '#d9d9d9',
+      color: '#d3d3d3',
       textDecoration: 'none'
     }
   },
 
-  linkStyleReset: {
-    color: 'initial',
-    '&:hover': {
-      color: 'initial',
-      textDecoration: 'none'
-    }
+  fillWidth: {
+    flexGrow: 1
   },
 
   logout: {
     color: '#f00'
-  }
+  },
 }));
 
 export default function Navbar(props) {
   const { YourProfile, CommunityId } = props;
 
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [sidebarAnchorEl, setSidebarAnchorEl] = React.useState(null);
+  const [state, setState] = React.useState({
+    left: false,
+    right: false
+  });
 
-  const isMenuOpen = Boolean(anchorEl);
-  const isSidebarMenuOpen = Boolean(sidebarAnchorEl);
+  const toggleDrawer = (side, open) => event => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
 
-  function handleProfileMenuOpen(event) {
-    setAnchorEl(event.currentTarget);
-  }
-
-  function handleMenuOpen(event) {
-    setSidebarAnchorEl(event.currentTarget);
-  }
-
-  function handleMenuClose() {
-    setAnchorEl(null);
-    setSidebarAnchorEl(null);
-  }
+    setState({ ...state, [side]: open });
+  };
 
   async function logout() {
     try {
@@ -84,83 +80,82 @@ export default function Navbar(props) {
     catch (error) {
       PageLoadError(error);
     }
-  }
+  };
 
-  const accountMenuId = 'primary-search-account-menu';
-  const renderAccountMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={accountMenuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
+  const leftSide = side => (
+    <div
+      className={classes.minDrawerWidth}
+      role="presentation"
+      onClick={toggleDrawer(side, false)}
+      onKeyDown={toggleDrawer(side, false)}
     >
-      {/* <a href="/profile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></a> */}
-      <a href="/updateprofile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Edit Profile</MenuItem></a>
-      <a href="/joincommunity" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Join/Create Community</MenuItem></a>
-      <MenuItem className={classes.logout} onClick={logout}>Logout</MenuItem>
-    </Menu>
+      <List>
+        <a href="/profile" className="reset-a"><MenuItem><ListItemText primary={'Your Profile'} /></MenuItem></a>
+        { // this is just ugly from lines 98 to 113 - TODO make this not gross to look at
+          CommunityId ?
+            YourProfile.communities.map(community => {
+              return (CommunityId === community.id ?
+                <span key={community.id}>
+                  <a href={`/community/${community.id}`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Feed`} /></MenuItem></a>
+                  <a href={`/community/${community.id}/friends`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Friends`} /></MenuItem></a>
+                  <a href={`/community/${community.id}/events`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Events`} /></MenuItem></a>
+                  {/* <a href={`/community/${community.id}/chat`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Chat`} /></MenuItem></a> */}
+                </span>
+                : '')
+            })
+            : YourProfile.communities.map(community => {
+              return (<a key={community.id} href={`/community/${community.id}`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Feed`} /></MenuItem></a>);
+            })
+        }
+        <a href="/chat" className="reset-a"><MenuItem>Global Chat</MenuItem></a>
+      </List>
+    </div>
   );
 
-  const menuId = 'primary-search-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={sidebarAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isSidebarMenuOpen}
-      onClose={handleMenuClose}
+  const rightSide = side => (
+    <div
+      className={classes.minDrawerWidth}
+      role="presentation"
+      onClick={toggleDrawer(side, false)}
+      onKeyDown={toggleDrawer(side, false)}
     >
-      <a href="/profile" className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Your Profile</MenuItem></a>
-      {
-        CommunityId ?
-          <>
-            <a href={`/community/${CommunityId}`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Community Feed</MenuItem></a>
-            <a href={`/community/${CommunityId}/friends`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Community Friends</MenuItem></a>
-            <a href={`/community/${CommunityId}/events`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Community Events</MenuItem></a>
-            {/* <a href={`/community/${CommunityId}/chat`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Chat</MenuItem></a> */}
-          </>
-          : YourProfile.communities.map(community => {
-            return (<a href={`/community/${community.id}`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>{community.name} Feed</MenuItem></a>);
-          })
-      }
-      <a href={`/chat`} className={classes.linkStyleReset}><MenuItem onClick={handleMenuClose}>Global Chat</MenuItem></a>
-    </Menu>
+      <List>
+        {/* <a href="/profile" className="reset-a"><MenuItem><ListItemText primary={'Your Profile'} /></MenuItem></a> */}
+        <a href="/updateprofile" className="reset-a"><MenuItem><ListItemText primary={'Update Profile'} /></MenuItem></a>
+        <a href="/joincommunity" className="reset-a"><MenuItem><ListItemText primary={'Join/Create Community'} /></MenuItem></a>
+        <span className={classes.logout}><MenuItem onClick={logout}><ListItemText primary={'Logout'} /></MenuItem></span>
+        {/* <a href="/chat" className="reset-a"><MenuItem><ListItemText primary={'Global Chat'} /></MenuItem></a> */}
+      </List>
+    </div>
   );
 
   return (
-    <div className={classes.scrollNav}>
+    <div className={classes.navZIndex}>
       <AppBar>
-        <Toolbar>
+        <Toolbar className={classes.max1280}>
           <IconButton
             edge="start"
             aria-label="open drawer"
-            aria-controls={menuId}
             aria-haspopup="true"
-            onClick={handleMenuOpen}
-            className={classes.menuButton}
+            onClick={toggleDrawer('left', true)}
+            className={classes.leftButtonMargin}
             color="inherit"
           >
             <MenuIcon />
           </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-            <a href="/" className={classes.resetA}>
+          <Typography className={classes.navTitle} variant="h6" noWrap>
+            <a href="/" className={classes.navTitleText}>
               The Private Network
             </a>
           </Typography>
+          <div className={classes.fillWidth} />
           <Searchbar />
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
+          <div>
             <IconButton
               edge="end"
               aria-label="account of current user"
-              aria-controls={accountMenuId}
               aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
+              onClick={toggleDrawer('right', true)}
               color="inherit"
             >
               <AccountCircle />
@@ -168,8 +163,12 @@ export default function Navbar(props) {
           </div>
         </Toolbar>
       </AppBar>
-      {renderAccountMenu}
-      {renderMenu}
+      <Drawer open={state.left} onClose={toggleDrawer('left', false)}>
+        {leftSide('left')}
+      </Drawer>
+      <Drawer anchor="right" open={state.right} onClose={toggleDrawer('right', false)}>
+        {rightSide('right')}
+      </Drawer>
     </div>
   );
 }

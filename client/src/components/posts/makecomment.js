@@ -1,4 +1,3 @@
-
 // COMPONENTS
 import React from 'react';
 import { Grid, Button, TextField } from '@material-ui/core';
@@ -8,13 +7,8 @@ import Modal from '../modal';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  mainGrid: {
-    marginTop: theme.spacing(1),
-    width: '100%'
-  },
-
-  submit: {
-    margin: theme.spacing(1)
+  makeCommentTopSpacing: {
+    marginTop: '12px'
   }
 }));
 
@@ -27,18 +21,17 @@ export default function MakeComment(props) {
       container
       direction="row"
       justify="center"
-      className={classes.mainGrid}
+      className={classes.makeCommentTopSpacing}
     >
       <form className="form-group" onSubmit={handleSubmit}>
         <TextField
           label="Leave a comment"
-          placeholder='Leave a comment'
           // multiline
           fullWidth
           required
           variant="outlined"
         />
-        <Button type="submit" value="submit" variant="contained" color="primary" className={classes.submit}>
+        <Button type="submit" value="submit" variant="contained" color="primary" className="theme-mt">
           Comment
         </Button>
         {

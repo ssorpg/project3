@@ -7,29 +7,16 @@ import Modal from '../modal';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  mainGrid: {
-    marginTop: theme.spacing(3)
-  },
-
-  form: {
-    padding: theme.spacing(0, 0, 3),
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
+  makePostForm: {
     maxWidth: '350px'
   },
 
-  textarea: {
+  makePostTextarea: {
     width: '92vw',
     maxWidth: '350px',
-    minHeight: '100px',
+    height: '100px',
     padding: '3px',
-    resize: 'none',
-    verticalAlign: 'bottom'
-  },
-
-  submit: {
-    marginTop: '8px'
+    resize: 'none'
   }
 }));
 
@@ -45,14 +32,14 @@ export default function MakePost(props) {
           container
           direction="row"
           spacing={4}
-          className={classes.mainGrid}
+          className="theme-mtx3"
         >
-          <form className={classes.form} onSubmit={handleMakePost}>
+          <form className={classes.makePostForm + " flex-col flex-middle"} onSubmit={handleMakePost}>
             {
               !cantPost ?
                 <>
-                  <textarea type="text" name="feed-comment" placeholder="What's on your mind?" className={classes.textarea} />
-                  <Button type="submit" value="submit" variant="contained" color="primary" className={classes.submit}>
+                  <textarea type="text" name="feed-comment" placeholder="What's on your mind?" className={classes.makePostTextarea} />
+                  <Button type="submit" value="submit" variant="contained" color="primary" className="theme-mt">
                     {postType ? `Post To ${postType}` : 'Post'}
                   </Button>
                 </>
@@ -60,7 +47,7 @@ export default function MakePost(props) {
             }
             {
               alert ?
-                <Modal error={alert} />
+                <Modal error={alert} className="theme-mt" />
                 : ''
             }
           </form>

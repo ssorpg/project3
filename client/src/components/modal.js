@@ -22,7 +22,7 @@ export default function Modal(props) {
     const errors = document.getElementsByClassName('alert');
 
     for (let i = 0; i < errors.length; i++) { // can't use foreach on a list :(
-      errors[i].style.display = 'none';
+      errors[i].style.display = 'none'; // using .remove() breaks react because it can no longer find the node in the virtual DOM
     }
   }
 

@@ -21,7 +21,7 @@ module.exports = async function (db) {
     const tpn = await db.Community.create({
       name: 'TPN',
       founderId: users[0].id,
-      bio: 'Initial public community for The Private Network!',
+      bio: 'Default public community for The Private Network.',
       private: false
     });
 

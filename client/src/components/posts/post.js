@@ -2,25 +2,21 @@
 import React from 'react';
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
 import CommentController from './commentcontroller';
+import Confirmation from '../confirmation';
 
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
 import ExtractProfileImage from '../../utils/extractprofileimage';
 
 const useStyles = makeStyles({
-  media: {
-    paddingTop: '25%',
-    margin: '15px',
+  postProfileImage: {
+    paddingTop: '25%', // 1/4 size image
     width: '25%',
+    margin: '15px',
     float: 'left'
   },
 
-  postText: {
-    wordWrap: 'break-word',
-    overflowWrap: 'break-word'
-  },
-
-  score: {
+  postScore: {
     position: 'absolute',
     bottom: '-25px',
     right: '10px'
@@ -44,34 +40,37 @@ export default function Post(props) {
     <Card>
       <CardActionArea onClick={goToAuthor}>
         <CardMedia
-          className={classes.media}
+          className={classes.postProfileImage}
           image={ExtractProfileImage(thisPost.author)}
           title="Profile"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h6" component="h2">
             {thisPost.author.name}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            <span className={classes.postText}>{thisPost.message}</span>
+          <Typography variant="body1" component="p">
+            <span className="message-wrap">{thisPost.message}</span>
           </Typography>
-          <Typography className={classes.score}>
+          <Typography className={classes.postScore}>
             Likes: {thisPost.score}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary" onClick={vote} data-id={thisPost.id} data-vote={"like"}>
+        <Button size="small" color="primary" onClick={() => vote(thisPost.id, 'like')}>
           Like
         </Button>
-        <Button size="small" color="secondary" onClick={vote} data-id={thisPost.id} data-vote={"dislike"}>
+        <Button size="small" color="secondary" onClick={() => vote(thisPost.id, 'dislike')}>
           Dislike
         </Button>
         {
           YourProfile.id === thisPost.author.id ?
-            <Button size="small" color="secondary" onClick={deletePost} data-id={thisPost.id}>
-              Delete
-            </Button>
+            <Confirmation
+              buttonText='Delete'
+              title='Delete this post?'
+              question='Clicking confirm will permanently remove the post.'
+              action={() => deletePost(thisPost.id)}
+            />
             : ''
         }
       </CardActions>

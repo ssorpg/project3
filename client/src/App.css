@@ -1,0 +1,26 @@
+.App {
+  min-height: 88vh;
+  margin-top: 12vh;
+}
+
+#popover {
+  display: none;
+  position: absolute;
+  top: 15vh;
+  left: 50%;
+  max-width: 55%;
+  transform: translateX(-50%);
+}
+
+/* light/dark themes */
+/* @media (prefers-color-scheme: dark) {
+  html {
+    content: dark
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  html {
+    content: light
+  }
+} */

@@ -57,10 +57,6 @@ export default class UpdateProfileController extends Component {
     }
   };
 
-  handlePicChange = event => {
-    this.setState({ selectedFile: event.target.files[0] });
-  };
-
   handlePicSubmit = async event => {
     event.preventDefault();
     const form = event.target;
@@ -94,7 +90,7 @@ export default class UpdateProfileController extends Component {
           <Megatron
             heading="Profile Settings"
             subheading="Edit bio and profile picture"
-            image="https://source.unsplash.com/random"
+            image="/images/updateprofile.jpg"
             imagePosition="50%"
             megaHeight='60vh'
             megaMaxHeight='320px!important'
@@ -119,10 +115,7 @@ export default class UpdateProfileController extends Component {
               </Grid>
               <Grid item md={6}>
                 <h3>Update Photo</h3>
-                <Imageupload
-                  handlePicChange={this.handlePicChange}
-                  handlePicSubmit={this.handlePicSubmit}
-                />
+                <Imageupload handlePicSubmit={this.handlePicSubmit} />
               </Grid>
             </Grid>
           </Paper>

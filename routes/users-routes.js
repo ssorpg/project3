@@ -9,14 +9,16 @@ const cookieOptionsS = {
   expires: new Date(Date.now() + 43200000), // 12 hours
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production' ? true : false,
-  signed: true
+  signed: true,
+  sameSite: 'lax'
 };
 
 const cookieOptionsU = {
   expires: new Date(Date.now() + 43200000),
   httpOnly: false,
   secure: process.env.NODE_ENV === 'production' ? true : false,
-  signed: false
+  signed: false,
+  sameSite: 'lax'
 };
 
 const wrap = fn => (...args) => fn(...args).catch(args[2]);
@@ -37,6 +39,8 @@ module.exports = function (app) {
     const token = await auth.makeToken(req, user);
 
     return res.status(200)
+      .clearCookie('token') // cookies aren't automatically removed when they expire so we have to remove them manually
+      .clearCookie('UserId')
       .cookie('token', token, cookieOptionsS)
       .cookie('UserId', user.id, cookieOptionsU)
       .send('Login successful.');
@@ -55,13 +59,13 @@ module.exports = function (app) {
       password: password
     });
 
-    const defaultCommunity = await db.Community.findOne({
-      where: {
-        name: 'TPN'
-      }
-    });
+    // const defaultCommunity = await db.Community.findOne({
+    //   where: {
+    //     name: 'TPN'
+    //   }
+    // });
 
-    await defaultCommunity.addMember(newUser); // users join public community by default
+    // await defaultCommunity.addMember(newUser); // users join public community by default
 
     res.status(200).send('Account created!');
   }));

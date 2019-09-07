@@ -42,7 +42,10 @@ export default class Profile extends Component {
         <Container maxWidth="lg">
           {
             this.state.friendProfile ?
-              <ProfileInfo user={this.state.friendProfile} />
+              <ProfileInfo
+                {...this.props}
+                user={this.state.friendProfile}
+              />
               : ''
           }
           {

@@ -6,6 +6,7 @@ import SearchIcon from '@material-ui/icons/Search';
 // FUNCTIONS
 import { fade, makeStyles } from '@material-ui/core/styles';
 
+// this css looks machine generated to me, im not gonna touch it lol
 const useStyles = makeStyles(theme => ({
   search: {
     position: 'relative',

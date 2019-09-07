@@ -1,6 +1,6 @@
 // COMPONENTS
 import React from 'react';
-import { Paper, FormGroup, RadioGroup, List, Button } from '@material-ui/core';
+import { Paper, FormGroup, RadioGroup, List, Button, InputLabel, Typography } from '@material-ui/core';
 import CommunityRadio from './communityradio';
 
 // FUNCTIONS
@@ -8,18 +8,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   communityList: {
-    padding: '24px'
-  },
-
-  fixedSizeList: {
     maxHeight: '12vh',
-    overflow: 'scroll'
-  },
-
-  button: {
-    display: 'inline-block',
-    verticalAlign: 'center',
-    margin: theme.spacing(1.5)
+    overflow: 'auto'
   }
 }));
 
@@ -29,25 +19,31 @@ export default function SelectFromExisting(props) {
   const classes = useStyles();
   //console.log(communities);
   return (
-    <Paper className={classes.communityList}>
-      <h3>Choose A Community</h3>
+    <Paper className="theme-paddingx2">
       <form onSubmit={handleChosenCommunitySubmit}>
         <FormGroup>
-          <List className={classes.fixedSizeList + 'list-unstyled text-left'} id="community-list">
+          <InputLabel>
+            <Typography variant="h5" gutterBottom>
+              Choose a Public Community
+            </Typography>
+          </InputLabel>
+          <List className={classes.communityList + " list-unstyled text-left"} id="community-list">
             {
-              communities.map(community => (
-                <RadioGroup key={community.id}>
-                  <CommunityRadio
-                    {...props}
-                    thisComm={community}
-                  />
-                </RadioGroup>
-              ))
+              communities.length ?
+                communities.map(community => (
+                  <RadioGroup key={community.id}>
+                    <CommunityRadio
+                      {...props}
+                      thisComm={community}
+                    />
+                  </RadioGroup>
+                ))
+                : <h6>No public communities found.</h6>
             }
           </List>
         </FormGroup>
         <Button
-          className={classes.button}
+          className="inline-button"
           variant="contained"
           color="primary"
           type="submit"
@@ -55,7 +51,7 @@ export default function SelectFromExisting(props) {
           Submit
         </Button>
         <Button
-          className={classes.button}
+          className="inline-button"
           variant="outlined"
           color="primary"
           onClick={handleFormChange}

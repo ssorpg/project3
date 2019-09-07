@@ -7,51 +7,24 @@ import Modal from '../../modal';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  '@global': {
-    body: {
-      backgroundColor: theme.palette.common.white
-    }
-  },
-
-  root: {
-    marginTop: '-12vh'
-  },
-
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
-  },
-
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3)
-  },
-
-  submit: {
-    margin: theme.spacing(3, 0, 2)
+  registerFormFix: {
+    width: '100%' // Fix IE 11 issue.
   }
 }));
 
-export default function SignUp(props) {
+export default function Register(props) {
   const { handleSubmit, alert } = props;
 
   const classes = useStyles();
 
   return (
-    <Container className={classes.root} component="main" maxWidth="xs">
-      <div className={classes.paper}>
-        <img src="https://i.ibb.co/6WVS2GB/tpn2.png" xs={false} alt="" />
+    <Container component="main" maxWidth="xs">
+      <div className="flex-col flex-center">
+        <img src="https://i.ibb.co/6WVS2GB/tpn2.png" alt="" />
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} onSubmit={handleSubmit}>
+        <form className={classes.registerFormFix + " theme-mtx3"} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -116,13 +89,13 @@ export default function SignUp(props) {
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
+            className="theme-mt"
           >
             Sign Up
           </Button>
-          <Grid container justify="flex-end">
+          <Grid container justify="flex-end" className="theme-mt">
             <Grid item>
-              <Link href="/home" variant="body2">
+              <Link href="/" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
