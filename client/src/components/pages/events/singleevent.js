@@ -76,7 +76,7 @@ export default function SingleEvent(props) {
                       {
                         member.profileImage[0] !== undefined ?
                       (
-                        <img src={ExtractProfileImage(member)} />
+                        <img src={ExtractProfileImage(member)} alt={`${member.name}`} />
                       )
                       :
                       (
