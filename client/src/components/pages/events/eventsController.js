@@ -6,7 +6,6 @@ import MakeEvent from './makeevent';
 // FUNCTIONS
 import ax from 'axios';
 import PageLoadError from '../../../utils/pageloaderror';
-import { getFormattedTime } from '../../../utils/formatTime';
 
 export default class EventsController extends Component {
   constructor(props) {
@@ -40,12 +39,12 @@ export default class EventsController extends Component {
       if( newEvent.status === 200) {
         window.location = `/community/${newEvent.data.CommunityId}/events/${newEvent.data.id}`;
       } else {
-        throw 'There was an unexepcted error. Please try again.'
+        throw new Error('There was an unexepcted error. Please try again.');
       }
     }
     catch (error) {
-      console.log(error);
       this.setState({ alert: error.response.data });
+      PageLoadError(error);
     }
   };
 
