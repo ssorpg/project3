@@ -38,10 +38,13 @@ export default class Feed extends Component {
       const res = await ax.get(`/api/communities/${this.props.CommunityId}`);
       //cutting out future events because sequelize wont allow limiting an included model
       //TODO make this better
-      if(res.data.events.length > 3) {
+      console.log(res.data)
+      if(res.data.events && res.data.events.length > 3) {
         var events = res.data.events.slice(0,3);
-      } else {
+      } else if(res.data.events) {
         var events = res.data.events;
+      } else {
+        var events = undefined;
       }
       
       this.setState({

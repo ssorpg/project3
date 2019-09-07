@@ -69,10 +69,16 @@ module.exports = function (sequelize, DataTypes) {
   Community.addScopes = function (models) {
     Community.addScope('defaultScope', {
       order: [['id', 'DESC']],
-      include: [{
-        model: models.User,
-        as: 'founder'
-      }]
+      include: [
+        {
+          model: models.User,
+          as: 'founder'
+        },
+        {
+          model: models.Event,
+          as: 'events'
+        },
+      ]
     });
   };
 

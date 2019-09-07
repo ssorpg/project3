@@ -14,7 +14,6 @@ import JoinCommunityController from './components/pages/joincommunity/joincommun
 import Feed from './components/pages/feed/feed';
 import FriendsController from './components/pages/friends/friendscontroller';
 import Wall from './components/pages/wall/wall';
-import EventsController from './components/pages/events/eventsController';
 import ChatController from './components/pages/chat/chatcontroller';
 import SearchResultsController from './components/pages/searchresults/searchresultscontroller';
 import EventsController from './components/pages/events/eventsController';
