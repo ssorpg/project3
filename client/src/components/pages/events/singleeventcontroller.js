@@ -27,7 +27,6 @@ export default class SingleEventController extends Component {
   getData = async () => {
     try {
       const res = await ax.get(`/api/events/${this.state.communityId}/${this.state.eventId}`);
-      console.log('trd',res.data.posts);
 
       if (res.data) {
         this.setState({
@@ -60,7 +59,7 @@ export default class SingleEventController extends Component {
             ''
           }
         </Paper>
-        {console.log(this.state)}
+
         { this.state.posts ? 
           <PostController
             {...this.props}
