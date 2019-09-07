@@ -10,52 +10,42 @@ import ax from 'axios';
 import PageLoadError from '../../../utils/pageloaderror';
 
 const useStyles = makeStyles(theme => ({
-  scrollNav: {
+  minDrawerWidth: {
+    minWidth: '250px'
+  },
+
+  navZIndex: {
     position: 'fixed',
     zIndex: '999'
   },
 
-  grow: {
-    flexGrow: 1
+  leftButtonMargin: {
+    marginRight: '10px'
   },
 
-  menuButton: {
-    marginRight: theme.spacing(2)
-  },
-
-  title: {
+  navTitle: {
     display: 'none',
-    color: '#fff',
     [theme.breakpoints.up('sm')]: {
       display: 'block'
     }
   },
 
-  minDrawerWidth: {
-    minWidth: '250px'
-  },
-
-  resetA: {
+  navTitleText: {
     color: '#fff',
     textDecoration: 'none',
     '&:hover': {
-      color: '#d9d9d9',
+      color: '#d3d3d3',
       textDecoration: 'none'
     }
   },
 
-  linkStyleReset: {
-    color: 'initial',
-    textDecoration: 'none',
-    '&:hover': {
-      color: 'initial',
-      textDecoration: 'none'
-    }
+  fillWidth: {
+    flexGrow: 1
   },
 
   logout: {
     color: '#f00'
-  }
+  },
 }));
 
 export default function Navbar(props) {
@@ -63,10 +53,8 @@ export default function Navbar(props) {
 
   const classes = useStyles();
   const [state, setState] = React.useState({
-    top: false,
     left: false,
-    bottom: false,
-    right: false,
+    right: false
   });
 
   const toggleDrawer = (side, open) => event => {
@@ -96,34 +84,25 @@ export default function Navbar(props) {
       onKeyDown={toggleDrawer(side, false)}
     >
       <List>
-        <a href="/profile" className={classes.linkStyleReset}><MenuItem><ListItemText primary={'Your Profile'} /></MenuItem></a>
+        <a href="/profile" className="reset-a"><MenuItem><ListItemText primary={'Your Profile'} /></MenuItem></a>
         { // this is just ugly from lines 98 to 113 - TODO make this not gross to look at
           CommunityId ?
             YourProfile.communities.map(community => {
               return (CommunityId === community.id ?
-                <>
-                  <a href={`/community/${community.id}`} className={classes.linkStyleReset}><MenuItem><ListItemText primary={`${community.name} Feed`} /></MenuItem></a>
-                  <a href={`/community/${community.id}/friends`} className={classes.linkStyleReset}><MenuItem><ListItemText primary={`${community.name} Friends`} /></MenuItem></a>
-                  <a href={`/community/${community.id}/events`} className={classes.linkStyleReset}><MenuItem><ListItemText primary={`${community.name} Events`} /></MenuItem></a>
-                  {/* <a href={`/community/${community.id}/chat`} className={classes.linkStyleReset}><MenuItem><ListItemText primary={`${community.name} Chat`} /></MenuItem></a> */}
-                </>
+                <span key={community.id}>
+                  <a href={`/community/${community.id}`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Feed`} /></MenuItem></a>
+                  <a href={`/community/${community.id}/friends`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Friends`} /></MenuItem></a>
+                  <a href={`/community/${community.id}/events`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Events`} /></MenuItem></a>
+                  {/* <a href={`/community/${community.id}/chat`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Chat`} /></MenuItem></a> */}
+                </span>
                 : '')
             })
             : YourProfile.communities.map(community => {
-              return (<a href={`/community/${community.id}`} className={classes.linkStyleReset}><MenuItem><ListItemText primary={`${community.name} Feed`} /></MenuItem></a>);
+              return (<a key={community.id} href={`/community/${community.id}`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Feed`} /></MenuItem></a>);
             })
         }
-        <a href={`/chat`} className={classes.linkStyleReset}><MenuItem>Global Chat</MenuItem></a>
+        <a href="/chat" className="reset-a"><MenuItem>Global Chat</MenuItem></a>
       </List>
-      {/* <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </MenuItem>
-        ))}
-      </List> */}
     </div>
   );
 
@@ -135,26 +114,17 @@ export default function Navbar(props) {
       onKeyDown={toggleDrawer(side, false)}
     >
       <List>
-        {/* <a href="/profile" className={classes.linkStyleReset}><MenuItem><ListItemText primary={'Your Profile'} /></MenuItem></a> */}
-        <a href="/updateprofile" className={classes.linkStyleReset}><MenuItem><ListItemText primary={'Update Profile'} /></MenuItem></a>
-        <a href="/joincommunity" className={classes.linkStyleReset}><MenuItem><ListItemText primary={'Join/Create Community'} /></MenuItem></a>
-        <MenuItem className={classes.logout} onClick={logout}><ListItemText primary={'Logout'} /></MenuItem>
-        {/* <a href="/chat" className={classes.linkStyleReset}><MenuItem><ListItemText primary={'Global Chat'} /></MenuItem></a> */}
+        {/* <a href="/profile" className="reset-a"><MenuItem><ListItemText primary={'Your Profile'} /></MenuItem></a> */}
+        <a href="/updateprofile" className="reset-a"><MenuItem><ListItemText primary={'Update Profile'} /></MenuItem></a>
+        <a href="/joincommunity" className="reset-a"><MenuItem><ListItemText primary={'Join/Create Community'} /></MenuItem></a>
+        <span className={classes.logout}><MenuItem onClick={logout}><ListItemText primary={'Logout'} /></MenuItem></span>
+        {/* <a href="/chat" className="reset-a"><MenuItem><ListItemText primary={'Global Chat'} /></MenuItem></a> */}
       </List>
-      {/* <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </MenuItem>
-        ))}
-      </List> */}
     </div>
   );
 
   return (
-    <div className={classes.scrollNav}>
+    <div className={classes.navZIndex}>
       <AppBar>
         <Toolbar>
           <IconButton
@@ -162,19 +132,19 @@ export default function Navbar(props) {
             aria-label="open drawer"
             aria-haspopup="true"
             onClick={toggleDrawer('left', true)}
-            className={classes.menuButton}
+            className={classes.leftButtonMargin}
             color="inherit"
           >
             <MenuIcon />
           </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-            <a href="/" className={classes.resetA}>
+          <Typography className={classes.navTitle} variant="h6" noWrap>
+            <a href="/" className={classes.navTitleText}>
               The Private Network
             </a>
           </Typography>
-          <div className={classes.grow} />
+          <div className={classes.fillWidth} />
           <Searchbar />
-          <div className={classes.sectionDesktop}>
+          <div>
             <IconButton
               edge="end"
               aria-label="account of current user"

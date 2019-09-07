@@ -6,18 +6,8 @@ import { Paper, FormGroup, InputLabel, Input, Button, Typography, Checkbox, Form
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    padding: '24px'
-  },
-
-  button: {
-    display: 'inline-block',
-    verticalAlign: 'center',
-    margin: theme.spacing(1.5)
-  },
-
-  input: {
-    marginBottom: theme.spacing(2)
+  communityInput: {
+    marginBottom: '24px'
   }
 }));
 
@@ -27,7 +17,7 @@ export default function NewCommunity(props) {
   const classes = useStyles();
 
   return (
-    <Paper className={classes.root}>
+    <Paper className="theme-paddingx2">
       <form onSubmit={handleCreateCommunitySubmit}>
         <FormGroup>
           <InputLabel>
@@ -36,13 +26,13 @@ export default function NewCommunity(props) {
             </Typography>
           </InputLabel>
           <Input
-            className={classes.input}
+            className={classes.communityInput}
             type="text"
             name="community"
             placeholder="Awesome Community"
           />
           <Input
-            className={classes.input}
+            className={classes.communityInput}
             type="text"
             name="bio"
             placeholder="Community bio"
@@ -53,7 +43,7 @@ export default function NewCommunity(props) {
           />
         </FormGroup>
         <Button
-          className={classes.button}
+          className="inline-button"
           variant="contained"
           color="primary"
           type="submit"
@@ -61,7 +51,7 @@ export default function NewCommunity(props) {
           Submit
         </Button>
         <Button
-          className={classes.button}
+          className="inline-button"
           variant="outlined"
           color="primary"
           onClick={handleFormChange}

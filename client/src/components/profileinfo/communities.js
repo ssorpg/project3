@@ -8,13 +8,12 @@ import Confirmation from '../confirmation';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  spaceBetween: {
-    display: 'flex',
-    justifyContent: 'space-between'
+  communitiesSpacing: {
+    margin: '30px'
   },
 
-  fillSpace: {
-    flex: 1
+  noCommunitiesSpacing: {
+    marginLeft: '30px'
   }
 }));
 
@@ -24,16 +23,16 @@ export default function Communities(props) {
   const classes = useStyles();
 
   return (
-    <div className="networks" style={{ margin: '30px' }}>
+    <div className={classes.communitiesSpacing}>
       <h5 className="card-title">Your Communities</h5>
       <List>
         {
           user.communities.length ?
             user.communities.map(community => (
-              <>
-                <div className={classes.spaceBetween}>
-                  <a key={community.id} href={`/community/${community.id}`} className={classes.fillSpace}>
-                    <ListItem button component="a">
+              <span key={community.id}>
+                <div className="flex-between">
+                  <a key={community.id} href={`/community/${community.id}`} className="flex-fill">
+                    <ListItem button>
                       {community.name}
                     </ListItem>
                   </a>
@@ -58,9 +57,9 @@ export default function Communities(props) {
                   }
                 </div>
                 <Divider />
-              </>
+              </span>
             ))
-            : <div style={{ marginLeft: '30px' }}>
+            : <div className={classes.noCommunitiesSpacing}>
               <h5>None - Join or create one <a href="/joincommunity">here!</a></h5>
             </div>
         }

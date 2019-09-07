@@ -115,12 +115,11 @@ export default class CreateCommunity extends Component {
         {
           this.state.selectFromExisting ?
               <SelectFromExisting
-                communities={this.state.communities} // used one component deep
+                communities={this.state.communities}
                 handleFormChange={this.handleFormChange}
                 handleChosenCommunitySubmit={this.handleChosenCommunitySubmit}
-
-                selectedCommId={this.state.selectedCommId} // used two components deep
                 handleRadioSelection={this.handleRadioSelection}
+                selectedCommId={this.state.selectedCommId}
               />
             : <NewCommunity
                 handleCreateCommunitySubmit={this.handleCreateCommunitySubmit}

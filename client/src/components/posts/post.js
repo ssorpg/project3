@@ -9,19 +9,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import ExtractProfileImage from '../../utils/extractprofileimage';
 
 const useStyles = makeStyles({
-  media: {
-    paddingTop: '25%',
-    margin: '15px',
+  postProfileImage: {
+    paddingTop: '25%', // 1/4 size image
     width: '25%',
+    margin: '15px',
     float: 'left'
   },
 
-  postText: {
-    wordWrap: 'break-word',
-    overflowWrap: 'break-word'
-  },
-
-  score: {
+  postScore: {
     position: 'absolute',
     bottom: '-25px',
     right: '10px'
@@ -45,7 +40,7 @@ export default function Post(props) {
     <Card>
       <CardActionArea onClick={goToAuthor}>
         <CardMedia
-          className={classes.media}
+          className={classes.postProfileImage}
           image={ExtractProfileImage(thisPost.author)}
           title="Profile"
         />
@@ -53,10 +48,10 @@ export default function Post(props) {
           <Typography gutterBottom variant="h6" component="h2">
             {thisPost.author.name}
           </Typography>
-          <Typography variant="body" component="p">
-            <span className={classes.postText}>{thisPost.message}</span>
+          <Typography variant="body1" component="p">
+            <span className="message-wrap">{thisPost.message}</span>
           </Typography>
-          <Typography className={classes.score}>
+          <Typography className={classes.postScore}>
             Likes: {thisPost.score}
           </Typography>
         </CardContent>

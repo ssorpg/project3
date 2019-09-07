@@ -3,23 +3,12 @@ import React from 'react';
 import { TextField, Button } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 
-// FUNCTIONS
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles(theme => ({
-  relative: {
-    position: 'relative'
-  }
-}));
-
 export default function UpdateForm(props) {
   const { bio, location, handleBioLocChange, handleBioLocSubmit } = props;
-  
-  const classes = useStyles();
 
   return (
-      <div className={classes.relative}>
-        <form onSubmit={handleBioLocSubmit} className={classes.relative}>
+      <div>
+        <form onSubmit={handleBioLocSubmit}>
           <TextField
             id="outlined-multiline-flexible-bio"
             label="Bio"

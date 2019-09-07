@@ -2,8 +2,20 @@
 import React from 'react';
 import { Grid, List, ListItem } from '@material-ui/core';
 
+// FUNCTIONS
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+  inlineMembers: {
+    display: 'inline-block',
+    width: 'auto'
+  }
+}));
+
 export default function MemberResults(props) {
   const { YourProfile, thisCommunity } = props;
+
+  const classes = useStyles();
 
   return (
     <>
@@ -11,10 +23,10 @@ export default function MemberResults(props) {
         thisCommunity.members.length ?
           <Grid item>
             <h6>Community Members:</h6>
-            <List className="list-unstyled members">
+            <List className="list-unstyled">
               {
                 thisCommunity.members.map(member => (
-                  <ListItem key={member.id}>
+                  <ListItem key={member.id} className={classes.inlineMembers}>
                     <a
                       href={
                         YourProfile.id === member.id ?

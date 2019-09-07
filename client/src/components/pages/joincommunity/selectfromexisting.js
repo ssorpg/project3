@@ -8,18 +8,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   communityList: {
-    padding: '24px'
-  },
-
-  fixedSizeList: {
     maxHeight: '12vh',
-    overflow: 'scroll'
-  },
-
-  button: {
-    display: 'inline-block',
-    verticalAlign: 'center',
-    margin: theme.spacing(1.5)
+    overflow: 'auto'
   }
 }));
 
@@ -29,7 +19,7 @@ export default function SelectFromExisting(props) {
   const classes = useStyles();
   //console.log(communities);
   return (
-    <Paper className={classes.communityList}>
+    <Paper className="theme-paddingx2">
       <form onSubmit={handleChosenCommunitySubmit}>
         <FormGroup>
           <InputLabel>
@@ -37,7 +27,7 @@ export default function SelectFromExisting(props) {
               Choose a Public Community
             </Typography>
           </InputLabel>
-          <List className={classes.fixedSizeList + 'list-unstyled text-left'} id="community-list">
+          <List className={classes.communityList + " list-unstyled text-left"} id="community-list">
             {
               communities.length ?
                 communities.map(community => (
@@ -53,7 +43,7 @@ export default function SelectFromExisting(props) {
           </List>
         </FormGroup>
         <Button
-          className={classes.button}
+          className="inline-button"
           variant="contained"
           color="primary"
           type="submit"
@@ -61,7 +51,7 @@ export default function SelectFromExisting(props) {
           Submit
         </Button>
         <Button
-          className={classes.button}
+          className="inline-button"
           variant="outlined"
           color="primary"
           onClick={handleFormChange}

@@ -6,11 +6,9 @@ import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  formSize: {
+  chatInputForm: {
     width: '100%',
-    flexShrink: 0,
     margin: 0,
-    marginTop: '-4px', // just to get it to work on mobile
     marginLeft: 'auto'
   }
 }));
@@ -21,7 +19,7 @@ export default function ChatInput(props) {
   const classes = useStyles();
 
   return (
-    <form onSubmit={handleSubmit} className={classes.formSize}>
+    <form onSubmit={handleSubmit} className={classes.chatInputForm}>
       <TextField
         label="Chat with your community!"
         placeholder="Enter message..."
