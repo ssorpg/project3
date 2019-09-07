@@ -12,14 +12,14 @@ const useStyles = makeStyles({
   postProfileImage: {
     paddingTop: '25%', // 1/4 size image
     width: '25%',
-    margin: '15px',
+    margin: '12px',
     float: 'left'
   },
 
   postScore: {
     position: 'absolute',
-    bottom: '-25px',
-    right: '10px'
+    bottom: '-24px',
+    right: '12px'
   }
 });
 
