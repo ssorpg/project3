@@ -78,11 +78,11 @@ module.exports = function (app, expressWs) {
       }
     }, getClients(), ws);
 
-    ws.on('message', async function (text) {
+    ws.on('message', function (text) {
       messageAllClients(makeMessage(ws, text), getClients());
     });
 
-    ws.on('close', async function () {
+    ws.on('close', function () {
       console.log(ws.user.id + ' close');
 
       messageAllClients({
