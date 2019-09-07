@@ -56,6 +56,7 @@ export default class SingleEventController extends Component {
             ''
           }
         </Paper>
+        {/* //TODO ADD COMMENT FUNCTIONALITY */}
       </Container>
     )
   }
