@@ -25,7 +25,6 @@ const useStyles = makeStyles({
 
 export default function Post(props) {
   const { YourProfile, thisPost, vote, deletePost } = props;
-
   const classes = useStyles();
 
   function goToAuthor() {
@@ -57,12 +56,19 @@ export default function Post(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary" onClick={() => vote(thisPost.id, 'like')}>
-          Like
-        </Button>
-        <Button size="small" color="secondary" onClick={() => vote(thisPost.id, 'dislike')}>
-          Dislike
-        </Button>
+        {thisPost === undefined ? (
+          <>
+          <Button size="small" color="primary" onClick={() => vote(thisPost.id, 'like')}>
+            Like
+          </Button>
+          <Button size="small" color="secondary" onClick={() => vote(thisPost.id, 'dislike')}>
+            Dislike
+          </Button>
+          </>
+        )
+        :
+        ''
+        }
         {
           YourProfile.id === thisPost.author.id ?
             <Confirmation

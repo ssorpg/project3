@@ -7,6 +7,9 @@ import Modal from '../modal';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
+  container: {
+    justifyContent: 'center'
+  },
   makePostForm: {
     maxWidth: '350px'
   },
@@ -16,7 +19,8 @@ const useStyles = makeStyles(theme => ({
     maxWidth: '350px',
     height: '100px',
     padding: '3px',
-    resize: 'none'
+    resize: 'none',
+    textAlign: 'center'
   }
 }));
 
@@ -31,9 +35,8 @@ export default function MakePost(props) {
         <Grid
           container
           direction="row"
-          justify="center"
           spacing={4}
-          className="theme-mtx3"
+          className={classes.container + " theme-mtx3"}
         >
           <form className={classes.makePostForm + " flex-col flex-middle"} onSubmit={handleMakePost}>
             {

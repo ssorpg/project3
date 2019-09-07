@@ -3,63 +3,30 @@ import React, { Component } from 'react';
 import { Container } from '@material-ui/core';
 import Megatron from '../../megatron';
 import MakeEvent from './makeevent';
-import EventsList from './events';
-
 // FUNCTIONS
 import ax from 'axios';
 import PageLoadError from '../../../utils/pageloaderror';
 
 export default class EventsController extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      pageTitle: undefined,
-      bannerImage: undefined,
+      pageTitle: 'Create an Event',
       events: [],
       eventData: {},
       showEventsList: true,
       toggleButtonText: 'Create Event',
-      alert: undefined
+      alert: undefined,
+      communities: this.props.YourProfile.communities
     };
   };
 
-  componentDidMount() {
-    this.getData();
-  };
-
-  getData = async () => {
-    try {
-      const res = await ax.get(`/api/communities/${this.props.CommunityId}/events`);
-
-      if (res.data.events.length) {
-        this.setState({
-          pageTitle: res.data.name + ' Events',
-          bannerImage: res.data.bannerImage,
-          events: res.data.events,
-          showEventsList: true,
-          toggleButtonText: 'Show Events'
-        });
-      }
-      else {
-        this.setState({
-          pageTitle: res.data.name + ' Events',
-          bannerImage: res.data.bannerImage,
-          showEventsList: false,
-          toggleButtonText: 'Create Event'
-        });
-      }
-    }
-    catch (error) {
-      PageLoadError(error);
-    }
-  };
-
   handleInputChange = event => {
-    let eventData = this.state.eventData;
-    eventData[event.target.name] = event.target.value;
+    let newFormData = {...this.state.formData};
+    newFormData[event.target.id] = event.target.value;
 
-    this.setState({ eventData: eventData });
+    this.setState({ formData: newFormData });
   };
 
   handleSubmit = async event => {
@@ -67,48 +34,18 @@ export default class EventsController extends Component {
     this.setState({ alert: undefined });
 
     try {
-      const newEvent = await ax.post(`/api/communities/${this.props.CommunityId}/events`, this.state.eventData);
+      const newEvent = await ax.post(`/api/events/create`, this.state.formData);
 
-      this.setState({ events: [newEvent.data, ...this.state.events] });
+      if( newEvent.status === 200) {
+        window.location = `/community/${newEvent.data.CommunityId}/events/${newEvent.data.id}`;
+      } else {
+        throw new Error('There was an unexepcted error. Please try again.');
+      }
     }
     catch (error) {
-      console.log(error);
       this.setState({ alert: error.response.data });
+      PageLoadError(error);
     }
-  };
-
-  toggleDisplay = () => {
-    if (this.state.showEventsList) {
-      this.setState({
-        showEventsList: false,
-        toggleButtonText: 'Create Event'
-      });
-    }
-    else {
-      this.setState({
-        showEventsList: true,
-        toggleButtonText: 'Show Events'
-      });
-    }
-  };
-
-  getFormattedTime = militaryTime => {
-    if (!militaryTime) {
-      return;
-    }
-
-    const hours24 = parseInt(militaryTime.substring(0, 2));
-    const hours = ((hours24 + 11) % 12) + 1;
-    const amPm = hours24 > 11 ? 'pm' : 'am';
-    const minutes = militaryTime.substring(2);
-
-    return hours + minutes + amPm;
-  };
-
-  getFormattedDate = unformattedDate => {
-    const date = new Date(unformattedDate);
-
-    return date.toLocaleString('default', { month: 'long' });
   };
 
   render() {
@@ -120,24 +57,13 @@ export default class EventsController extends Component {
           megaHeight='20vh'
           megaMaxHeight='320px!important'
         />
-        <nav>
-          <button onClick={this.toggleDisplay}>
-            {this.state.toggleButtonText}
-          </button>
-        </nav>
         {
-          this.state.showEventsList === false ?
-            <MakeEvent
-              handleInputChange={this.handleInputChange}
-              handleSubmit={this.handleSubmit}
-              alert={this.state.alert}
-            />
-            :
-            <EventsList
-              {...this.props}
-              getFormattedTime={this.getFormattedTime}
-              events={this.state.events}
-            />
+          <MakeEvent
+            handleInputChange={this.handleInputChange}
+            handleSubmit={this.handleSubmit}
+            alert={this.state.alert}
+            communities={this.state.communities}
+          />
         }
       </Container>
     );

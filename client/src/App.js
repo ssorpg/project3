@@ -14,9 +14,10 @@ import JoinCommunityController from './components/pages/joincommunity/joincommun
 import Feed from './components/pages/feed/feed';
 import FriendsController from './components/pages/friends/friendscontroller';
 import Wall from './components/pages/wall/wall';
-import EventsController from './components/pages/events/eventsController';
 import ChatController from './components/pages/chat/chatcontroller';
 import SearchResultsController from './components/pages/searchresults/searchresultscontroller';
+import EventsController from './components/pages/events/eventsController';
+import SingleEventController from './components/pages/events/singleeventcontroller';
 import HomeController from './components/pages/home/homecontroller';
 import Footer from './components/footer';
 
@@ -81,7 +82,8 @@ export default class TPN extends Component {
               <Route exact path="/community/:CommunityId" render={() => <Feed {...this.state} />} />
               <Route exact path="/community/:CommunityId/friends" render={() => <FriendsController {...this.state} />} />
               <Route exact path="/community/:CommunityId/friends/:UserId" render={() => <Wall {...this.state} />} />
-              <Route exact path="/community/:CommunityId/events" render={() => <EventsController {...this.state} />} />
+              <Route exact path="/create-event" render={() => <EventsController {...this.state} />} />
+              <Route exact path="/community/:CommunityId/events/:EventId" render={ props => <SingleEventController {...this.state} urlPath={props.match.params} />} />
               {/* <Route exact path="/community/:CommunityId/chat" render={() => <Chat {...this.state} />} /> */}
               <Route exact path="/chat" render={() => <ChatController {...this.state} />} />
               <Route path="/search" render={() => <SearchResultsController {...this.state} />} />

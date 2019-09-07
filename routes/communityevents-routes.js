@@ -5,42 +5,45 @@ const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 module.exports = function (app) {
   // COMMUNITY EVENTS
+  app.get('/api/events/:communityId?/:eventId?', wrap(async function (req, res, next) { // get event
+    if(req.params.communityId && req.params.eventId) {
+      var events = await db.Event.findOne({
+        where: {
+          id: req.params.eventId,
+          CommunityId: req.params.communityId,
+        }
+      });
 
-  app.get('/api/communities/:CommunityId/events', wrap(async function (req, res, next) { // get community events
-    const { community, isMember } = await getCommunity(req.token.UserId, req.params.CommunityId);
+      let eventPosts = await events.getPosts({ limit: 20 });
 
-    if (!isMember) {
-      throw { status: 401, msg: 'You\'re not in that community.' };
+      events.dataValues.posts = eventPosts;
+    } else {
+      var events = await db.Event.findAll();
     }
 
-    community.dataValues.events = await community.getEvents();
-
-    res.status(200).json(community);
+    if(events.length === 0) {
+      console.log('no results');
+      res.status(204).send('No Events Here.\nMake One!');
+    } else {
+      res.status(200).json(events.dataValues);
+    }
   }));
-
-  app.post('/api/communities/:CommunityId/events', wrap(async function (req, res, next) { // create event
-    const { community, user, isMember } = await getCommunity(req.token.UserId, req.params.CommunityId);
-
-    if (!isMember) {
-      throw { status: 401, msg: 'You\'re not in that community.' };
-    }
-
+  
+  app.post('/api/events/create', wrap( async function(req, res, next) {
     const newEvent = await db.Event.create({
       name: req.body.name,
       description: req.body.description,
       date: req.body.date,
       start_time: req.body.start_time,
-      end_time: req.body.end_time
+      end_time: req.body.end_time,
+      CommunityId: req.body.communityId,
+      founderId: req.token.UserId,
     });
-
-    newEvent.addMember(user);
-    newEvent.setFounder(user);
-    community.addEvent(newEvent);
-
+    
     res.status(200).json(newEvent);
   }));
 
-  app.get('/api/communities/:CommunityId/events/:EventId', wrap(async function (req, res, next) { // get specific event
+  app.get('/api/events/:EventId', wrap(async function (req, res, next) { // get specific event
     const { community, isMember } = await getCommunity(req.token.UserId, req.params.CommunityId);
 
     if (!isMember) {
@@ -52,17 +55,17 @@ module.exports = function (app) {
         id: req.params.EventId
       }
     });
-
+  
     if (!event) {
       throw { status: 404, msg: 'That event doesn\'t exist.' };
     }
 
     event.dataValues.posts = await event.getPosts({ limit: 20 });
-
+  
     res.status(200).json(event);
   }));
 
-  app.delete('/api/communities/:CommunityId/events/:EventId', wrap(async function (req, res, next) { // delete event
+  app.delete('/api/communities/:EventId', wrap(async function (req, res, next) { // delete event
     const event = await db.Event.findOne({
       where: {
         id: req.params.EventId
