@@ -80,7 +80,12 @@ module.exports = function (app) {
         model: db.Image,
         as: 'bannerImage',
         limit: 1
-      }]
+      },
+      {
+        model: db.Event,
+        as: 'events'
+      },
+    ]
     });
 
     res.status(200).json(community);
