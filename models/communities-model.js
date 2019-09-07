@@ -73,11 +73,7 @@ module.exports = function (sequelize, DataTypes) {
         {
           model: models.User,
           as: 'founder'
-        },
-        {
-          model: models.Event,
-          as: 'events'
-        },
+        }
       ]
     });
   };
