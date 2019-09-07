@@ -7,12 +7,12 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   invitesSpacing: {
-    margin: '30px',
+    margin: '24px',
     marginTop: 0
   },
 
   noInvitesSpacing: {
-    marginLeft: '30px'
+    marginLeft: '24px'
   }
 }));
 

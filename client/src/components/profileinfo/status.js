@@ -8,8 +8,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   statusForm: {
-    margin: '10px',
-    marginBottom :'20px'
+    margin: '12px',
+    marginBottom: '24px'
   }
 }));
 

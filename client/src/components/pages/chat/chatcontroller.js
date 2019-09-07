@@ -64,7 +64,7 @@ export default class ChatController extends Component {
 
   getUsers = async () => {
     try {
-      const res = await ax.get('/chat/users');
+      const res = await ax.get('/api/chat/users');
 
       this.setState({ users: res.data });
     }

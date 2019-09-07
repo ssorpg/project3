@@ -59,7 +59,7 @@ module.exports = function (app, expressWs) {
     return users;
   }
 
-  app.ws('/chat', wrap(async function (ws, req, next) {
+  app.ws('/ws/chat', wrap(async function (ws, req, next) {
     const user = await db.User.findOne({
       where: {
         id: req.token.UserId
@@ -95,7 +95,7 @@ module.exports = function (app, expressWs) {
     });
   }));
 
-  app.get('/chat/users', wrap(async function (req, res, next) {
+  app.get('/api/chat/users', wrap(async function (req, res, next) {
     res.status(200).json(getUsers());
   }));
 };
