@@ -45,36 +45,34 @@ export default function ChatMessageContainer(props) {
   const classes = useStyles();
 
   return (
-    <>
-      <Container className={classes.root}>
-        <List className={classes.usersDisplay}>
-          <h3 className={classes.divider}>
-            Users
+    <Container className={classes.root}>
+      <List className={classes.usersDisplay}>
+        <h3 className={classes.divider}>
+          Users
           </h3>
-          {
-            users.map(user =>
-              <ListItem>
-                <Typography variant="body1" color="textSecondary" align="center">
-                  {user}
-                </Typography>
-              </ListItem>
-            )
-          }
-        </List>
-        <List id="chat" className={classes.messageDisplay}>
-          {
-            messages.map((message, id) =>
-              <ChatMessage
-                key={id}
-                user={message.user}
-                text={message.text}
-                time={message.time}
-              />
-            )
-          }
-        </List>
-        <ChatInput handleSubmit={handleSubmit} />
-      </Container>
-    </>
+        {
+          users.map(user =>
+            <ListItem>
+              <Typography variant="body1" color="textSecondary" align="center">
+                {user}
+              </Typography>
+            </ListItem>
+          )
+        }
+      </List>
+      <List id="chat" className={classes.messageDisplay}>
+        {
+          messages.map((message, id) =>
+            <ChatMessage
+              key={id}
+              user={message.user}
+              text={message.text}
+              time={message.time}
+            />
+          )
+        }
+      </List>
+      <ChatInput handleSubmit={handleSubmit} />
+    </Container>
   );
 }

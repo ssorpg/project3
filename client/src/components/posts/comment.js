@@ -1,7 +1,7 @@
 // COMPONENTS
 import React from 'react';
-import { Button } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Confirmation from '../confirmation';
 
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 
 export default function Comment(props) {
   const { YourProfile, thisComment, deleteComment } = props;
-  
+
   const classes = useStyles();
 
   return (
@@ -39,16 +39,14 @@ export default function Comment(props) {
       </span>
       {
         YourProfile.id === thisComment.author.id ?
-          <Button
-            type="submit"
-            title="Delete Comment"
-            data-id={thisComment.id}
-            data-postid={thisComment.PostId}
-            onClick={deleteComment}
+          <Confirmation
+            color='black'
+            buttonText={<DeleteIcon />}
+            title='Delete this comment?'
+            question='Clicking confirm will permanently remove the comment.'
+            action={() => deleteComment(thisComment.PostId, thisComment.id)}
             className={classes.delete}
-          >
-            <DeleteIcon style={{ pointerEvents: 'none' }} /> {/* pointerEvents prevents being the target of event listeners */}
-          </Button>
+          />
           : ''
       }
     </p>

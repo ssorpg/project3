@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ImageUpload(props) {
-  const { handlePicChange, handlePicSubmit } = props;
+  const { handlePicSubmit } = props;
 
   const classes = useStyles();
 
@@ -26,7 +26,6 @@ export default function ImageUpload(props) {
         name="selectedFile"
         accept="image/*"
         required
-        onChange={handlePicChange}
       />
       <br /><br />
       <Button variant="contained" color="primary" type="submit" >

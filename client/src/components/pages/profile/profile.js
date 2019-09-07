@@ -8,7 +8,6 @@ import Modal from '../../modal';
 
 // FUNCTIONS
 import ax from 'axios';
-import GetEventTargetDataset from '../../../utils/geteventtargetdataset';
 import ExtractProfileImage from '../../../utils/extractprofileimage';
 
 export default class Profile extends Component {
@@ -25,14 +24,12 @@ export default class Profile extends Component {
     };
   };
 
-  removeCommunity = async event => {
+  removeCommunity = async (CommunityId, isFounder) => {
     this.setState({ alert: undefined });
 
-    const commInfo = GetEventTargetDataset(event);
-
-    const URL = commInfo.isfounder ?
-      `/api/communities/${commInfo.id}` // delete comm
-      : `/api/communities/${commInfo.id}/users` // leave comm
+    const URL = isFounder ?
+      `/api/communities/${CommunityId}` // delete comm
+      : `/api/communities/${CommunityId}/users` // leave comm
 
     try {
       const removedComm = await ax.delete(URL);
@@ -48,12 +45,10 @@ export default class Profile extends Component {
     }
   };
 
-  openInviteDialog = event => {
-    const commInfo = GetEventTargetDataset(event);
-
+  openInviteDialog = CommunityId => {
     this.setState({
       inviteUserDialog: true,
-      inviteCommId: commInfo.id
+      inviteCommId: CommunityId
     });
   };
 
@@ -77,11 +72,11 @@ export default class Profile extends Component {
     const submit = form.getElementsByTagName('button')[0];
 
     submit.style.visibility = 'hidden';
-    await this.postInvite(form, invite);
+    await this.inviteUser(form, invite);
     submit.style.visibility = 'visible';
   };
 
-  postInvite = async (form, invite) => {
+  inviteUser = async (form, invite) => {
     this.setState({ dialogAlert: undefined });
 
     try {
@@ -95,15 +90,13 @@ export default class Profile extends Component {
     }
   };
 
-  handleAcceptInvite = async event => {
+  handleAcceptInvite = async CommunityId => {
     this.setState({ alert: undefined });
 
-    const commInfo = GetEventTargetDataset(event);
-
     try {
-      await ax.post(`/api/communities/${commInfo.id}/users`);
+      await ax.post(`/api/communities/${CommunityId}/users`);
 
-      window.location = `/community/${commInfo.id}`;
+      window.location = `/community/${CommunityId}`;
     }
     catch (error) {
       console.log(error);
@@ -111,13 +104,11 @@ export default class Profile extends Component {
     }
   };
 
-  handleDeclineInvite = async event => {
+  handleDeclineInvite = async CommunityId => {
     this.setState({ alert: undefined });
 
-    const commInfo = GetEventTargetDataset(event);
-
     try {
-      const removedInvite = await ax.delete(`/api/communities/${commInfo.id}/invited`);
+      const removedInvite = await ax.delete(`/api/communities/${CommunityId}/invited`);
 
       const newInvites = this.state.YourProfile.invites.filter(invite => { return invite.id !== removedInvite.data.id; });
       const newProfile = this.state.YourProfile;

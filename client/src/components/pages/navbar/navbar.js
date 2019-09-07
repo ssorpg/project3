@@ -37,6 +37,7 @@ const useStyles = makeStyles(theme => ({
 
   resetA: {
     color: '#fff',
+    textDecoration: 'none',
     '&:hover': {
       color: '#d9d9d9',
       textDecoration: 'none'
@@ -45,6 +46,7 @@ const useStyles = makeStyles(theme => ({
 
   linkStyleReset: {
     color: 'initial',
+    textDecoration: 'none',
     '&:hover': {
       color: 'initial',
       textDecoration: 'none'

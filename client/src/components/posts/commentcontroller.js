@@ -6,7 +6,6 @@ import Comment from './comment';
 
 // FUNCTIONS
 import ax from 'axios';
-import GetEventTargetDataset from '../../utils/geteventtargetdataset';
 
 export default class CommentController extends Component {
   constructor(props) {
@@ -31,17 +30,18 @@ export default class CommentController extends Component {
     const submit = form.getElementsByTagName('button')[0];
 
     submit.style.visibility = 'hidden';
-    await this.postToDB(form, comment);
+    await this.makeComment(form, comment);
     submit.style.visibility = 'visible';
   };
 
-  postToDB = async (form, comment) => {
+  makeComment = async (form, comment) => {
     this.setState({ alert: undefined });
 
     try {
       const res = await ax.post(`/api/posts/${this.props.thisPost.id}/comments`, comment);
-      form.reset();
+
       this.setState({ comments: [...this.state.comments, res.data] });
+      form.reset();
     }
     catch (error) {
       console.log(error);
@@ -49,13 +49,11 @@ export default class CommentController extends Component {
     }
   };
 
-  deleteComment = async event => {
+  deleteComment = async (PostId, CommentId) => {
     this.setState({ alert: undefined });
 
-    const commentInfo = GetEventTargetDataset(event);
-
     try {
-      const removedComment = await ax.delete(`/api/posts/${commentInfo.postid}/comments/${commentInfo.id}`);
+      const removedComment = await ax.delete(`/api/posts/${PostId}/comments/${CommentId}`);
 
       const newComments = this.state.comments.filter(comment => { return comment.id !== removedComment.data.id; });
       this.setState({ comments: newComments });

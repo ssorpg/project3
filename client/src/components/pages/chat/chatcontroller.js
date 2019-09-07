@@ -76,8 +76,8 @@ export default class Chat extends Component {
   handleSubmit = async event => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
     event.preventDefault();
-
     const form = event.target;
+    
     const input = form.getElementsByTagName('input')[0];
 
     await this.ws.send(input.value);

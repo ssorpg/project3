@@ -31,14 +31,16 @@ export default function MakeEvent(props) {
           <br /><br />
           <h5>Select a community for the event:</h5>
           <ul>
-            {this.state.communities.map(item => (
-              <li key={item.id}>
-                <label for='communityId'>
-                  <input type="radio" name='communityId' value={item.id} />
-                  {item.name}
-                </label>
-              </li>
-            ))}
+            {
+              this.state.communities.map(item => (
+                <li key={item.id}>
+                  <label for='communityId'>
+                    <input type="radio" name='communityId' value={item.id} />
+                    {item.name}
+                  </label>
+                </li>
+              ))
+            }
           </ul>
 
           <button name="submit" type="submit">Submit</button>

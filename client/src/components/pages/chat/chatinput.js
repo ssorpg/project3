@@ -25,6 +25,8 @@ export default function ChatInput(props) {
       <TextField
         label="Chat with your community!"
         placeholder="Enter message..."
+        id="message"
+        name="message"
         // multiline // kinda breaks post to db
         fullWidth
         required
