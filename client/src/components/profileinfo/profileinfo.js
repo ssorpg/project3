@@ -17,7 +17,8 @@ const useStyles = makeStyles(theme => ({
 
   profileImageContainer: {
     maxWidth: '500px',
-    marginLeft: '20px'
+    marginLeft: '24px',
+    marginBottom: '24px'
   }
 }));
 

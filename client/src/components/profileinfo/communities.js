@@ -9,11 +9,12 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   communitiesSpacing: {
-    margin: '30px'
+    margin: '24px',
+    marginTop: '12px'
   },
 
   noCommunitiesSpacing: {
-    marginLeft: '30px'
+    marginLeft: '24px'
   }
 }));
 

@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   },
 
   leftButtonMargin: {
-    marginRight: '10px'
+    marginRight: '12px'
   },
 
   navTitle: {
