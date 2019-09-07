@@ -20,15 +20,15 @@ export default function FeedEvents(props) {
       </header>
       <List component="ul">
         {props.events.map(event => (
-          <ListItem divider="true">
+          <ListItem divider={true} key={event.id}>
             {/* //todo maybe we show event in a popover box? */}
             <List component='dl'>
-                <ListItem component="dt" disableGutters="true">
+                <ListItem component="dt" disableGutters={true}>
                   <a href={`/community/${event.CommunityId}/events/${event.id}`}>
                     {event.name}
                   </a>
                 </ListItem>
-                <ListItem component="dd" disableGutters="true">
+                <ListItem component="dd" disableGutters={true}>
                   {event.date} : {event.start_time} - {event.end_time}
                 </ListItem>
             </List>
