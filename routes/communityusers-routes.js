@@ -38,9 +38,9 @@ module.exports = function(app) {
   }));
 
   app.delete('/api/communities/:CommunityId/invited', wrap(async function (req, res, next) { // decline invitation
-    const { community, user, isInvited } = await getCommunity(req.token.UserId, req.params.CommunityId);
+    const { community, user } = await getCommunity(req.token.UserId, req.params.CommunityId);
 
-    if (!isInvited) {
+    if (await community.hasInvited(user)) {
       throw { status: 400, msg: 'You haven\'t been invited to that community.' };
     }
 
@@ -63,13 +63,13 @@ module.exports = function(app) {
   }));
 
   app.post('/api/communities/:CommunityId/users', wrap(async function (req, res, next) { // join community
-    const { community, user, isMember, isInvited } = await getCommunity(req.token.UserId, req.params.CommunityId);
+    const { community, user, isMember } = await getCommunity(req.token.UserId, req.params.CommunityId);
 
     if (isMember) {
       throw { status: 400, msg: 'You\'re already in that community.' };
     }
 
-    if (!isInvited && community.private) {
+    if (community.private && await community.hasInvited(user)) {
       throw { status: 401, msg: 'You haven\'t been invited to that community.' };
     }
 

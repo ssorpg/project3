@@ -77,15 +77,10 @@ module.exports = function (app) {
         required: false
       },
       {
-        model: db.Image,
-        as: 'bannerImage',
-        limit: 1
-      },
-      {
         model: db.Event,
-        as: 'events'
-      },
-    ]
+        as: 'events',
+        limit: 20
+      }]
     });
 
     res.status(200).json(community);

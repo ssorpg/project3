@@ -5,84 +5,58 @@ const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 module.exports = function (app) {
   // COMMUNITY EVENTS
-  app.get('/api/events/:communityId?/:eventId?', wrap(async function (req, res, next) { // get event
-    if(req.params.communityId && req.params.eventId) {
-      var events = await db.Event.findOne({
-        where: {
-          id: req.params.eventId,
-          CommunityId: req.params.communityId,
-        }
-      });
 
-      let eventPosts = await events.getPosts({ limit: 20 });
+  app.post('/api/events/create', wrap(async function (req, res, next) { // make event
+    console.log(req.body);
 
-      events.dataValues.posts = eventPosts;
-    } else {
-      var events = await db.Event.findAll();
+    const { community, user, isMember } = await getCommunity(req.token.UserId, req.body.CommunityId);
+
+    if (!isMember) {
+      throw { status: 401, msg: 'You\'re not in that community.' };
     }
 
-    if(events.length === 0) {
-      console.log('no results');
-      res.status(204).send('No Events Here.\nMake One!');
-    } else {
-      res.status(200).json(events.dataValues);
-    }
-  }));
-  
-  app.post('/api/events/create', wrap( async function(req, res, next) {
     const newEvent = await db.Event.create({
       name: req.body.name,
       description: req.body.description,
       date: req.body.date,
       start_time: req.body.start_time,
-      end_time: req.body.end_time,
-      CommunityId: req.body.communityId,
-      founderId: req.token.UserId,
+      end_time: req.body.end_time
     });
-    
+
+    await community.addEvent(newEvent);
+    newEvent.dataValues.CommunityId = community.id;
+    newEvent.setFounder(user);
+    newEvent.dataValues.founder = user;
+
     res.status(200).json(newEvent);
   }));
 
-  app.get('/api/events/:EventId', wrap(async function (req, res, next) { // get specific event
+  // TODO somehow make this url an api/events url? (idk how lol)
+  app.get('/api/communities/:CommunityId/events/:EventId', wrap(async function (req, res, next) { // get specific event
     const { community, isMember } = await getCommunity(req.token.UserId, req.params.CommunityId);
 
     if (!isMember) {
       throw { status: 401, msg: 'You\'re not in that community.' };
     }
 
-    const [event] = await community.getEvents({
+    let [event] = await community.getEvents({
       where: {
         id: req.params.EventId
-      }
+      },
+      include: [{
+        model: db.User,
+        through: 'EventUser',
+        as: 'members'
+      }]
     });
-  
+
     if (!event) {
       throw { status: 404, msg: 'That event doesn\'t exist.' };
     }
 
     event.dataValues.posts = await event.getPosts({ limit: 20 });
-  
+
     res.status(200).json(event);
-  }));
-
-  app.delete('/api/communities/:EventId', wrap(async function (req, res, next) { // delete event
-    const event = await db.Event.findOne({
-      where: {
-        id: req.params.EventId
-      }
-    });
-
-    if (!event) {
-      throw { status: 404, msg: 'That event doesn\'t exist.' };
-    }
-
-    if (req.token.UserId !== event.founderId) {
-      throw { status: 401, msg: 'You don\'t own that event.' };
-    }
-
-    await event.destroy();
-
-    res.status(200).send('Event deleted.');
   }));
 
   // app.put('/api/communities/:CommunityId/events/:EventId', wrap(async function (req, res, next) { // edit event
@@ -107,11 +81,33 @@ module.exports = function (app) {
   //   }
 
   //   const upEvent = await event.update({
-
-  //     // update some stuff
-
+  //     name: req.body.name,
+  //     description: req.body.description,
+  //     date: req.body.date,
+  //     start_time: req.body.start_time,
+  //     end_time: req.body.end_time
   //   });
 
   //   res.status(200).json(upEvent);
   // }));
+
+  app.delete('/api/events/:EventId', wrap(async function (req, res, next) { // delete event
+    const event = await db.Event.findOne({
+      where: {
+        id: req.params.EventId
+      }
+    });
+
+    if (!event) {
+      throw { status: 404, msg: 'That event doesn\'t exist.' };
+    }
+
+    if (req.token.UserId !== event.founderId) {
+      throw { status: 401, msg: 'You don\'t own that event.' };
+    }
+
+    await event.destroy();
+
+    res.status(200).send('Event deleted.');
+  }));
 };
