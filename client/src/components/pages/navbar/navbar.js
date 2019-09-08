@@ -97,7 +97,7 @@ export default function Navbar(props) {
                 <span key={community.id}>
                   <a href={`/community/${community.id}`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Feed`} /></MenuItem></a>
                   <a href={`/community/${community.id}/friends`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Friends`} /></MenuItem></a>
-                  <a href={`/community/${community.id}/events`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Events`} /></MenuItem></a>
+                  {/* <a href={`/community/${community.id}/events`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Events`} /></MenuItem></a> */}
                   {/* <a href={`/community/${community.id}/chat`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Chat`} /></MenuItem></a> */}
                 </span>
                 : '')

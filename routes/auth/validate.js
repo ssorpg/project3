@@ -2,7 +2,6 @@ const db = require('../../models');
 
 module.exports = {
   getCommunity: async (UserId, CommunityId) => {
-
     const community = await db.Community.findOne({
       where: {
         id: CommunityId
@@ -24,6 +23,23 @@ module.exports = {
       user: user,
       isFounder: UserId === community.founderId ? true : false,
       isMember: await community.hasMember(user)
+    };
+  },
+
+  getEvent: async (UserId, EventId) => {
+    const event = await db.Event.findOne({
+      where: {
+        id: EventId
+      }
+    });
+
+    if (!event) {
+      throw { status: 404, msg: 'That event doesn\'t exist.' };
+    }
+
+    return {
+      event: event,
+      isFounder: UserId === event.founderId ? true : false
     };
   },
 
