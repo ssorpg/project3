@@ -23,8 +23,8 @@ module.exports = function (app) {
       end_time: req.body.end_time
     });
 
-    await newEvent.setCommunity(community);
-    newEvent.dataValues.community = community;
+    await community.addEvent(newEvent);
+    newEvent.dataValues.CommunityId = community.id;
     newEvent.setFounder(user);
     newEvent.dataValues.founder = user;
 

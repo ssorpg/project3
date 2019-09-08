@@ -54,10 +54,6 @@ module.exports = function (sequelize, DataTypes) {
       as: 'members'
     });
 
-    Event.belongsTo(models.Community, {
-      as: 'community'
-    });
-
     Event.belongsTo(models.User, {
       as: 'founder'
     });
@@ -76,10 +72,6 @@ module.exports = function (sequelize, DataTypes) {
       include: [{
         model: models.User,
         as: 'founder'
-      },
-      {
-        model: models.Community,
-        as: 'community'
       }]
     });
   };

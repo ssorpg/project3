@@ -35,7 +35,7 @@ export default class CreateEventController extends Component {
     try {
       const newEvent = await ax.post('/api/events/create', this.state.formData);
 
-      window.location = `/community/${newEvent.data.community.id}/events/${newEvent.data.id}`;
+      window.location = `/community/${newEvent.data.CommunityId}/events/${newEvent.data.id}`;
     }
     catch (error) {
       console.log(error);
