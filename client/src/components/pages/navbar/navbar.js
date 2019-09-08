@@ -20,7 +20,6 @@ const useStyles = makeStyles(theme => ({
   },
 
   max1280: {
-    width: '100%',
     maxWidth: '1280px',
     margin: 'auto'
   },
@@ -133,7 +132,7 @@ export default function Navbar(props) {
   return (
     <div className={classes.navZIndex}>
       <AppBar>
-        <Toolbar className={classes.max1280}>
+        <Toolbar className={classes.max1280 + " full-width"}>
           <IconButton
             edge="start"
             aria-label="open drawer"

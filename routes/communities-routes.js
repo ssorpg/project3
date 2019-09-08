@@ -77,11 +77,6 @@ module.exports = function (app) {
         required: false
       },
       {
-        model: db.Image,
-        as: 'bannerImage',
-        limit: 1
-      },
-      {
         model: db.Event,
         as: 'events',
         limit: 20

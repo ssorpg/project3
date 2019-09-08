@@ -46,6 +46,7 @@ export default class EventController extends Component {
           {
             this.state.event ?
               <Event
+                {...this.props}
                 thisEvent={this.state.event}
                 members={this.state.members}
                 posts={this.state.posts}

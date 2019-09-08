@@ -70,7 +70,7 @@ export default class TPN extends Component {
             : ''
         }
         <Router>
-          <div className="flex-default">
+          <div className="flex-default" id="App">
             <Switch>
               <Route exact path="/register" render=
                 {

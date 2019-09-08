@@ -7,7 +7,7 @@ import Modal from "../../modal";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
-  button: {
+  mr12px: {
     marginRight: '12px'
   }
 }));
@@ -23,6 +23,7 @@ export default function MakeEvent(props) {
       <form onSubmit={handleCreateEventSubmit}>
         <TextField
           id="name"
+          className={classes.mr12px}
           label="Event Name"
           placeholder="Placeholder"
           margin="dense"
@@ -33,6 +34,7 @@ export default function MakeEvent(props) {
 
         <TextField
           id="description"
+          className={classes.mr12px}
           label="Event Description"
           placeholder="Placeholder"
           margin="dense"
@@ -43,6 +45,7 @@ export default function MakeEvent(props) {
         <br />
         <TextField
           id="date"
+          className={classes.mr12px}
           helperText="Event Date"
           margin="dense"
           type="date"
@@ -52,6 +55,7 @@ export default function MakeEvent(props) {
 
         <TextField
           id="start_time"
+          className={classes.mr12px}
           helperText="Event Start Time"
           margin="dense"
           type="time"
@@ -61,6 +65,7 @@ export default function MakeEvent(props) {
 
         <TextField
           id="end_time"
+          className={classes.mr12px}
           helperText="Event End Time"
           margin="dense"
           type="time"
@@ -70,8 +75,9 @@ export default function MakeEvent(props) {
         <br />
         <TextField
           id="CommunityId"
-          className="full-width"
+          className={classes.mr12px + " full-width"}
           select
+          defaultValue="default"
           margin="dense"
           onChange={handleInputChange}
           SelectProps={{
@@ -79,7 +85,7 @@ export default function MakeEvent(props) {
           }}
           required
         >
-          <option selected="selected" disabled="disabled">
+          <option value="default" disabled="disabled">
             Choose A Community
           </option>
           {
@@ -92,10 +98,10 @@ export default function MakeEvent(props) {
         </TextField>
         <br />
         <br />
-        <Button className={classes.button} variant="contained" color="primary" name="submit" type="submit">
+        <Button className={classes.mr12px} variant="contained" color="primary" name="submit" type="submit">
           Submit
         </Button>
-        <Button className={classes.button} variant="outlined" color="secondary" name="reset" type="reset">
+        <Button className={classes.mr12px} variant="outlined" color="secondary" name="reset" type="reset">
           Reset
         </Button>
         {

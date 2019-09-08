@@ -3,19 +3,8 @@ import React from 'react';
 import { Button, TextField, Link, Grid, Typography, Container } from '@material-ui/core';
 import Modal from '../../modal';
 
-// FUNCTIONS
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles(theme => ({
-  registerFormFix: {
-    width: '100%' // Fix IE 11 issue.
-  }
-}));
-
 export default function Register(props) {
   const { handleSubmit, alert } = props;
-
-  const classes = useStyles();
 
   return (
     <Container component="main" maxWidth="xs">
@@ -24,7 +13,7 @@ export default function Register(props) {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.registerFormFix + " theme-mtx3"} onSubmit={handleSubmit}>
+        <form className="full-width theme-mtx3" onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField

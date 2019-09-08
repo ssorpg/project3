@@ -72,6 +72,11 @@ module.exports = function (sequelize, DataTypes) {
       include: [{
         model: models.User,
         as: 'founder'
+      },
+      {
+        model: models.Image,
+        as: 'bannerImage',
+        limit: 1
       }]
     });
   };

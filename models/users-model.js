@@ -98,10 +98,10 @@ module.exports = function (sequelize, DataTypes) {
 
   User.addScopes = function (models) {
     User.addScope('defaultScope', {
+      order: [['id', 'DESC']],
       attributes: {
         exclude: ['password', 'email'] // can't query email or password
       },
-      order: [['id', 'DESC']],
       include: [{
         model: models.Image,
         as: 'profileImage',

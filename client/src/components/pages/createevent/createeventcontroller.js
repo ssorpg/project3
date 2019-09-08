@@ -13,6 +13,7 @@ export default class CreateEventController extends Component {
 
     this.state = {
       events: [],
+      formData: {},
       showEventsList: true,
       toggleButtonText: 'Create Event',
       communities: props.YourProfile.communities,
@@ -21,7 +22,7 @@ export default class CreateEventController extends Component {
   };
 
   handleInputChange = event => {
-    let newFormData = { ...this.state.formData };
+    const newFormData = { ...this.state.formData };
     newFormData[event.target.id] = event.target.value;
 
     this.setState({ formData: newFormData });

@@ -13,7 +13,7 @@ import { GetFormattedTime } from '../../../utils/formatTime';
 import ExtractProfileImage from '../../../utils/extractprofileimage';
 
 export default function Event(props) {
-  const { thisEvent } = props;
+  const { YourProfile, thisEvent } = props;
 
   const start_time = GetFormattedTime(thisEvent.start_time);
   const end_time = GetFormattedTime(thisEvent.end_time);
@@ -32,7 +32,11 @@ export default function Event(props) {
               Created By:&nbsp;
             </strong>
             <Link
-              href={`/community/${thisEvent.CommunityId}/friends/${thisEvent.founderId}`}
+              href={
+                YourProfile.id === thisEvent.founder.id ?
+                  '/profile'
+                  : `/community/${thisEvent.CommunityId}/friends/${thisEvent.founder.id}`
+              }
             >
               {thisEvent.founder.name}
             </Link>

@@ -11,8 +11,8 @@ module.exports = function (sequelize, DataTypes) {
             msg: 'Please enter a name for the event.'
           },
           len: {
-            args: [1, 255],
-            msg: 'The name must be between 1 and 255 characters long.'
+            args: [1, 64],
+            msg: 'The name must be between 1 and 64 characters long.'
           }
         }
       },
@@ -38,7 +38,7 @@ module.exports = function (sequelize, DataTypes) {
           isDate: { msg: 'Please enter a valid date.' },
         }
       },
-      start_time: {
+      start_time: { // TODO validation
         type: DataTypes.STRING,
         trim: true,
       },

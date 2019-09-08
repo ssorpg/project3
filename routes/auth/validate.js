@@ -22,9 +22,8 @@ module.exports = {
     return {
       community: community,
       user: user,
-      isFounder: user && user.id === community.founderId ? true : false,
-      isMember: await community.hasMember(user),
-      isInvited: await community.hasInvited(user)
+      isFounder: UserId === community.founderId ? true : false,
+      isMember: await community.hasMember(user)
     };
   },
 
