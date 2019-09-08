@@ -14,8 +14,6 @@ export default class CreateEventController extends Component {
     this.state = {
       events: [],
       formData: {},
-      showEventsList: true,
-      toggleButtonText: 'Create Event',
       communities: props.YourProfile.communities,
       alert: undefined
     };
