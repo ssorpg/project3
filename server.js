@@ -1,20 +1,37 @@
+// EXPRESS INIT
 const express = require('express');
 const app = express();
 
+// EXPRESS MIDDLEWARE
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname + '/client/build'));
 
-const morgan = require('morgan');
-app.use(morgan('combined'));
-
-const jwt = require('jsonwebtoken');
+// COOKIES
 const cookieParser = require('cookie-parser');
 
 require('dotenv').config();
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
-const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handling
+// LOGGING
+const morgan = require('morgan');
+app.use(morgan('combined'));
+
+// ERROR HANDLER
+const wrap = fn => (...args) => fn(...args).catch(args[2]);
+
+// SECURITY
+const helmet = require('helmet');
+
+app.use(helmet.xssFilter());
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: [`'self'`, `material-ui.com`, `stackpath.bootstrapcdn.com`, `fonts.googleapis.com`]
+  }
+}));
+app.use(helmet.frameguard({ action: 'deny' }));
+
+const jwt = require('jsonwebtoken');
 
 app.use(wrap(async (req, res, next) => {
   const { token } = req.signedCookies;
@@ -41,9 +58,12 @@ app.use(wrap(async (req, res, next) => {
   next();
 }));
 
+// ROUTES
 const expressWs = require('express-ws')(app);
 require('./routes')(app, expressWs);
 
+
+// PRODUCTION ROUTE
 app.get('*', wrap(async (req, res, next) => {
   if (process.env.NODE_ENV === 'production') {
     res.sendFile(__dirname + '/client/build/index.html');
@@ -53,11 +73,13 @@ app.get('*', wrap(async (req, res, next) => {
   }
 }));
 
-app.use(wrap(async (req, res, next) => { // 404 handler
+// 404 HANDLER
+app.use(wrap(async (req, res, next) => {
   throw { status: 404, msg: 'Page not found.' };
 }));
 
-app.use((err, req, res, next) => { // error handler middleware, called with 'next' from routes
+// ROUTE ERROR SWITCH
+app.use((err, req, res, next) => {
   console.log(err);
 
   switch (err.status) {
@@ -72,10 +94,10 @@ app.use((err, req, res, next) => { // error handler middleware, called with 'nex
   }
 });
 
+// SEQUELIZE, SERVER, WEBSOCKET INIT
 const db = require('./models');
 const PORT = process.env.PORT || 3001;
 
-// creating the constant connection between server and client
 db.sequelize.sync({ force: JSON.parse(process.env.RESET_DB) }) // all env variables are strings, so bools must be parsed
   .then(function () {
     require('./data/seeds')(db); // run seeds
