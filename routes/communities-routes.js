@@ -23,7 +23,6 @@ module.exports = function (app) {
 
     await newCommunity.addMember(user);
     newCommunity.setFounder(user);
-    newCommunity.dataValues.founder = user;
 
     res.status(200).json(newCommunity);
   }));
