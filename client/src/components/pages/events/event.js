@@ -53,7 +53,7 @@ export default function Event(props) {
           <Box>
             <Typography variant="h6">Location:</Typography>
             {/* //TODO ADD MAP SHOW EVENT LOCATION AND ADDRESS HERE */}
-            Da Map Goes Here
+            {thisEvent.location}
           </Box>
           <Box>
             <Typography variant="h6">About:</Typography>
