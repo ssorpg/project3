@@ -18,6 +18,7 @@ module.exports = function (app) {
     const newEvent = await db.Event.create({
       name: req.body.name,
       description: req.body.description,
+      location: req.body.location,
       date: req.body.date,
       start_time: req.body.start_time,
       end_time: req.body.end_time
