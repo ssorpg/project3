@@ -31,6 +31,21 @@ module.exports = function (sequelize, DataTypes) {
           }
         }
       },
+      location: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        trim: true,
+        validate: {
+          notNull: {
+            args: true,
+            msg: 'Please enter a location for the event.'
+          },
+          len: {
+            args: [1, 255],
+            msg: 'The description must be between 1 and 255 characters long.'
+          }
+        }
+      },
       date: {
         type: DataTypes.DATEONLY,
         trim: true,

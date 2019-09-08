@@ -44,6 +44,17 @@ export default function MakeEvent(props) {
         />
         <br />
         <TextField
+          id="location"
+          className={classes.mr12px}
+          label="Event Location"
+          placeholder="Placeholder"
+          margin="dense"
+          type="text"
+          onChange={handleInputChange}
+          required
+        />
+        <br />
+        <TextField
           id="date"
           className={classes.mr12px}
           helperText="Event Date"

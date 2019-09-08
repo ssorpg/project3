@@ -11,6 +11,7 @@ import Megatron from "../../megatron";
 // FUNCTIONS
 import { GetFormattedTime } from '../../../utils/formatTime';
 import ExtractProfileImage from '../../../utils/extractprofileimage';
+import GoogleMap from '../../map';
 
 export default function Event(props) {
   const { YourProfile, thisEvent } = props;
@@ -52,8 +53,8 @@ export default function Event(props) {
         <Grid item xs={12} sm={8}>
           <Box>
             <Typography variant="h6">Location:</Typography>
-            {/* //TODO ADD MAP SHOW EVENT LOCATION AND ADDRESS HERE */}
-            Da Map Goes Here
+            <GoogleMap location={thisEvent.location} />
+            {thisEvent.location}
           </Box>
           <Box>
             <Typography variant="h6">About:</Typography>
