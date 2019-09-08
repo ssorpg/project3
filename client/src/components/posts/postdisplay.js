@@ -19,7 +19,7 @@ export default function PostDisplay(props) {
           {
             posts.length ?
               posts.map(post => (
-                <Grid key={post.id} item xs={12} md={4}>
+                <Grid key={post.id} item xs={12} md={6}>
                   <Post
                     {...props}
                     thisPost={post}

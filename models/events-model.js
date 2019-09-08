@@ -11,8 +11,8 @@ module.exports = function (sequelize, DataTypes) {
             msg: 'Please enter a name for the event.'
           },
           len: {
-            args: [1, 255],
-            msg: 'The name must be between 1 and 255 characters long.'
+            args: [1, 64],
+            msg: 'The name must be between 1 and 64 characters long.'
           }
         }
       },
@@ -38,7 +38,7 @@ module.exports = function (sequelize, DataTypes) {
           isDate: { msg: 'Please enter a valid date.' },
         }
       },
-      start_time: {
+      start_time: { // TODO validation
         type: DataTypes.STRING,
         trim: true,
       },
@@ -53,10 +53,6 @@ module.exports = function (sequelize, DataTypes) {
       through: 'EventUser',
       as: 'members'
     });
-    
-    Event.belongsTo(models.Community, {
-      through: 'CommunityId'
-    });
 
     Event.belongsTo(models.User, {
       as: 'founder'
@@ -69,20 +65,14 @@ module.exports = function (sequelize, DataTypes) {
 
   Event.addScopes = function (models) {
     Event.addScope('defaultScope', {
-      order: [['id', 'DESC']],
-      include: [
-        {
-          model: models.User,
-          as: 'founder'
-        },
-        {
-          model: models.Community,
-        },
-        {
-          model: models.User,
-          as: 'members'
-        }
-      ]
+      order: [
+        ['date', 'ASC'],
+        ['start_time', 'ASC']
+      ],
+      include: [{
+        model: models.User,
+        as: 'founder'
+      }]
     });
   };
 

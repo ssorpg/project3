@@ -20,7 +20,6 @@ const useStyles = makeStyles(theme => ({
   },
 
   max1280: {
-    width: '100%',
     maxWidth: '1280px',
     margin: 'auto'
   },
@@ -123,6 +122,7 @@ export default function Navbar(props) {
         {/* <a href="/profile" className="reset-a"><MenuItem><ListItemText primary={'Your Profile'} /></MenuItem></a> */}
         <a href="/updateprofile" className="reset-a"><MenuItem><ListItemText primary={'Update Profile'} /></MenuItem></a>
         <a href="/joincommunity" className="reset-a"><MenuItem><ListItemText primary={'Join/Create Community'} /></MenuItem></a>
+        <a href="/createevent" className="reset-a"><MenuItem><ListItemText primary={'Create Event'} /></MenuItem></a>
         <span className={classes.logout}><MenuItem onClick={logout}><ListItemText primary={'Logout'} /></MenuItem></span>
         {/* <a href="/chat" className="reset-a"><MenuItem><ListItemText primary={'Global Chat'} /></MenuItem></a> */}
       </List>
@@ -132,7 +132,7 @@ export default function Navbar(props) {
   return (
     <div className={classes.navZIndex}>
       <AppBar>
-        <Toolbar className={classes.max1280}>
+        <Toolbar className={classes.max1280 + " full-width"}>
           <IconButton
             edge="start"
             aria-label="open drawer"

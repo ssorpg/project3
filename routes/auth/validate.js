@@ -6,15 +6,7 @@ module.exports = {
     const community = await db.Community.findOne({
       where: {
         id: CommunityId
-      },
-      order: [
-        ['events', 'date', 'ASC'],
-        ['events', 'start_time', 'ASC'],
-      ],
-      include: [{
-        model: db.Event,
-        as: 'events'
-      }]
+      }
     });
     
     if (!community) {
@@ -30,9 +22,8 @@ module.exports = {
     return {
       community: community,
       user: user,
-      isFounder: user && user.id === community.founderId ? true : false,
-      isMember: await community.hasMember(user),
-      isInvited: await community.hasInvited(user)
+      isFounder: UserId === community.founderId ? true : false,
+      isMember: await community.hasMember(user)
     };
   },
 
