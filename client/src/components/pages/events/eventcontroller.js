@@ -26,7 +26,7 @@ export default class EventController extends Component {
 
   getData = async () => {
     try {
-      const res = await ax.get(`/api/communities/${this.props.CommunityId}/events/${this.props.EventId}`);
+      const res = await ax.get(`/api/events/${this.props.EventId}`);
 
       this.setState({
         event: res.data,
