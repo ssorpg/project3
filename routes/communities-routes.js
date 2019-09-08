@@ -83,9 +83,9 @@ module.exports = function (app) {
       },
       {
         model: db.Event,
-        as: 'events'
-      },
-    ]
+        as: 'events',
+        limit: 20
+      }]
     });
 
     res.status(200).json(community);

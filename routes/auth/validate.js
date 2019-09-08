@@ -6,15 +6,7 @@ module.exports = {
     const community = await db.Community.findOne({
       where: {
         id: CommunityId
-      },
-      order: [
-        ['events', 'date', 'ASC'],
-        ['events', 'start_time', 'ASC'],
-      ],
-      include: [{
-        model: db.Event,
-        as: 'events'
-      }]
+      }
     });
     
     if (!community) {

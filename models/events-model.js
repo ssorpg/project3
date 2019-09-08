@@ -53,9 +53,9 @@ module.exports = function (sequelize, DataTypes) {
       through: 'EventUser',
       as: 'members'
     });
-    
+
     Event.belongsTo(models.Community, {
-      through: 'CommunityId'
+      as: 'community'
     });
 
     Event.belongsTo(models.User, {
@@ -69,20 +69,18 @@ module.exports = function (sequelize, DataTypes) {
 
   Event.addScopes = function (models) {
     Event.addScope('defaultScope', {
-      order: [['id', 'DESC']],
-      include: [
-        {
-          model: models.User,
-          as: 'founder'
-        },
-        {
-          model: models.Community,
-        },
-        {
-          model: models.User,
-          as: 'members'
-        }
-      ]
+      order: [
+        ['date', 'ASC'],
+        ['start_time', 'ASC']
+      ],
+      include: [{
+        model: models.User,
+        as: 'founder'
+      },
+      {
+        model: models.Community,
+        as: 'community'
+      }]
     });
   };
 

@@ -1,4 +1,4 @@
-export function getFormattedTime (militaryTime) {
+export function GetFormattedTime(militaryTime) {
   if (!militaryTime) {
     return;
   }
@@ -11,7 +11,7 @@ export function getFormattedTime (militaryTime) {
   return hours + minutes + amPm;
 };
 
-export function getFormattedDate (unformattedDate) {
+export function GetFormattedDate(unformattedDate) {
   const date = new Date(unformattedDate);
   return date.toLocaleString('default', { month: 'long' });
 };

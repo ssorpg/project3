@@ -1,32 +1,26 @@
 // COMPONENTS
 import React from "react";
-import { Paper } from "@material-ui/core";
+import { Paper, TextField, Button } from "@material-ui/core";
 import Modal from "../../modal";
-import { TextField, Button } from "@material-ui/core";
+
+// FUNCTIONS
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStlyes = makeStyles(theme => ({
-  paper: {
-    padding: "25px"
-  },
-  dense: {
-    margin: 5
-  },
-  select: {
-    minWidth: "100%"
-  },
+const useStyles = makeStyles(theme => ({
   button: {
-    marginRight: '15px'
+    marginRight: '12px'
   }
 }));
-export default function MakeEvent(props) {
-  const classes = useStlyes();
-  const { handleInputChange, handleSubmit, alert, communities } = props;
 
-  //TODO 1 : add google maps and use that to add locations to events - youll need the grid
+export default function MakeEvent(props) {
+  const { handleInputChange, handleCreateEventSubmit, communities, alert  } = props;
+
+  const classes = useStyles();
+
+  // TODO 1 : add google maps and use that to add locations to events - youll need the grid
   return (
-    <Paper className={classes.paper}>
-      <form onSubmit={handleSubmit}>
+    <Paper className="theme-paddingx2">
+      <form onSubmit={handleCreateEventSubmit}>
         <TextField
           id="name"
           label="Event Name"
@@ -75,8 +69,8 @@ export default function MakeEvent(props) {
         />
         <br />
         <TextField
-          id="communityId"
-          className={classes.select}
+          id="CommunityId"
+          className="full-width"
           select
           margin="dense"
           onChange={handleInputChange}
@@ -88,11 +82,13 @@ export default function MakeEvent(props) {
           <option selected="selected" disabled="disabled">
             Choose A Community
           </option>
-          {communities.map(item => (
-            <option key={item.id} name={item.name} value={item.id}>
-              {item.name}
-            </option>
-          ))}
+          {
+            communities.map(community => (
+              <option key={community.id} name={community.name} value={community.id}>
+                {community.name}
+              </option>
+            ))
+          }
         </TextField>
         <br />
         <br />
@@ -102,7 +98,11 @@ export default function MakeEvent(props) {
         <Button className={classes.button} variant="outlined" color="secondary" name="reset" type="reset">
           Reset
         </Button>
-        {alert ? <Modal error={alert} /> : ""}
+        {
+          alert ?
+            <Modal error={alert} />
+            : ''
+        }
       </form>
     </Paper>
   );
