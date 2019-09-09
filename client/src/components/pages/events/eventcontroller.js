@@ -10,18 +10,22 @@ import PostController from '../../posts/postcontroller';
 // TODO add map showing location of event
 
 export default class EventController extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    const { YourProfile } = props;
 
     this.state = {
-      events: undefined,
+      event: undefined,
       members: undefined,
-      posts: undefined
+      posts: undefined,
+      userAttending: false,
+      userProfile: YourProfile
     }
   }
 
-  componentDidMount() {
-    this.getData();
+  async componentDidMount() {
+    await this.getData();
+    this.isEventMember();
   }
 
   getData = async () => {
@@ -39,12 +43,37 @@ export default class EventController extends Component {
     }
   };
 
-  handleAttendClick = async () => {
-    try {
-      let x = ax.post('/api/events/1/users');
-      console.log(x);
-    } catch (error) {
-      console.log(error);
+  isEventMember = () => {
+    this.state.event.members.forEach( member => {
+      if(member.id === this.state.userProfile.id) {
+        this.setState({
+          userAttending: true
+        });
+      }
+    });
+  }
+
+  handleToggleAttendence = async () => {
+    if(this.state.userAttending) {
+      try {
+        await ax.delete(`/api/events/${this.state.event.id}/users`);
+        
+        this.setState({
+          userAttending: false
+        });
+      } catch (error) {
+        PageLoadError(error);
+      }
+    } else {
+      try {
+        await ax.post('/api/events/1/users');
+        
+        this.setState({
+          userAttending: true
+        });
+      } catch (error) {
+        PageLoadError(error);
+      }
     }
   }
 
@@ -59,7 +88,8 @@ export default class EventController extends Component {
                 thisEvent={this.state.event}
                 members={this.state.members}
                 posts={this.state.posts}
-                handleAttendClick={this.handleAttendClick}
+                handleToggleAttendence={this.handleToggleAttendence}
+                attending={this.state.userAttending}
               />
               : ''
           }
