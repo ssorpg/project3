@@ -32,11 +32,21 @@ import GoogleMap from "../../map";
 
 const useStyles = makeStyles(theme => ({
   attendence: {
-    marginRight: "3px"
+    marginRight: '3px'
   },
   attendenceButton: {
     display: 'inline-block',
-    marginRight: '12px'
+    marginRight: "12px"
+  },
+  memberLink: {
+    display: 'block'
+  },
+  memberLinkContents: {
+    display: 'inline-block',
+    verticalAlign: 'middle'
+  },
+  avatarImg: {
+    maxWidth: '100%'
   }
 }));
 
@@ -45,7 +55,7 @@ export default function Event(props) {
   const start_time = GetFormattedTime(thisEvent.start_time);
   const end_time = GetFormattedTime(thisEvent.end_time);
   const classes = useStyles();
-  
+
   return (
     <>
       <Megatron
@@ -60,14 +70,14 @@ export default function Event(props) {
             <Typography variant="srOnly">Event Date</Typography>
             {thisEvent.date}
           </Typography>
-          <Typography variant="body1" title="Event Time"  className="mt-2">
+          <Typography variant="body1" title="Event Time" className="mt-2">
             <Schedule className={classes.attendence} />
             <Typography variant="srOnly">Event Time</Typography>
             {start_time} - {end_time}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Typography variant="body1"  title="Event Creator">
+          <Typography variant="body1" title="Event Creator">
             <AssignmentInd className={classes.attendence} alt="Event Creator" />
             <Typography variant="srOnly">Event Created By:</Typography>
             {/* <strong>Created By:&nbsp;</strong> */}
@@ -83,34 +93,36 @@ export default function Event(props) {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={12} className="attendenceNav">
-        {/* //TODO break out attendance nav into own component VVV */}
           <Box component="nav">
-            {
-              attending ? 
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  onClick={handleToggleAttendence}
-                  className={classes.attendenceButton}
-                >
-                  <CheckCircle className={classes.attendence} />
-                  Attending
-                </Button>
-              :
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  size="small"
-                  onClick={handleToggleAttendence}
-                  className={classes.attendenceButton}
-                >
-                  <CheckCircleOutlineOutlined className={classes.attendence} />
-                  Attend
-                </Button>
-            }
-            <Button variant="outlined" color="primary" size="small"
-             className={classes.attendenceButton}>
+            {attending ? (
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                onClick={handleToggleAttendence}
+                className={classes.attendenceButton}
+              >
+                <CheckCircle className={classes.attendence} />
+                Attending
+              </Button>
+            ) : (
+              <Button
+                variant="outlined"
+                color="primary"
+                size="small"
+                onClick={handleToggleAttendence}
+                className={classes.attendenceButton}
+              >
+                <CheckCircleOutlineOutlined className={classes.attendence} />
+                Attend
+              </Button>
+            )}
+            <Button
+              variant="outlined"
+              color="primary"
+              size="small"
+              className={classes.attendenceButton}
+            >
               <ExposurePlus1 className={classes.attendence} />
               Invite
             </Button>
@@ -140,22 +152,23 @@ export default function Event(props) {
             <List>
               {thisEvent.members.map(member => (
                 <ListItem key={member.id}>
-                  <ListItemAvatar>
-                    <Avatar>
-                      <img
-                        src={ExtractProfileImage(member)}
-                        alt={member.name}
-                      />
-                      <AccountCircle />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText>
-                    <Link
-                      href={`/community/${thisEvent.CommunityId}/friends/${member.id}`}
-                    >
+                  <Link
+                    href={`/community/${thisEvent.CommunityId}/friends/${member.id}`}
+                    className="memberLink"
+                  >
+                    <ListItemAvatar className={classes.memberLinkContents}>
+                      <Avatar>
+                        <img
+                          src={ExtractProfileImage(member)}
+                          alt={member.name}
+                          className={classes.avatarImg}
+                        />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText className={classes.memberLinkContents}>
                       {member.name}
-                    </Link>
-                  </ListItemText>
+                    </ListItemText>
+                  </Link>
                 </ListItem>
               ))}
             </List>
