@@ -20,11 +20,21 @@ export default class PostController extends Component {
     }
   };
 
+  componentDidMount() {
+    const infiniteScroll = document.getElementsByClassName('infinite-scroll-component')[0];
+
+    if (infiniteScroll) {
+      infiniteScroll.parentNode.style.maxWidth = '667px';
+    }
+  };
+
   getMorePosts = async () => {
     this.setState({ alert: undefined });
 
+    const lastPostId = this.state.posts[this.state.posts.length - 1].id
+
     try {
-      const res = await ax.get(this.state.postURL + `&offset=${this.state.posts.length}`);
+      const res = await ax.get(this.state.postURL + `&startAt=${lastPostId}`);
 
       if (!res.data.length) { // this is not super easy to read TODO fix?
         await this.setState({ hasMorePosts: false });

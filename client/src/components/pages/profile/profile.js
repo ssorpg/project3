@@ -157,7 +157,7 @@ export default class Profile extends Component {
       <Container maxWidth="lg">
         <Megatron
           heading="Profile"
-          image={ExtractProfileImage(this.state.YourProfile)} // for some reason this doesn't work with the placeholder?
+          image={ExtractProfileImage(this.state.YourProfile)} // for some reason the megatron doesn't show nophoto.png?
           imagePosition="50%"
           megaHeight='20vh'
           megaMaxHeight='320px!important'
@@ -182,13 +182,12 @@ export default class Profile extends Component {
             <Modal error={this.state.alert} />
             : ''
         }
-        <Container maxWidth="sm">
-          <PostController
-            {...this.props}
-            posts={this.state.posts}
-            cantPost={true}
-          />
-        </Container>
+        <PostController
+          {...this.props}
+          posts={this.state.posts}
+          postURL={`/api/posts?UserId=${this.state.YourProfile.id}`}
+          cantPost={true}
+        />
       </Container>
     );
   };

@@ -7,12 +7,6 @@ import Post from './post'
 export default function PostDisplay(props) {
   const { posts, cantPost, hasMorePosts, getMorePosts } = props;
 
-  const infiniteScroll = document.getElementsByClassName('infinite-scroll-component')[0];
-
-  if (infiniteScroll) {
-    infiniteScroll.parentNode.style.width = '100%';
-  }
-
   console.log(posts);
 
   return (
