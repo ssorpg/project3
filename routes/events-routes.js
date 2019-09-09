@@ -48,8 +48,11 @@ module.exports = function (app) {
   }));
 
   app.delete('/api/events/:EventId/users', wrap(async function (req, res, next) { // leave event
-    const { event } = await getEvent(req.token.UserId, req.params.EventId);
-    const { user, isMember } = await getCommunity(req.token.UserId, req.params.CommunityId);
+    const { event, user, isMember } = await getEvent(
+      req.token.UserId,
+      req.params.EventId
+    );
+    //TODO do we need this logic to delete? I check if user is attending on front end?
 
     if (!await event.hasMember(user)) {
       throw { status: 400, msg: 'You haven\'t joined that event.' };

@@ -37,9 +37,21 @@ module.exports = {
       throw { status: 404, msg: 'That event doesn\'t exist.' };
     }
 
+    const user = await db.User.findOne({
+      where: {
+        id: UserId
+      }
+    });
+
+    if (!event) {
+      throw { status: 404, msg: 'That user doesn\'t exist.' };
+    }
+
     return {
       event: event,
-      isFounder: UserId === event.founderId ? true : false
+      user: user,
+      isFounder: UserId === event.founderId ? true : false,
+      isMember: await event.hasMember(user)
     };
   },
 
