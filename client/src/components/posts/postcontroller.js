@@ -15,7 +15,33 @@ export default class PostController extends Component {
       postURL: props.postURL,
       postType: props.postType,
       cantPost: props.cantPost,
+      hasMorePosts: true,
       alert: undefined
+    }
+  };
+
+  getMorePosts = async () => {
+    this.setState({ alert: undefined });
+
+    try {
+      const res = await ax.get(this.state.postURL + `&offset=${this.state.posts.length}`);
+
+      if (!res.data.length) { // this is not super easy to read TODO fix?
+        await this.setState({ hasMorePosts: false });
+      }
+      else if (res.data.length < 20) {
+        await this.setState({
+          hasMorePosts: false,
+          posts: [...this.state.posts, ...res.data]
+        });
+      }
+      else {
+        await this.setState({ posts: [...this.state.posts, ...res.data] });
+      }
+    }
+    catch (error) {
+      console.log(error);
+      this.setState({ alert: error.response.data });
     }
   };
 
@@ -100,6 +126,8 @@ export default class PostController extends Component {
           posts={this.state.posts}
           vote={this.vote}
           deletePost={this.deletePost}
+          hasMorePosts={this.state.hasMorePosts}
+          getMorePosts={this.getMorePosts}
         />
       </>
     );

@@ -50,12 +50,14 @@ export default class Profile extends Component {
           }
           {
             this.state.posts ?
-              <PostController
-                {...this.props}
-                posts={this.state.posts}
-                postURL={`/api/posts?CommunityId=${this.props.CommunityId}&UserId=${this.props.FriendId}`}
-                postType='Wall'
-              />
+              <Container maxWidth="sm">
+                <PostController
+                  {...this.props}
+                  posts={this.state.posts}
+                  postURL={`/api/posts?CommunityId=${this.props.CommunityId}&UserId=${this.props.FriendId}`}
+                  postType='Wall'
+                />
+              </Container>
               : ''
           }
         </Container>

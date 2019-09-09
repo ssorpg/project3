@@ -143,7 +143,7 @@ export default class Profile extends Component {
       const newProfile = this.state.YourProfile;
       newProfile.status = status.status;
       this.setState({ YourProfile: newProfile });
-      
+
       form.reset();
     }
     catch (error) {
@@ -182,11 +182,13 @@ export default class Profile extends Component {
             <Modal error={this.state.alert} />
             : ''
         }
-        <PostController
-          {...this.props}
-          posts={this.state.posts}
-          cantPost={true}
-        />
+        <Container maxWidth="sm">
+          <PostController
+            {...this.props}
+            posts={this.state.posts}
+            cantPost={true}
+          />
+        </Container>
       </Container>
     );
   };

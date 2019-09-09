@@ -4,7 +4,7 @@ const { getCommunity, getPost } = require('./auth/validate');
 const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 module.exports = function (app) {
-  // POST
+  // POSTS
 
   app.post('/api/posts', wrap(async function (req, res, next) { // make post of type implied by provided queryID(s) - for example: /api/posts?CommunityId=1&UserId=1
     const CommunityId = req.query.CommunityId;
@@ -15,10 +15,6 @@ module.exports = function (app) {
 
     if (!isMember) {
       throw { status: 401, msg: 'You\'re not in that community.' };
-    }
-
-    if (!CommunityId && !UserId && !EventId) {
-      throw { status: 400 };
     }
 
     let newPost;
@@ -73,6 +69,62 @@ module.exports = function (app) {
     }
 
     res.status(200).json(newPost);
+  }));
+
+  app.get('/api/posts', wrap(async function (req, res, next) { // get more posts
+    const CommunityId = req.query.CommunityId;
+    const UserId = req.query.UserId;
+    const EventId = req.query.EventId;
+    const offset = parseInt(req.query.offset);
+
+    const { community, isMember } = await getCommunity(req.token.UserId, CommunityId);
+
+    if (!isMember) {
+      throw { status: 401, msg: 'You\'re not in that community.' };
+    }
+
+    let resPosts;
+
+    if (EventId) {
+      const [event] = await community.getEvents({
+        where: {
+          id: EventId
+        }
+      });
+
+      if (!event) {
+        throw { status: 404, msg: 'That event doesn\'t exist.' };
+      }
+
+      resPosts = await event.getPosts({
+        limit: 20,
+        offset: offset
+      });
+    }
+    else if (UserId) {
+      const [getUser] = await community.getMembers({
+        where: {
+          id: UserId
+        }
+      });
+
+      if (!getUser) {
+        throw { status: 401, msg: 'You aren\'t in a community with that user.' };
+      }
+
+      resPosts = await getUser.getPosts({
+        limit: 20,
+        offset: offset
+      });
+    }
+    else {
+      resPosts = await community.getPosts({
+        limit: 20,
+        offset: offset
+      });
+    }
+
+    res.status(200).json(resPosts);
   }));
 
   app.delete('/api/posts/:PostId', wrap(async function (req, res, next) { // delete post

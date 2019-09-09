@@ -1,11 +1,20 @@
 // COMPONENTS
 import React from 'react';
 import { Grid, Container } from '@material-ui/core';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import Post from './post'
 
 export default function PostDisplay(props) {
-  const { posts, cantPost } = props;
-  
+  const { posts, cantPost, hasMorePosts, getMorePosts } = props;
+
+  const infiniteScroll = document.getElementsByClassName('infinite-scroll-component')[0];
+
+  if (infiniteScroll) {
+    infiniteScroll.parentNode.style.width = '100%';
+  }
+
+  console.log(posts);
+
   return (
     <Container maxWidth="lg">
       <main>
@@ -18,14 +27,30 @@ export default function PostDisplay(props) {
         >
           {
             posts.length ?
-              posts.map(post => (
-                <Grid key={post.id} item xs={12} md={6}>
-                  <Post
-                    {...props}
-                    thisPost={post}
-                  />
-                </Grid>
-              ))
+              <InfiniteScroll
+                dataLength={posts.length}
+                next={getMorePosts}
+                hasMore={hasMorePosts}
+                loader={<h4>Loading...</h4>}
+                className="full-width flex-middle"
+                style={{ flexWrap: 'wrap' }}
+                endMessage={
+                  <p className="full-width text-center theme-mtx3">
+                    <b>No more posts to load.</b>
+                  </p>
+                }
+              >
+                {
+                  posts.map(post => (
+                    <Grid key={post.id} className="full-width">
+                      <Post
+                        {...props}
+                        thisPost={post}
+                      />
+                    </Grid>
+                  ))
+                }
+              </InfiniteScroll>
               : cantPost ?
                 ''
                 : <h2 className="text-center">No posts here.<br />You should make one!</h2>
