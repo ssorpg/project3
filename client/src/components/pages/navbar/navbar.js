@@ -90,7 +90,7 @@ export default function Navbar(props) {
     >
       <List>
         <a href="/profile" className="reset-a"><MenuItem><ListItemText primary={'Your Profile'} /></MenuItem></a>
-        { // this is just ugly from lines 98 to 113 - TODO make this not gross to look at
+        { // hard to read - TODO refactor
           CommunityId ?
             YourProfile.communities.map(community => {
               return (CommunityId === community.id ?

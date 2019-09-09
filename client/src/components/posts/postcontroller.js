@@ -36,8 +36,8 @@ export default class PostController extends Component {
     try {
       const res = await ax.get(this.state.postURL + `&startAt=${lastPostId}`);
 
-      if (!res.data.length) { // this is not super easy to read TODO fix?
-        await this.setState({ hasMorePosts: false });
+      if (!res.data.length) { // hard to read - TODO reactor
+        await this.setState({ hasMorePosts: false }); // use await to prevent loading more posts before previous ones have loaded
       }
       else if (res.data.length < 20) {
         await this.setState({
@@ -92,14 +92,15 @@ export default class PostController extends Component {
     try {
       const res = await ax.put(`/api/posts/${PostId}/${voteType}`);
 
-      const newPostScore = this.state.posts.map(post => {
+      const newPosts = [...this.state.posts];
+
+      newPosts.forEach(post => { // spread operator then forEach instead of map to prevent reloading entire array
         if (post.id === res.data.id) {
           post.score = res.data.score;
         }
-        return post;
       });
 
-      this.setState({ posts: newPostScore });
+      this.setState({ posts: newPosts });
     }
     catch (error) {
       console.log(error);
@@ -125,12 +126,15 @@ export default class PostController extends Component {
   render() {
     return (
       <>
-        <MakePost
-          handleMakePost={this.handleMakePost}
-          postType={this.state.postType}
-          cantPost={this.state.cantPost}
-          alert={this.state.alert}
-        />
+        {
+          !this.state.cantPost ?
+            <MakePost
+              handleMakePost={this.handleMakePost}
+              postType={this.state.postType}
+              alert={this.state.alert}
+            />
+            : ''
+        }
         <PostDisplay
           {...this.props}
           posts={this.state.posts}

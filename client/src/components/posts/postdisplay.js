@@ -17,7 +17,6 @@ export default function PostDisplay(props) {
           direction="row"
           justify="center"
           spacing={4}
-          className="theme-mtx3"
         >
           {
             posts.length ?
@@ -47,7 +46,7 @@ export default function PostDisplay(props) {
               </InfiniteScroll>
               : cantPost ?
                 ''
-                : <h2 className="text-center">No posts here.<br />You should make one!</h2>
+                : <h2 className="text-center theme-mt theme-mbx2">No posts here.<br />You should make one!</h2>
           }
         </Grid>
       </main>

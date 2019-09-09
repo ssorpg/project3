@@ -79,7 +79,7 @@ module.exports = function (app) {
 
     let resPosts;
 
-    if (UserId === req.token.UserId) { // TODO make 82 - 98 a different route?
+    if (UserId === req.token.UserId) { // TODO make this 'if' a new route
       const user = await db.User.findOne({
         where: {
           id: req.token.UserId

@@ -49,7 +49,7 @@ export default function Event(props) {
           </Typography>
         </Grid>
       </Grid>
-      <Grid container className="theme-paddingx2" spacing={1}>
+      <Grid container className="theme-paddingx2 theme-mbx2" spacing={1}>
         <Grid item xs={12} sm={8}>
           <Box>
             <Typography variant="h6">Location:</Typography>
@@ -69,7 +69,7 @@ export default function Event(props) {
               <List>
                 {
                   thisEvent.members.map(member => (
-                    <ListItem>
+                    <ListItem key={member.id}>
                       <ListItemAvatar>
                         <Avatar>
                           <img src={ExtractProfileImage(member)} alt={member.name} />

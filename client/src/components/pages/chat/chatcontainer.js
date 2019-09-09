@@ -7,7 +7,7 @@ import ChatInput from './chatinput';
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles'
 
-// there's a lot going on in this css, maybe there's a way to make it not so confusing?
+// there's a lot going on in this css, refactor?
 const useStyles = makeStyles({
   chatContainer: {
     display: 'flex',
