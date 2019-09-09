@@ -16,6 +16,7 @@ import {
 import {
   AccountCircle,
   CheckCircleOutlineOutlined,
+  CheckCircle,
   ExposurePlus1
 } from "@material-ui/icons";
 import Megatron from "../../megatron";
@@ -33,11 +34,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Event(props) {
-  const { YourProfile, thisEvent, handleAttendClick } = props;
+  const { YourProfile, thisEvent, handleToggleAttendence, attending } = props;
   const start_time = GetFormattedTime(thisEvent.start_time);
   const end_time = GetFormattedTime(thisEvent.end_time);
   const classes = useStyles();
-
+  
   return (
     <>
       <Megatron
@@ -68,15 +69,28 @@ export default function Event(props) {
         <Grid item xs={2}>
         {/* //TODO break out attendance nav into own component VVV */}
           <Box component="nav">
-            <Button
-              variant="outlined"
-              color="primary"
-              size="small"
-              onClick={handleAttendClick}
-            >
-              <CheckCircleOutlineOutlined className={classes.attendence} />
-              Attend
-            </Button>
+            {
+              attending ? 
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  onClick={handleToggleAttendence}
+                >
+                  <CheckCircle className={classes.attendence} />
+                  Attending
+                </Button>
+              :
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  onClick={handleToggleAttendence}
+                >
+                  <CheckCircleOutlineOutlined className={classes.attendence} />
+                  Attend
+                </Button>
+            }
             <Button variant="outlined" color="primary" size="small">
               <ExposurePlus1 className={classes.attendence} />
               Invite
