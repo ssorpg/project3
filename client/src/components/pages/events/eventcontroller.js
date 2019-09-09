@@ -39,6 +39,15 @@ export default class EventController extends Component {
     }
   };
 
+  handleAttendClick = async () => {
+    try {
+      let x = ax.post('/api/events/1/users');
+      console.log(x);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   render() {
     return (
       <Container>
@@ -50,6 +59,7 @@ export default class EventController extends Component {
                 thisEvent={this.state.event}
                 members={this.state.members}
                 posts={this.state.posts}
+                handleAttendClick={this.handleAttendClick}
               />
               : ''
           }
