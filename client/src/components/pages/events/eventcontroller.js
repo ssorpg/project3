@@ -53,11 +53,55 @@ export default class EventController extends Component {
     });
   }
 
+  findUserIndex = user => {
+    let userIndex;
+    this.state.members.forEach( (member, index) => {
+      if( member.id === user.id) { 
+        userIndex = index;
+      }
+    })
+
+    return userIndex;
+  }
+
+  addMember = user => {
+    let updatedMembers = this.state.event.members;
+    updatedMembers.push(user);
+
+    this.setState({
+      members: [...updatedMembers]
+    })
+  }
+  //TODO is this the best way to get state to realize users have left?
+  removeMember = user => {
+    const userIndex = this.findUserIndex(user);
+    let updatedMembers = this.state.event.members;
+    updatedMembers.splice(userIndex, 1);
+
+    this.setState({
+      members: updatedMembers
+    });
+  }
+
+  updateMembers = (action, user) => {
+    switch(action) {
+      default:
+      case 'add':
+        this.addMember(user);
+        break;
+      case 'delete':
+        this.removeMember(user);
+      break;
+    }
+  }
+
   handleToggleAttendence = async () => {
     if(this.state.userAttending) {
       try {
-        await ax.delete(`/api/events/${this.state.event.id}/users`);
-        
+        let removedUser = await ax.delete(`/api/events/${this.state.event.id}/users`);
+        this.updateMembers('delete', removedUser.data);
+
+
         this.setState({
           userAttending: false
         });
@@ -66,8 +110,9 @@ export default class EventController extends Component {
       }
     } else {
       try {
-        await ax.post('/api/events/1/users');
-        
+        let newMember = await ax.post('/api/events/1/users');
+        this.updateMembers('add', newMember.data);
+
         this.setState({
           userAttending: true
         });

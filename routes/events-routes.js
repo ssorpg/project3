@@ -44,7 +44,7 @@ module.exports = function (app) {
 
     await event.addMember(user);
 
-    res.status(200).json(event);
+    res.status(200).json(user);
   }));
 
   app.delete('/api/events/:EventId/users', wrap(async function (req, res, next) { // leave event
@@ -64,7 +64,7 @@ module.exports = function (app) {
 
     await event.removeMember(user);
 
-    res.status(200).json(event);
+    res.status(200).json(user);
   }));
 
   app.get('/api/events/:EventId', wrap(async function (req, res, next) { // get specific event
