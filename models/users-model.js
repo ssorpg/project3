@@ -81,6 +81,11 @@ module.exports = function (sequelize, DataTypes) {
       through: 'UserInvite',
       as: 'invites'
     });
+    
+    User.belongsToMany(models.Event, {
+      through: 'EventInvite',
+      as: 'eventInvites'
+    });
 
     User.belongsToMany(models.Event, {
       through: 'EventUser',
