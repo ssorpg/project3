@@ -144,7 +144,8 @@ module.exports = function (app) {
         where: {
           id: {
             [db.op.lt]: startAt
-          }
+          },
+          CommunityId: community.id
         },
       });
     }
