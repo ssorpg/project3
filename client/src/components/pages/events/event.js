@@ -17,7 +17,10 @@ import {
   AccountCircle,
   CheckCircleOutlineOutlined,
   CheckCircle,
-  ExposurePlus1
+  ExposurePlus1,
+  Event as EventIcon,
+  AssignmentInd,
+  Schedule
 } from "@material-ui/icons";
 import Megatron from "../../megatron";
 
@@ -30,6 +33,10 @@ import GoogleMap from "../../map";
 const useStyles = makeStyles(theme => ({
   attendence: {
     marginRight: "3px"
+  },
+  attendenceButton: {
+    display: 'inline-block',
+    marginRight: '12px'
   }
 }));
 
@@ -47,14 +54,23 @@ export default function Event(props) {
         imagePosition="0 76%"
       />
       <Grid container className="theme-paddingx2" spacing={2}>
-        <Grid item xs={6}>
-          <Typography variant="body1">
-            <strong>Date: </strong> {thisEvent.date} {start_time} - {end_time}
+        <Grid item xs={12} sm={6}>
+          <Typography variant="body1" title="Event Date">
+            <EventIcon className={classes.attendence} alt="Event Date" />
+            <Typography variant="srOnly">Event Date</Typography>
+            {thisEvent.date}
+          </Typography>
+          <Typography variant="body1" title="Event Time"  className="mt-2">
+            <Schedule className={classes.attendence} />
+            <Typography variant="srOnly">Event Time</Typography>
+            {start_time} - {end_time}
           </Typography>
         </Grid>
-        <Grid item xs={4}>
-          <Typography variant="body1">
-            <strong>Created By:&nbsp;</strong>
+        <Grid item xs={12} sm={6}>
+          <Typography variant="body1"  title="Event Creator">
+            <AssignmentInd className={classes.attendence} alt="Event Creator" />
+            <Typography variant="srOnly">Event Created By:</Typography>
+            {/* <strong>Created By:&nbsp;</strong> */}
             <Link
               href={
                 YourProfile.id === thisEvent.founder.id
@@ -66,7 +82,7 @@ export default function Event(props) {
             </Link>
           </Typography>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={12} sm={12} className="attendenceNav">
         {/* //TODO break out attendance nav into own component VVV */}
           <Box component="nav">
             {
@@ -76,6 +92,7 @@ export default function Event(props) {
                   color="primary"
                   size="small"
                   onClick={handleToggleAttendence}
+                  className={classes.attendenceButton}
                 >
                   <CheckCircle className={classes.attendence} />
                   Attending
@@ -86,16 +103,19 @@ export default function Event(props) {
                   color="primary"
                   size="small"
                   onClick={handleToggleAttendence}
+                  className={classes.attendenceButton}
                 >
                   <CheckCircleOutlineOutlined className={classes.attendence} />
                   Attend
                 </Button>
             }
-            <Button variant="outlined" color="primary" size="small">
+            <Button variant="outlined" color="primary" size="small"
+             className={classes.attendenceButton}>
               <ExposurePlus1 className={classes.attendence} />
               Invite
             </Button>
           </Box>
+          <Divider className="mt-4" />
         </Grid>
       </Grid>
       <Grid container className="theme-paddingx2" spacing={1}>
@@ -105,7 +125,7 @@ export default function Event(props) {
             <Typography variant="body1">{thisEvent.description}</Typography>
           </Box>
           <br />
-          <Divider />
+          <Divider light={true} />
           <Box>
             <Typography variant="h6">Location:</Typography>
             <Typography variant="body2">{thisEvent.location}</Typography>
@@ -116,7 +136,7 @@ export default function Event(props) {
         {thisEvent.members.length ? (
           <Grid item xs={12} sm={4}>
             <Typography variant="h6">Attendees: </Typography>
-            <Divider />
+            <Divider light={true} />
             <List>
               {thisEvent.members.map(member => (
                 <ListItem key={member.id}>
