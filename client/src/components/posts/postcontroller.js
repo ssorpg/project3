@@ -15,7 +15,43 @@ export default class PostController extends Component {
       postURL: props.postURL,
       postType: props.postType,
       cantPost: props.cantPost,
+      hasMorePosts: true,
       alert: undefined
+    }
+  };
+
+  componentDidMount() {
+    const infiniteScroll = document.getElementsByClassName('infinite-scroll-component')[0];
+
+    if (infiniteScroll) {
+      infiniteScroll.parentNode.style.maxWidth = '667px';
+    }
+  };
+
+  getMorePosts = async () => {
+    this.setState({ alert: undefined });
+
+    const lastPostId = this.state.posts[this.state.posts.length - 1].id
+
+    try {
+      const res = await ax.get(this.state.postURL + `&startAt=${lastPostId}`);
+
+      if (!res.data.length) { // this is not super easy to read TODO fix?
+        await this.setState({ hasMorePosts: false });
+      }
+      else if (res.data.length < 20) {
+        await this.setState({
+          hasMorePosts: false,
+          posts: [...this.state.posts, ...res.data]
+        });
+      }
+      else {
+        await this.setState({ posts: [...this.state.posts, ...res.data] });
+      }
+    }
+    catch (error) {
+      console.log(error);
+      this.setState({ alert: error.response.data });
     }
   };
 
@@ -100,6 +136,8 @@ export default class PostController extends Component {
           posts={this.state.posts}
           vote={this.vote}
           deletePost={this.deletePost}
+          hasMorePosts={this.state.hasMorePosts}
+          getMorePosts={this.getMorePosts}
         />
       </>
     );

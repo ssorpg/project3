@@ -9,6 +9,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import ExtractProfileImage from '../../utils/extractprofileimage';
 
 const useStyles = makeStyles({
+  postSpacing: {
+    margin: '12px'
+  },
+
   postProfileImage: {
     paddingTop: '25%', // 1/4 size image
     width: '25%',
@@ -25,6 +29,7 @@ const useStyles = makeStyles({
 
 export default function Post(props) {
   const { YourProfile, thisPost, vote, deletePost } = props;
+  
   const classes = useStyles();
 
   function goToAuthor() {
@@ -36,7 +41,7 @@ export default function Post(props) {
   };
 
   return (
-    <Card>
+    <Card className={classes.postSpacing}>
       <CardActionArea onClick={goToAuthor}>
         <CardMedia
           className={classes.postProfileImage}

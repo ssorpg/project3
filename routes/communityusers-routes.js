@@ -110,6 +110,7 @@ module.exports = function(app) {
       include: [{
         model: db.Post,
         as: 'posts',
+        limit: 20,
         where: {
           CommunityId: community.id
         },

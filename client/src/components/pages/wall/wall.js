@@ -24,11 +24,11 @@ export default class Profile extends Component {
 
   GetData = async () => {
     try {
-      const userData = await ax.get(`/api/communities/${this.props.CommunityId}/users/${this.props.FriendId}/wall`);
+      const res = await ax.get(`/api/communities/${this.props.CommunityId}/users/${this.props.FriendId}/wall`);
 
       this.setState({
-        friendProfile: userData.data,
-        posts: userData.data.posts
+        friendProfile: res.data,
+        posts: res.data.posts
       });
     }
     catch (error) {
@@ -38,28 +38,26 @@ export default class Profile extends Component {
 
   render() {
     return (
-      <div>
-        <Container maxWidth="lg">
-          {
-            this.state.friendProfile ?
-              <ProfileInfo
-                {...this.props}
-                user={this.state.friendProfile}
-              />
-              : ''
-          }
-          {
-            this.state.posts ?
-              <PostController
-                {...this.props}
-                posts={this.state.posts}
-                postURL={`/api/posts?CommunityId=${this.props.CommunityId}&UserId=${this.props.FriendId}`}
-                postType='Wall'
-              />
-              : ''
-          }
-        </Container>
-      </div>
+      <Container>
+        {
+          this.state.friendProfile ?
+            <ProfileInfo
+              {...this.props}
+              user={this.state.friendProfile}
+            />
+            : ''
+        }
+        {
+          this.state.posts ?
+            <PostController
+              {...this.props}
+              posts={this.state.posts}
+              postURL={`/api/posts?CommunityId=${this.props.CommunityId}&UserId=${this.props.FriendId}`}
+              postType='Wall'
+            />
+            : ''
+        }
+      </Container>
     )
   }
 }

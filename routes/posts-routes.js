@@ -4,21 +4,17 @@ const { getCommunity, getPost } = require('./auth/validate');
 const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 module.exports = function (app) {
-  // POST
+  // POSTS
 
   app.post('/api/posts', wrap(async function (req, res, next) { // make post of type implied by provided queryID(s) - for example: /api/posts?CommunityId=1&UserId=1
-    const CommunityId = req.query.CommunityId;
-    const UserId = req.query.UserId;
-    const EventId = req.query.EventId;
+    const CommunityId = parseInt(req.query.CommunityId);
+    const UserId = parseInt(req.query.UserId);
+    const EventId = parseInt(req.query.EventId);
 
     const { community, user, isMember } = await getCommunity(req.token.UserId, CommunityId);
 
     if (!isMember) {
       throw { status: 401, msg: 'You\'re not in that community.' };
-    }
-
-    if (!CommunityId && !UserId && !EventId) {
-      throw { status: 400 };
     }
 
     let newPost;
@@ -73,6 +69,98 @@ module.exports = function (app) {
     }
 
     res.status(200).json(newPost);
+  }));
+
+  app.get('/api/posts', wrap(async function (req, res, next) { // get more posts
+    const CommunityId = parseInt(req.query.CommunityId);
+    const UserId = parseInt(req.query.UserId);
+    const EventId = parseInt(req.query.EventId);
+    const startAt = parseInt(req.query.startAt);
+
+    let resPosts;
+
+    if (UserId === req.token.UserId) { // TODO make 82 - 98 a different route?
+      const user = await db.User.findOne({
+        where: {
+          id: req.token.UserId
+        },
+        include: [{
+          model: db.Post,
+          as: 'posts',
+          limit: 20,
+          where: {
+            id: {
+              [db.op.lt]: startAt
+            }
+          },
+          required: false
+        }]
+      });
+
+      resPosts = user.dataValues.posts;
+      
+      return res.status(200).json(resPosts);
+    }
+
+    const { community, isMember } = await getCommunity(req.token.UserId, CommunityId);
+
+    if (!isMember) {
+      throw { status: 401, msg: 'You\'re not in that community.' };
+    }
+
+    if (EventId) {
+      const [event] = await community.getEvents({
+        where: {
+          id: EventId
+        }
+      });
+
+      if (!event) {
+        throw { status: 404, msg: 'That event doesn\'t exist.' };
+      }
+
+      resPosts = await event.getPosts({
+        limit: 20,
+        where: {
+          id: {
+            [db.op.lt]: startAt
+          }
+        },
+      });
+    }
+    else if (UserId) {
+      const [getUser] = await community.getMembers({
+        where: {
+          id: UserId
+        }
+      });
+
+      if (!getUser) {
+        throw { status: 401, msg: 'You aren\'t in a community with that user.' };
+      }
+
+      resPosts = await getUser.getPosts({
+        limit: 20,
+        where: {
+          id: {
+            [db.op.lt]: startAt
+          },
+          CommunityId: community.id
+        },
+      });
+    }
+    else {
+      resPosts = await community.getPosts({
+        limit: 20,
+        where: {
+          id: {
+            [db.op.lt]: startAt
+          }
+        },
+      });
+    }
+
+    res.status(200).json(resPosts);
   }));
 
   app.delete('/api/posts/:PostId', wrap(async function (req, res, next) { // delete post
