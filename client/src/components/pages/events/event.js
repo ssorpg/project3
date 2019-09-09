@@ -66,6 +66,7 @@ export default function Event(props) {
           </Typography>
         </Grid>
         <Grid item xs={2}>
+        {/* //TODO break out attendance nav into own component VVV */}
           <Box component="nav">
             <Button
               variant="outlined"
