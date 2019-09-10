@@ -7,6 +7,12 @@
   padding-top: 75px;
 }
 
+@media screen and (max-width: 768px) {
+  .App {
+    margin-top: 0;
+  }
+}
+
 #popover {
   display: none;
   position: absolute;
@@ -17,6 +23,7 @@
 }
 
 /* light/dark themes */
+
 /* @media (prefers-color-scheme: dark) {
   html {
     content: dark
