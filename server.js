@@ -92,7 +92,14 @@ app.use(wrap(async (req, res, next) => {
 
 // ROUTE ERROR SWITCH
 app.use((err, req, res, next) => {
-  console.log(err);
+  console.log(typeof err === Object ? JSON.stringify(err, null, 2) : err); // pretty print our object errors
+
+  if (err.errors && err.errors[0].validatorKey) {  // returns sequelize validation errors
+    err = { status: 400, msg: err.errors[0].message };
+  }
+  else if (err.message) { // returns multer errors
+    err = { status: 400, msg: err.message };
+  }
 
   switch (err.status) {
     case 400:
@@ -102,7 +109,7 @@ app.use((err, req, res, next) => {
     case 404:
       return res.status(err.status).send(err.msg ? err.msg : 'Not found.');
     default:
-      return res.status(500).send(err.errors ? err.errors[0].message : 'Server error.'); // returns sequelize error messages
+      return res.status(500).send('Server error.');
   }
 });
 
