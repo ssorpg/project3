@@ -21,7 +21,8 @@ export default class ChatController extends Component {
 
   async componentDidMount() {
     this.ws.onopen = async () => {
-      console.log('connected');
+      // console.log('connected');
+      
       await this.getUsers();
     }
 
@@ -38,7 +39,7 @@ export default class ChatController extends Component {
     }
 
     this.ws.onclose = () => {
-      console.log('disconnected');
+      // console.log('disconnected');
 
       // automatically try to reconnect on connection loss
       setTimeout(() => { this.ws = NewWs(window.location) }, 1000);

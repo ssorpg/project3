@@ -22,8 +22,9 @@ export default class UpdateProfileController extends Component {
   };
 
   handleBioLocChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
     // console.log(event.target.name, event.target.value);
+    
+    this.setState({ [event.target.name]: event.target.value });
   };
 
   handleBioLocSubmit = async event => {

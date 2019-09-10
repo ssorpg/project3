@@ -16,7 +16,7 @@ export default function Friend(props) {
     window.location = goTo;
   };
 
-  console.log(thisFriend);
+  // console.log(thisFriend);
 
   return (
     <Card>

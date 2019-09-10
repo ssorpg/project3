@@ -125,7 +125,7 @@ module.exports = function (app) {
           id: {
             [db.op.lt]: startAt
           }
-        },
+        }
       });
     }
     else if (UserId) {
@@ -146,7 +146,7 @@ module.exports = function (app) {
             [db.op.lt]: startAt
           },
           CommunityId: community.id
-        },
+        }
       });
     }
     else {
@@ -156,7 +156,7 @@ module.exports = function (app) {
           id: {
             [db.op.lt]: startAt
           }
-        },
+        }
       });
     }
 
