@@ -48,7 +48,7 @@ export default class UpdateProfileController extends Component {
     this.setState({ alert: undefined });
 
     try {
-      await ax.put('/api/users/update', postData);
+      await ax.put('/api/users/profile/update', postData);
 
       this.setState({ alert: { success: true, message: 'Profile information updated.' } });
     }
