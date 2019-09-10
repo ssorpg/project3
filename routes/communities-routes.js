@@ -1,9 +1,9 @@
 const db = require('../models');
-const { getCommunity } = require('./auth/validate');
+const { getCommunity } = require('./utils/validate');
 
-const multer = require('multer')({ dest: 'client/build/images' });
+const multer = require('./utils/multerwithoptions');
 
-const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handling
+const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 module.exports = function (app) {
   // COMMUNITY
@@ -85,14 +85,14 @@ module.exports = function (app) {
     res.status(200).json(community);
   }));
 
-  app.post('/api/communities/:CommunityId/images', multer.any(), wrap(async (req, res, next) => { // update community banner image
+  app.post('/api/communities/:CommunityId/images', multer.single('bannerImage'), wrap(async (req, res, next) => { // update community banner image
     const { community, isFounder } = await getCommunity(req.token.UserId, req.params.CommunityId);
 
     if (!isFounder) {
       throw { status: 401, msg: 'You don\'t own that community.' };
     }
 
-    const image = await db.Image.create(req.files[0]);
+    const image = await db.Image.create(req.file);
 
     community.addBannerImage(image);
 

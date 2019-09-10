@@ -26,7 +26,6 @@ export default class ChatController extends Component {
     }
 
     this.ws.onmessage = event => {
-      // on receiving a message, do the action associated with the message
       const message = JSON.parse(event.data);
       console.log(message);
 
@@ -74,7 +73,7 @@ export default class ChatController extends Component {
   };
 
   handleSubmit = async event => {
-    // on submitting the ChatInput form, send the message, add it to the list and reset the input
+    // on submitting the ChatInput form, send the message, add it to the list, and reset the input
     event.preventDefault();
     const form = event.target;
     

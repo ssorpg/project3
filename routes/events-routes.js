@@ -1,5 +1,5 @@
 const db = require('../models');
-const { getCommunity, getEvent } = require('./auth/validate');
+const { getCommunity, getEvent } = require('./utils/validate');
 
 const wrap = fn => (...args) => fn(...args).catch(args[2]);
 

@@ -31,8 +31,7 @@ const apiLimiter = rateLimit({
   message: 'Please wait several seconds and try again.'
 });
  
-// only apply to requests that begin with /api/
-app.use('/api/', apiLimiter);
+app.use('/api/', apiLimiter); // only apply to requests that begin with /api/
 
 const helmet = require('helmet');
 

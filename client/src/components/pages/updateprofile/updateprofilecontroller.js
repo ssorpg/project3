@@ -16,7 +16,7 @@ export default class UpdateProfileController extends Component {
     this.state = {
       bio: props.YourProfile.bio,
       location: props.YourProfile.location,
-      selectedFile: undefined,
+      profileImage: undefined,
       alert: undefined
     };
   };
@@ -99,7 +99,7 @@ export default class UpdateProfileController extends Component {
             this.state.alert ?
               this.state.alert.success ?
                 <Modal success={this.state.alert.message} />
-                : <Modal error={this.state.alert.message} />
+                : <Modal error={this.state.alert.error} />
               : ''
           }
           <Paper style={{ padding: '24px' }}>
