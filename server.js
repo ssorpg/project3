@@ -21,6 +21,19 @@ app.use(morgan('combined'));
 const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 // SECURITY
+const rateLimit = require('express-rate-limit');
+ 
+app.set('trust proxy', 1);
+ 
+const apiLimiter = rateLimit({
+  windowMs: 5 * 1000, // 5 seconds
+  max: 10,
+  message: 'Please wait several seconds and try again.'
+});
+ 
+// only apply to requests that begin with /api/
+app.use('/api/', apiLimiter);
+
 const helmet = require('helmet');
 
 app.use(helmet.xssFilter());
