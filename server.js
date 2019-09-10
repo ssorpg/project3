@@ -37,8 +37,8 @@ const helmet = require('helmet');
 
 app.use(helmet.xssFilter());
 app.use(helmet.contentSecurityPolicy({
-  directives: { // allowed external resources
-    defaultSrc: [`'self'`, `material-ui.com`, `stackpath.bootstrapcdn.com`, `fonts.googleapis.com`]
+  directives: { // allowed website resources
+    defaultSrc: [`'self'`, `material-ui.com`, `stackpath.bootstrapcdn.com`, `fonts.googleapis.com`, `fonts.gstatic.com`]
   }
 }));
 app.use(helmet.frameguard({ action: 'deny' }));
