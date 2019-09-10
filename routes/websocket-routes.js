@@ -68,7 +68,7 @@ module.exports = function (app, expressWs) {
 
     ws.user = user.dataValues;
 
-    console.log(ws.user.id + ' open');
+    // console.log(ws.user.id + ' open');
 
     messageAllClients({
       action: 'addUser',
@@ -83,7 +83,7 @@ module.exports = function (app, expressWs) {
     });
 
     ws.on('close', async function () {
-      console.log(ws.user.id + ' close');
+      // console.log(ws.user.id + ' close');
 
       messageAllClients({
         action: 'removeUser',

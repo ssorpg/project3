@@ -40,4 +40,4 @@ export default function Comment(props) {
       }
     </p>
   );
-}
+};

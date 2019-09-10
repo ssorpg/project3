@@ -16,14 +16,15 @@ export default class UpdateProfileController extends Component {
     this.state = {
       bio: props.YourProfile.bio,
       location: props.YourProfile.location,
-      selectedFile: undefined,
+      profileImage: undefined,
       alert: undefined
     };
   };
 
   handleBioLocChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
     // console.log(event.target.name, event.target.value);
+    
+    this.setState({ [event.target.name]: event.target.value });
   };
 
   handleBioLocSubmit = async event => {
@@ -99,7 +100,7 @@ export default class UpdateProfileController extends Component {
             this.state.alert ?
               this.state.alert.success ?
                 <Modal success={this.state.alert.message} />
-                : <Modal error={this.state.alert.message} />
+                : <Modal error={this.state.alert.error} />
               : ''
           }
           <Paper style={{ padding: '24px' }}>

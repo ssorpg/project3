@@ -60,7 +60,7 @@ export default function Searchbar() {
     event.preventDefault();
   
     window.location = `/search?q=${event.target.value}`;
-  }
+  };
 
   return (
     <div className={classes.search}>
@@ -77,5 +77,5 @@ export default function Searchbar() {
         inputProps={{ 'aria-label': 'search' }}
       />
     </div>
-  )
-}
+  );
+};

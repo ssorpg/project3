@@ -7,7 +7,6 @@ import Event from './event';
 import ax from 'axios';
 import PageLoadError from '../../../utils/pageloaderror';
 import PostController from '../../posts/postcontroller';
-// TODO add map showing location of event
 
 export default class EventController extends Component {
   constructor(props) {
@@ -22,7 +21,7 @@ export default class EventController extends Component {
       userProfile: YourProfile
     }
   }
-
+  
   async componentDidMount() {
     await this.getData();
     this.isEventMember();
@@ -150,6 +149,6 @@ export default class EventController extends Component {
             : ''
         }
       </Container>
-    )
-  }
+    );
+  };
 }

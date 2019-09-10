@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function MakePost(props) {
-  const { handleMakePost, postType, cantPost, alert } = props;
+  const { handleMakePost, postType, alert } = props;
 
   const classes = useStyles();
 
@@ -31,20 +31,13 @@ export default function MakePost(props) {
         <Grid
           container
           direction="row"
-          spacing={4}
-          className="flex-middle theme-mtx3"
+          className="flex-middle theme-mbx2"
         >
           <form className={classes.makePostForm + " flex-col flex-middle"} onSubmit={handleMakePost}>
-            {
-              !cantPost ?
-                <>
-                  <textarea type="text" name="feed-comment" placeholder="What's on your mind?" className={classes.makePostTextarea} />
-                  <Button type="submit" value="submit" variant="contained" color="primary" className="theme-mt">
-                    {postType ? `Post To ${postType}` : 'Post'}
-                  </Button>
-                </>
-                : ''
-            }
+            <textarea type="text" name="feed-comment" placeholder="What's on your mind?" className={classes.makePostTextarea} />
+            <Button type="submit" value="submit" variant="contained" color="primary" className="theme-mt">
+              {postType ? `Post To ${postType}` : 'Post'}
+            </Button>
             {
               alert ?
                 <Modal error={alert} className="theme-mt" />
@@ -55,4 +48,4 @@ export default function MakePost(props) {
       </main>
     </Container>
   );
-}
+};

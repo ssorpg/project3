@@ -31,7 +31,7 @@ export default function CommunityResults(props) {
           <Grid item xs={12}>
             <List className="list-unstyled text-left theme-paddingx2">
               {
-                searchResults.map(community => (
+                searchResults.map(community => 
                   <ListItem
                     key={community.id}
                     cols="2"
@@ -66,7 +66,7 @@ export default function CommunityResults(props) {
                       <MemberResults thisCommunity={community} {...props} />
                     </Grid>
                   </ListItem>
-                ))
+                )
               }
             </List>
           </Grid>

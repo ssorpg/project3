@@ -91,7 +91,7 @@ export default class CreateCommunity extends Component {
     this.setState({ alert: undefined });
 
     try {
-      await ax.post(`/api/communities/${this.state.selectedCommId}/users`)
+      await ax.post(`/api/communities/${this.state.selectedCommId}/users`);
 
       window.location = `/community/${this.state.selectedCommId}`;
     }

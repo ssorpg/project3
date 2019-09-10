@@ -26,7 +26,7 @@ export default function FeedEvents(props) {
       </header>
       <List component="ul">
         {
-          events.map(event => (
+          events.map(event =>
             <ListItem divider={true} key={event.id}>
               {/* //todo maybe we show event in a popover box? */}
               <List component='dl'>
@@ -40,9 +40,9 @@ export default function FeedEvents(props) {
                 </ListItem>
               </List>
             </ListItem>
-          ))
+          )
         }
       </List>
     </>
-  )
-}
+  );
+};

@@ -29,7 +29,7 @@ export default class Profile extends Component {
 
     const URL = isFounder ?
       `/api/communities/${CommunityId}` // delete comm
-      : `/api/communities/${CommunityId}/users` // leave comm
+      : `/api/communities/${CommunityId}/users`; // leave comm
 
     try {
       const removedComm = await ax.delete(URL);
@@ -143,7 +143,7 @@ export default class Profile extends Component {
       const newProfile = this.state.YourProfile;
       newProfile.status = status.status;
       this.setState({ YourProfile: newProfile });
-      
+
       form.reset();
     }
     catch (error) {
@@ -157,7 +157,7 @@ export default class Profile extends Component {
       <Container maxWidth="lg">
         <Megatron
           heading="Profile"
-          image={ExtractProfileImage(this.state.YourProfile)} // for some reason this doesn't work with the placeholder?
+          image={ExtractProfileImage(this.state.YourProfile)} // for some reason the megatron doesn't show nophoto.png?
           imagePosition="50%"
           megaHeight='20vh'
           megaMaxHeight='320px!important'
@@ -185,6 +185,7 @@ export default class Profile extends Component {
         <PostController
           {...this.props}
           posts={this.state.posts}
+          postURL={`/api/posts?UserId=${this.state.YourProfile.id}`}
           cantPost={true}
         />
       </Container>

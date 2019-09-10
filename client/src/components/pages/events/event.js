@@ -14,7 +14,6 @@ import {
   Button
 } from "@material-ui/core";
 import {
-  AccountCircle,
   CheckCircleOutlineOutlined,
   CheckCircle,
   ExposurePlus1,
@@ -32,21 +31,21 @@ import GoogleMap from "../../map";
 
 const useStyles = makeStyles(theme => ({
   attendence: {
-    marginRight: '3px'
+    marginRight: "3px"
   },
   attendenceButton: {
-    display: 'inline-block',
+    display: "inline-block",
     marginRight: "12px"
   },
   memberLink: {
-    display: 'block'
+    display: "block"
   },
   memberLinkContents: {
-    display: 'inline-block',
-    verticalAlign: 'middle'
+    display: "inline-block",
+    verticalAlign: "middle"
   },
   avatarImg: {
-    maxWidth: '100%'
+    maxWidth: "100%"
   }
 }));
 
@@ -80,7 +79,6 @@ export default function Event(props) {
           <Typography variant="body1" title="Event Creator">
             <AssignmentInd className={classes.attendence} alt="Event Creator" />
             <Typography variant="srOnly">Event Created By:</Typography>
-            {/* <strong>Created By:&nbsp;</strong> */}
             <Link
               href={
                 YourProfile.id === thisEvent.founder.id
@@ -117,20 +115,11 @@ export default function Event(props) {
                 Attend
               </Button>
             )}
-            <Button
-              variant="outlined"
-              color="primary"
-              size="small"
-              className={classes.attendenceButton}
-            >
-              <ExposurePlus1 className={classes.attendence} />
-              Invite
-            </Button>
           </Box>
           <Divider className="mt-4" />
         </Grid>
       </Grid>
-      <Grid container className="theme-paddingx2" spacing={1}>
+      <Grid container className="theme-paddingx2 theme-mbx2" spacing={1}>
         <Grid item xs={12} sm={8}>
           <Box>
             <Typography variant="h6">About:</Typography>

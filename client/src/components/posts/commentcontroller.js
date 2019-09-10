@@ -73,18 +73,17 @@ export default class CommentController extends Component {
         />
         {
           this.state.comments.length ?
-            this.state.comments.map(comment => (
+            this.state.comments.map(comment =>
               <Comment
                 key={comment.id}
                 {...this.props}
                 thisComment={comment}
                 deleteComment={this.deleteComment}
               />
-            ))
+            )
             : ''
         }
       </Container>
     );
-  }
+  };
 }
-
