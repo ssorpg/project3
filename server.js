@@ -36,11 +36,13 @@ app.use('/api/', apiLimiter); // only limit requests that begin with /api/
 const helmet = require('helmet');
 
 app.use(helmet.xssFilter());
-// app.use(helmet.contentSecurityPolicy({
-//   directives: { // allowed website resources
-//     defaultSrc: [`'self'`, `material-ui.com`, `stackpath.bootstrapcdn.com`, `fonts.googleapis.com`, `fonts.gstatic.com`]
-//   }
-// }));
+app.use(helmet.contentSecurityPolicy({
+  directives: { // allowed website resources
+    defaultSrc: [`'self'`],
+    scriptSrc: [`'self'`, `'unsafe-inline'`, `stackpath.bootstrapcdn.com`],
+    fontSrc: [`fonts.googleapis.com`, `fonts.gstatic.com`]
+  }
+}));
 app.use(helmet.frameguard({ action: 'deny' }));
 
 const jwt = require('jsonwebtoken');
