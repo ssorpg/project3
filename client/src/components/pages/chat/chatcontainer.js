@@ -18,13 +18,13 @@ const useStyles = makeStyles({
   },
 
   usersDisplay: {
-    width: '8%',
+    width: '12%',
     minWidth: '100px'
   },
 
   messageDisplay: {
     height: '90%',
-    width: '92%',
+    width: '88%',
     maxWidth: 'calc(100% - 100px)',
     overflow: 'auto',
     margin: 0,
