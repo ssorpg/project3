@@ -1,7 +1,8 @@
 const db = require('../models');
 const auth = require('./utils/auth');
-
+const { getUser } = require('./utils/validate');
 const multer = require('./utils/multerwithoptions');
+const wrap = require('./utils/errorhandler');
 
 require('dotenv').config();
 
@@ -20,8 +21,6 @@ const cookieOptionsU = {
   signed: false,
   sameSite: 'lax'
 };
-
-const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 module.exports = function (app) {
   app.post('/api/users', wrap(async function (req, res, next) { // login
@@ -118,11 +117,7 @@ module.exports = function (app) {
   }));
 
   app.post('/api/users/profile/images', multer.single('profileImage'), wrap(async (req, res, next) => { // update user profile image
-    const user = await db.User.findOne({
-      where: {
-        id: req.token.UserId
-      }
-    });
+    const user = await getUser(req.token.UserId);
 
     const image = await db.Image.create(req.file);
 
