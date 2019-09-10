@@ -22,22 +22,22 @@ const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 // SECURITY
 const rateLimit = require('express-rate-limit');
- 
+
 app.set('trust proxy', 1);
- 
+
 const apiLimiter = rateLimit({
   windowMs: 5 * 1000, // 5 seconds
   max: 10,
   message: 'Please wait several seconds and try again.'
 });
- 
-app.use('/api/', apiLimiter); // only apply to requests that begin with /api/
+
+app.use('/api/', apiLimiter); // only limit requests that begin with /api/
 
 const helmet = require('helmet');
 
 app.use(helmet.xssFilter());
 app.use(helmet.contentSecurityPolicy({
-  directives: {
+  directives: { // allowed external resources
     defaultSrc: [`'self'`, `material-ui.com`, `stackpath.bootstrapcdn.com`, `fonts.googleapis.com`]
   }
 }));
@@ -59,7 +59,7 @@ app.use(wrap(async (req, res, next) => {
       UserId: tokenDecoded.UserId
     };
   }
-  else if (req.path !== '/api/users'
+  else if (req.path !== '/api/users' // public paths
     && req.path !== '/api/users/register'
     && req.path !== '/api/users/logout'
     && req.path !== '/'
@@ -90,14 +90,16 @@ app.use(wrap(async (req, res, next) => {
   throw { status: 404, msg: 'Page not found.' };
 }));
 
-// ROUTE ERROR SWITCH
+// ERROR RESPONSE
 app.use((err, req, res, next) => {
-  console.log(typeof err === Object ? JSON.stringify(err, null, 2) : err); // pretty print our object errors
+  console.log(typeof err === 'object' ?
+    JSON.stringify(err, null, 2) // pretty print our object errors
+    : err);
 
-  if (err.errors && err.errors[0].validatorKey) {  // returns sequelize validation errors
+  if (err.errors && err.errors[0].validatorKey) {  // sequelize validation errors
     err = { status: 400, msg: err.errors[0].message };
   }
-  else if (err.message) { // returns multer errors
+  else if (err.message) { // multer errors
     err = { status: 400, msg: err.message };
   }
 

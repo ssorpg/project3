@@ -36,16 +36,10 @@ export default function ProfileInfo(props) {
             }
             title={<h3>{user.name}</h3>}
             subheader={
-              /* hard to read - TODO refactor */
               <>
-                <i>{user.location}</i><br />
-                {
-                  user.status ?
-                    <>
-                      Status: <i>{user.status}</i>
-                    </>
-                    : ''
-                }
+                <i>{user.location}</i>
+                <br />
+                Status: <i>{user.status}</i>
               </>
             }
           />
@@ -90,4 +84,4 @@ export default function ProfileInfo(props) {
       }
     </Card>
   );
-}
+};

@@ -45,8 +45,8 @@ export default class TPN extends Component {
       EventId: window.location.pathname.match(/\/events\/([0-9]*)/) ?
         parseInt(window.location.pathname.match(/\/events\/([0-9]*)/)[1])
         : undefined,
-    }
-  }
+    };
+  };
 
   // this line is where props are inherited as this.props in a class component even if not called in constructor
 

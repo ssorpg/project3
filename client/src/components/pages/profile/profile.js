@@ -29,7 +29,7 @@ export default class Profile extends Component {
 
     const URL = isFounder ?
       `/api/communities/${CommunityId}` // delete comm
-      : `/api/communities/${CommunityId}/users` // leave comm
+      : `/api/communities/${CommunityId}/users`; // leave comm
 
     try {
       const removedComm = await ax.delete(URL);

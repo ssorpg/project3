@@ -11,4 +11,4 @@ export default function UserLocation(props) {
     console.log("Geolocation is not supported by this browser.");
   }
   console.log(location);
-}
+};

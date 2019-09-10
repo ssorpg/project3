@@ -17,12 +17,12 @@ export default class EventController extends Component {
       events: undefined,
       members: undefined,
       posts: undefined
-    }
-  }
+    };
+  };
 
   componentDidMount() {
     this.getData();
-  }
+  };
 
   getData = async () => {
     try {
@@ -65,6 +65,6 @@ export default class EventController extends Component {
             : ''
         }
       </Container>
-    )
-  }
+    );
+  };
 }

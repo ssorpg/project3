@@ -68,7 +68,7 @@ export default function Event(props) {
               <Divider />
               <List>
                 {
-                  thisEvent.members.map(member => (
+                  thisEvent.members.map(member =>
                     <ListItem key={member.id}>
                       <ListItemAvatar>
                         <Avatar>
@@ -80,7 +80,7 @@ export default function Event(props) {
                         <Link href={`/community/${thisEvent.CommunityId}/friends/${member.id}`}>{member.name}</Link>
                       </ListItemText>
                     </ListItem>
-                  ))
+                  )
                 }
               </List>
             </Grid>
@@ -89,4 +89,4 @@ export default function Event(props) {
       </Grid>
     </>
   );
-}
+};

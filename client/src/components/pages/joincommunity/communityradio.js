@@ -17,5 +17,5 @@ export default function CommunityRadio(props) {
         checked={selectedCommId === thisComm.id}
       />
     </ListItem>
-  )
-}
+  );
+};

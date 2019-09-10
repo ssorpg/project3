@@ -92,19 +92,19 @@ export default function Navbar(props) {
         <a href="/profile" className="reset-a"><MenuItem><ListItemText primary={'Your Profile'} /></MenuItem></a>
         { // hard to read - TODO refactor
           CommunityId ?
-            YourProfile.communities.map(community => {
-              return (CommunityId === community.id ?
+            YourProfile.communities.map(community =>
+              CommunityId === community.id ?
                 <span key={community.id}>
                   <a href={`/community/${community.id}`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Feed`} /></MenuItem></a>
                   <a href={`/community/${community.id}/friends`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Friends`} /></MenuItem></a>
                   {/* <a href={`/community/${community.id}/events`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Events`} /></MenuItem></a> */}
                   {/* <a href={`/community/${community.id}/chat`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Chat`} /></MenuItem></a> */}
                 </span>
-                : '')
-            })
-            : YourProfile.communities.map(community => {
-              return (<a key={community.id} href={`/community/${community.id}`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Feed`} /></MenuItem></a>);
-            })
+                : ''
+            )
+            : YourProfile.communities.map(community =>
+              <a key={community.id} href={`/community/${community.id}`} className="reset-a"><MenuItem><ListItemText primary={`${community.name} Feed`} /></MenuItem></a>
+            )
         }
         <a href="/chat" className="reset-a"><MenuItem>Global Chat</MenuItem></a>
       </List>
@@ -171,4 +171,4 @@ export default function Navbar(props) {
       </Drawer>
     </div>
   );
-}
+};

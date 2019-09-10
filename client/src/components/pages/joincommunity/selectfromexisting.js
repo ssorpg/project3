@@ -17,7 +17,9 @@ export default function SelectFromExisting(props) {
   const { communities, handleFormChange, handleChosenCommunitySubmit } = props;
 
   const classes = useStyles();
-  //console.log(communities);
+
+  // console.log(communities);
+
   return (
     <Paper className="theme-paddingx2">
       <form onSubmit={handleChosenCommunitySubmit}>
@@ -30,14 +32,14 @@ export default function SelectFromExisting(props) {
           <List className={classes.communityList + " list-unstyled text-left"} id="community-list">
             {
               communities.length ?
-                communities.map(community => (
+                communities.map(community =>
                   <RadioGroup key={community.id}>
                     <CommunityRadio
                       {...props}
                       thisComm={community}
                     />
                   </RadioGroup>
-                ))
+                )
                 : <h6>No public communities found.</h6>
             }
           </List>
@@ -61,4 +63,4 @@ export default function SelectFromExisting(props) {
       </form>
     </Paper>
   );
-}
+};

@@ -11,10 +11,10 @@ export default function Friend(props) {
   function goToFriend() {
     const goTo = YourProfile.id === thisFriend.id ?
       '/profile'
-      : `/community/${CommunityId}/friends/${thisFriend.id}`
+      : `/community/${CommunityId}/friends/${thisFriend.id}`;
 
     window.location = goTo;
-  }
+  };
 
   console.log(thisFriend);
 
@@ -34,4 +34,4 @@ export default function Friend(props) {
       </CardActionArea>
     </Card>
   );
-}
+};

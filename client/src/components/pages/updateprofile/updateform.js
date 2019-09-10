@@ -40,5 +40,5 @@ export default function UpdateForm(props) {
         </Button>
         </form>
       </div>
-  )
-}
+  );
+};

@@ -68,4 +68,4 @@ export default function ChatContainer(props) {
       <ChatInput handleSubmit={handleSubmit} />
     </Container>
   );
-}
+};

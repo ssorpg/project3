@@ -48,4 +48,4 @@ export default function MakePost(props) {
       </main>
     </Container>
   );
-}
+};

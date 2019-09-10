@@ -17,7 +17,7 @@ export default class PostController extends Component {
       cantPost: props.cantPost,
       hasMorePosts: true,
       alert: undefined
-    }
+    };
   };
 
   componentDidMount() {
