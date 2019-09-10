@@ -38,9 +38,8 @@ const helmet = require('helmet');
 app.use(helmet.xssFilter());
 app.use(helmet.contentSecurityPolicy({
   directives: { // allowed website resources
-    defaultSrc: [`'self'`],
-    scriptSrc: [`'self'`, `'unsafe-inline'`, `stackpath.bootstrapcdn.com`],
-    fontSrc: [`fonts.googleapis.com`, `fonts.gstatic.com`]
+    defaultSrc: [`'self'`, `'unsafe-eval'`, `fonts.googleapis.com`, `fonts.gstatic.com`, `stackpath.bootstrapcdn.com`],
+    scriptSrc: [`'self'`, `'unsafe-inline'`]
   }
 }));
 app.use(helmet.frameguard({ action: 'deny' }));
