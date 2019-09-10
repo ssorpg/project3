@@ -1,3 +1,5 @@
+import Moment from 'moment';
+
 export function GetFormattedTime(militaryTime) {
   if (!militaryTime) {
     return;
@@ -12,6 +14,6 @@ export function GetFormattedTime(militaryTime) {
 };
 
 export function GetFormattedDate(unformattedDate) {
-  const date = new Date(unformattedDate);
-  return date.toLocaleString('default', { month: 'long' });
+  const date = new Moment(unformattedDate).format('dddd, MMMM Do YYYY');
+  return date.toString();
 };

@@ -76,11 +76,6 @@ module.exports = function (sequelize, DataTypes) {
     Event.hasMany(models.Post, {
       as: 'posts'
     });
-
-    Event.belongsToMany(models.User, {
-      through: 'EventsInvite',
-      as: 'invites'
-    });
   };
 
   Event.addScopes = function (models) {

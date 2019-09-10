@@ -16,7 +16,6 @@ import {
 import {
   CheckCircleOutlineOutlined,
   CheckCircle,
-  ExposurePlus1,
   Event as EventIcon,
   AssignmentInd,
   Schedule
@@ -25,7 +24,7 @@ import Megatron from "../../megatron";
 
 // FUNCTIONS
 import { makeStyles } from "@material-ui/core/styles";
-import { GetFormattedTime } from "../../../utils/formatTime";
+import { GetFormattedTime, GetFormattedDate } from "../../../utils/formatTime";
 import ExtractProfileImage from "../../../utils/extractprofileimage";
 import GoogleMap from "../../map";
 
@@ -53,6 +52,7 @@ export default function Event(props) {
   const { YourProfile, thisEvent, handleToggleAttendence, attending } = props;
   const start_time = GetFormattedTime(thisEvent.start_time);
   const end_time = GetFormattedTime(thisEvent.end_time);
+  const date = GetFormattedDate(thisEvent.date);
   const classes = useStyles();
 
   return (
@@ -67,7 +67,7 @@ export default function Event(props) {
           <Typography variant="body1" title="Event Date">
             <EventIcon className={classes.attendence} alt="Event Date" />
             <Typography variant="srOnly">Event Date</Typography>
-            {thisEvent.date}
+            {date}
           </Typography>
           <Typography variant="body1" title="Event Time" className="mt-2">
             <Schedule className={classes.attendence} />
