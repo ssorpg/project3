@@ -1,5 +1,5 @@
 // COMPONENTS
-import React from "react";
+import React from 'react';
 import {
   Typography,
   Grid,
@@ -11,58 +11,50 @@ import {
   ListItemText,
   Avatar,
   Box,
-  Button
-} from "@material-ui/core";
+  Button,
+  Paper
+} from '@material-ui/core';
 import {
   CheckCircleOutlineOutlined,
   CheckCircle,
   Event as EventIcon,
   AssignmentInd,
   Schedule
-} from "@material-ui/icons";
-import Megatron from "../../megatron";
+} from '@material-ui/icons';
+import Modal from "../../modal";
 
 // FUNCTIONS
-import { makeStyles } from "@material-ui/core/styles";
-import { GetFormattedTime, GetFormattedDate } from "../../../utils/formatTime";
-import ExtractProfileImage from "../../../utils/extractprofileimage";
-import GoogleMap from "../../map";
+import { makeStyles } from '@material-ui/core/styles';
+import { GetFormattedTime, GetFormattedDate } from '../../../utils/formattime';
+import ExtractProfileImage from '../../../utils/extractprofileimage';
+import GoogleMap from '../../map';
 
 const useStyles = makeStyles(theme => ({
   attendence: {
-    marginRight: "3px"
+    marginRight: '3px'
   },
-  attendenceButton: {
-    display: "inline-block",
-    marginRight: "12px"
+
+  noMargin: {
+    margin: 0
   },
-  memberLink: {
-    display: "block"
-  },
+
   memberLinkContents: {
-    display: "inline-block",
-    verticalAlign: "middle"
-  },
-  avatarImg: {
-    maxWidth: "100%"
+    display: 'inline-block',
+    verticalAlign: 'middle'
   }
 }));
 
 export default function Event(props) {
-  const { YourProfile, thisEvent, handleToggleAttendence, attending } = props;
+  const { YourProfile, thisEvent, members, handleToggleAttendence, attending, alert } = props;
+
+  const classes = useStyles();
   const start_time = GetFormattedTime(thisEvent.start_time);
   const end_time = GetFormattedTime(thisEvent.end_time);
   const date = GetFormattedDate(thisEvent.date);
-  const classes = useStyles();
 
   return (
-    <>
-      <Megatron
-        heading={thisEvent.name}
-        image="/images/event.jpg"
-        imagePosition="0 76%"
-      />
-      <Grid container className="theme-paddingx2" spacing={2}>
+    <Paper>
+      <Grid container className={classes.noMargin + " theme-paddingx2"} spacing={2}>
         <Grid item xs={12} sm={6}>
           <Typography variant="body1" title="Event Date">
             <EventIcon className={classes.attendence} alt="Event Date" />
@@ -92,29 +84,35 @@ export default function Event(props) {
         </Grid>
         <Grid item xs={12} sm={12} className="attendenceNav">
           <Box component="nav">
-            {attending ? (
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                onClick={handleToggleAttendence}
-                className={classes.attendenceButton}
-              >
-                <CheckCircle className={classes.attendence} />
-                Attending
+            {
+              attending ?
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  onClick={handleToggleAttendence}
+                  className="inline-button"
+                >
+                  <CheckCircle className={classes.attendence} />
+                  Attending
               </Button>
-            ) : (
-              <Button
-                variant="outlined"
-                color="primary"
-                size="small"
-                onClick={handleToggleAttendence}
-                className={classes.attendenceButton}
-              >
-                <CheckCircleOutlineOutlined className={classes.attendence} />
-                Attend
+                :
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  onClick={handleToggleAttendence}
+                  className="inline-button"
+                >
+                  <CheckCircleOutlineOutlined className={classes.attendence} />
+                  Attend
               </Button>
-            )}
+            }
+            {
+              alert ?
+                <Modal error={alert} />
+                : ''
+            }
           </Box>
           <Divider className="mt-4" />
         </Grid>
@@ -122,7 +120,7 @@ export default function Event(props) {
       <Grid container className="theme-paddingx2 theme-mbx2" spacing={1}>
         <Grid item xs={12} sm={8}>
           <Box>
-            <Typography variant="h6">About:</Typography>
+            <Typography variant="h6">Description:</Typography>
             <Typography variant="body1">{thisEvent.description}</Typography>
           </Box>
           <br />
@@ -134,38 +132,43 @@ export default function Event(props) {
             <GoogleMap location={thisEvent.location} />
           </Box>
         </Grid>
-        {thisEvent.members.length ? (
-          <Grid item xs={12} sm={4}>
-            <Typography variant="h6">Attendees: </Typography>
-            <Divider light={true} />
-            <List>
-              {thisEvent.members.map(member => (
-                <ListItem key={member.id}>
-                  <Link
-                    href={`/community/${thisEvent.CommunityId}/friends/${member.id}`}
-                    className="memberLink"
-                  >
-                    <ListItemAvatar className={classes.memberLinkContents}>
-                      <Avatar>
-                        <img
-                          src={ExtractProfileImage(member)}
-                          alt={member.name}
-                          className={classes.avatarImg}
-                        />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText className={classes.memberLinkContents}>
-                      {member.name}
-                    </ListItemText>
-                  </Link>
-                </ListItem>
-              ))}
-            </List>
-          </Grid>
-        ) : (
-          ""
-        )}
+        {
+          members.length ?
+            <Grid item xs={12} sm={4}>
+              <Typography variant="h6">Attendees: </Typography>
+              <Divider light={true} />
+              <List>
+                {
+                  members.map(member =>
+                    <ListItem key={member.id}>
+                      <Link
+                        href={
+                          YourProfile.id === thisEvent.founder.id
+                            ? "/profile"
+                            : `/community/${thisEvent.CommunityId}/friends/${thisEvent.founder.id}`
+                        }
+                        className="memberLink"
+                      >
+                        <ListItemAvatar className={classes.memberLinkContents}>
+                          <Avatar>
+                            <img
+                              src={ExtractProfileImage(member)}
+                              alt={member.name}
+                            />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText className={classes.memberLinkContents}>
+                          {member.name}
+                        </ListItemText>
+                      </Link>
+                    </ListItem>
+                  )
+                }
+              </List>
+            </Grid>
+            : ''
+        }
       </Grid>
-    </>
+    </Paper>
   );
 }

@@ -1,6 +1,16 @@
 const db = require('../../models');
 
 module.exports = {
+  getUser: async (UserId) => {
+    const user = await db.User.findOne({
+      where: {
+        id: UserId
+      }
+    });
+
+    return user;
+  },
+
   getCommunity: async (UserId, CommunityId) => {
     const community = await db.Community.findOne({
       where: {
@@ -12,11 +22,7 @@ module.exports = {
       throw { status: 404, msg: 'That community doesn\'t exist.' };
     }
 
-    const user = await db.User.findOne({
-      where: {
-        id: UserId
-      }
-    });
+    const user = await module.exports.getUser(UserId); // eh
     
     return {
       community: community,
@@ -37,21 +43,9 @@ module.exports = {
       throw { status: 404, msg: 'That event doesn\'t exist.' };
     }
 
-    const user = await db.User.findOne({
-      where: {
-        id: UserId
-      }
-    });
-
-    if (!event) {
-      throw { status: 404, msg: 'That user doesn\'t exist.' };
-    }
-
     return {
       event: event,
-      user: user,
-      isFounder: UserId === event.founderId ? true : false,
-      isMember: await event.hasMember(user)
+      isFounder: UserId === event.founderId ? true : false
     };
   },
 

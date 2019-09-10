@@ -55,9 +55,9 @@ export default function ChatContainer(props) {
       </List>
       <List id="chat" className={classes.messageDisplay}>
         {
-          messages.map((message, id) =>
+          messages.map((message, index) =>
             <ChatMessage
-              key={id}
+              key={index}
               user={message.user}
               text={message.text}
               time={message.time}

@@ -1,7 +1,6 @@
 const db = require('../models');
-const { getCommunity, getEvent } = require('./utils/validate');
-
-const wrap = fn => (...args) => fn(...args).catch(args[2]);
+const { getUser, getCommunity, getEvent } = require('./utils/validate');
+const wrap = require('./utils/errorhandler');
 
 module.exports = function (app) {
   // COMMUNITY EVENTS
@@ -48,19 +47,8 @@ module.exports = function (app) {
   }));
 
   app.delete('/api/events/:EventId/users', wrap(async function (req, res, next) { // leave event
-    const { event, user, isMember } = await getEvent(
-      req.token.UserId,
-      req.params.EventId
-    );
-    //TODO do we need this logic to delete? I check if user is attending on front end?
-
-    if (!await event.hasMember(user)) {
-      throw { status: 400, msg: 'You haven\'t joined that event.' };
-    }
-
-    if (!isMember) {
-      throw { status: 401, msg: 'You\'re not in that community.' };
-    }
+    const { event } = await getEvent(req.token.UserId, req.params.EventId);
+    const user = await getUser(req.token.UserId);
 
     await event.removeMember(user);
 

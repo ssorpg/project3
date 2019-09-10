@@ -1,5 +1,5 @@
-const db = require('../models');
-const wrap = fn => (...args) => fn(...args).catch(args[2]);
+const { getUser } = require('./utils/validate');
+const wrap = require('./utils/errorhandler');
 
 function messageAllClients(message, clients, exclude) {
   try {
@@ -60,11 +60,7 @@ module.exports = function (app, expressWs) {
   }
 
   app.ws('/ws/chat', wrap(async function (ws, req, next) {
-    const user = await db.User.findOne({
-      where: {
-        id: req.token.UserId
-      }
-    });
+    const user = await getUser(req.token.UserId);
 
     ws.user = user.dataValues;
 

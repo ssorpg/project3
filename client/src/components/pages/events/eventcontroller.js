@@ -1,7 +1,8 @@
 // COMPONENTS
 import React, { Component } from 'react';
-import { Container, Paper } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import Event from './event';
+import Megatron from '../../megatron';
 
 // FUNCTIONS
 import ax from 'axios';
@@ -9,23 +10,22 @@ import PageLoadError from '../../../utils/pageloaderror';
 import PostController from '../../posts/postcontroller';
 
 export default class EventController extends Component {
-  constructor(props) {
-    super(props);
-    const { YourProfile } = props;
+  constructor() {
+    super();
 
     this.state = {
       event: undefined,
       members: undefined,
       posts: undefined,
-      userAttending: false,
-      userProfile: YourProfile
-    }
-  }
-  
+      attending: false,
+      alert: undefined
+    };
+  };
+
   async componentDidMount() {
     await this.getData();
-    this.isEventMember();
-  }
+    this.checkAttending();
+  };
 
   getData = async () => {
     try {
@@ -42,102 +42,85 @@ export default class EventController extends Component {
     }
   };
 
-  isEventMember = () => {
-    this.state.event.members.forEach( member => {
-      if(member.id === this.state.userProfile.id) {
-        this.setState({
-          userAttending: true
-        });
+  checkAttending = () => {
+    this.state.event.members.forEach(member => {
+      if (member.id === this.props.YourProfile.id) {
+        this.setState({ attending: true });
       }
     });
-  }
+  };
 
   findUserIndex = user => {
     let userIndex;
-    this.state.members.forEach( (member, index) => {
-      if( member.id === user.id) { 
+    this.state.members.forEach((member, index) => {
+      if (member.id === user.id) {
         userIndex = index;
       }
-    })
+    });
 
     return userIndex;
-  }
+  };
 
-  addMember = user => {
-    let updatedMembers = this.state.event.members;
-    updatedMembers.push(user);
+  addMember = async user => {
+    this.setState({ members: [...this.state.members, user] });
+  };
 
-    this.setState({
-      members: [...updatedMembers]
-    })
-  }
-  //TODO is this the best way to get state to realize users have left?
+  // TODO is this the best way to get state to realize users have left?
   removeMember = user => {
     const userIndex = this.findUserIndex(user);
-    let updatedMembers = this.state.event.members;
+    let updatedMembers = this.state.members;
     updatedMembers.splice(userIndex, 1);
 
-    this.setState({
-      members: updatedMembers
-    });
-  }
-
-  updateMembers = (action, user) => {
-    switch(action) {
-      default:
-      case 'add':
-        this.addMember(user);
-        break;
-      case 'delete':
-        this.removeMember(user);
-      break;
-    }
-  }
+    this.setState({ members: [...updatedMembers] });
+  };
 
   handleToggleAttendence = async () => {
-    if(this.state.userAttending) {
-      try {
-        let removedUser = await ax.delete(`/api/events/${this.state.event.id}/users`);
-        this.updateMembers('delete', removedUser.data);
+    this.setState({ alert: undefined });
 
+    const URL = `/api/events/${this.state.event.id}/users`;
 
-        this.setState({
-          userAttending: false
-        });
-      } catch (error) {
-        PageLoadError(error);
+    try {
+      if (this.state.attending) {
+        const removedUser = await ax.delete(URL);
+
+        this.removeMember(removedUser.data);
+        this.setState({ attending: false });
       }
-    } else {
-      try {
-        let newMember = await ax.post('/api/events/1/users');
-        this.updateMembers('add', newMember.data);
+      else {
+        const newMember = await ax.post(URL);
 
-        this.setState({
-          userAttending: true
-        });
-      } catch (error) {
-        PageLoadError(error);
+        this.addMember(newMember.data);
+        this.setState({ attending: true });
       }
     }
-  }
+    catch (error) {
+      console.log(error);
+      this.setState({ alert: error.response.data });
+    }
+  };
 
   render() {
     return (
       <Container>
-        <Paper>
-          {
-            this.state.event ?
+        {
+          this.state.event ?
+            <>
+              <Megatron
+                heading={this.state.event.name}
+                image="/images/event.jpg"
+                imagePosition="0 76%"
+              />
               <Event
                 {...this.props}
                 thisEvent={this.state.event}
                 members={this.state.members}
-                posts={this.state.posts}
                 handleToggleAttendence={this.handleToggleAttendence}
-                attending={this.state.userAttending}
+                attending={this.state.attending}
+                alert={this.state.alert}
               />
-              : ''
-          }
-        </Paper>
+            </>
+            : ''
+        }
         {
           this.state.posts ?
             <PostController

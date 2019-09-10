@@ -1,7 +1,6 @@
 /* eslint-disable indent */
 const db = require('../models');
-
-const wrap = fn => (...args) => fn(...args).catch(args[2]);
+const wrap = require('./utils/errorhandler');
 
 module.exports = function (app) {
   app.get('/api/search', wrap(async function (req, res, next) {

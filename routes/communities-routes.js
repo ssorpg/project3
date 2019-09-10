@@ -1,19 +1,13 @@
 const db = require('../models');
-const { getCommunity } = require('./utils/validate');
-
+const { getUser, getCommunity } = require('./utils/validate');
 const multer = require('./utils/multerwithoptions');
-
-const wrap = fn => (...args) => fn(...args).catch(args[2]);
+const wrap = require('./utils/errorhandler');
 
 module.exports = function (app) {
   // COMMUNITY
 
   app.post('/api/communities/create', wrap(async function (req, res, next) { // create community
-    const user = await db.User.findOne({
-      where: {
-        id: req.token.UserId
-      }
-    });
+    const user = await getUser(req.token.UserId);
 
     const newCommunity = await db.Community.create({
       name: req.body.name,
