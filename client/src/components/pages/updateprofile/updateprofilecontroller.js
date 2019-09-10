@@ -23,7 +23,7 @@ export default class UpdateProfileController extends Component {
 
   handleBioLocChange = event => {
     // console.log(event.target.name, event.target.value);
-    
+
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -87,40 +87,40 @@ export default class UpdateProfileController extends Component {
 
   render() {
     return (
-        <Container maxWidth="md">
-          <Megatron
-            heading="Profile Settings"
-            subheading="Edit bio and profile picture"
-            image="/images/updateprofile.jpg"
-            imagePosition="50%"
-            megaHeight='60vh'
-            megaMaxHeight='320px!important'
-          />
-          {
-            this.state.alert ?
-              this.state.alert.success ?
-                <Modal success={this.state.alert.message} />
-                : <Modal error={this.state.alert.error} />
-              : ''
-          }
-          <Paper style={{ padding: '24px' }}>
-            <Grid container alignContent="center">
-              <Grid item md={6} style={{ marginBottom: '20px' }}>
-                <h3>Update Profile</h3>
-                <UpdateForm
-                  bio={this.state.bio}
-                  location={this.state.location}
-                  handleBioLocChange={this.handleBioLocChange}
-                  handleBioLocSubmit={this.handleBioLocSubmit}
-                />
-              </Grid>
-              <Grid item md={6}>
-                <h3>Update Photo</h3>
-                <Imageupload handlePicSubmit={this.handlePicSubmit} />
-              </Grid>
+      <Container maxWidth="md">
+        <Megatron
+          heading="Profile Settings"
+          subheading="Edit bio and profile picture"
+          image="/images/updateprofile.jpg"
+          imagePosition="50%"
+          megaHeight='60vh'
+          megaMaxHeight='320px!important'
+        />
+        <Paper style={{ padding: '24px' }}>
+          <Grid container alignContent="center">
+            <Grid item md={6} style={{ marginBottom: '20px' }}>
+              <h3>Update Profile</h3>
+              <UpdateForm
+                bio={this.state.bio}
+                location={this.state.location}
+                handleBioLocChange={this.handleBioLocChange}
+                handleBioLocSubmit={this.handleBioLocSubmit}
+              />
             </Grid>
-          </Paper>
-        </Container>
+            <Grid item md={6}>
+              <h3>Update Photo</h3>
+              <Imageupload handlePicSubmit={this.handlePicSubmit} />
+            </Grid>
+          </Grid>
+        </Paper>
+        {
+          this.state.alert ?
+            this.state.alert.success ?
+              <Modal success={this.state.alert.message} />
+              : <Modal error={this.state.alert.error} />
+            : ''
+        }
+      </Container>
     );
   };
 }

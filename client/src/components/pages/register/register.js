@@ -68,11 +68,6 @@ export default function Register(props) {
               />
             </Grid> */}
           </Grid>
-          {
-            alert ?
-              <Modal error={alert} />
-              : ''
-          }
           <Button
             type="submit"
             fullWidth
@@ -89,6 +84,11 @@ export default function Register(props) {
               </Link>
             </Grid>
           </Grid>
+          {
+            alert ?
+              <Modal error={alert} />
+              : ''
+          }
         </form>
       </div>
     </Container>
