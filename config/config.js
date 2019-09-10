@@ -28,4 +28,14 @@ module.exports = {
     dialect: 'mysql',
     logging: false
   }
+
+  // production: { // fake production
+  //   username: process.env.MYSQL_USER,
+  //   password: process.env.MYSQL_PASS,
+  //   database: 'tpn',
+  //   host: '127.0.0.1',
+  //   port: 3306,
+  //   dialect: 'mysql',
+  //   logging: false
+  // }
 };
