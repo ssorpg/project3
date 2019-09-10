@@ -16,11 +16,11 @@ export default class FriendsController extends Component {
       pageTitle: undefined,
       friends: []
     };
-  }
+  };
 
   componentDidMount() {
     this.getData();
-  }
+  };
 
   getData = async () => {
     try {
@@ -34,26 +34,23 @@ export default class FriendsController extends Component {
     catch (error) {
       PageLoadError(error);
     }
-  }
+  };
 
   render() {
     return (
-      <>
-        {/* <Header pageTitle={this.state.pageTitle} /> */}
-        <Container>
-          <Megatron
-            heading={this.state.pageTitle}
-            image={this.state.bannerImage ? `/images/${this.state.bannerImage}` : '/images/community.jpg'}
-            imagePosition="50%"
-            megaHeight='20vh'
-            megaMaxHeight='320px!important'
-          />
-          <FriendDisplay
-            {...this.props}
-            friends={this.state.friends}
-          />
-        </Container>
-      </>
+      <Container>
+        <Megatron
+          heading={this.state.pageTitle}
+          image={this.state.bannerImage ? `/images/${this.state.bannerImage}` : '/images/community.jpg'}
+          imagePosition="50%"
+          megaHeight='20vh'
+          megaMaxHeight='320px!important'
+        />
+        <FriendDisplay
+          {...this.props}
+          friends={this.state.friends}
+        />
+      </Container>
     );
-  }
+  };
 }

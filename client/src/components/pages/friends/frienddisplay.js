@@ -17,17 +17,17 @@ export default function FriendDisplay(props) {
           className="theme-mtx3"
         >
           {
-            friends.map(friend => (
+            friends.map(friend =>
               <Grid key={friend.id} item xs={6} sm={3} md={2}>
                 <Friend
                   {...props}
                   thisFriend={friend}
                 />
               </Grid>
-            ))
+            )
           }
         </Grid>
       </main>
     </Container>
   );
-}
+};

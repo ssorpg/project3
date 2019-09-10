@@ -21,12 +21,12 @@ export default class ChatController extends Component {
 
   async componentDidMount() {
     this.ws.onopen = async () => {
-      console.log('connected');
+      // console.log('connected');
+      
       await this.getUsers();
     }
 
     this.ws.onmessage = event => {
-      // on receiving a message, do the action associated with the message
       const message = JSON.parse(event.data);
       console.log(message);
 
@@ -39,7 +39,7 @@ export default class ChatController extends Component {
     }
 
     this.ws.onclose = () => {
-      console.log('disconnected');
+      // console.log('disconnected');
 
       // automatically try to reconnect on connection loss
       setTimeout(() => { this.ws = NewWs(window.location) }, 1000);
@@ -74,7 +74,7 @@ export default class ChatController extends Component {
   };
 
   handleSubmit = async event => {
-    // on submitting the ChatInput form, send the message, add it to the list and reset the input
+    // on submitting the ChatInput form, send the message, add it to the list, and reset the input
     event.preventDefault();
     const form = event.target;
     

@@ -40,6 +40,10 @@
   margin-top: 36px !important;
 }
 
+.theme-mbx2 {
+  margin-bottom: 24px !important;
+}
+
 .theme-paddingx2 {
   padding: 24px !important;
 }
@@ -94,4 +98,8 @@
 .inline-button {
   display: inline-block;
   margin: 12px !important;
+}
+
+.reset-list {
+  list-style: none;
 }

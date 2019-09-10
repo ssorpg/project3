@@ -42,4 +42,4 @@ export default function MakeComment(props) {
       </form>
     </Grid>
   );
-}
+};

@@ -15,7 +15,43 @@ export default class PostController extends Component {
       postURL: props.postURL,
       postType: props.postType,
       cantPost: props.cantPost,
+      hasMorePosts: true,
       alert: undefined
+    };
+  };
+
+  componentDidMount() {
+    const infiniteScroll = document.getElementsByClassName('infinite-scroll-component')[0];
+
+    if (infiniteScroll) {
+      infiniteScroll.parentNode.style.maxWidth = '667px';
+    }
+  };
+
+  getMorePosts = async () => {
+    this.setState({ alert: undefined });
+
+    const lastPostId = this.state.posts[this.state.posts.length - 1].id
+
+    try {
+      const res = await ax.get(this.state.postURL + `&startAt=${lastPostId}`);
+
+      if (!res.data.length) { // hard to read - TODO reactor
+        await this.setState({ hasMorePosts: false }); // use await to prevent loading more posts before previous ones have loaded
+      }
+      else if (res.data.length < 20) {
+        await this.setState({
+          hasMorePosts: false,
+          posts: [...this.state.posts, ...res.data]
+        });
+      }
+      else {
+        await this.setState({ posts: [...this.state.posts, ...res.data] });
+      }
+    }
+    catch (error) {
+      console.log(error);
+      this.setState({ alert: error.response.data });
     }
   };
 
@@ -56,14 +92,15 @@ export default class PostController extends Component {
     try {
       const res = await ax.put(`/api/posts/${PostId}/${voteType}`);
 
-      const newPostScore = this.state.posts.map(post => {
+      const newPosts = [...this.state.posts];
+
+      newPosts.forEach(post => { // spread operator then forEach instead of map to prevent reloading entire array
         if (post.id === res.data.id) {
           post.score = res.data.score;
         }
-        return post;
       });
 
-      this.setState({ posts: newPostScore });
+      this.setState({ posts: newPosts });
     }
     catch (error) {
       console.log(error);
@@ -89,17 +126,22 @@ export default class PostController extends Component {
   render() {
     return (
       <>
-        <MakePost
-          handleMakePost={this.handleMakePost}
-          postType={this.state.postType}
-          cantPost={this.state.cantPost}
-          alert={this.state.alert}
-        />
+        {
+          !this.state.cantPost ?
+            <MakePost
+              handleMakePost={this.handleMakePost}
+              postType={this.state.postType}
+              alert={this.state.alert}
+            />
+            : ''
+        }
         <PostDisplay
           {...this.props}
           posts={this.state.posts}
           vote={this.vote}
           deletePost={this.deletePost}
+          hasMorePosts={this.state.hasMorePosts}
+          getMorePosts={this.getMorePosts}
         />
       </>
     );

@@ -17,8 +17,7 @@ const useStyles = makeStyles(theme => ({
 
   profileImageContainer: {
     maxWidth: '500px',
-    marginLeft: '24px',
-    marginBottom: '24px'
+    marginLeft: '24px'
   }
 }));
 
@@ -28,7 +27,7 @@ export default function ProfileInfo(props) {
   const classes = useStyles();
 
   return (
-    <Card>
+    <Card className="theme-mbx2">
       <Grid container>
         <Grid item md={6}>
           <CardHeader
@@ -37,20 +36,14 @@ export default function ProfileInfo(props) {
             }
             title={<h3>{user.name}</h3>}
             subheader={
-              /* this looks ugly from lines 39 to 48 - TODO make less ugly */
               <>
-                <i>{user.location}</i><br />
-                {
-                  user.status ?
-                    <>
-                      Status: <i>{user.status}</i>
-                    </>
-                    : ''
-                }
+                <i>{user.location}</i>
+                <br />
+                Status: <i>{user.status}</i>
               </>
             }
           />
-          <div className={classes.profileImageContainer}>
+          <div className={classes.profileImageContainer + " theme-mbx2"}>
             {
               user.id === YourProfile.id ?
                 <Status {...props} />
@@ -91,4 +84,4 @@ export default function ProfileInfo(props) {
       }
     </Card>
   );
-}
+};

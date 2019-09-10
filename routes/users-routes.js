@@ -1,7 +1,7 @@
 const db = require('../models');
-const auth = require('./auth/auth');
+const auth = require('./utils/auth');
 
-const multer = require('multer')({ dest: 'client/build/images' });
+const multer = require('./utils/multerwithoptions');
 
 require('dotenv').config();
 
@@ -70,23 +70,6 @@ module.exports = function (app) {
     res.status(200).send('Account created!');
   }));
 
-  app.put('/api/users/update', wrap(async function (req, res, next) { // update profile
-    await db.User.update(
-      {
-        name: req.body.name,
-        bio: req.body.bio,
-        location: req.body.location,
-        status: req.body.status
-      },
-      {
-        where: {
-          id: req.token.UserId
-        }
-      });
-
-    res.status(200).send('Profile updated!');
-  }));
-
   app.get('/api/users/logout', wrap(async function (req, res, next) { // logout
     res.status(200)
       .clearCookie('token')
@@ -117,14 +100,31 @@ module.exports = function (app) {
     res.status(200).json(user);
   }));
 
-  app.post('/api/users/profile/images', multer.any(), wrap(async (req, res, next) => { // update user profile image
+  app.put('/api/users/profile/update', wrap(async function (req, res, next) { // update profile
+    await db.User.update(
+      {
+        name: req.body.name,
+        bio: req.body.bio,
+        location: req.body.location,
+        status: req.body.status
+      },
+      {
+        where: {
+          id: req.token.UserId
+        }
+      });
+
+    res.status(200).send('Profile updated!');
+  }));
+
+  app.post('/api/users/profile/images', multer.single('profileImage'), wrap(async (req, res, next) => { // update user profile image
     const user = await db.User.findOne({
       where: {
         id: req.token.UserId
       }
     });
 
-    const image = await db.Image.create(req.files[0]);
+    const image = await db.Image.create(req.file);
 
     user.addProfileImage(image);
 

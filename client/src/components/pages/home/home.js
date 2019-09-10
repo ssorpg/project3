@@ -29,7 +29,6 @@ const useStyles = makeStyles(theme => ({
     top: '0',
     left: '0',
     right: '0',
-    width: '100%',
     alignItems: 'center',
     background: 'linear-gradient(180deg, rgba(255,255,255,1) 70%, rgba(255,255,255,0) 100%)',
     padding: '24px 24px 72px'
@@ -47,14 +46,7 @@ const useStyles = makeStyles(theme => ({
   },
 
   rightLogin: {
-    margin: '96px 48px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-
-  loginForm: {
-    width: '100%' // Fix IE 11 issue.
+    margin: '96px 48px'
   }
 }));
 
@@ -67,8 +59,8 @@ export default function Home(props) {
 
   return (
     <Grid container component="main" className={classes.totalSizeFix}>
-      <Grid item xs={false} sm={4} md={7} className={classes.leftImage} >
-        <Grid item xs={false} className={classes.imageLogo + " text-center"}>
+      <Grid item sm={4} md={7} className={classes.leftImage} >
+        <Grid item className={classes.imageLogo + " full-width text-center"}>
           <img src="https://i.ibb.co/6WVS2GB/tpn2.png" alt="" />
           <span className={classes.websiteTitle} >The Private Network</span>
           <p className={classes.slogan}>
@@ -79,12 +71,12 @@ export default function Home(props) {
         </Grid>
       </Grid>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.rightLogin}>
-          <img src="https://i.ibb.co/6WVS2GB/tpn2.png" xs={false} alt="" />
+        <div className={classes.rightLogin + " flex-col flex-center"}>
+          <img src="https://i.ibb.co/6WVS2GB/tpn2.png" alt="" />
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.loginForm + " theme-mt"} onSubmit={handleSubmit}>
+          <form className="full-width theme-mt" onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -142,5 +134,4 @@ export default function Home(props) {
       </Grid>
     </Grid>
   );
-}
-
+};

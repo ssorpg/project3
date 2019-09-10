@@ -1,34 +1,29 @@
 // COMPONENTS
 import React from "react";
-import { Paper } from "@material-ui/core";
+import { Paper, TextField, Button } from "@material-ui/core";
 import Modal from "../../modal";
-import { TextField, Button } from "@material-ui/core";
+
+// FUNCTIONS
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStlyes = makeStyles(theme => ({
-  paper: {
-    padding: "25px"
-  },
-  dense: {
-    margin: 5
-  },
-  select: {
-    minWidth: "100%"
-  },
-  button: {
-    marginRight: '15px'
+const useStyles = makeStyles(theme => ({
+  mr12px: {
+    marginRight: '12px'
   }
 }));
-export default function MakeEvent(props) {
-  const classes = useStlyes();
-  const { handleInputChange, handleSubmit, alert, communities } = props;
 
-  //TODO 1 : add google maps and use that to add locations to events - youll need the grid
+export default function MakeEvent(props) {
+  const { handleInputChange, handleCreateEventSubmit, communities, alert } = props;
+
+  const classes = useStyles();
+
+  // TODO 1 : add google maps and use that to add locations to events - youll need the grid
   return (
-    <Paper className={classes.paper}>
-      <form onSubmit={handleSubmit}>
+    <Paper className="theme-paddingx2">
+      <form onSubmit={handleCreateEventSubmit}>
         <TextField
           id="name"
+          className={classes.mr12px}
           label="Event Name"
           placeholder="Placeholder"
           margin="dense"
@@ -39,6 +34,7 @@ export default function MakeEvent(props) {
 
         <TextField
           id="description"
+          className={classes.mr12px}
           label="Event Description"
           placeholder="Placeholder"
           margin="dense"
@@ -48,7 +44,19 @@ export default function MakeEvent(props) {
         />
         <br />
         <TextField
+          id="location"
+          className={classes.mr12px}
+          label="Event Location"
+          placeholder="Placeholder"
+          margin="dense"
+          type="text"
+          onChange={handleInputChange}
+          required
+        />
+        <br />
+        <TextField
           id="date"
+          className={classes.mr12px}
           helperText="Event Date"
           margin="dense"
           type="date"
@@ -58,6 +66,7 @@ export default function MakeEvent(props) {
 
         <TextField
           id="start_time"
+          className={classes.mr12px}
           helperText="Event Start Time"
           margin="dense"
           type="time"
@@ -67,6 +76,7 @@ export default function MakeEvent(props) {
 
         <TextField
           id="end_time"
+          className={classes.mr12px}
           helperText="Event End Time"
           margin="dense"
           type="time"
@@ -75,9 +85,10 @@ export default function MakeEvent(props) {
         />
         <br />
         <TextField
-          id="communityId"
-          className={classes.select}
+          id="CommunityId"
+          className={classes.mr12px + " full-width"}
           select
+          defaultValue="default"
           margin="dense"
           onChange={handleInputChange}
           SelectProps={{
@@ -85,25 +96,31 @@ export default function MakeEvent(props) {
           }}
           required
         >
-          <option selected="selected" disabled="disabled">
+          <option value="default" disabled="disabled">
             Choose A Community
           </option>
-          {communities.map(item => (
-            <option key={item.id} name={item.name} value={item.id}>
-              {item.name}
-            </option>
-          ))}
+          {
+            communities.map(community =>
+              <option key={community.id} name={community.name} value={community.id}>
+                {community.name}
+              </option>
+            )
+          }
         </TextField>
         <br />
         <br />
-        <Button className={classes.button} variant="contained" color="primary" name="submit" type="submit">
+        <Button className={classes.mr12px} variant="contained" color="primary" name="submit" type="submit">
           Submit
         </Button>
-        <Button className={classes.button} variant="outlined" color="secondary" name="reset" type="reset">
+        <Button className={classes.mr12px} variant="outlined" color="secondary" name="reset" type="reset">
           Reset
         </Button>
-        {alert ? <Modal error={alert} /> : ""}
+        {
+          alert ?
+            <Modal error={alert} />
+            : ''
+        }
       </form>
     </Paper>
   );
-}
+};

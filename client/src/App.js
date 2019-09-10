@@ -11,13 +11,13 @@ import Profile from './components/pages/profile/profile';
 import RegisterController from './components/pages/register/registercontroller';
 import UpdateProfileController from './components/pages/updateprofile/updateprofilecontroller';
 import JoinCommunityController from './components/pages/joincommunity/joincommunitycontroller';
+import CreateEventController from './components/pages/createevent/createeventcontroller';
 import Feed from './components/pages/feed/feed';
 import FriendsController from './components/pages/friends/friendscontroller';
 import Wall from './components/pages/wall/wall';
+import EventController from './components/pages/events/eventcontroller';
 import ChatController from './components/pages/chat/chatcontroller';
 import SearchResultsController from './components/pages/searchresults/searchresultscontroller';
-import EventsController from './components/pages/events/eventsController';
-import SingleEventController from './components/pages/events/singleeventcontroller';
 import HomeController from './components/pages/home/homecontroller';
 import Footer from './components/footer';
 
@@ -41,9 +41,12 @@ export default class TPN extends Component {
         : undefined,
       FriendId: window.location.pathname.match(/\/friends\/([0-9]*)/) ?
         parseInt(window.location.pathname.match(/\/friends\/([0-9]*)/)[1])
-        : undefined
-    }
-  }
+        : undefined,
+      EventId: window.location.pathname.match(/\/events\/([0-9]*)/) ?
+        parseInt(window.location.pathname.match(/\/events\/([0-9]*)/)[1])
+        : undefined,
+    };
+  };
 
   // this line is where props are inherited as this.props in a class component even if not called in constructor
 
@@ -67,7 +70,7 @@ export default class TPN extends Component {
             : ''
         }
         <Router>
-          <div className="flex-default">
+          <div className="flex-default" id="App">
             <Switch>
               <Route exact path="/register" render=
                 {
@@ -79,11 +82,11 @@ export default class TPN extends Component {
               <Route exact path="/profile" render={() => <Profile {...this.state} />} />
               <Route exact path="/updateprofile" render={() => <UpdateProfileController {...this.state} />} />
               <Route exact path="/joincommunity" render={() => <JoinCommunityController {...this.state} />} />
+              <Route exact path="/createevent" render={() => <CreateEventController {...this.state} />} />
               <Route exact path="/community/:CommunityId" render={() => <Feed {...this.state} />} />
               <Route exact path="/community/:CommunityId/friends" render={() => <FriendsController {...this.state} />} />
               <Route exact path="/community/:CommunityId/friends/:UserId" render={() => <Wall {...this.state} />} />
-              <Route exact path="/create-event" render={() => <EventsController {...this.state} />} />
-              <Route exact path="/community/:CommunityId/events/:EventId" render={ props => <SingleEventController {...this.state} urlPath={props.match.params} />} />
+              <Route exact path="/community/:CommunityId/events/:EventId" render={() => <EventController {...this.state} />} />
               {/* <Route exact path="/community/:CommunityId/chat" render={() => <Chat {...this.state} />} /> */}
               <Route exact path="/chat" render={() => <ChatController {...this.state} />} />
               <Route path="/search" render={() => <SearchResultsController {...this.state} />} />
