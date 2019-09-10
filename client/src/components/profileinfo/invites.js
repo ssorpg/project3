@@ -27,7 +27,7 @@ export default function Invites(props) {
       <List>
         {
           user.invites.length ?
-            user.invites.map(invite => (
+            user.invites.map(invite =>
               <span key={invite.id}>
                 <div className="flex-between">
                   <ListItem className="flex-fill">
@@ -40,7 +40,7 @@ export default function Invites(props) {
                 </div>
                 <Divider />
               </span>
-            ))
+            )
             : <div className={classes.noInvitesSpacing}>
               <h5>None</h5>
             </div>

@@ -7,7 +7,7 @@ import Post from './post'
 export default function PostDisplay(props) {
   const { posts, cantPost, hasMorePosts, getMorePosts } = props;
 
-  console.log(posts);
+  // console.log(posts);
 
   return (
     <Container maxWidth="lg">
@@ -17,7 +17,6 @@ export default function PostDisplay(props) {
           direction="row"
           justify="center"
           spacing={4}
-          className="theme-mtx3"
         >
           {
             posts.length ?
@@ -35,22 +34,22 @@ export default function PostDisplay(props) {
                 }
               >
                 {
-                  posts.map(post => (
+                  posts.map(post =>
                     <Grid key={post.id} className="full-width">
                       <Post
                         {...props}
                         thisPost={post}
                       />
                     </Grid>
-                  ))
+                  )
                 }
               </InfiniteScroll>
               : cantPost ?
                 ''
-                : <h2 className="text-center">No posts here.<br />You should make one!</h2>
+                : <h2 className="text-center theme-mt theme-mbx2">No posts here.<br />You should make one!</h2>
           }
         </Grid>
       </main>
     </Container>
   );
-}
+};

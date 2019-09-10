@@ -1,7 +1,7 @@
 const db = require('../models');
-const { getCommunity } = require('./auth/validate');
+const { getCommunity } = require('./utils/validate');
 
-const wrap = fn => (...args) => fn(...args).catch(args[2]); // async error handling
+const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 module.exports = function(app) {
   // COMMUNITY USERS

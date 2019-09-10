@@ -44,5 +44,4 @@ class SearchResultsController extends Component {
   };
 }
 
-
 export default withRouter(SearchResultsController);

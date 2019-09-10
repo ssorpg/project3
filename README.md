@@ -4,6 +4,7 @@
 
 
 ![Team Members](https://i.ibb.co/dMTv6Vn/Screen-Shot-2019-08-26-at-2-11-33-PM.png)
+
 Final Group Project at UCLA Extension Coding Bootcamp 
 
 **Stack:** SQL, Express, React, Node

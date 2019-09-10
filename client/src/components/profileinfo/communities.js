@@ -27,9 +27,9 @@ export default function Communities(props) {
     <div className={classes.communitiesSpacing}>
       <h5 className="card-title">Your Communities</h5>
       <List>
-        {
+        { // hard to read - TODO refactor
           user.communities.length ?
-            user.communities.map(community => (
+            user.communities.map(community =>
               <span key={community.id}>
                 <div className="flex-between">
                   <a key={community.id} href={`/community/${community.id}`} className="flex-fill">
@@ -59,13 +59,12 @@ export default function Communities(props) {
                 </div>
                 <Divider />
               </span>
-            ))
+            )
             : <div className={classes.noCommunitiesSpacing}>
               <h5>None - Join or create one <a href="/joincommunity">here!</a></h5>
             </div>
         }
       </List>
     </div>
-
   );
-}
+};

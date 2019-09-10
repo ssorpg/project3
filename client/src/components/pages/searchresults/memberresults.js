@@ -25,7 +25,7 @@ export default function MemberResults(props) {
             <h6>Community Members:</h6>
             <List className="list-unstyled">
               {
-                thisCommunity.members.map(member => (
+                thisCommunity.members.map(member =>
                   <ListItem key={member.id} className={classes.inlineMembers}>
                     <a
                       href={
@@ -37,7 +37,7 @@ export default function MemberResults(props) {
                       {member.name}
                     </a>
                   </ListItem>
-                ))
+                )
               }
             </List>
           </Grid>

@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function MakeEvent(props) {
-  const { handleInputChange, handleCreateEventSubmit, communities, alert  } = props;
+  const { handleInputChange, handleCreateEventSubmit, communities, alert } = props;
 
   const classes = useStyles();
 
@@ -100,11 +100,11 @@ export default function MakeEvent(props) {
             Choose A Community
           </option>
           {
-            communities.map(community => (
+            communities.map(community =>
               <option key={community.id} name={community.name} value={community.id}>
                 {community.name}
               </option>
-            ))
+            )
           }
         </TextField>
         <br />
@@ -123,4 +123,4 @@ export default function MakeEvent(props) {
       </form>
     </Paper>
   );
-}
+};

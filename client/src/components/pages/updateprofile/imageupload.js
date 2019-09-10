@@ -23,7 +23,7 @@ export default function ImageUpload(props) {
       <input
         className={classes.inputSpacing}
         type="file"
-        name="selectedFile"
+        name="profileImage"
         accept="image/*"
         required
       />

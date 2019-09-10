@@ -21,12 +21,24 @@ app.use(morgan('combined'));
 const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
 // SECURITY
+const rateLimit = require('express-rate-limit');
+
+app.set('trust proxy', 1);
+
+const apiLimiter = rateLimit({
+  windowMs: 5 * 1000, // 5 seconds
+  max: 10,
+  message: 'Please wait several seconds and try again.'
+});
+
+app.use('/api/', apiLimiter); // only limit requests that begin with /api/
+
 const helmet = require('helmet');
 
 app.use(helmet.xssFilter());
 app.use(helmet.contentSecurityPolicy({
-  directives: {
-    defaultSrc: [`'self'`, `material-ui.com`, `stackpath.bootstrapcdn.com`, `fonts.googleapis.com`]
+  directives: { // allowed website resources
+    defaultSrc: [`'self'`, `material-ui.com`, `stackpath.bootstrapcdn.com`, `fonts.googleapis.com`, `fonts.gstatic.com`]
   }
 }));
 app.use(helmet.frameguard({ action: 'deny' }));
@@ -47,7 +59,7 @@ app.use(wrap(async (req, res, next) => {
       UserId: tokenDecoded.UserId
     };
   }
-  else if (req.path !== '/api/users'
+  else if (req.path !== '/api/users' // public paths
     && req.path !== '/api/users/register'
     && req.path !== '/api/users/logout'
     && req.path !== '/'
@@ -78,9 +90,18 @@ app.use(wrap(async (req, res, next) => {
   throw { status: 404, msg: 'Page not found.' };
 }));
 
-// ROUTE ERROR SWITCH
+// ERROR RESPONSE
 app.use((err, req, res, next) => {
-  console.log(err);
+  console.log(typeof err === 'object' ?
+    JSON.stringify(err, null, 2) // pretty print our object errors
+    : err);
+
+  if (err.errors && err.errors[0].validatorKey) {  // sequelize validation errors
+    err = { status: 400, msg: err.errors[0].message };
+  }
+  else if (err.message) { // multer errors
+    err = { status: 400, msg: err.message };
+  }
 
   switch (err.status) {
     case 400:
@@ -90,7 +111,7 @@ app.use((err, req, res, next) => {
     case 404:
       return res.status(err.status).send(err.msg ? err.msg : 'Not found.');
     default:
-      return res.status(500).send(err.errors ? err.errors[0].message : 'Server error.'); // returns sequelize error messages
+      return res.status(500).send('Server error.');
   }
 });
 

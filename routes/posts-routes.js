@@ -1,5 +1,5 @@
 const db = require('../models');
-const { getCommunity, getPost } = require('./auth/validate');
+const { getCommunity, getPost } = require('./utils/validate');
 
 const wrap = fn => (...args) => fn(...args).catch(args[2]);
 
@@ -79,7 +79,7 @@ module.exports = function (app) {
 
     let resPosts;
 
-    if (UserId === req.token.UserId) { // TODO make 82 - 98 a different route?
+    if (UserId === req.token.UserId) { // TODO make this 'if' a new route
       const user = await db.User.findOne({
         where: {
           id: req.token.UserId
@@ -125,7 +125,7 @@ module.exports = function (app) {
           id: {
             [db.op.lt]: startAt
           }
-        },
+        }
       });
     }
     else if (UserId) {
@@ -146,7 +146,7 @@ module.exports = function (app) {
             [db.op.lt]: startAt
           },
           CommunityId: community.id
-        },
+        }
       });
     }
     else {
@@ -156,7 +156,7 @@ module.exports = function (app) {
           id: {
             [db.op.lt]: startAt
           }
-        },
+        }
       });
     }
 

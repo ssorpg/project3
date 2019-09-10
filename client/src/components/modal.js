@@ -10,6 +10,10 @@ const useStyles = makeStyles(theme => ({
     minWidth: '150px',
     margin: 0,
     cursor: 'pointer'
+  },
+
+  noMB: {
+    marginBottom: 0
   }
 }));
 
@@ -30,7 +34,7 @@ export default function Modal(props) {
     <div onClick={dismissAlerts} className={classes.alert + " alert"}>
       {
         error ?
-          <div className="alert alert-danger">
+          <div className={classes.noMB + " alert alert-danger"}>
             <strong>Error: </strong>
             {error}
           </div>
@@ -38,12 +42,12 @@ export default function Modal(props) {
       }
       {
         success ?
-          <div className="alert alert-success">
+          <div className={classes.noMB + " alert alert-success"}>
             <strong>Success: </strong>
             {success}
           </div>
           : ''
       }
     </div>
-  )
-}
+  );
+};

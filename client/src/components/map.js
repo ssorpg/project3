@@ -1,4 +1,6 @@
+// COMPONENTS
 import React from "react";
+
 // FUNCTIONS
 // import { Map, GoogleApiWrapper } from 'google-maps-react';
 import { makeStyles } from "@material-ui/core";
@@ -26,9 +28,10 @@ export default function GoogleMap(props) {
         allowFullScreen
         className={classes.map}
         title="Location Map"
-      ></iframe>
+      />
     );
-  } catch (error) {
+  }
+  catch (error) {
     console.log("err0r", error);
   }
-}
+};

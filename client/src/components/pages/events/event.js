@@ -49,7 +49,7 @@ export default function Event(props) {
           </Typography>
         </Grid>
       </Grid>
-      <Grid container className="theme-paddingx2" spacing={1}>
+      <Grid container className="theme-paddingx2 theme-mbx2" spacing={1}>
         <Grid item xs={12} sm={8}>
           <Box>
             <Typography variant="h6">Location:</Typography>
@@ -68,8 +68,8 @@ export default function Event(props) {
               <Divider />
               <List>
                 {
-                  thisEvent.members.map(member => (
-                    <ListItem>
+                  thisEvent.members.map(member =>
+                    <ListItem key={member.id}>
                       <ListItemAvatar>
                         <Avatar>
                           <img src={ExtractProfileImage(member)} alt={member.name} />
@@ -80,7 +80,7 @@ export default function Event(props) {
                         <Link href={`/community/${thisEvent.CommunityId}/friends/${member.id}`}>{member.name}</Link>
                       </ListItemText>
                     </ListItem>
-                  ))
+                  )
                 }
               </List>
             </Grid>
@@ -89,4 +89,4 @@ export default function Event(props) {
       </Grid>
     </>
   );
-}
+};
