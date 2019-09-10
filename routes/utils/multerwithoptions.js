@@ -15,6 +15,6 @@ module.exports = require('multer')({
       return cb(null, true);
     }
 
-    cb({ status: 400, msg: 'File upload only supports the following filetypes: .jpeg .jpg .png.' });
+    cb({ status: 400, msg: 'File upload only supports the following filetypes: .jpeg .jpg .png' });
   }
 });
