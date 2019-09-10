@@ -24,6 +24,7 @@ export default class PostController extends Component {
     const infiniteScroll = document.getElementsByClassName('infinite-scroll-component')[0];
 
     if (infiniteScroll) {
+      infiniteScroll.parentNode.style.width = '100%';
       infiniteScroll.parentNode.style.maxWidth = '667px';
     }
   };
@@ -126,15 +127,12 @@ export default class PostController extends Component {
   render() {
     return (
       <>
-        {
-          !this.state.cantPost ?
-            <MakePost
-              handleMakePost={this.handleMakePost}
-              postType={this.state.postType}
-              alert={this.state.alert}
-            />
-            : ''
-        }
+        <MakePost
+          handleMakePost={this.handleMakePost}
+          postType={this.state.postType}
+          cantPost={this.state.cantPost}
+          alert={this.state.alert}
+        />
         <PostDisplay
           {...this.props}
           posts={this.state.posts}

@@ -138,7 +138,7 @@ export default class Profile extends Component {
     this.setState({ alert: undefined });
 
     try {
-      await ax.put('/api/users/update', status);
+      await ax.put('/api/users/profile/update', status);
 
       const newProfile = this.state.YourProfile;
       newProfile.status = status.status;
