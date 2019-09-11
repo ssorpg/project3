@@ -10,7 +10,6 @@ const useStyles = makeStyles(theme => ({
   totalSizeFix: {
     minHeight: '100vh',
     marginBottom: '-12px',
-    marginTop: '-12vh'
   },
 
   leftImage: {

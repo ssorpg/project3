@@ -3,7 +3,6 @@
   min-height: 65px;
   max-height: 65px;
 }
-
 .App > .page-body {
   padding-top: 85px;
   width: 100%;
@@ -11,10 +10,18 @@
   margin-left: auto;
   margin-right: auto;
 }
-
+[class*='megatron'] h6 {
+  line-height: 1.2;
+}
 @media screen and (max-width: 768px) {
-  .App {
-    padding-top: 0;
+  [class*='megatron'] {
+    min-height: 120px;
+  }
+  [class*='megatron'] h3 {
+    font-size: 2rem;
+  }
+  [class*='megatron'] h6 {
+    font-size: 1.2rem;
   }
 }
 
