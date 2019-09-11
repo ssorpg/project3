@@ -16,7 +16,7 @@ export default function FeedEvent(props) {
     <Card className="full-width">
       <CardActionArea className="reset-a" component="a" href={`/community/${thisEvent.CommunityId}/events/${thisEvent.id}`}>
         <CardContent>
-          <Typography variant="h5" gutterBottom>
+          <Typography variant="body1" gutterBottom>
             {thisEvent.name}
           </Typography>
           <Typography color="textSecondary">

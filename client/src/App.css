@@ -2,13 +2,28 @@
   margin-top: 12vh;
   min-height: 88vh;
 }
-
 .App > .page-body {
   width: 100%;
   max-width: 1024px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 12px;
+}
+
+[class*='megatron'] h6 {
+  line-height: 1.2;
+}
+
+@media screen and (max-width: 768px) {
+  [class*='megatron'] {
+    min-height: 120px;
+  }
+  [class*='megatron'] h3 {
+    font-size: 2rem;
+  }
+  [class*='megatron'] h6 {
+    font-size: 1.2rem;
+  }
 }
 
 #popover {

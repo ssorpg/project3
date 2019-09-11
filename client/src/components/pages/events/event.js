@@ -45,10 +45,6 @@ const useStyles = makeStyles(theme => ({
 
   lessPaddingTop: {
     paddingTop: '0 !important'
-  },
-
-  blackBackground: {
-    backgroundColor: '#000'
   }
 }));
 
@@ -156,11 +152,7 @@ export default function Event(props) {
                         className="memberLink"
                       >
                         <ListItemAvatar className={classes.memberLinkContents}>
-                          <Avatar className={classes.blackBackground}>
-                            <img
-                              src={ExtractProfileImage(member)}
-                              alt={member.name}
-                            />
+                          <Avatar src={ExtractProfileImage(member)} alt={member.name}>
                           </Avatar>
                         </ListItemAvatar>
                         <ListItemText className={classes.memberLinkContents}>

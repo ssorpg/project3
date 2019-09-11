@@ -44,14 +44,15 @@ export default function MakePost(props) {
                 </>
                 : ''
             }
-            {
-              alert ?
-                <Modal error={alert} className="theme-mt" />
-                : ''
-            }
           </form>
         </Grid>
       </main>
+      {
+        alert ?
+          <Modal error={alert} className="theme-mt" />
+        : 
+          ''
+      }
     </Container>
   );
 };
