@@ -1,10 +1,11 @@
 .App {
-  min-height: 88vh;
-  margin-top: 12vh;
+  height: 65px;
+  min-height: 65px;
+  max-height: 65px;
 }
 
 .App > .page-body {
-  padding-top: 65px;
+  padding-top: 85px;
   width: 100%;
   max-width: 1024px;
   margin-left: auto;
@@ -25,17 +26,3 @@
   max-width: 55%;
   transform: translateX(-50%);
 }
-
-/* light/dark themes */
-
-/* @media (prefers-color-scheme: dark) {
-  html {
-    content: dark
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  html {
-    content: light
-  }
-} */
