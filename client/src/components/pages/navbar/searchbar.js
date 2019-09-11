@@ -51,8 +51,8 @@ const useStyles = makeStyles(theme => ({
 export default function Searchbar() {
   const classes = useStyles();
 
-  //todo remove init data grab and let users troll entire db
-  //todo maybe add paging to results
+  // todo remove init data grab and let users troll entire db
+  // todo maybe add paging to results
   function handleSearchSubmit(event) {
     if (event.key !== 'Enter') {
       return;

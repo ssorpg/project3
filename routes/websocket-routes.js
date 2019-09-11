@@ -75,6 +75,8 @@ module.exports = function (app, expressWs) {
     }, getClients(), ws);
 
     ws.on('message', async function (text) {
+      text = text.length > 200 ? text.substring(0, 200) : text; // don't want to send insanely huge messages
+
       messageAllClients(makeMessage(ws, text), getClients());
     });
 

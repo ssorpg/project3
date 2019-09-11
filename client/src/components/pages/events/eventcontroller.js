@@ -101,7 +101,7 @@ export default class EventController extends Component {
 
   render() {
     return (
-      <Container>
+      <Container maxWidth="lg">
         {
           this.state.event ?
             <>
