@@ -48,6 +48,10 @@
   padding: 24px !important;
 }
 
+.theme-paddingx7 {
+  padding-top: 84px !important;
+}
+
 /* FONT STYLING */
 .black-text {
   color: #000;

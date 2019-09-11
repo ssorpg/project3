@@ -70,7 +70,7 @@ export default class TPN extends Component {
             : ''
         }
         <Router>
-          <div className={!this.state.isAuth && window.location.pathname === '/' ? '' : 'page-body'}>
+          <div className={!this.state.isAuth ? '' : 'page-body'}>
             <Switch>
               <Route exact path="/register" render=
                 {
