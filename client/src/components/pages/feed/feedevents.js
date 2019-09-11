@@ -1,6 +1,6 @@
 // COMPONENTS
 import React from 'react';
-import { List, ListItem, Typography } from '@material-ui/core';
+import { List, ListItem, Typography, Divider } from '@material-ui/core';
 import FeedEvent from './feedevent';
 
 // FUNCTIONS
@@ -21,7 +21,8 @@ export default function FeedEvents(props) {
   return (
     <>
       <header className={classes.submoduleHeader}>
-        <Typography variant="h6">Events</Typography>
+        <Typography variant="h6">Upcoming Events:</Typography>
+        <Divider light className="mt-3" />
       </header>
       <List component="ul">
         {
