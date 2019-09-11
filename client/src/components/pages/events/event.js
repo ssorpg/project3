@@ -21,7 +21,7 @@ import {
   AssignmentInd,
   Schedule
 } from '@material-ui/icons';
-import Modal from "../../modal";
+import Modal from '../../modal';
 
 // FUNCTIONS
 import { makeStyles } from '@material-ui/core/styles';
@@ -32,10 +32,6 @@ import GoogleMap from '../../map';
 const useStyles = makeStyles(theme => ({
   attendence: {
     marginRight: '3px'
-  },
-
-  noMargin: {
-    margin: 0
   },
 
   memberLinkContents: {
@@ -54,7 +50,7 @@ export default function Event(props) {
 
   return (
     <Paper>
-      <Grid container className={classes.noMargin + " theme-paddingx2"} spacing={2}>
+      <Grid container className="no-margin theme-paddingx2" spacing={2}>
         <Grid item xs={12} sm={6}>
           <Typography variant="body1" title="Event Date">
             <EventIcon className={classes.attendence} alt="Event Date" />
@@ -74,7 +70,7 @@ export default function Event(props) {
             <Link
               href={
                 YourProfile.id === thisEvent.founder.id
-                  ? "/profile"
+                  ? '/profile'
                   : `/community/${thisEvent.CommunityId}/friends/${thisEvent.founder.id}`
               }
             >
@@ -143,9 +139,9 @@ export default function Event(props) {
                     <ListItem key={member.id}>
                       <Link
                         href={
-                          YourProfile.id === thisEvent.founder.id
-                            ? "/profile"
-                            : `/community/${thisEvent.CommunityId}/friends/${thisEvent.founder.id}`
+                          YourProfile.id === member.id
+                            ? '/profile'
+                            : `/community/${thisEvent.CommunityId}/friends/${member.id}`
                         }
                         className="memberLink"
                       >

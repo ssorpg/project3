@@ -27,7 +27,6 @@ const useStyles = makeStyles({
     width: '88%',
     maxWidth: 'calc(100% - 100px)',
     overflow: 'auto',
-    margin: 0,
     marginLeft: 'auto'
   }
 });
@@ -53,7 +52,7 @@ export default function ChatContainer(props) {
           )
         }
       </List>
-      <List id="chat" className={classes.messageDisplay}>
+      <List id="chat" className={classes.messageDisplay + " no-margin"}>
         {
           messages.map((message, index) =>
             <ChatMessage

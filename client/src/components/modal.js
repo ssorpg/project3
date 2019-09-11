@@ -8,7 +8,6 @@ const useStyles = makeStyles(theme => ({
   alert: {
     zIndex: '99',
     minWidth: '150px',
-    margin: 0,
     cursor: 'pointer'
   },
 
@@ -31,7 +30,7 @@ export default function Modal(props) {
   }
 
   return (
-    <div onClick={dismissAlerts} className={classes.alert + " alert"}>
+    <div onClick={dismissAlerts} className={classes.alert + " no-margin alert"}>
       {
         error ?
           <div className={classes.noMB + " alert alert-danger"}>
