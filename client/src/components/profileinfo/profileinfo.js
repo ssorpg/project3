@@ -1,15 +1,12 @@
 // COMPONENTS
 import React from "react";
 import {
-  Box,
   Card,
   CardHeader,
   CardContent,
   Avatar,
   Typography,
-  CardMedia,
   Grid,
-  Divider,
   colors
 } from "@material-ui/core";
 import Status from "./status";
