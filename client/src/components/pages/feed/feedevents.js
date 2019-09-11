@@ -8,10 +8,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   submoduleHeader: {
-    backgroundColor: '#3f51b5',
     padding: '15px',
-    color: '#fdfdfd',
-    textShadow: '0 0 3px #3f3f3f'
+    color: '#000'
   }
 }));
 
