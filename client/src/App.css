@@ -9,7 +9,7 @@
 
 @media screen and (max-width: 768px) {
   .App {
-    margin-top: 0;
+    padding-top: 0;
   }
 }
 
