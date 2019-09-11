@@ -156,11 +156,7 @@ export default function Event(props) {
                         className="memberLink"
                       >
                         <ListItemAvatar className={classes.memberLinkContents}>
-                          <Avatar className={classes.blackBackground}>
-                            <img
-                              src={ExtractProfileImage(member)}
-                              alt={member.name}
-                            />
+                          <Avatar className={classes.blackBackground} src={ExtractProfileImage(member)} alt={member.name}>
                           </Avatar>
                         </ListItemAvatar>
                         <ListItemText className={classes.memberLinkContents}>
