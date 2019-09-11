@@ -44,15 +44,15 @@ export default function Communities(props) {
                         <Button color="primary" onClick={() => openInviteDialog(community.id)}>Invite</Button>
                         <Confirmation
                           buttonText='Delete'
-                          title='Delete this community?'
-                          question='Clicking confirm will permanently remove the community.'
+                          title={`Delete ${community.name}?`}
+                          question={`Clicking confirm will delete ${community.name}.`}
                           action={() => removeCommunity(community.id, true)}
                         />
                       </>
                       : <Confirmation
                         buttonText='Leave'
-                        title='Leave this community?'
-                        question='Clicking confirm will remove you from the community.'
+                        title={`Leave ${community.name}?`}
+                        question={`Clicking confirm will remove you from ${community.name}.`}
                         action={() => removeCommunity(community.id)}
                       />
                   }

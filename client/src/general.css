@@ -63,11 +63,6 @@
   text-decoration: none;
 }
 
-.h4 { /* so we don't get errors when using h4 inside of <p> etc */
-  font-size: 22px;
-  font-weight: bold;
-}
-
 /* MISC */
 .full-image {
   height: 0;
@@ -104,6 +99,6 @@
   list-style: none;
 }
 
-.no-margin {
+.reset-margin {
   margin: 0 !important;
 }

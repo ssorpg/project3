@@ -72,7 +72,7 @@ export default function Post(props) {
             <Confirmation
               buttonText='Delete'
               title='Delete this post?'
-              question='Clicking confirm will permanently remove the post.'
+              question='Clicking confirm will permanently delete this post.'
               action={() => deletePost(thisPost.id)}
             />
             : ''

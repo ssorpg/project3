@@ -38,7 +38,7 @@ module.exports = function (app) {
     const token = await auth.makeToken(req, user);
 
     return res.status(200)
-      .clearCookie('token') // cookies aren't automatically removed when they expire so we have to remove them manually
+      .clearCookie('token')
       .clearCookie('UserId')
       .cookie('token', token, cookieOptionsS)
       .cookie('UserId', user.id, cookieOptionsU)
@@ -57,14 +57,6 @@ module.exports = function (app) {
       email: req.body.email,
       password: password
     });
-
-    // const defaultCommunity = await db.Community.findOne({
-    //   where: {
-    //     name: 'TPN'
-    //   }
-    // });
-
-    // await defaultCommunity.addMember(newUser); // users join public community by default
 
     res.status(200).send('Account created!');
   }));

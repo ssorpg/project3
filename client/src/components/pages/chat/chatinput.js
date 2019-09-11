@@ -17,7 +17,7 @@ export default function ChatInput(props) {
   const classes = useStyles();
 
   return (
-    <form onSubmit={handleSubmit} className={classes.chatInputForm + " no-margin full-width"}>
+    <form onSubmit={handleSubmit} className={classes.chatInputForm + " reset-margin full-width"}>
       <TextField
         label="Chat with your community!"
         placeholder="Enter message..."

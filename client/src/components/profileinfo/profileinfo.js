@@ -60,8 +60,8 @@ export default function ProfileInfo(props) {
         </Grid>
         <Grid item md={6}>
           <CardContent>
-            <Typography paragraph>
-              <span className="h4">Profile</span>
+            <Typography paragraph variant="h5">
+              <strong>Profile</strong>
             </Typography>
             <Typography paragraph>
               <strong>Bio:</strong> {user.bio ? user.bio : 'This user has no bio yet.'}
