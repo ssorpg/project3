@@ -30,6 +30,10 @@ import ExtractProfileImage from '../../../utils/extractprofileimage';
 import GoogleMap from '../../map';
 
 const useStyles = makeStyles(theme => ({
+  fixmt: {
+    marginTop: 0
+  },
+
   attendence: {
     marginRight: '3px'
   },
@@ -58,7 +62,7 @@ export default function Event(props) {
 
   return (
     <Paper>
-      <Grid container className="theme-paddingx2" spacing={2}>
+      <Grid container className={classes.fixmt + " theme-paddingx2"} spacing={2}>
         <Grid item xs={12} sm={6}>
           <Typography variant="body1" title="Event Date">
             <EventIcon className={classes.attendence} alt="Event Date" />
