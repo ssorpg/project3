@@ -9,17 +9,17 @@ export default function Confirmation(props) {
 
   function handleClickOpen() {
     setOpen(true);
-  }
+  };
 
   function handleClose() {
     setOpen(false);
-  }
+  };
 
   function doAction() {
     action();
 
     handleClose();
-  }
+  };
 
   return (
     <>

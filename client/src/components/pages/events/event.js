@@ -30,6 +30,10 @@ import ExtractProfileImage from '../../../utils/extractprofileimage';
 import GoogleMap from '../../map';
 
 const useStyles = makeStyles(theme => ({
+  fixmt: {
+    marginTop: 0
+  },
+
   attendence: {
     marginRight: '3px'
   },
@@ -37,6 +41,14 @@ const useStyles = makeStyles(theme => ({
   memberLinkContents: {
     display: 'inline-block',
     verticalAlign: 'middle'
+  },
+
+  lessPaddingTop: {
+    paddingTop: '0 !important'
+  },
+
+  blackBackground: {
+    backgroundColor: '#000'
   }
 }));
 
@@ -50,7 +62,7 @@ export default function Event(props) {
 
   return (
     <Paper>
-      <Grid container className="no-margin theme-paddingx2" spacing={2}>
+      <Grid container className={classes.fixmt + " theme-paddingx2"} spacing={2}>
         <Grid item xs={12} sm={6}>
           <Typography variant="body1" title="Event Date">
             <EventIcon className={classes.attendence} alt="Event Date" />
@@ -113,14 +125,12 @@ export default function Event(props) {
           <Divider className="mt-4" />
         </Grid>
       </Grid>
-      <Grid container className="theme-paddingx2 theme-mbx2" spacing={1}>
+      <Grid container className={classes.lessPaddingTop + " theme-paddingx2 theme-mbx2"} spacing={2}>
         <Grid item xs={12} sm={8}>
-          <Box>
+          <Box className="theme-mbx2">
             <Typography variant="h6">Description:</Typography>
             <Typography variant="body1">{thisEvent.description}</Typography>
           </Box>
-          <br />
-          <Divider light={true} />
           <Box>
             <Typography variant="h6">Location:</Typography>
             <Typography variant="body2">{thisEvent.location}</Typography>
@@ -146,7 +156,7 @@ export default function Event(props) {
                         className="memberLink"
                       >
                         <ListItemAvatar className={classes.memberLinkContents}>
-                          <Avatar>
+                          <Avatar className={classes.blackBackground}>
                             <img
                               src={ExtractProfileImage(member)}
                               alt={member.name}

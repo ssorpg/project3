@@ -24,7 +24,7 @@ export default function PostDisplay(props) {
                 dataLength={posts.length}
                 next={getMorePosts}
                 hasMore={hasMorePosts}
-                loader={<h4>Loading...</h4>}
+                loader={<h4>Loading more posts...</h4>}
                 className="full-width flex-middle"
                 style={{ flexWrap: 'wrap' }}
                 endMessage={

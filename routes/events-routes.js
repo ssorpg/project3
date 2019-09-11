@@ -2,8 +2,6 @@ const db = require('../models');
 const { getUser, getCommunity, getEvent } = require('./utils/validate');
 const wrap = require('./utils/errorhandler');
 
-const Moment = require('moment');
-
 module.exports = function (app) {
   // COMMUNITY EVENTS
 
@@ -14,12 +12,12 @@ module.exports = function (app) {
       throw { status: 401, msg: 'You\'re not in that community.' };
     }
 
-    if (!Moment(req.body.start_time, 'hh:mm', true).isValid()) {
-      throw { status: 400, msg: 'Please enter a valid event start time.' };
-    }
+    console.log(req.body.start_time);
 
-    if (!Moment(req.body.end_time, 'hh:mm', true).isValid()) {
-      throw { status: 400, msg: 'Please enter a valid event end time.' };
+    const check24Hour = new RegExp(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/);
+
+    if (!check24Hour.test(req.body.start_time) || !check24Hour.test(req.body.end_time)) {
+      throw { status: 400, msg: 'Please enter a valid event start and end time.' };
     }
 
     const newEvent = await db.Event.create({

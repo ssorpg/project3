@@ -32,24 +32,24 @@ export default function Modal(props) {
   }
 
   return (
-      <div onClick={dismissAlerts} className={classes.alert + " no-margin alert"}>
-        {
-          error ?
-            <div className={classes.noMB + " alert alert-danger"}>
-              <strong>Error: </strong>
-              {error}
-            </div>
-            : ''
-        }
-        {
-          success ?
-            <div className={classes.noMB + " alert alert-success"}>
-              <strong>Success: </strong>
-              {success}
-            </div>
-            : ''
-        }
-      </div>
+    <div onClick={dismissAlerts} className={classes.alert + " reset-margin alert"}>
+      {
+        error ?
+          <div className={classes.noMB + " alert alert-danger"}>
+            <strong>Error: </strong>
+            {error}
+          </div>
+          : ''
+      }
+      {
+        success ?
+          <div className={classes.noMB + " alert alert-success"}>
+            <strong>Success: </strong>
+            {success}
+          </div>
+          : ''
+      }
+    </div>
   );
 };
 

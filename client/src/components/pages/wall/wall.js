@@ -38,7 +38,7 @@ export default class Profile extends Component {
 
   render() {
     return (
-      <Container>
+      <Container maxWidth="lg">
         {
           this.state.friendProfile ?
             <ProfileInfo
