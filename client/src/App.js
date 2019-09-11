@@ -45,6 +45,7 @@ export default class TPN extends Component {
       EventId: window.location.pathname.match(/\/events\/([0-9]*)/) ?
         parseInt(window.location.pathname.match(/\/events\/([0-9]*)/)[1])
         : undefined,
+      pageId: window.location.pathname.replace(/\//g, '')
     };
   };
 
@@ -70,7 +71,9 @@ export default class TPN extends Component {
             : ''
         }
         <Router>
-          <div className="flex-default" id="App">
+          <div className="flex-default" className={
+            this.state.pageId ? 'page-body' : ''
+          }>
             <Switch>
               <Route exact path="/register" render=
                 {
