@@ -30,7 +30,7 @@ export default function Modal(props) {
   }
 
   return (
-    <div onClick={dismissAlerts} className={classes.alert + " no-margin alert"}>
+    <div onClick={dismissAlerts} className={classes.alert + " reset-margin alert"}>
       {
         error ?
           <div className={classes.noMB + " alert alert-danger"}>

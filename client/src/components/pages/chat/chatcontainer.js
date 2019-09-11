@@ -52,7 +52,7 @@ export default function ChatContainer(props) {
           )
         }
       </List>
-      <List id="chat" className={classes.messageDisplay + " no-margin"}>
+      <List id="chat" className={classes.messageDisplay + " reset-margin"}>
         {
           messages.map((message, index) =>
             <ChatMessage

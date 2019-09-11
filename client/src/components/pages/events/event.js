@@ -37,6 +37,10 @@ const useStyles = makeStyles(theme => ({
   memberLinkContents: {
     display: 'inline-block',
     verticalAlign: 'middle'
+  },
+
+  blackBackground: {
+    backgroundColor: '#000'
   }
 }));
 
@@ -50,7 +54,7 @@ export default function Event(props) {
 
   return (
     <Paper>
-      <Grid container className="no-margin theme-paddingx2" spacing={2}>
+      <Grid container className="reset-margin theme-paddingx2" spacing={2}>
         <Grid item xs={12} sm={6}>
           <Typography variant="body1" title="Event Date">
             <EventIcon className={classes.attendence} alt="Event Date" />
@@ -146,7 +150,7 @@ export default function Event(props) {
                         className="memberLink"
                       >
                         <ListItemAvatar className={classes.memberLinkContents}>
-                          <Avatar>
+                          <Avatar className={classes.blackBackground}>
                             <img
                               src={ExtractProfileImage(member)}
                               alt={member.name}
