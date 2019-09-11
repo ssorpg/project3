@@ -1,10 +1,10 @@
 // COMPONENTS
-import React from "react";
-import { Paper, TextField, Button } from "@material-ui/core";
-import Modal from "../../modal";
+import React from 'react';
+import { Paper, TextField, Button } from '@material-ui/core';
+import Modal from '../../modal';
 
 // FUNCTIONS
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   mr12px: {

@@ -2,6 +2,8 @@ const db = require('../models');
 const { getUser, getCommunity, getEvent } = require('./utils/validate');
 const wrap = require('./utils/errorhandler');
 
+const Moment = require('moment');
+
 module.exports = function (app) {
   // COMMUNITY EVENTS
 
@@ -10,6 +12,14 @@ module.exports = function (app) {
 
     if (!isMember) {
       throw { status: 401, msg: 'You\'re not in that community.' };
+    }
+
+    if (!Moment(req.body.start_time, 'hh:mm', true).isValid()) {
+      throw { status: 400, msg: 'Please enter a valid event start time.' };
+    }
+
+    if (!Moment(req.body.end_time, 'hh:mm', true).isValid()) {
+      throw { status: 400, msg: 'Please enter a valid event end time.' };
     }
 
     const newEvent = await db.Event.create({
