@@ -6,15 +6,21 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   alert: {
+    position: 'fixed',
+    top: '0',
+    bottom: '0',
+    left: '0',
+    right: '0',
     zIndex: '99',
     minWidth: '150px',
     cursor: 'pointer',
-    position: 'fixed',
-    //i gave up on the dialog component and was trying to vanilla CSS it here
-    background: 'rgba(0,0,0,0.5)'
+    backgroundColor: 'rgba(0,0,0,0.45)'
   },
   noMB: {
-    marginBottom: 0,
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%,-50%)'
   },
 }));
 
@@ -52,88 +58,3 @@ export default function Modal(props) {
     </div>
   );
 };
-
-
-// import React from 'react';
-// import {
-//   Button, Dialog, DialogActions,
-//   DialogContent, DialogContentText,
-//   DialogTitle, Slide
-// } from '@material-ui/core';
-
-
-
-// export default function Modal({ error, success }) {
-//   const [open, setOpen] = React.useState(false);
-//   React.useState(false);
-
-//   const Transition = React.forwardRef(function Transition(props, ref) {
-//     return <Slide direction="up" ref={ref} {...props} />;
-//   });
-
-//   function handleOpen() {
-//     setOpen(true);
-//     console.log('is this working');
-//   }
-
-//   function handleClose() {
-//     setOpen(false);
-//     console.log('something');
-//   }
-
-//   return (
-//     <div>
-//       {
-//         error ?
-//           <>
-//             <Dialog
-//               //this line below doesn't work, open is a prop which takes only a boolean
-//               open={open, handleOpen}
-//               TransitionComponent={Transition}
-//               onClose={handleClose}
-//               aria-labelledby="alert-dialog-slide-title"
-//               aria-describedby="alert-dialog-slide-description"
-//             >
-//               <DialogTitle id="alert-dialog-slide-title">{"Error!"}</DialogTitle>
-//               <DialogContent>
-//                 <DialogContentText id="alert-dialog-slide-description">
-//                   {error}
-//                 </DialogContentText>
-//               </DialogContent>
-//               <DialogActions>
-//                 <Button onClick={handleClose} color="primary">
-//                   Got it
-//           </Button>
-//               </DialogActions>
-//             </Dialog>
-//           </>
-//           : ''
-//       }
-//       {
-//         success ?
-//           <>
-//             <Dialog
-//               open={handleOpen}
-//               TransitionComponent={Transition}
-//               onClose={handleClose}
-//               aria-labelledby="alert-dialog-slide-title"
-//               aria-describedby="alert-dialog-slide-description"
-//             >
-//               <DialogTitle id="alert-dialog-slide-title">{"Success!"}</DialogTitle>
-//               <DialogContent>
-//                 <DialogContentText id="alert-dialog-slide-description">
-//                   {success}
-//                 </DialogContentText>
-//               </DialogContent>
-//               <DialogActions>
-//                 <Button onClick={handleClose} color="primary">
-//                   Got it
-//           </Button>
-//               </DialogActions>
-//             </Dialog>
-//           </>
-//           : ''
-//       }
-//     </div>
-//   );
-// }
