@@ -47,7 +47,7 @@ export default class CreateEventController extends Component {
         <Megatron
           heading='Create an Event'
           image={this.state.bannerImage ? `/images/${this.state.bannerImage}` : '/images/community.jpg'}
-          megaHeight='20vh'
+          megaHeight="65vh"
           megaMaxHeight='320px!important'
         />
         {
