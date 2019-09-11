@@ -8,8 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   totalSizeFix: {
-    minHeight: '100vh',
-    marginTop: '-12vh'
+    minHeight: '100vh'
   },
 
   leftImage: {
