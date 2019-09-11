@@ -39,6 +39,10 @@ const useStyles = makeStyles(theme => ({
     verticalAlign: 'middle'
   },
 
+  lessPaddingTop: {
+    paddingTop: '0 !important'
+  },
+
   blackBackground: {
     backgroundColor: '#000'
   }
@@ -54,7 +58,7 @@ export default function Event(props) {
 
   return (
     <Paper>
-      <Grid container className="reset-margin theme-paddingx2" spacing={2}>
+      <Grid container className="theme-paddingx2" spacing={2}>
         <Grid item xs={12} sm={6}>
           <Typography variant="body1" title="Event Date">
             <EventIcon className={classes.attendence} alt="Event Date" />
@@ -117,14 +121,12 @@ export default function Event(props) {
           <Divider className="mt-4" />
         </Grid>
       </Grid>
-      <Grid container className="theme-paddingx2 theme-mbx2" spacing={1}>
+      <Grid container className={classes.lessPaddingTop + " theme-paddingx2 theme-mbx2"} spacing={2}>
         <Grid item xs={12} sm={8}>
-          <Box>
+          <Box className="theme-mbx2">
             <Typography variant="h6">Description:</Typography>
             <Typography variant="body1">{thisEvent.description}</Typography>
           </Box>
-          <br />
-          <Divider light={true} />
           <Box>
             <Typography variant="h6">Location:</Typography>
             <Typography variant="body2">{thisEvent.location}</Typography>

@@ -7,8 +7,16 @@ import Modal from '../../modal';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
+  mr24px: {
+    marginRight: '24px'
+  },
+
   mr12px: {
     marginRight: '12px'
+  },
+
+  halfWidth: {
+    minWidth: '50%'
   }
 }));
 
@@ -23,21 +31,18 @@ export default function MakeEvent(props) {
       <form onSubmit={handleCreateEventSubmit}>
         <TextField
           id="name"
-          className={classes.mr12px}
+          className={classes.mr24px}
           label="Event Name"
-          placeholder="Placeholder"
-          margin="dense"
+          margin="none"
           type="text"
           onChange={handleInputChange}
           required
         />
-
         <TextField
           id="description"
-          className={classes.mr12px}
+          className={classes.halfWidth}
           label="Event Description"
-          placeholder="Placeholder"
-          margin="dense"
+          margin="none"
           type="text"
           onChange={handleInputChange}
           required
@@ -45,25 +50,23 @@ export default function MakeEvent(props) {
         <br />
         <TextField
           id="location"
-          className={classes.mr12px}
+          className={classes.mr24px}
           label="Event Location"
-          placeholder="Placeholder"
           margin="dense"
           type="text"
           onChange={handleInputChange}
           required
         />
-        <br />
+
         <TextField
           id="date"
-          className={classes.mr12px}
           helperText="Event Date"
-          margin="dense"
+          margin="normal"
           type="date"
           onChange={handleInputChange}
           required
         />
-
+        <br />
         <TextField
           id="start_time"
           className={classes.mr12px}
@@ -76,7 +79,6 @@ export default function MakeEvent(props) {
 
         <TextField
           id="end_time"
-          className={classes.mr12px}
           helperText="Event End Time"
           margin="dense"
           type="time"
@@ -86,10 +88,10 @@ export default function MakeEvent(props) {
         <br />
         <TextField
           id="CommunityId"
-          className={classes.mr12px + " full-width"}
+          className="full-width"
           select
           defaultValue="default"
-          margin="dense"
+          margin="normal"
           onChange={handleInputChange}
           SelectProps={{
             native: true
