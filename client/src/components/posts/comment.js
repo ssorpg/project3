@@ -32,7 +32,7 @@ export default function Comment(props) {
             color='default'
             buttonText={<DeleteIcon />}
             title='Delete this comment?'
-            question='Clicking confirm will permanently remove the comment.'
+            question='Clicking confirm will permanently delete this comment.'
             action={() => deleteComment(thisComment.PostId, thisComment.id)}
             className={classes.deleteButton}
           />

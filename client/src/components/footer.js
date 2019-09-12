@@ -16,7 +16,7 @@ export default function Footer() {
   const classes = useStyles();
 
   return (
-    <footer className={classes.footer + " theme-mt flex-middle flex-center"}>
+    <footer className={classes.footer + " stick-to-bottom flex-middle flex-center"}>
       <Container maxWidth="lg">
         <Typography variant="body2" color="textSecondary" align="center">
           {'Copyright © '}

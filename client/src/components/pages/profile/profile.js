@@ -182,7 +182,7 @@ export default class Profile extends Component {
             <Modal error={this.state.alert} />
             : ''
         }
-        <PostController
+        <PostController // don't need a turnery for this component because your profile is fetched before page loads
           {...this.props}
           posts={this.state.posts}
           postURL={`/api/posts?UserId=${this.state.YourProfile.id}`}

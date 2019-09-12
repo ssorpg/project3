@@ -1,7 +1,6 @@
 const db = require('../models');
 const { getCommunity } = require('./utils/validate');
-
-const wrap = fn => (...args) => fn(...args).catch(args[2]);
+const wrap = require('./utils/errorhandler');
 
 module.exports = function(app) {
   // COMMUNITY USERS

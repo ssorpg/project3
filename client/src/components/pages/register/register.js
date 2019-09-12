@@ -7,7 +7,7 @@ export default function Register(props) {
   const { handleSubmit, alert } = props;
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" className="theme-paddingx7">
       <div className="flex-col flex-center">
         <img src="https://i.ibb.co/6WVS2GB/tpn2.png" alt="" />
         <Typography component="h1" variant="h5">

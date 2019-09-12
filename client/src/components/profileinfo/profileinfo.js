@@ -1,23 +1,36 @@
 // COMPONENTS
-import React from 'react';
-import { Card, CardHeader, CardContent, Avatar, Typography, CardMedia, Grid } from '@material-ui/core';
-import Status from './status';
-import Communities from './communities';
-import Invites from './invites';
+import React from "react";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  Avatar,
+  Typography,
+  Grid,
+  colors
+} from "@material-ui/core";
+import Status from "./status";
+import Communities from "./communities";
+import Invites from "./invites";
 
 // FUNCTIONS
-import { makeStyles } from '@material-ui/core/styles';
-import ExtractProfileImage from '../../utils/extractprofileimage';
-
+import { makeStyles } from "@material-ui/core/styles";
+import ExtractProfileImage from "../../utils/extractprofileimage";
+console.log(colors);
 const useStyles = makeStyles(theme => ({
   profileAvatar: {
-    backgroundColor: '#3f51b5',
-    backgroundImage: 'url(https://i.ibb.co/6WVS2GB/tpn2.png)'
+    backgroundColor: "#3f51b5",
+    backgroundImage: "url(https://i.ibb.co/6WVS2GB/tpn2.png)",
+    width: "125px",
+    height: "125px"
   },
-
   profileImageContainer: {
-    maxWidth: '500px',
-    marginLeft: '24px'
+    maxWidth: "500px",
+    marginLeft: "24px"
+  },
+  statusBox: {
+    backgroundColor: colors.grey["100"],
+    padding: "1rem"
   }
 }));
 
@@ -27,61 +40,62 @@ export default function ProfileInfo(props) {
   const classes = useStyles();
 
   return (
-    <Card className="theme-mbx2">
-      <Grid container>
-        <Grid item md={6}>
+    <Card className="theme-mbx2 p-3">
+      <Grid
+        container
+        className="mb-3"
+        alignItems="center"
+        justify="space-between"
+      >
+        <Grid item xs={12} sm={6}>
           <CardHeader
             avatar={
-              <Avatar aria-label="friend" className={classes.profileAvatar} />
+              <Avatar
+                aria-label="friend"
+                className={classes.profileAvatar}
+                src={ExtractProfileImage(user)}
+              />
             }
             title={<h3>{user.name}</h3>}
             subheader={
               <>
                 <i>{user.location}</i>
-                <br />
-                Status: <i>{user.status}</i>
               </>
             }
           />
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <div className={classes.profileImageContainer + " theme-mbx2"}>
-            {
-              user.id === YourProfile.id ?
-                <Status {...props} />
-                : ''
-            }
-            <Card>
-              <CardMedia
-                className="full-image"
-                image={ExtractProfileImage(user)}
-                title="Profile"
-              />
-            </Card>
+            {user.id === YourProfile.id ? <Status {...props} /> : ""}
           </div>
         </Grid>
-        <Grid item md={6}>
+        <Grid item xs={12} className={classes.statusBox}>
+          <Typography variant="h4">
+            Status: <strong>{user.status}</strong>
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
           <CardContent>
-            <Typography paragraph>
-              <span className="h4">Profile</span>
+            <Typography paragraph variant="h5">
+              <strong>Profile</strong>
             </Typography>
             <Typography paragraph>
-              <strong>Bio:</strong> {user.bio ? user.bio : 'This user has no bio yet.'}
+              <strong>Bio:</strong>{" "}
+              {user.bio ? user.bio : "This user has no bio yet."}
             </Typography>
             <Typography paragraph>
-              <strong>Location:</strong> {user.location ? user.location : 'Unknown'}
+              <strong>Location:</strong>{" "}
+              {user.location ? user.location : "Unknown"}
             </Typography>
           </CardContent>
         </Grid>
+        <Grid item xs={12} sm={6}>
+          {user.communities ? <Communities {...props} /> : ""}
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          {user.invites ? <Invites {...props} /> : ""}
+        </Grid>
       </Grid>
-      {
-        user.communities ?
-          <Communities {...props} />
-          : ''
-      }
-      {
-        user.invites ?
-          <Invites {...props} />
-          : ''
-      }
     </Card>
   );
-};
+}

@@ -17,17 +17,22 @@ const useStyles = makeStyles({
     maxWidth: '100%'
   },
 
-  usersDisplay: {
-    width: '8%',
-    minWidth: '100px'
+  usersOuter: {
+    width: '12%',
+    minWidth: '100px',
+    height: '90%'
+  },
+
+  usersInner: {
+    height: '90%',
+    overflow: 'auto'
   },
 
   messageDisplay: {
-    height: '90%',
-    width: '92%',
+    height: '88%',
+    width: '88%',
     maxWidth: 'calc(100% - 100px)',
     overflow: 'auto',
-    margin: 0,
     marginLeft: 'auto'
   }
 });
@@ -39,25 +44,27 @@ export default function ChatContainer(props) {
 
   return (
     <Container className={classes.chatContainer}>
-      <List className={classes.usersDisplay}>
+      <List className={classes.usersOuter}>
         <h3 className="gray-divider">
           Users
         </h3>
-        {
-          users.map(user =>
-            <ListItem key={user.id}>
-              <Typography variant="body1" color="textSecondary" align="center">
-                {user.name}
-              </Typography>
-            </ListItem>
-          )
-        }
+        <div className={classes.usersInner + " full-width"}>
+          {
+            users.map(user =>
+              <ListItem key={user.id} disableGutters>
+                <Typography variant="body1" color="textSecondary">
+                  {user.name}
+                </Typography>
+              </ListItem>
+            )
+          }
+        </div>
       </List>
-      <List id="chat" className={classes.messageDisplay}>
+      <List id="chat" className={classes.messageDisplay + " reset-margin"}>
         {
-          messages.map((message, id) =>
+          messages.map((message, index) =>
             <ChatMessage
-              key={id}
+              key={index}
               user={message.user}
               text={message.text}
               time={message.time}

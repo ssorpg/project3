@@ -21,12 +21,26 @@ export default class PostController extends Component {
   };
 
   componentDidMount() {
+    this.infiniteScrollFix();
+  };
+
+  componentDidUpdate() {
+    this.infiniteScrollFix();
+  };
+
+  infiniteScrollFix = () => {
+    if (!this.state.posts.length) {
+      return;
+    }
+
     const infiniteScroll = document.getElementsByClassName('infinite-scroll-component')[0];
 
-    if (infiniteScroll) {
-      infiniteScroll.parentNode.style.width = '100%';
-      infiniteScroll.parentNode.style.maxWidth = '667px';
+    if (!infiniteScroll) {
+      return;
     }
+
+    infiniteScroll.parentNode.style.width = '100%';
+    infiniteScroll.parentNode.style.maxWidth = '667px';
   };
 
   getMorePosts = async () => {

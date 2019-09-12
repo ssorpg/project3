@@ -1,6 +1,30 @@
 .App {
-  min-height: 88vh;
-  margin-top: 12vh;
+  min-height: 100vh;
+}
+
+.App > .page-body {
+  width: 100%;
+  padding-top: 84px;
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 12px;
+}
+
+[class*='megatron'] h6 {
+  line-height: 1.2;
+}
+
+@media screen and (max-width: 768px) {
+  [class*='megatron'] {
+    min-height: 120px;
+  }
+  [class*='megatron'] h3 {
+    font-size: 2rem;
+  }
+  [class*='megatron'] h6 {
+    font-size: 1.2rem;
+  }
 }
 
 #popover {
@@ -11,16 +35,3 @@
   max-width: 55%;
   transform: translateX(-50%);
 }
-
-/* light/dark themes */
-/* @media (prefers-color-scheme: dark) {
-  html {
-    content: dark
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  html {
-    content: light
-  }
-} */

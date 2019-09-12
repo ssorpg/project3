@@ -28,7 +28,7 @@
 }
 
 .stick-to-bottom {
-  flex-shrink: 0
+  margin-top: auto !important;
 }
 
 /* THEME SPACING */
@@ -48,6 +48,10 @@
   padding: 24px !important;
 }
 
+.theme-paddingx7 {
+  padding-top: 84px !important;
+}
+
 /* FONT STYLING */
 .black-text {
   color: #000;
@@ -61,11 +65,6 @@
 .reset-a:hover {
   color: initial;
   text-decoration: none;
-}
-
-.h4 { /* so we don't get errors when using h4 inside of <p> etc */
-  font-size: 22px;
-  font-weight: bold;
 }
 
 /* MISC */
@@ -97,9 +96,14 @@
 
 .inline-button {
   display: inline-block;
-  margin: 12px !important;
+  margin-right: 12px !important;
+  margin-top: 12px !important;
 }
 
 .reset-list {
   list-style: none;
+}
+
+.reset-margin {
+  margin: 0 !important;
 }

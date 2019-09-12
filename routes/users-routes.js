@@ -1,7 +1,8 @@
 const db = require('../models');
 const auth = require('./utils/auth');
-
+const { getUser } = require('./utils/validate');
 const multer = require('./utils/multerwithoptions');
+const wrap = require('./utils/errorhandler');
 
 require('dotenv').config();
 
@@ -21,8 +22,6 @@ const cookieOptionsU = {
   sameSite: 'lax'
 };
 
-const wrap = fn => (...args) => fn(...args).catch(args[2]);
-
 module.exports = function (app) {
   app.post('/api/users', wrap(async function (req, res, next) { // login
     const user = await db.User.findOne({
@@ -39,7 +38,7 @@ module.exports = function (app) {
     const token = await auth.makeToken(req, user);
 
     return res.status(200)
-      .clearCookie('token') // cookies aren't automatically removed when they expire so we have to remove them manually
+      .clearCookie('token')
       .clearCookie('UserId')
       .cookie('token', token, cookieOptionsS)
       .cookie('UserId', user.id, cookieOptionsU)
@@ -58,14 +57,6 @@ module.exports = function (app) {
       email: req.body.email,
       password: password
     });
-
-    // const defaultCommunity = await db.Community.findOne({
-    //   where: {
-    //     name: 'TPN'
-    //   }
-    // });
-
-    // await defaultCommunity.addMember(newUser); // users join public community by default
 
     res.status(200).send('Account created!');
   }));
@@ -118,11 +109,7 @@ module.exports = function (app) {
   }));
 
   app.post('/api/users/profile/images', multer.single('profileImage'), wrap(async (req, res, next) => { // update user profile image
-    const user = await db.User.findOne({
-      where: {
-        id: req.token.UserId
-      }
-    });
+    const user = await getUser(req.token.UserId);
 
     const image = await db.Image.create(req.file);
 

@@ -1,7 +1,6 @@
 const db = require('../models');
-const { getCommunity, getEvent } = require('./utils/validate');
-
-const wrap = fn => (...args) => fn(...args).catch(args[2]);
+const { getUser, getCommunity, getEvent } = require('./utils/validate');
+const wrap = require('./utils/errorhandler');
 
 module.exports = function (app) {
   // COMMUNITY EVENTS
@@ -11,6 +10,14 @@ module.exports = function (app) {
 
     if (!isMember) {
       throw { status: 401, msg: 'You\'re not in that community.' };
+    }
+
+    console.log(req.body.start_time);
+
+    const check24Hour = new RegExp(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/);
+
+    if (!check24Hour.test(req.body.start_time) || !check24Hour.test(req.body.end_time)) {
+      throw { status: 400, msg: 'Please enter a valid event start and end time.' };
     }
 
     const newEvent = await db.Event.create({
@@ -44,24 +51,16 @@ module.exports = function (app) {
 
     await event.addMember(user);
 
-    res.status(200).json(event);
+    res.status(200).json(user);
   }));
 
   app.delete('/api/events/:EventId/users', wrap(async function (req, res, next) { // leave event
     const { event } = await getEvent(req.token.UserId, req.params.EventId);
-    const { user, isMember } = await getCommunity(req.token.UserId, req.params.CommunityId);
-
-    if (!await event.hasMember(user)) {
-      throw { status: 400, msg: 'You haven\'t joined that event.' };
-    }
-
-    if (!isMember) {
-      throw { status: 401, msg: 'You\'re not in that community.' };
-    }
+    const user = await getUser(req.token.UserId);
 
     await event.removeMember(user);
 
-    res.status(200).json(event);
+    res.status(200).json(user);
   }));
 
   app.get('/api/events/:EventId', wrap(async function (req, res, next) { // get specific event

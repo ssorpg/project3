@@ -7,7 +7,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   chatInputForm: {
-    margin: 0,
     marginLeft: 'auto'
   }
 }));
@@ -18,7 +17,7 @@ export default function ChatInput(props) {
   const classes = useStyles();
 
   return (
-    <form onSubmit={handleSubmit} className={classes.chatInputForm + " full-width"}>
+    <form onSubmit={handleSubmit} className={classes.chatInputForm + " reset-margin full-width"}>
       <TextField
         label="Chat with your community!"
         placeholder="Enter message..."

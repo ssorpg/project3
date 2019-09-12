@@ -44,7 +44,7 @@ export default class TPN extends Component {
         : undefined,
       EventId: window.location.pathname.match(/\/events\/([0-9]*)/) ?
         parseInt(window.location.pathname.match(/\/events\/([0-9]*)/)[1])
-        : undefined,
+        : undefined
     };
   };
 
@@ -70,7 +70,7 @@ export default class TPN extends Component {
             : ''
         }
         <Router>
-          <div className="flex-default" id="App">
+          <div className={!this.state.isAuth ? '' : 'page-body'}>
             <Switch>
               <Route exact path="/register" render=
                 {
@@ -104,7 +104,7 @@ export default class TPN extends Component {
           {/* we actually need the single space in the h3 or the div is not rendered */}
           <h3 className="card-title"> </h3>
         </aside>
-        <Footer className="stick-to-bottom" />
+        <Footer />
       </div>
     );
   };
