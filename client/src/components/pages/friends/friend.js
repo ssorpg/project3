@@ -23,7 +23,8 @@ export default function Friend(props) {
       <CardActionArea onClick={goToFriend}>
         <CardMedia
           className="full-image"
-          image={ExtractProfileImage(thisFriend)}
+          // cant figure out this glitch in time before presentation so this is just a quick patch
+          image={YourProfile.id === thisFriend.id ? ExtractProfileImage(YourProfile) : ExtractProfileImage(thisFriend)}
           title="Profile"
         />
         <CardContent>
