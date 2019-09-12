@@ -38,8 +38,6 @@ module.exports = function (app) {
     const token = await auth.makeToken(req, user);
 
     return res.status(200)
-      .clearCookie('token')
-      .clearCookie('UserId')
       .cookie('token', token, cookieOptionsS)
       .cookie('UserId', user.id, cookieOptionsU)
       .send('Login successful.');
